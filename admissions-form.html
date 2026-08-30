@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Candidature en ligne — Groupe Scolaire Étoile Brillante</title>
+<link rel="icon" type="image/png" href="assets/logo-sm.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  .auth-wrap { max-width: 520px; margin: 0 auto; padding: 56px 24px 80px; }
+  .auth-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 36px 28px;
+    box-shadow: var(--shadow);
+  }
+  .auth-card h1 { font-size: 1.5rem; margin-bottom: 6px; }
+  .auth-card p.subtitle { color: var(--ink-soft); font-size: 0.94rem; margin-bottom: 24px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .field { margin-bottom: 18px; }
+  .field label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--navy-800);
+    margin-bottom: 6px;
+  }
+  .field input, .field select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    font-family: var(--font-body);
+    font-size: 0.98rem;
+    color: var(--ink);
+    background: var(--cream);
+  }
+  .field input:focus, .field select:focus {
+    outline: none;
+    border-color: var(--gold-500);
+    background: var(--white);
+  }
+  .field-hint { font-size: 0.78rem; color: var(--ink-soft); margin-top: 4px; }
+  .auth-submit { width: 100%; justify-content: center; padding: 13px 22px; margin-top: 6px; border: none; font-size: 0.96rem; }
+  .auth-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .auth-message { margin-top: 16px; padding: 12px 14px; border-radius: 10px; font-size: 0.9rem; display: none; }
+  .auth-message.error { display: block; background: rgba(200,60,60,0.08); color: #a83232; border: 1px solid rgba(200,60,60,0.25); }
+  .auth-message.success { display: block; background: rgba(40,140,90,0.08); color: #1e7a4f; border: 1px solid rgba(40,140,90,0.25); }
+  .auth-footer { text-align: center; margin-top: 20px; font-size: 0.88rem; color: var(--ink-soft); }
+  .auth-footer a { color: var(--navy-800); font-weight: 600; }
+  .switch-mode { text-align: center; margin-bottom: 24px; }
+  .switch-mode button {
+    background: none; border: none; color: var(--navy-800);
+    font-family: var(--font-mono); font-size: 0.85rem; text-decoration: underline;
+    cursor: pointer;
+  }
+  .statut-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    font-weight: 600;
+    margin-bottom: 18px;
+  }
+  .statut-badge.EN_ATTENTE { background: rgba(212,175,55,0.15); color: #8a6d1a; }
+  .statut-badge.ACCEPTEE { background: rgba(40,140,90,0.12); color: #1e7a4f; }
+  .statut-badge.REFUSEE { background: rgba(200,60,60,0.10); color: #a83232; }
+  .btn-logout {
+    background: transparent; border: 1.5px solid var(--line); color: var(--ink-soft);
+    padding: 9px 16px; border-radius: 999px; font-family: var(--font-mono);
+    font-size: 0.82rem; cursor: pointer; margin-top: 20px;
+  }
+  @media (max-width: 480px) { .field-row { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <a href="index.html" class="brand">
+      <img src="assets/logo-sm.png" alt="Logo Groupe Scolaire Étoile Brillante" class="brand-logo">
+      <span class="brand-text">
+        <span class="name">Étoile Brillante</span><br>
+        <span class="tag">Groupe Scolaire · Brazzaville</span>
+      </span>
+    </a>
+    <nav class="links">
+      <a href="ecole.html">L'École</a>
+      <a href="cycles.html">Nos Cycles</a>
+      <a href="admissions.html">Admissions</a>
+      <a href="actualites.html">Actualités</a>
+      <a href="recrutement.html">Recrutement</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="connexion.html" class="btn btn-ghost">Espace Parents</a>
+      <a href="admissions-form.html" class="btn btn-gold">S'inscrire</a>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobileMenu">
+      <span class="burger"></span>
+    </button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <div class="mobile-menu-top">
+    <a href="index.html" class="brand">
+      <img src="assets/logo-sm.png" alt="Logo Groupe Scolaire Étoile Brillante" class="brand-logo">
+      <span class="brand-text">
+        <span class="name">Étoile Brillante</span><br>
+        <span class="tag">Groupe Scolaire · Brazzaville</span>
+      </span>
+    </a>
+    <button class="menu-close" id="menuClose" aria-label="Fermer le menu">✕</button>
+  </div>
+  <nav class="mobile-links">
+    <span class="mobile-group-label">L'établissement</span>
+    <a href="index.html" data-menu-link>Accueil</a>
+    <a href="ecole.html" data-menu-link>L'École</a>
+    <a href="cycles.html" data-menu-link>Nos Cycles</a>
+    <a href="pedagogie.html" data-menu-link>Pédagogie</a>
+    <a href="vie-scolaire.html" data-menu-link>Vie scolaire</a>
+    <span class="mobile-group-label">Admissions &amp; suivi</span>
+    <a href="admissions.html" data-menu-link>Admissions</a>
+    <a href="actualites.html" data-menu-link>Actualités</a>
+    <a href="resultats.html" data-menu-link>Résultats</a>
+    <a href="galerie.html" data-menu-link>Galerie</a>
+    <span class="mobile-group-label">Rejoindre l'équipe</span>
+    <a href="recrutement.html" data-menu-link>Recrutement</a>
+    <span class="mobile-group-label">Nous contacter</span>
+    <a href="contact.html" data-menu-link>Contact</a>
+  </nav>
+  <div class="mobile-menu-ctas">
+    <a href="connexion.html" class="btn btn-ghost" data-menu-link>Espace Parents</a>
+    <a href="admissions-form.html" class="btn btn-gold" data-menu-link>S'inscrire</a>
+    <a href="recrutement.html" class="btn btn-navy" data-menu-link>Nous rejoindre</a>
+  </div>
+  <div class="mobile-menu-contact">
+    <a href="tel:+24206810 7847">06 810 78 47</a>
+    <a href="https://wa.me/242068107847">WhatsApp</a>
+    <a href="mailto:groupescolaireeb26@gmail.com">groupescolaireeb26@gmail.com</a>
+  </div>
+</div>
+
+<section class="page-hero">
+  <div class="breadcrumb"><a href="index.html">Accueil</a> / Candidature</div>
+  <h1>Candidature en ligne</h1>
+  <p>Suivez ces étapes pour inscrire votre enfant à Étoile Brillante.</p>
+</section>
+
+<div class="auth-wrap">
+
+  <!-- ===== Étape compte candidat ===== -->
+  <div class="auth-card" id="accountCard">
+    <div class="switch-mode">
+      <span id="modeLabel">Vous avez déjà un compte candidat ?</span>
+      <button type="button" id="switchModeBtn">Se connecter</button>
+    </div>
+
+    <h1 id="accountTitle">Créer un compte candidat</h1>
+    <p class="subtitle" id="accountSubtitle">Nécessaire pour déposer et suivre votre candidature.</p>
+
+    <form id="accountForm" novalidate>
+      <div id="registerFields">
+        <div class="field-row">
+          <div class="field">
+            <label for="prenom">Votre prénom</label>
+            <input type="text" id="prenom" name="prenom">
+          </div>
+          <div class="field">
+            <label for="nom">Votre nom</label>
+            <input type="text" id="nom" name="nom">
+          </div>
+        </div>
+        <div class="field">
+          <label for="telephone">Téléphone</label>
+          <input type="tel" id="telephone" name="telephone" placeholder="06 XXX XX XX">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="email">Adresse e-mail</label>
+        <input type="email" id="email" name="email" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" name="password" required>
+        <div class="field-hint" id="passwordHint">8 caractères minimum, avec au moins une lettre et un chiffre.</div>
+      </div>
+
+      <button type="submit" class="btn btn-gold auth-submit" id="accountSubmitBtn">Créer mon compte</button>
+      <div class="auth-message" id="accountMessage" role="alert"></div>
+    </form>
+  </div>
+
+  <!-- ===== Étape formulaire de candidature ===== -->
+  <div class="auth-card" id="candidatureCard" style="display:none;">
+    <h1>Dossier de candidature</h1>
+    <p class="subtitle">Renseignez les informations de l'enfant à inscrire.</p>
+
+    <div id="candidatureLoading" class="subtitle">Chargement...</div>
+
+    <div id="candidatureExistante" style="display:none;">
+      <span class="statut-badge" id="statutBadge"></span>
+      <p><strong id="candNomEleve"></strong></p>
+      <p id="candClasse"></p>
+      <p style="font-size:0.85rem; color:var(--ink-soft);">Votre candidature a bien été enregistrée. L'administration vous contactera pour la suite.</p>
+    </div>
+
+    <form id="candidatureForm" style="display:none;" novalidate>
+      <div class="field-row">
+        <div class="field">
+          <label for="prenomEleve">Prénom de l'enfant</label>
+          <input type="text" id="prenomEleve" required>
+        </div>
+        <div class="field">
+          <label for="nomEleve">Nom de l'enfant</label>
+          <input type="text" id="nomEleve" required>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="dateNaissance">Date de naissance</label>
+          <input type="date" id="dateNaissance" required>
+        </div>
+        <div class="field">
+          <label for="sexe">Sexe</label>
+          <select id="sexe" required>
+            <option value="">Choisir</option>
+            <option value="M">Masculin</option>
+            <option value="F">Féminin</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="classeViseeId">Classe visée</label>
+        <select id="classeViseeId" required>
+          <option value="">Chargement des classes...</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-gold auth-submit" id="candidatureSubmitBtn">Envoyer ma candidature</button>
+      <div class="auth-message" id="candidatureMessage" role="alert"></div>
+    </form>
+
+    <button class="btn-logout" id="logoutBtn">Se déconnecter</button>
+  </div>
+
+</div>
+
+<footer id="contact-footer">
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <img src="assets/logo-lg.png" alt="Logo Groupe Scolaire Étoile Brillante" class="foot-logo">
+      <p>Groupe Scolaire — Brazzaville, République du Congo.<br>Excellence • Discipline • Innovation</p>
+    </div>
+    <div>
+      <h4>Établissement</h4>
+      <a href="ecole.html">L'École</a>
+      <a href="cycles.html">Nos Cycles</a>
+      <a href="pedagogie.html">Pédagogie</a>
+      <a href="vie-scolaire.html">Vie scolaire</a>
+    </div>
+    <div>
+      <h4>Admissions</h4>
+      <a href="admissions.html">Admissions</a>
+      <a href="admissions-form.html">S'inscrire</a>
+      <a href="recrutement.html">Recrutement</a>
+      <a href="actualites.html">Actualités</a>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <a href="contact.html">03, rue Poumako, Massengo<br><span style="font-size:0.78rem; opacity:0.75;">Réf. Arrêt Marché de Massengo</span></a>
+      <a href="tel:+24206810 7847">06 810 78 47</a>
+      <a href="mailto:groupescolaireeb26@gmail.com">groupescolaireeb26@gmail.com</a>
+      <a href="https://wa.me/242068107847">WhatsApp : 06 810 78 47</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 Groupe Scolaire Étoile Brillante. Tous droits réservés.</span>
+    <span>Politique de confidentialité · Mentions légales</span>
+  </div>
+</footer>
+
+<script src="assets/site.js"></script>
+<script>
+  const API_BASE = 'https://eb-backend-2.onrender.com';
+
+  let isLoginMode = false;
+
+  const accountCard = document.getElementById('accountCard');
+  const candidatureCard = document.getElementById('candidatureCard');
+  const accountForm = document.getElementById('accountForm');
+  const accountSubmitBtn = document.getElementById('accountSubmitBtn');
+  const accountMessage = document.getElementById('accountMessage');
+  const registerFields = document.getElementById('registerFields');
+  const accountTitle = document.getElementById('accountTitle');
+  const accountSubtitle = document.getElementById('accountSubtitle');
+  const modeLabel = document.getElementById('modeLabel');
+  const switchModeBtn = document.getElementById('switchModeBtn');
+  const passwordHint = document.getElementById('passwordHint');
+
+  function showMsg(el, text, type) {
+    el.textContent = text;
+    el.className = 'auth-message ' + type;
+  }
+
+  switchModeBtn.addEventListener('click', function () {
+    isLoginMode = !isLoginMode;
+    if (isLoginMode) {
+      registerFields.style.display = 'none';
+      accountTitle.textContent = 'Se connecter';
+      accountSubtitle.textContent = 'Accédez à votre suivi de candidature.';
+      modeLabel.textContent = "Vous n'avez pas encore de compte ?";
+      switchModeBtn.textContent = 'Créer un compte';
+      accountSubmitBtn.textContent = 'Se connecter';
+      passwordHint.style.display = 'none';
+    } else {
+      registerFields.style.display = 'block';
+      accountTitle.textContent = 'Créer un compte candidat';
+      accountSubtitle.textContent = 'Nécessaire pour déposer et suivre votre candidature.';
+      modeLabel.textContent = 'Vous avez déjà un compte candidat ?';
+      switchModeBtn.textContent = 'Se connecter';
+      accountSubmitBtn.textContent = 'Créer mon compte';
+      passwordHint.style.display = 'block';
+    }
+  });
+
+  accountForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    accountMessage.className = 'auth-message';
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+
+    accountSubmitBtn.disabled = true;
+
+    try {
+      if (isLoginMode) {
+        const res = await fetch(API_BASE + '/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ email, password }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          showMsg(accountMessage, data.error || 'Erreur de connexion.', 'error');
+          return;
+        }
+        if (data.user.role !== 'CANDIDAT') {
+          showMsg(accountMessage, "Ce compte n'est pas un compte candidat.", 'error');
+          return;
+        }
+        afficherCandidature();
+      } else {
+        const payload = {
+          prenom: document.getElementById('prenom').value.trim(),
+          nom: document.getElementById('nom').value.trim(),
+          telephone: document.getElementById('telephone').value.trim(),
+          email, password,
+          type: 'candidat',
+        };
+        const res = await fetch(API_BASE + '/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          showMsg(accountMessage, data.error || 'Erreur lors de la création du compte.', 'error');
+          return;
+        }
+        // Connexion automatique après inscription
+        const loginRes = await fetch(API_BASE + '/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ email, password }),
+        });
+        if (loginRes.ok) {
+          afficherCandidature();
+        } else {
+          showMsg(accountMessage, 'Compte créé. Veuillez vous connecter.', 'success');
+          isLoginMode = false;
+          switchModeBtn.click();
+          switchModeBtn.click();
+        }
+      }
+    } catch (err) {
+      showMsg(accountMessage, 'Impossible de contacter le serveur.', 'error');
+    } finally {
+      accountSubmitBtn.disabled = false;
+    }
+  });
+
+  async function afficherCandidature() {
+    accountCard.style.display = 'none';
+    candidatureCard.style.display = 'block';
+
+    const loading = document.getElementById('candidatureLoading');
+    const existante = document.getElementById('candidatureExistante');
+    const form = document.getElementById('candidatureForm');
+
+    try {
+      const res = await fetch(API_BASE + '/candidature/ma-candidature', {
+        method: 'GET',
+        credentials: 'include',
+      });
+
+      if (res.status === 401) {
+        location.reload();
+        return;
+      }
+
+      if (res.status === 404) {
+        loading.style.display = 'none';
+        form.style.display = 'block';
+        chargerClasses();
+        return;
+      }
+
+      if (res.ok) {
+        const cand = await res.json();
+        loading.style.display = 'none';
+        existante.style.display = 'block';
+        document.getElementById('statutBadge').textContent = cand.statut.replace('_', ' ');
+        document.getElementById('statutBadge').classList.add(cand.statut);
+        document.getElementById('candNomEleve').textContent = cand.prenomEleve + ' ' + cand.nomEleve;
+        document.getElementById('candClasse').textContent = 'Classe visée : ' + (cand.classeVisee ? cand.classeVisee.nom : '—');
+      }
+    } catch (err) {
+      loading.textContent = 'Erreur de chargement.';
+    }
+  }
+
+  async function chargerClasses() {
+    const select = document.getElementById('classeViseeId');
+    try {
+      const res = await fetch(API_BASE + '/classe', { credentials: 'include' });
+      const classes = await res.json();
+      select.innerHTML = '<option value="">Choisir une classe</option>' +
+        classes.map(function (c) { return `<option value="${c.id}">${c.nom}</option>`; }).join('');
+    } catch (err) {
+      select.innerHTML = '<option value="">Erreur de chargement des classes</option>';
+    }
+  }
+
+  document.getElementById('candidatureForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const msg = document.getElementById('candidatureMessage');
+    const btn = document.getElementById('candidatureSubmitBtn');
+    msg.className = 'auth-message';
+    btn.disabled = true;
+
+    const payload = {
+      prenomEleve: document.getElementById('prenomEleve').value.trim(),
+      nomEleve: document.getElementById('nomEleve').value.trim(),
+      dateNaissance: document.getElementById('dateNaissance').value,
+      sexe: document.getElementById('sexe').value,
+      classeViseeId: document.getElementById('classeViseeId').value,
+    };
+
+    try {
+      const res = await fetch(API_BASE + '/candidature', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        showMsg(msg, data.error || 'Erreur lors de l\'envoi.', 'error');
+        return;
+      }
+      showMsg(msg, 'Candidature envoyée avec succès !', 'success');
+      setTimeout(function () { location.reload(); }, 1000);
+    } catch (err) {
+      showMsg(msg, 'Impossible de contacter le serveur.', 'error');
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', async function () {
+    try {
+      await fetch(API_BASE + '/auth/logout', { method: 'POST', credentials: 'include' });
+    } catch (err) {}
+    location.reload();
+  });
+
+  // Vérifie si déjà connecté au chargement
+  (async function () {
+    try {
+      const res = await fetch(API_BASE + '/auth/me', { credentials: 'include' });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.role === 'CANDIDAT') afficherCandidature();
+      }
+    } catch (err) {}
+  })();
+</script>
+
+</body>
+</html>
