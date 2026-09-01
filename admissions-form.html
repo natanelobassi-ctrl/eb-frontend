@@ -75,6 +75,11 @@
     padding: 9px 16px; border-radius: 999px; font-family: var(--font-mono);
     font-size: 0.82rem; cursor: pointer; margin-top: 20px;
   }
+  .btn-retry {
+    background: transparent; border: 1.5px solid var(--gold-500); color: var(--navy-800);
+    padding: 9px 16px; border-radius: 999px; font-family: var(--font-mono);
+    font-size: 0.82rem; cursor: pointer; margin-top: 12px;
+  }
   @media (max-width: 480px) { .field-row { grid-template-columns: 1fr; } }
 </style>
 </head>
@@ -203,6 +208,11 @@
     <p class="subtitle">Renseignez les informations de l'enfant à inscrire.</p>
 
     <div id="candidatureLoading" class="subtitle">Chargement...</div>
+
+    <div id="candidatureErreur" style="display:none;">
+      <div class="auth-message error" style="display:block;">Une erreur est survenue lors du chargement de votre dossier.</div>
+      <button type="button" class="btn-retry" id="retryBtn">Réessayer</button>
+    </div>
 
     <div id="candidatureExistante" style="display:none;">
       <span class="statut-badge" id="statutBadge"></span>
@@ -402,8 +412,15 @@
     candidatureCard.style.display = 'block';
 
     const loading = document.getElementById('candidatureLoading');
+    const erreur = document.getElementById('candidatureErreur');
     const existante = document.getElementById('candidatureExistante');
     const form = document.getElementById('candidatureForm');
+
+    // Réinitialise l'affichage à chaque tentative
+    loading.style.display = 'block';
+    erreur.style.display = 'none';
+    existante.style.display = 'none';
+    form.style.display = 'none';
 
     try {
       const res = await fetch(API_BASE + '/candidature/ma-candidature', {
@@ -431,11 +448,21 @@
         document.getElementById('statutBadge').classList.add(cand.statut);
         document.getElementById('candNomEleve').textContent = cand.prenomEleve + ' ' + cand.nomEleve;
         document.getElementById('candClasse').textContent = 'Classe visée : ' + (cand.classeVisee ? cand.classeVisee.nom : '—');
+        return;
       }
+
+      // Tout autre code de statut (ex : 500) : on affiche l'erreur au lieu de rester bloqué
+      loading.style.display = 'none';
+      erreur.style.display = 'block';
     } catch (err) {
-      loading.textContent = 'Erreur de chargement.';
+      loading.style.display = 'none';
+      erreur.style.display = 'block';
     }
   }
+
+  document.getElementById('retryBtn').addEventListener('click', function () {
+    afficherCandidature();
+  });
 
   async function chargerClasses() {
     const select = document.getElementById('classeViseeId');
