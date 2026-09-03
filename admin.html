@@ -22,7 +22,7 @@
   }
   .btn-logout:hover { border-color: var(--navy-900); color: var(--navy-900); }
 
-  .tabs { display: flex; gap: 8px; margin-bottom: 28px; border-bottom: 1px solid var(--line); }
+  .tabs { display: flex; gap: 8px; margin-bottom: 28px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
   .tab-btn {
     background: none; border: none; padding: 12px 20px; font-family: var(--font-mono);
     font-size: 0.9rem; font-weight: 600; color: var(--ink-soft); cursor: pointer;
@@ -73,6 +73,28 @@
   .msg.success { display: block; background: rgba(40,140,90,0.08); color: #1e7a4f; }
   .empty-row td { text-align: center; color: var(--ink-soft); padding: 24px; }
 
+  .statut-badge {
+    display: inline-block; padding: 4px 12px; border-radius: 999px;
+    font-family: var(--font-mono); font-size: 0.74rem; font-weight: 600;
+  }
+  .statut-badge.EN_ATTENTE { background: rgba(212,175,55,0.15); color: #8a6d1a; }
+  .statut-badge.ACCEPTEE { background: rgba(40,140,90,0.12); color: #1e7a4f; }
+  .statut-badge.REFUSEE { background: rgba(200,60,60,0.10); color: #a83232; }
+
+  .candidature-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+  .btn-mini {
+    border: 1.5px solid var(--line); background: var(--white); color: var(--ink);
+    padding: 5px 12px; border-radius: 999px; font-family: var(--font-mono);
+    font-size: 0.72rem; cursor: pointer;
+  }
+  .btn-mini.accept { border-color: #1e7a4f; color: #1e7a4f; }
+  .btn-mini.accept:hover { background: #1e7a4f; color: var(--white); }
+  .btn-mini.refuse { border-color: #a83232; color: #a83232; }
+  .btn-mini.refuse:hover { background: #a83232; color: var(--white); }
+  .btn-mini:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .list-card-full { grid-column: 1 / -1; }
+
   @media (max-width: 900px) {
     .admin-grid { grid-template-columns: 1fr; }
     .list-card { overflow-x: auto; }
@@ -99,7 +121,7 @@
     </nav>
     <div class="nav-actions">
       <a href="connexion.html" class="btn btn-ghost">Espace Parents</a>
-      <a href="admissions.html" class="btn btn-gold">S'inscrire</a>
+      <a href="admissions-form.html" class="btn btn-gold">S'inscrire</a>
     </div>
     <button class="menu-toggle" id="menuToggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobileMenu">
       <span class="burger"></span>
@@ -126,7 +148,7 @@
 <section class="page-hero">
   <div class="breadcrumb"><a href="index.html">Accueil</a> / Administration</div>
   <h1>Administration</h1>
-  <p>Gérez les classes et les élèves de l'établissement.</p>
+  <p>Gérez les classes, les élèves et les candidatures de l'établissement.</p>
 </section>
 
 <div class="admin-wrap">
@@ -141,6 +163,7 @@
     <div class="tabs">
       <button class="tab-btn active" data-tab="classes">Classes</button>
       <button class="tab-btn" data-tab="eleves">Élèves</button>
+      <button class="tab-btn" data-tab="candidatures">Candidatures</button>
     </div>
 
     <!-- ===== Onglet Classes ===== -->
@@ -224,6 +247,27 @@
         </div>
       </div>
     </div>
+
+    <!-- ===== Onglet Candidatures ===== -->
+    <div class="panel" id="panel-candidatures">
+      <div class="list-card list-card-full">
+        <table>
+          <thead>
+            <tr>
+              <th>Enfant</th>
+              <th>Classe visée</th>
+              <th>Email candidat</th>
+              <th>Statut</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="candidaturesTableBody">
+            <tr class="empty-row"><td colspan="5">Chargement...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -252,6 +296,7 @@
       adminContent.style.display = 'block';
       chargerClasses();
       chargerEleves();
+      chargerCandidatures();
     } catch (err) {
       checkingAuth.textContent = 'Impossible de contacter le serveur.';
     }
@@ -389,6 +434,66 @@
       btn.disabled = false;
     }
   });
+
+  // ===== Candidatures =====
+  async function chargerCandidatures() {
+    const tbody = document.getElementById('candidaturesTableBody');
+    try {
+      const res = await fetch(API_BASE + '/candidature', { credentials: 'include' });
+      if (!res.ok) {
+        tbody.innerHTML = '<tr class="empty-row"><td colspan="5">Erreur de chargement.</td></tr>';
+        return;
+      }
+      const candidatures = await res.json();
+
+      if (!candidatures.length) {
+        tbody.innerHTML = '<tr class="empty-row"><td colspan="5">Aucune candidature pour le moment.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = candidatures.map(function (c) {
+        const statutLabel = c.statut.replace('_', ' ');
+        const isEnAttente = c.statut === 'EN_ATTENTE';
+        return `<tr data-id="${c.id}">
+          <td>${c.prenomEleve} ${c.nomEleve}</td>
+          <td>${c.classeVisee ? c.classeVisee.nom : '—'}</td>
+          <td>${c.user ? c.user.email : '—'}</td>
+          <td><span class="statut-badge ${c.statut}">${statutLabel}</span></td>
+          <td>
+            <div class="candidature-actions">
+              <button class="btn-mini accept" data-action="ACCEPTEE" data-id="${c.id}" ${!isEnAttente ? 'disabled' : ''}>Accepter</button>
+              <button class="btn-mini refuse" data-action="REFUSEE" data-id="${c.id}" ${!isEnAttente ? 'disabled' : ''}>Refuser</button>
+            </div>
+          </td>
+        </tr>`;
+      }).join('');
+
+      document.querySelectorAll('.btn-mini').forEach(function (btn) {
+        btn.addEventListener('click', async function () {
+          const id = btn.dataset.id;
+          const statut = btn.dataset.action;
+          document.querySelectorAll(`.btn-mini[data-id="${id}"]`).forEach(function (b) { b.disabled = true; });
+          try {
+            const res = await fetch(API_BASE + '/candidature/' + id + '/statut', {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              credentials: 'include',
+              body: JSON.stringify({ statut }),
+            });
+            if (res.ok) {
+              chargerCandidatures();
+            } else {
+              document.querySelectorAll(`.btn-mini[data-id="${id}"]`).forEach(function (b) { b.disabled = false; });
+            }
+          } catch (err) {
+            document.querySelectorAll(`.btn-mini[data-id="${id}"]`).forEach(function (b) { b.disabled = false; });
+          }
+        });
+      });
+    } catch (err) {
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="5">Impossible de contacter le serveur.</td></tr>';
+    }
+  }
 
   document.getElementById('logoutBtn').addEventListener('click', async function () {
     try {
