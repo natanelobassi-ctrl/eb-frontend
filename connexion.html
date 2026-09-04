@@ -3,14 +3,100 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Groupe Scolaire Étoile Brillante — Brazzaville</title>
+<title>Connexion — Espace Parents | Groupe Scolaire Étoile Brillante</title>
 <link rel="icon" type="image/png" href="assets/logo-sm.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
+<style>
+  .auth-wrap {
+    max-width: 440px;
+    margin: 0 auto;
+    padding: 64px 24px 80px;
+  }
+  .auth-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 36px 28px;
+    box-shadow: var(--shadow);
+  }
+  .auth-card h1 {
+    font-size: 1.6rem;
+    margin-bottom: 6px;
+  }
+  .auth-card p.subtitle {
+    color: var(--ink-soft);
+    font-size: 0.94rem;
+    margin-bottom: 28px;
+  }
+  .field { margin-bottom: 18px; }
+  .field label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--navy-800);
+    margin-bottom: 6px;
+  }
+  .field input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    font-family: var(--font-body);
+    font-size: 0.98rem;
+    color: var(--ink);
+    background: var(--cream);
+    transition: border-color 0.18s ease;
+  }
+  .field input:focus {
+    outline: none;
+    border-color: var(--gold-500);
+    background: var(--white);
+  }
+  .auth-submit {
+    width: 100%;
+    justify-content: center;
+    padding: 13px 22px;
+    margin-top: 6px;
+    border: none;
+    font-size: 0.96rem;
+  }
+  .auth-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+  .auth-message {
+    margin-top: 16px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    display: none;
+  }
+  .auth-message.error {
+    display: block;
+    background: rgba(200, 60, 60, 0.08);
+    color: #a83232;
+    border: 1px solid rgba(200, 60, 60, 0.25);
+  }
+  .auth-message.success {
+    display: block;
+    background: rgba(40, 140, 90, 0.08);
+    color: #1e7a4f;
+    border: 1px solid rgba(40, 140, 90, 0.25);
+  }
+  .auth-footer {
+    text-align: center;
+    margin-top: 22px;
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+  }
+  .auth-footer a { color: var(--navy-800); font-weight: 600; }
+</style>
 </head>
 <body>
-
 <header>
   <div class="nav">
     <a href="index.html" class="brand">
@@ -49,7 +135,6 @@
     </a>
     <button class="menu-close" id="menuClose" aria-label="Fermer le menu">✕</button>
   </div>
-
   <nav class="mobile-links">
     <span class="mobile-group-label">L'établissement</span>
     <a href="index.html" data-menu-link>Accueil</a>
@@ -57,26 +142,21 @@
     <a href="cycles.html" data-menu-link>Nos Cycles</a>
     <a href="pedagogie.html" data-menu-link>Pédagogie</a>
     <a href="vie-scolaire.html" data-menu-link>Vie scolaire</a>
-
     <span class="mobile-group-label">Admissions &amp; suivi</span>
     <a href="admissions.html" data-menu-link>Admissions</a>
     <a href="actualites.html" data-menu-link>Actualités</a>
     <a href="resultats.html" data-menu-link>Résultats</a>
     <a href="galerie.html" data-menu-link>Galerie</a>
-
     <span class="mobile-group-label">Rejoindre l'équipe</span>
     <a href="recrutement.html" data-menu-link>Recrutement</a>
-
     <span class="mobile-group-label">Nous contacter</span>
     <a href="contact.html" data-menu-link>Contact</a>
   </nav>
-
   <div class="mobile-menu-ctas">
-    <a href="connexion.html" class="btn btn-ghost">Espace Parents</a>
+    <a href="connexion.html" class="btn btn-ghost" data-menu-link>Espace Parents</a>
     <a href="admissions-form.html" class="btn btn-gold" data-menu-link>S'inscrire</a>
     <a href="recrutement.html" class="btn btn-navy" data-menu-link>Nous rejoindre</a>
   </div>
-
   <div class="mobile-menu-contact">
     <a href="tel:+24206810 7847">06 810 78 47</a>
     <a href="https://wa.me/242068107847">WhatsApp</a>
@@ -84,220 +164,37 @@
   </div>
 </div>
 
-<section class="hero">
-  <canvas id="stars"></canvas>
-  <div class="hero-inner">
-    <span class="eyebrow">Excellence · Discipline · Innovation</span>
-    <h1>L'excellence <em>commence</em> à l'école.</h1>
-    <p class="lede">Bienvenue au Groupe Scolaire Étoile Brillante, un établissement privé engagé dans la formation académique, humaine et citoyenne de chaque élève.</p>
-    <p style="font-family:'Fraunces',serif; font-style:italic; color:var(--gold-light); font-size:0.98rem; margin:-18px 0 34px;">Révéler leur potentiel. Construire leur avenir.</p>
-    <div class="hero-ctas">
-      <a href="#presentation" class="btn btn-gold">Découvrir notre école</a>
-      <a href="admissions-form.html" class="btn btn-ghost">Inscrire mon enfant</a>
-    </div>
-  </div>
+<section class="page-hero">
+  <div class="breadcrumb"><a href="index.html">Accueil</a> / Espace Parents</div>
+  <h1>Espace Parents</h1>
+  <p>Connectez-vous pour suivre la scolarité de vos enfants.</p>
 </section>
 
-<section class="presentation" id="presentation">
-  <div class="wrap pres-grid">
-    <div>
-      <span class="eyebrow">Notre établissement</span>
-      <h2>Une école au service de la réussite</h2>
-      <p style="color:var(--ink-soft); font-size:0.98rem;">Le Groupe Scolaire Étoile Brillante accompagne chaque élève, du préscolaire au collège, dans la construction de son savoir et de son caractère — avec la rigueur et la bienveillance qu'exige une véritable réussite durable.</p>
-    </div>
-    <div class="pillars">
-      <div class="pillar">
-        <h3>Notre mission</h3>
-        <p>Offrir un enseignement exigeant, structuré et accessible, qui prépare chaque élève à réussir son parcours scolaire et sa vie de citoyen.</p>
-      </div>
-      <div class="pillar">
-        <h3>Notre vision</h3>
-        <p>Devenir une référence de l'excellence éducative à Brazzaville, reconnue pour la qualité de sa pédagogie et l'épanouissement de ses élèves.</p>
-      </div>
-      <div class="pillar">
-        <h3>Notre projet éducatif</h3>
-        <p>Un encadrement personnalisé, des méthodes pédagogiques modernes et un environnement propice à l'apprentissage et à la discipline.</p>
-      </div>
-    </div>
-  </div>
-</section>
+<div class="auth-wrap">
+  <div class="auth-card">
+    <h1>Connexion</h1>
+    <p class="subtitle">Accédez à votre espace personnel.</p>
 
-<section class="cycles" id="cycles">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow">Parcours scolaire</span>
-      <h2>Nos cycles</h2>
-    </div>
-  </div>
-  <div class="cycle-grid">
-    <div class="cycle-card">
-      <span class="num">Cycle 01</span>
-      <h3>Préscolaire</h3>
-      <p>Un premier pas dans l'apprentissage, fondé sur l'éveil, le jeu structuré et la découverte.</p>
-      <div class="cycle-classes">
-        <span>Garderie</span><span>P1</span><span>P2</span><span>P3</span>
+    <form id="loginForm" novalidate>
+      <div class="field">
+        <label for="email">Adresse e-mail</label>
+        <input type="email" id="email" name="email" autocomplete="email" required>
       </div>
-    </div>
-    <div class="cycle-card">
-      <span class="num">Cycle 02</span>
-      <h3>Primaire</h3>
-      <p>Les fondamentaux académiques consolidés dans un cadre discipliné et bienveillant.</p>
-      <div class="cycle-classes">
-        <span>CP1</span><span>CP2</span><span>CE1</span><span>CE2</span><span>CM1</span><span>CM2</span>
+      <div class="field">
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" name="password" autocomplete="current-password" required>
       </div>
-    </div>
-    <div class="cycle-card">
-      <span class="num">Cycle 03</span>
-      <h3>Collège</h3>
-      <p>Une préparation rigoureuse aux exigences académiques supérieures et à l'autonomie.</p>
-      <div class="cycle-classes">
-        <span>6e</span><span>5e</span><span>4e</span><span>3e</span>
-      </div>
-    </div>
-    <div class="cycle-card">
-      <span class="num">Cycle 04</span>
-      <h3>Lycée</h3>
-      <p>L'aboutissement du parcours secondaire, orienté vers la réussite au baccalauréat.</p>
-      <div class="cycle-classes">
-        <span>STC</span><span>1ère A</span><span>1ère D</span><span>Tle A</span><span>Tle D</span>
-      </div>
-    </div>
-  </div>
-  <p style="text-align:center; margin-top:36px;"><a href="cycles.html" style="color:var(--gold-light); font-size:0.86rem; font-weight:600;">Voir le détail de chaque cycle →</a></p>
-</section>
+      <button type="submit" class="btn btn-gold auth-submit" id="submitBtn">Se connecter</button>
+      <div class="auth-message" id="authMessage" role="alert"></div>
+    </form>
 
-<section class="valeurs">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow">Ce qui nous définit</span>
-      <h2>Nos valeurs</h2>
+    <div class="auth-footer">
+      Pas encore de compte ? <a href="inscription.html">Créer un compte parent</a>
     </div>
   </div>
-  <div class="valeur-grid">
-    <div class="valeur"><h3>Excellence</h3></div>
-    <div class="valeur"><h3>Discipline</h3></div>
-    <div class="valeur"><h3>Innovation</h3></div>
-    <div class="valeur"><h3>Respect</h3></div>
-    <div class="valeur"><h3>Responsabilité</h3></div>
-    <div class="valeur"><h3>Réussite</h3></div>
-  </div>
-</section>
+</div>
 
-<section class="split" id="actualites">
-  <div class="news-col">
-    <div class="col-inner">
-      <h2>Actualités</h2>
-      <div class="news-item">
-        <span class="eyebrow">[À COMPLÉTER — date]</span>
-        <h4>Ouverture des inscriptions 2026-2027</h4>
-        <p>Les inscriptions pour la prochaine année scolaire sont désormais ouvertes pour tous les cycles.</p>
-      </div>
-      <div class="news-item">
-        <span class="eyebrow">[À COMPLÉTER — date]</span>
-        <h4>[À COMPLÉTER — titre de l'actualité]</h4>
-        <p>[À COMPLÉTER — contenu à fournir par l'administration]</p>
-      </div>
-      <div class="news-item">
-        <span class="eyebrow">[À COMPLÉTER — date]</span>
-        <h4>[À COMPLÉTER — titre de l'actualité]</h4>
-        <p>[À COMPLÉTER — contenu à fournir par l'administration]</p>
-      </div>
-      <a href="actualites.html" class="link" style="display:inline-block; margin-top:16px;">Voir toutes les actualités →</a>
-    </div>
-  </div>
-  <div class="stats-col" id="resultats">
-    <div class="col-inner">
-      <h2>Résultats</h2>
-      <div class="stat"><span class="figure">[À COMPLÉTER]</span><span class="label">Taux de réussite aux examens officiels</span></div>
-      <div class="stat"><span class="figure">[À COMPLÉTER]</span><span class="label">Élèves accompagnés</span></div>
-      <div class="stat"><span class="figure">[À COMPLÉTER]</span><span class="label">Encadrants qualifiés</span></div>
-      <p class="stats-note">Statistiques officielles à publier par la Direction.</p>
-      <a href="resultats.html" class="link" style="display:inline-block; margin-top:10px; color:var(--sage);">Voir tous les résultats →</a>
-    </div>
-  </div>
-</section>
-
-<section class="gallery" id="galerie">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow">La vie scolaire</span>
-      <h2>Galerie</h2>
-    </div>
-  </div>
-  <div class="gallery-grid">
-    <div class="tile">Photo à venir</div>
-    <div class="tile">Photo à venir</div>
-    <div class="tile">Photo à venir</div>
-    <div class="tile">Photo à venir</div>
-    <div class="tile">Photo à venir</div>
-    <div class="tile">Photo à venir</div>
-  </div>
-  <p style="text-align:center; margin-top:28px;"><a href="galerie.html" style="color:var(--gold-light); font-size:0.86rem; font-weight:600;">Voir la galerie complète →</a></p>
-</section>
-
-<section class="frais" id="frais">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow">Campagne de réinscriptions &amp; inscriptions</span>
-      <h2>Frais de scolarité</h2>
-    </div>
-    <div class="frais-badges">
-      <div class="frais-badge"><span class="tick">★</span> Réinscriptions <strong>totalement gratuites</strong></div>
-      <div class="frais-badge"><span class="tick">✓</span> Frais d'inscription : <strong>1 500 FCFA seulement</strong></div>
-    </div>
-  </div>
-  <div class="frais-table">
-    <div class="frais-cell">
-      <h4>Pré-scolaire</h4>
-      <div class="row"><span>Mi-temps</span><span>5 000 FCFA</span></div>
-      <div class="row"><span>Plein-temps</span><span>13 500 FCFA</span></div>
-    </div>
-    <div class="frais-cell">
-      <h4>Primaire</h4>
-      <div class="row"><span>CP–CM1 mi-temps</span><span>5 000 FCFA</span></div>
-      <div class="row"><span>CP–CM1 plein-temps</span><span>8 000 FCFA</span></div>
-      <div class="row"><span>CM2</span><span>8 800 FCFA</span></div>
-    </div>
-    <div class="frais-cell">
-      <h4>Collège</h4>
-      <div class="row"><span>6e – 4e</span><span>8 500 FCFA</span></div>
-      <div class="row"><span>3e</span><span>12 500 FCFA</span></div>
-    </div>
-    <div class="frais-cell">
-      <h4>Lycée</h4>
-      <div class="row"><span>Seconde – Première</span><span>10 000 FCFA</span></div>
-      <div class="row"><span>Terminale</span><span>15 000 FCFA</span></div>
-    </div>
-  </div>
-  <p class="frais-note">Frais d'écolage mensuels. Paiement en ligne disponible via l'Espace Parents une fois votre dossier validé.</p>
-</section>
-
-<section class="direction">
-  <div class="wrap">
-    <span class="eyebrow">Mot de la direction</span><br><br>
-    <blockquote>« Chaque élève qui franchit nos portes porte en lui une étoile. Notre mission est de l'aider à briller — par l'exigence, la discipline et l'amour du savoir. »</blockquote>
-    <p class="signature"><strong>Gracias IBEMBE</strong>Fondatrice, Groupe Scolaire Étoile Brillante</p>
-  </div>
-</section>
-
-<section class="inscriptions">
-  <div class="wrap">
-    <h2>Les inscriptions sont ouvertes</h2>
-    <p style="color:var(--navy-deep); font-weight:600; margin-bottom:24px;">1 500 FCFA de frais d'inscription · Réinscriptions gratuites</p>
-    <a href="admissions-form.html" class="btn btn-navy">Inscrire mon enfant</a>
-  </div>
-</section>
-
-<section class="recrutement" id="recrutement">
-  <div class="rec-inner">
-    <span class="eyebrow">Nous rejoindre</span>
-    <h2>Construisons l'avenir ensemble</h2>
-    <p>Vous souhaitez mettre vos compétences au service de l'éducation ? Découvrez nos opportunités professionnelles et rejoignez le Groupe Scolaire Étoile Brillante.</p>
-    <a href="recrutement.html" class="btn btn-gold">Voir les offres d'emploi</a>
-  </div>
-</section>
-
-<footer id="contact">
+<footer id="contact-footer">
   <div class="foot-grid">
     <div class="foot-brand">
       <img src="assets/logo-lg.png" alt="Logo Groupe Scolaire Étoile Brillante" class="foot-logo">
@@ -331,15 +228,67 @@
   </div>
 </footer>
 
-<nav class="quickbar">
-  <a href="admissions-form.html" class="gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V6a2 2 0 0 1 2-2h9l5 5v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/></svg>Inscription</a>
-  <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>Paiement</a>
-  <a href="https://wa.me/242068107847"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-4-1L3 20l1-4.5A8.38 8.38 0 0 1 12.5 3 8.5 8.5 0 0 1 21 11.5Z"/></svg>WhatsApp</a>
-  <a href="tel:+24206810 7847"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92Z"/></svg>Appeler</a>
-  <a href="recrutement.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg>Recrutement</a>
-</nav>
-
 <script src="assets/site.js"></script>
+<script>
+  const API_BASE = 'https://eb-backend-2.onrender.com';
+
+  const form = document.getElementById('loginForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const message = document.getElementById('authMessage');
+
+  function showMessage(text, type) {
+    message.textContent = text;
+    message.className = 'auth-message ' + type;
+  }
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    message.className = 'auth-message';
+    message.textContent = '';
+
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Connexion en cours...';
+
+    try {
+      const res = await fetch(API_BASE + '/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        showMessage(data.error || 'Une erreur est survenue. Veuillez réessayer.', 'error');
+        return;
+      }
+
+      showMessage('Connexion réussie ! Redirection...', 'success');
+
+      const ADMIN_ROLES = ['SUPER_ADMIN', 'DIRECTION', 'ADMIN_SCOLAIRE'];
+
+      setTimeout(function () {
+        if (data.user && data.user.role === 'PARENT') {
+          window.location.href = 'portail-parent.html';
+        } else if (data.user && ADMIN_ROLES.includes(data.user.role)) {
+          window.location.href = 'admin.html';
+        } else {
+          window.location.href = 'index.html';
+        }
+      }, 900);
+
+    } catch (err) {
+      showMessage('Impossible de contacter le serveur. Vérifiez votre connexion.', 'error');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Se connecter';
+    }
+  });
+</script>
 
 </body>
 </html>
