@@ -1,0 +1,1 @@
+Remplacez votre dossier eb-frontend par ces fichiers et ajoutez votre logo dans assets/images/logo-officiel.png
