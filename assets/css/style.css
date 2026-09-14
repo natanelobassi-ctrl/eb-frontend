@@ -7,15 +7,22 @@
     --texte: #1F2937;
 }
 
+
+/* =========================
+   RÉINITIALISATION
+========================= */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+
 html {
     scroll-behavior: smooth;
 }
+
 
 body {
     font-family: Arial, Helvetica, sans-serif;
@@ -24,14 +31,10 @@ body {
     line-height: 1.6;
 }
 
-/* HEADER */
 
-header {
-    background: var(--bleu);
-    color: var(--blanc);
-    padding: 18px 0;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.20);
-}
+/* =========================
+   CONTENEUR
+========================= */
 
 .container {
     width: 92%;
@@ -39,7 +42,24 @@ header {
     margin: auto;
 }
 
-/* IDENTITÉ DE L'ÉCOLE */
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+    background: var(--bleu);
+    color: var(--blanc);
+    padding: 18px 0;
+
+    box-shadow:
+        0 3px 12px rgba(0, 0, 0, 0.20);
+}
+
+
+/* =========================
+   IDENTITÉ
+========================= */
 
 .brand {
     display: flex;
@@ -47,22 +67,30 @@ header {
     gap: 15px;
 }
 
+
 .brand h1 {
     font-size: 1.45rem;
 }
+
 
 .brand p {
     font-size: 0.9rem;
 }
 
-/* LOGO TEMPORAIRE */
+
+/* =========================
+   LOGO TEMPORAIRE
+========================= */
 
 .logo-placeholder {
     width: 70px;
     height: 70px;
+
     border-radius: 50%;
+
     background: white;
     color: var(--bleu);
+
     border: 3px solid var(--or);
 
     display: flex;
@@ -73,127 +101,214 @@ header {
     font-weight: 900;
 }
 
-/* MENU */
+
+/* =========================
+   MENU
+========================= */
 
 nav {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+
     margin-top: 18px;
 }
 
+
 nav a {
     color: white;
+
     text-decoration: none;
+
     font-weight: bold;
+
     padding: 8px 10px;
+
     border-radius: 7px;
+
+    transition: 0.3s;
 }
+
 
 nav a:hover {
     background: rgba(255, 255, 255, 0.15);
     color: var(--or);
 }
 
-/* GRANDE SECTION D'ACCUEIL */
+
+/* =========================
+   HERO
+========================= */
 
 .hero {
-    background: linear-gradient(
-        135deg,
-        var(--bleu),
-        var(--bleu-clair)
-    );
+    background:
+        linear-gradient(
+            135deg,
+            var(--bleu),
+            var(--bleu-clair)
+        );
 
     color: white;
+
     text-align: center;
+
     padding: 90px 20px;
 }
 
+
 .hero h2 {
     font-size: clamp(2rem, 5vw, 3.2rem);
+
     margin-bottom: 18px;
 }
 
+
 .hero p {
     max-width: 760px;
-    margin: 0 auto 28px;
+
+    margin:
+        0 auto 28px;
+
     font-size: 1.1rem;
 }
 
-/* BOUTON */
+
+/* =========================
+   BOUTONS
+========================= */
 
 .btn {
     display: inline-block;
+
     background: var(--or);
+
     color: #111111;
+
     text-decoration: none;
 
     padding: 14px 24px;
+
     border-radius: 10px;
 
     font-weight: bold;
+
     transition: 0.3s;
 }
 
+
 .btn:hover {
     transform: translateY(-2px);
+
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.15);
 }
 
-/* SECTIONS */
+
+/* =========================
+   SECTIONS
+========================= */
 
 .section {
     padding: 60px 0;
 }
 
+
 .section h2 {
     color: var(--bleu);
+
     margin-bottom: 25px;
 }
 
-/* CARTES */
+
+/* =========================
+   CARTES
+========================= */
 
 .cards {
     display: grid;
+
     grid-template-columns:
-        repeat(auto-fit, minmax(220px, 1fr));
+        repeat(
+            auto-fit,
+            minmax(220px, 1fr)
+        );
 
     gap: 20px;
 }
 
+
 .card {
     background: white;
+
     border-radius: 15px;
+
     padding: 22px;
 
     box-shadow:
         0 5px 18px rgba(0, 0, 0, 0.08);
+
+    transition: 0.3s;
 }
+
+
+.card:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
 
 .card h3 {
     color: var(--bleu);
+
     margin-bottom: 10px;
 }
 
-/* FORMULAIRES */
+
+/* =========================
+   FORMULAIRES
+========================= */
 
 input,
 select,
 textarea {
     width: 100%;
+
     padding: 12px;
 
-    margin: 7px 0 14px;
+    margin:
+        7px 0 14px;
 
-    border: 1px solid #cccccc;
+    border:
+        1px solid #cccccc;
+
     border-radius: 8px;
 
     font-size: 1rem;
 }
 
-/* PIED DE PAGE */
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+
+    border-color: var(--bleu);
+
+    box-shadow:
+        0 0 0 2px
+        rgba(10, 42, 120, 0.10);
+}
+
+
+/* =========================
+   FOOTER
+========================= */
 
 footer {
     background: var(--bleu);
+
     color: white;
 
     text-align: center;
@@ -203,36 +318,79 @@ footer {
     margin-top: 50px;
 }
 
-/* TELEPHONE */
+
+footer p {
+    margin-bottom: 8px;
+}
+
+
+/* =========================
+   VERSION MOBILE
+========================= */
 
 @media (max-width: 700px) {
+
+    .brand {
+        align-items: center;
+    }
+
 
     .brand h1 {
         font-size: 1.15rem;
     }
 
+
     .brand p {
         font-size: 0.8rem;
     }
 
+
+    .logo-placeholder {
+        width: 58px;
+        height: 58px;
+
+        font-size: 20px;
+    }
+
+
     nav {
         flex-direction: column;
+
         gap: 6px;
     }
+
+
+    nav a {
+        display: block;
+
+        width: 100%;
+
+        text-align: center;
+    }
+
 
     .hero {
         padding: 70px 15px;
     }
 
+
     .hero h2 {
         font-size: 2rem;
     }
+
 
     .hero p {
         font-size: 1rem;
     }
 
+
     .cards {
         grid-template-columns: 1fr;
     }
+
+
+    .section {
+        padding: 45px 0;
+    }
+
 }
