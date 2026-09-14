@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Recrutement | Groupe Scolaire Étoile Brillante</title>
+
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+<header>
+    <div class="container">
+
+        <div class="brand">
+
+            <div class="logo-placeholder">
+                EB
+            </div>
+
+            <div>
+                <h1>Groupe Scolaire Étoile Brillante</h1>
+                <p>Excellence • Discipline • Innovation</p>
+            </div>
+
+        </div>
+
+        <nav>
+            <a href="index.html">Accueil</a>
+            <a href="ecole.html">L'École</a>
+            <a href="cycles.html">Cycles</a>
+            <a href="resultats.html">Résultats</a>
+            <a href="inscription.html">Inscription</a>
+            <a href="galerie.html">Galerie</a>
+            <a href="actualites.html">Actualités</a>
+            <a href="parents.html">Espace Parents</a>
+            <a href="recrutement.html">Recrutement</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+
+    </div>
+</header>
+
+
+<main>
+
+<section class="hero">
+
+    <div class="container">
+
+        <h2>Recrutement</h2>
+
+        <p>
+            Rejoignez l'équipe du Groupe Scolaire
+            Étoile Brillante.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="card">
+
+            <h2>Formulaire de candidature</h2>
+
+            <p>
+                Remplissez soigneusement les informations
+                ci-dessous pour soumettre votre candidature.
+            </p>
+
+
+            <label for="nom">
+                Nom
+            </label>
+
+            <input
+                type="text"
+                id="nom"
+                placeholder="Votre nom"
+            >
+
+
+            <label for="prenom">
+                Prénom
+            </label>
+
+            <input
+                type="text"
+                id="prenom"
+                placeholder="Votre prénom"
+            >
+
+
+            <label for="telephone">
+                Téléphone
+            </label>
+
+            <input
+                type="tel"
+                id="telephone"
+                placeholder="Votre numéro de téléphone"
+            >
+
+
+            <label for="email">
+                E-mail
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Votre adresse e-mail"
+            >
+
+
+            <label for="fonction">
+                Fonction recherchée
+            </label>
+
+            <select id="fonction">
+
+                <option value="">
+                    Sélectionnez une fonction
+                </option>
+
+                <option>
+                    Enseignant(e)
+                </option>
+
+                <option>
+                    Surveillant(e)
+                </option>
+
+                <option>
+                    Éducateur(trice)
+                </option>
+
+                <option>
+                    Personnel administratif
+                </option>
+
+                <option>
+                    Autre
+                </option>
+
+            </select>
+
+
+            <label for="cycle">
+                Cycle souhaité
+            </label>
+
+            <select id="cycle">
+
+                <option value="">
+                    Sélectionnez un cycle
+                </option>
+
+                <option>
+                    Préscolaire
+                </option>
+
+                <option>
+                    Primaire
+                </option>
+
+                <option>
+                    Collège
+                </option>
+
+                <option>
+                    Lycée
+                </option>
+
+            </select>
+
+
+            <label for="matiere">
+                Matière / discipline
+            </label>
+
+            <input
+                type="text"
+                id="matiere"
+                placeholder="Exemple : Mathématiques"
+            >
+
+
+            <label for="message">
+                Présentation / motivation
+            </label>
+
+            <textarea
+                id="message"
+                rows="6"
+                placeholder="Présentez brièvement votre parcours et votre motivation."
+            ></textarea>
+
+
+            <label for="cv">
+                Curriculum Vitae (CV)
+            </label>
+
+            <input
+                type="file"
+                id="cv"
+                accept=".pdf,.doc,.docx"
+            >
+
+
+            <br>
+
+            <button
+                class="btn"
+                type="button"
+                onclick="envoyerCandidature()">
+                Envoyer ma candidature
+            </button>
+
+
+            <p id="confirmation"></p>
+
+        </div>
+
+
+        <br>
+
+
+        <div class="cards">
+
+            <div class="card">
+
+                <h3>📥 Candidature reçue</h3>
+
+                <p>
+                    Chaque candidature sera enregistrée
+                    dans l'espace administratif.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>🔎 Étude du dossier</h3>
+
+                <p>
+                    L'administration pourra examiner
+                    les profils et les documents transmis.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>🎯 Présélection</h3>
+
+                <p>
+                    Les candidats retenus pour la suite
+                    du processus seront présélectionnés.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>🤝 Entretien</h3>
+
+                <p>
+                    Un entretien pourra être organisé
+                    avant la décision finale.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<footer>
+
+<div class="container">
+
+<p>
+<strong>
+Groupe Scolaire Étoile Brillante
+</strong>
+</p>
+
+<p>
+03 rue Poumako, marché Massengo,
+arrondissement 9 Djiri, Brazzaville
+</p>
+
+<p>
+WhatsApp : 067598453
+</p>
+
+<p>
+E-mail : groupescolaireeb26@gmail.com
+</p>
+
+<p>
+Excellence • Discipline • Innovation
+</p>
+
+<p>
+© 2026 Groupe Scolaire Étoile Brillante
+</p>
+
+</div>
+
+</footer>
+
+
+<script>
+
+function envoyerCandidature() {
+
+    const nom =
+        document.getElementById("nom").value.trim();
+
+    const prenom =
+        document.getElementById("prenom").value.trim();
+
+    const telephone =
+        document.getElementById("telephone").value.trim();
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const fonction =
+        document.getElementById("fonction").value;
+
+    const cycle =
+        document.getElementById("cycle").value;
+
+    const confirmation =
+        document.getElementById("confirmation");
+
+
+    if (
+        nom === "" ||
+        prenom === "" ||
+        telephone === "" ||
+        email === "" ||
+        fonction === "" ||
+        cycle === ""
+    ) {
+
+        confirmation.innerHTML =
+            "Veuillez remplir tous les champs obligatoires.";
+
+        return;
+    }
+
+
+    confirmation.innerHTML =
+        "Votre candidature est prête à être transmise à l'administration.";
+
+}
+
+</script>
+
+
+</body>
+</html>
