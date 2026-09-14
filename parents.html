@@ -53,8 +53,8 @@
         <h2>Espace Parents</h2>
 
         <p>
-            Un espace destiné aux parents et tuteurs
-            pour suivre la scolarité de leurs enfants.
+            Suivez la scolarité de vos enfants
+            depuis votre téléphone.
         </p>
 
     </div>
@@ -68,22 +68,23 @@
 
         <div class="card">
 
-            <h2>Connexion</h2>
+            <h2>Connexion parent</h2>
 
             <p>
-                L'accès sécurisé permettra prochainement
-                aux parents de consulter les informations
-                scolaires de leurs enfants.
+                Connectez-vous avec le numéro de téléphone
+                enregistré auprès de l'établissement.
             </p>
 
-            <label for="identifiant">
-                Identifiant ou matricule
+
+            <label for="telephone">
+                Numéro de téléphone
             </label>
 
             <input
-                type="text"
-                id="identifiant"
-                placeholder="Votre identifiant"
+                type="tel"
+                id="telephone"
+                placeholder="Exemple : 067598453"
+                autocomplete="tel"
             >
 
 
@@ -95,6 +96,7 @@
                 type="password"
                 id="motdepasse"
                 placeholder="Votre mot de passe"
+                autocomplete="current-password"
             >
 
 
@@ -105,7 +107,15 @@
                 Se connecter
             </button>
 
+
             <p id="message"></p>
+
+
+            <p>
+                <a href="#">
+                    Mot de passe oublié ?
+                </a>
+            </p>
 
         </div>
 
@@ -117,11 +127,23 @@
 
             <div class="card">
 
-                <h3>📊 Résultats scolaires</h3>
+                <h3>👨‍👩‍👧 Mes enfants</h3>
 
                 <p>
-                    Consulter les moyennes, rangs,
-                    décisions et résultats de l'élève.
+                    Retrouvez tous les enfants rattachés
+                    à votre compte parent.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>📊 Résultats</h3>
+
+                <p>
+                    Consultez les moyennes, rangs,
+                    mentions et décisions.
                 </p>
 
             </div>
@@ -132,8 +154,8 @@
                 <h3>📄 Bulletins</h3>
 
                 <p>
-                    Consulter et télécharger les bulletins
-                    scolaires validés par l'administration.
+                    Consultez et téléchargez les bulletins
+                    validés par l'administration.
                 </p>
 
             </div>
@@ -144,8 +166,8 @@
                 <h3>📅 Absences</h3>
 
                 <p>
-                    Suivre les présences, absences et retards
-                    de votre enfant.
+                    Consultez les absences et retards
+                    de vos enfants.
                 </p>
 
             </div>
@@ -156,8 +178,8 @@
                 <h3>💳 Paiements</h3>
 
                 <p>
-                    Consulter les paiements scolaires,
-                    les statuts et les reçus payés.
+                    Suivez vos paiements scolaires et
+                    retrouvez vos reçus payés.
                 </p>
 
             </div>
@@ -168,20 +190,8 @@
                 <h3>🔔 Notifications</h3>
 
                 <p>
-                    Recevoir les informations importantes
-                    transmises par l'administration.
-                </p>
-
-            </div>
-
-
-            <div class="card">
-
-                <h3>👨‍👩‍👧 Mes enfants</h3>
-
-                <p>
-                    Un parent pourra gérer plusieurs enfants
-                    rattachés à son compte.
+                    Recevez les informations importantes
+                    de l'établissement.
                 </p>
 
             </div>
@@ -235,8 +245,8 @@ Excellence • Discipline • Innovation
 
 function connexion() {
 
-    const identifiant =
-        document.getElementById("identifiant").value.trim();
+    const telephone =
+        document.getElementById("telephone").value.trim();
 
     const motdepasse =
         document.getElementById("motdepasse").value.trim();
@@ -245,21 +255,22 @@ function connexion() {
         document.getElementById("message");
 
 
-    if (identifiant === "" || motdepasse === "") {
+    if (telephone === "" || motdepasse === "") {
 
         message.innerHTML =
-            "Veuillez renseigner votre identifiant et votre mot de passe.";
+            "Veuillez renseigner votre numéro de téléphone et votre mot de passe.";
 
         return;
     }
 
 
     message.innerHTML =
-        "L'espace sécurisé des parents sera activé avec le système d'administration.";
+        "Connexion sécurisée : le système d'authentification sera activé avec l'espace administratif.";
 
 }
 
 </script>
+
 
 </body>
 </html>
