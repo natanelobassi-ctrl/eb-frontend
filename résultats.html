@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Résultats | Groupe Scolaire Étoile Brillante</title>
+
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+<header>
+    <div class="container">
+
+        <div class="brand">
+
+            <div class="logo-placeholder">
+                EB
+            </div>
+
+            <div>
+                <h1>Groupe Scolaire Étoile Brillante</h1>
+                <p>Excellence • Discipline • Innovation</p>
+            </div>
+
+        </div>
+
+        <nav>
+            <a href="index.html">Accueil</a>
+            <a href="ecole.html">L'École</a>
+            <a href="cycles.html">Cycles</a>
+            <a href="resultats.html">Résultats</a>
+            <a href="inscription.html">Inscription</a>
+            <a href="galerie.html">Galerie</a>
+            <a href="actualites.html">Actualités</a>
+            <a href="parents.html">Espace Parents</a>
+            <a href="recrutement.html">Recrutement</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+
+    </div>
+</header>
+
+
+<main>
+
+<section class="hero">
+
+    <div class="container">
+
+        <h2>Résultats scolaires</h2>
+
+        <p>
+            Consultez les résultats des élèves
+            du Groupe Scolaire Étoile Brillante.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section class="section">
+
+<div class="container">
+
+<div class="card">
+
+<h2>Rechercher un élève</h2>
+
+<label for="recherche">
+    Matricule, nom ou prénom
+</label>
+
+<input
+    type="text"
+    id="recherche"
+    placeholder="Exemple : EB20260001 ou MABIALA"
+>
+
+
+<label for="classe">
+    Classe
+</label>
+
+<select id="classe">
+
+    <option value="">Toutes les classes</option>
+
+    <option value="P1">P1</option>
+    <option value="P2">P2</option>
+    <option value="P3">P3</option>
+
+    <option value="CP1">CP1</option>
+    <option value="CP2">CP2</option>
+    <option value="CE1">CE1</option>
+    <option value="CE2">CE2</option>
+    <option value="CM1">CM1</option>
+    <option value="CM2">CM2</option>
+
+    <option value="6e">6e</option>
+    <option value="5e">5e</option>
+    <option value="4e">4e</option>
+    <option value="3e">3e</option>
+
+    <option value="STC">STC</option>
+    <option value="Première A">Première A</option>
+    <option value="Première D">Première D</option>
+    <option value="Terminale A">Terminale A</option>
+    <option value="Terminale D">Terminale D</option>
+
+</select>
+
+<br>
+
+<button
+    class="btn"
+    type="button"
+    onclick="chercher()">
+    Rechercher
+</button>
+
+</div>
+
+
+<br>
+
+
+<div class="card">
+
+<h2>Résultat</h2>
+
+<div id="resultat">
+
+    <p>
+        Effectuez une recherche pour afficher
+        le résultat de l'élève.
+    </p>
+
+</div>
+
+</div>
+
+
+<br>
+
+
+<div class="card">
+
+<h2>Tableau d'honneur</h2>
+
+<p>
+    Les cinq premiers élèves de chaque classe
+    peuvent être affichés ici.
+</p>
+
+</div>
+
+
+<br>
+
+
+<div class="card">
+
+<h2>Décision</h2>
+
+<p>
+    <strong>10/20 ou plus :</strong>
+    ADMIS
+</p>
+
+<p>
+    <strong>Moins de 10/20 :</strong>
+    ÉCHOUÉ
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<footer>
+
+<div class="container">
+
+<p>
+<strong>
+Groupe Scolaire Étoile Brillante
+</strong>
+</p>
+
+<p>
+03 rue Poumako, marché Massengo,
+arrondissement 9 Djiri, Brazzaville
+</p>
+
+<p>
+WhatsApp : 067598453
+</p>
+
+<p>
+E-mail : groupescolaireeb26@gmail.com
+</p>
+
+<p>
+Excellence • Discipline • Innovation
+</p>
+
+<p>
+© 2026 Groupe Scolaire Étoile Brillante
+</p>
+
+</div>
+
+</footer>
+
+
+<script>
+
+const eleves = [
+
+    {
+        matricule: "EB20260001",
+        nom: "MABIALA",
+        prenom: "Exemple",
+        classe: "6e",
+        moyenne: 14.50,
+        rang: 1
+    },
+
+    {
+        matricule: "EB20260002",
+        nom: "NGOMA",
+        prenom: "Exemple",
+        classe: "6e",
+        moyenne: 12.50,
+        rang: 2
+    },
+
+    {
+        matricule: "EB20260003",
+        nom: "MBOUKOU",
+        prenom: "Exemple",
+        classe: "CM2",
+        moyenne: 16.00,
+        rang: 1
+    }
+
+];
+
+
+function mention(moyenne) {
+
+    if (moyenne >= 18) return "Excellent";
+    if (moyenne >= 16) return "Très bien";
+    if (moyenne >= 14) return "Bien";
+    if (moyenne >= 12) return "Assez bien";
+    if (moyenne >= 10) return "Passable";
+    if (moyenne >= 8) return "Insuffisant";
+    if (moyenne >= 6) return "Faible";
+    if (moyenne >= 4) return "Très faible";
+
+    return "Nul";
+}
+
+
+function chercher() {
+
+    const recherche =
+        document
+        .getElementById("recherche")
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    const classe =
+        document
+        .getElementById("classe")
+        .value
+        .toLowerCase();
+
+
+    const resultat =
+        document.getElementById("resultat");
+
+
+    const trouve =
+        eleves.filter(function(eleve) {
+
+            const texte =
+                (
+                    eleve.matricule +
+                    " " +
+                    eleve.nom +
+                    " " +
+                    eleve.prenom
+                ).toLowerCase();
+
+
+            const correspondRecherche =
+                recherche === "" ||
+                texte.includes(recherche);
+
+
+            const correspondClasse =
+                classe === "" ||
+                eleve.classe.toLowerCase() === classe;
+
+
+            return (
+                correspondRecherche &&
+                correspondClasse
+            );
+
+        });
+
+
+    if (trouve.length === 0) {
+
+        resultat.innerHTML =
+            "<p>Aucun résultat trouvé.</p>";
+
+        return;
+    }
+
+
+    let html = "";
+
+
+    trouve.forEach(function(eleve) {
+
+        const decision =
+            eleve.moyenne >= 10
+            ? "ADMIS"
+            : "ÉCHOUÉ";
+
+
+        html += `
+
+            <div class="card">
+
+                <h3>
+                    ${eleve.nom} ${eleve.prenom}
+                </h3>
+
+                <p>
+                    <strong>Matricule :</strong>
+                    ${eleve.matricule}
+                </p>
+
+                <p>
+                    <strong>Classe :</strong>
+                    ${eleve.classe}
+                </p>
+
+                <p>
+                    <strong>Moyenne :</strong>
+                    ${eleve.moyenne.toFixed(2)}/20
+                </p>
+
+                <p>
+                    <strong>Rang :</strong>
+                    ${eleve.rang}
+                </p>
+
+                <p>
+                    <strong>Mention :</strong>
+                    ${mention(eleve.moyenne)}
+                </p>
+
+                <p>
+                    <strong>Décision :</strong>
+                    ${decision}
+                </p>
+
+            </div>
+
+        `;
+
+    });
+
+
+    resultat.innerHTML = html;
+
+}
+
+</script>
+
+
+</body>
+</html>
