@@ -1,0 +1,1692 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gestion des enseignants — Groupe Scolaire Étoile Brillante</title>
+
+<style>
+:root{
+  --bleu:#0A2A78;
+  --bleu2:#123A9B;
+  --or:#C9A227;
+  --ivoire:#F7F4ED;
+  --blanc:#fff;
+  --texte:#1F2937;
+  --vert:#16803c;
+  --rouge:#b42318;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--ivoire);
+  color:var(--texte);
+  line-height:1.5;
+}
+
+.container{
+  width:94%;
+  max-width:1250px;
+  margin:auto;
+}
+
+header{
+  background:linear-gradient(135deg,var(--bleu),var(--bleu2));
+  color:white;
+  padding:20px;
+  box-shadow:0 3px 12px rgba(0,0,0,.2);
+}
+
+.header-flex{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.logo{
+  width:65px;
+  height:65px;
+  border-radius:50%;
+  background:white;
+  border:3px solid var(--or);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--bleu);
+  font-weight:bold;
+  font-size:22px;
+}
+
+header h1{
+  font-size:1.35rem;
+}
+
+header p{
+  font-size:.9rem;
+  margin-top:4px;
+}
+
+nav{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:18px;
+}
+
+nav a{
+  color:white;
+  text-decoration:none;
+  padding:9px 12px;
+  border-radius:7px;
+  font-weight:bold;
+}
+
+nav a:hover{
+  background:rgba(255,255,255,.15);
+}
+
+main{
+  padding:35px 0;
+}
+
+.title{
+  margin-bottom:25px;
+}
+
+.title h2{
+  color:var(--bleu);
+  margin-bottom:7px;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-bottom:25px;
+}
+
+.stat{
+  background:white;
+  padding:20px;
+  border-radius:14px;
+  box-shadow:0 4px 15px rgba(0,0,0,.07);
+}
+
+.stat strong{
+  display:block;
+  color:var(--bleu);
+  font-size:1.8rem;
+}
+
+.stat span{
+  color:#666;
+  font-size:.9rem;
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:20px;
+}
+
+button{
+  border:0;
+  border-radius:8px;
+  padding:11px 16px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.btn-primary{
+  background:var(--bleu);
+  color:white;
+}
+
+.btn-gold{
+  background:var(--or);
+  color:#111;
+}
+
+.btn-success{
+  background:var(--vert);
+  color:white;
+}
+
+.btn-danger{
+  background:var(--rouge);
+  color:white;
+}
+
+.filters{
+  background:white;
+  padding:20px;
+  border-radius:14px;
+  box-shadow:0 4px 15px rgba(0,0,0,.08);
+  margin-bottom:20px;
+}
+
+.filters-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:12px;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  padding:12px;
+  border:1px solid #ccc;
+  border-radius:8px;
+  font-size:1rem;
+}
+
+textarea{
+  min-height:80px;
+  resize:vertical;
+}
+
+.table-box{
+  background:white;
+  border-radius:14px;
+  overflow-x:auto;
+  box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:1200px;
+}
+
+th,
+td{
+  padding:12px 10px;
+  border-bottom:1px solid #eee;
+  text-align:left;
+}
+
+th{
+  background:var(--bleu);
+  color:white;
+}
+
+tr:hover{
+  background:#f8f8f8;
+}
+
+.photo{
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  object-fit:cover;
+  background:#eee;
+  display:block;
+}
+
+.no-photo{
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  background:#e7eaf2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--bleu);
+  font-weight:bold;
+}
+
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:.8rem;
+  font-weight:bold;
+}
+
+.active{
+  background:#dff5e7;
+  color:#146b34;
+}
+
+.inactive{
+  background:#ffe1e1;
+  color:#a51d1d;
+}
+
+.small-btn{
+  padding:7px 9px;
+  margin:2px;
+  font-size:.78rem;
+}
+
+.empty{
+  text-align:center;
+  padding:35px;
+  color:#666;
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:20;
+  padding:20px;
+  overflow:auto;
+}
+
+.modal-content{
+  background:white;
+  max-width:720px;
+  margin:30px auto;
+  padding:25px;
+  border-radius:15px;
+}
+
+.modal-content h3{
+  color:var(--bleu);
+  margin-bottom:20px;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.form-group label{
+  display:block;
+  font-weight:bold;
+  margin-bottom:6px;
+}
+
+.full{
+  grid-column:1 / -1;
+}
+
+.modal-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top:20px;
+}
+
+.photo-preview{
+  width:100px;
+  height:100px;
+  object-fit:cover;
+  border-radius:12px;
+  border:2px solid var(--or);
+  display:none;
+  margin-top:10px;
+}
+
+.affectations{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+  margin-top:8px;
+}
+
+.affectation-item{
+  border:1px solid #ddd;
+  padding:9px;
+  border-radius:8px;
+  background:#fafafa;
+}
+
+.affectation-item label{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-weight:normal;
+}
+
+footer{
+  margin-top:50px;
+  background:var(--bleu);
+  color:white;
+  text-align:center;
+  padding:25px;
+}
+
+@media(max-width:850px){
+
+  .filters-grid{
+    grid-template-columns:1fr;
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .full{
+    grid-column:auto;
+  }
+}
+
+@media(max-width:500px){
+
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .affectations{
+    grid-template-columns:1fr;
+  }
+
+  header h1{
+    font-size:1.05rem;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="container">
+
+  <div class="header-flex">
+
+    <div class="logo">EB</div>
+
+    <div>
+      <h1>Groupe Scolaire Étoile Brillante</h1>
+      <p>Gestion des enseignants et affectations</p>
+    </div>
+
+  </div>
+
+  <nav>
+    <a href="index.html">Tableau de bord</a>
+    <a href="eleves.html">Élèves</a>
+    <a href="classes.html">Classes</a>
+    <a href="notes.html">Notes</a>
+    <a href="bulletins.html">Bulletins</a>
+    <a href="absences.html">Absences</a>
+    <a href="enseignants.html">Enseignants</a>
+    <a href="../index.html">Site public</a>
+  </nav>
+
+</div>
+
+</header>
+
+
+<main class="container">
+
+<section class="title">
+
+  <h2>Gestion des enseignants</h2>
+
+  <p>
+    Gérez les enseignants, leurs matières, classes et affectations.
+  </p>
+
+</section>
+
+
+<section class="stats">
+
+  <div class="stat">
+    <strong id="totalEnseignants">0</strong>
+    <span>Enseignants</span>
+  </div>
+
+  <div class="stat">
+    <strong id="enseignantsActifs">0</strong>
+    <span>Actifs</span>
+  </div>
+
+  <div class="stat">
+    <strong id="totalMatieres">0</strong>
+    <span>Matières enseignées</span>
+  </div>
+
+  <div class="stat">
+    <strong id="totalAffectations">0</strong>
+    <span>Affectations</span>
+  </div>
+
+</section>
+
+
+<div class="actions">
+
+  <button class="btn-primary" onclick="ouvrirModal()">
+    + Ajouter un enseignant
+  </button>
+
+  <button class="btn-gold" onclick="charger()">
+    Actualiser
+  </button>
+
+</div>
+
+
+<section class="filters">
+
+  <div class="filters-grid">
+
+    <input
+      type="search"
+      id="recherche"
+      placeholder="Nom, téléphone, e-mail, matière..."
+      oninput="afficher()"
+    >
+
+    <select id="filtreCycle" onchange="afficher()">
+      <option value="">Tous les cycles</option>
+      <option value="Préscolaire">Préscolaire</option>
+      <option value="Primaire">Primaire</option>
+      <option value="Collège">Collège</option>
+      <option value="Lycée">Lycée</option>
+    </select>
+
+    <select id="filtreStatut" onchange="afficher()">
+      <option value="">Tous les statuts</option>
+      <option value="Actif">Actif</option>
+      <option value="Inactif">Inactif</option>
+    </select>
+
+  </div>
+
+</section>
+
+
+<section class="table-box">
+
+<table>
+
+<thead>
+
+<tr>
+  <th>Photo</th>
+  <th>Enseignant</th>
+  <th>Téléphone</th>
+  <th>E-mail</th>
+  <th>Matières</th>
+  <th>Cycle</th>
+  <th>Classes</th>
+  <th>Statut</th>
+  <th>Actions</th>
+</tr>
+
+</thead>
+
+<tbody id="enseignantsBody"></tbody>
+
+</table>
+
+</section>
+
+</main>
+
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+<div class="modal-content">
+
+<h3 id="modalTitre">Ajouter un enseignant</h3>
+
+<input type="hidden" id="enseignantId">
+
+<div class="form-grid">
+
+
+<div class="form-group">
+
+<label>Nom</label>
+
+<input
+  type="text"
+  id="nom"
+  placeholder="Nom de famille"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Prénom</label>
+
+<input
+  type="text"
+  id="prenom"
+  placeholder="Prénom"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Téléphone</label>
+
+<input
+  type="tel"
+  id="telephone"
+  placeholder="06..."
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>E-mail</label>
+
+<input
+  type="email"
+  id="email"
+  placeholder="enseignant@email.com"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Fonction</label>
+
+<select id="fonction">
+
+  <option value="Enseignant">
+    Enseignant
+  </option>
+
+  <option value="Enseignant titulaire">
+    Enseignant titulaire
+  </option>
+
+  <option value="Professeur">
+    Professeur
+  </option>
+
+  <option value="Responsable pédagogique">
+    Responsable pédagogique
+  </option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Cycle principal</label>
+
+<select id="cycle">
+
+  <option value="Préscolaire">
+    Préscolaire
+  </option>
+
+  <option value="Primaire">
+    Primaire
+  </option>
+
+  <option value="Collège">
+    Collège
+  </option>
+
+  <option value="Lycée">
+    Lycée
+  </option>
+
+</select>
+
+</div>
+
+
+<div class="form-group full">
+
+<label>Matière(s) enseignée(s)</label>
+
+<input
+  type="text"
+  id="matieres"
+  placeholder="Ex. Mathématiques, Physique"
+>
+
+</div>
+
+
+<div class="form-group full">
+
+<label>Classes affectées</label>
+
+<div
+  class="affectations"
+  id="affectations">
+</div>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Date de prise de fonction</label>
+
+<input
+  type="date"
+  id="dateDebut"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Statut</label>
+
+<select id="statut">
+
+  <option value="Actif">
+    Actif
+  </option>
+
+  <option value="Inactif">
+    Inactif
+  </option>
+
+</select>
+
+</div>
+
+
+<div class="form-group full">
+
+<label>Observations</label>
+
+<textarea
+  id="observations"
+  placeholder="Informations professionnelles..."
+></textarea>
+
+</div>
+
+
+<div class="form-group full">
+
+<label>Photo</label>
+
+<input
+  type="file"
+  id="photo"
+  accept="image/*"
+  onchange="previsualiserPhoto()"
+>
+
+<img
+  id="photoPreview"
+  class="photo-preview"
+  alt="Aperçu de la photo"
+>
+
+</div>
+
+
+</div>
+
+
+<div class="modal-actions">
+
+<button onclick="fermerModal()">
+  Annuler
+</button>
+
+<button class="btn-primary" onclick="enregistrer()">
+  Enregistrer
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<footer>
+
+<p>
+<strong>Groupe Scolaire Étoile Brillante</strong>
+</p>
+
+<p>
+Excellence • Discipline • Innovation
+</p>
+
+<p>
+03 rue Poumako, marché Massengo,
+arrondissement 9 Djiri — Brazzaville
+</p>
+
+</footer>
+
+
+<script>
+
+const CLE = "EB_ENSEIGNANTS";
+
+const classesDefaut = [
+  "P1","P2","P3",
+  "CP1","CP2","CE1","CE2","CM1","CM2",
+  "6e","5e","4e","3e",
+  "STC","Première A","Première D",
+  "Terminale A","Terminale D"
+];
+
+
+let photoBase64 = "";
+
+
+/* =========================
+   INITIALISATION
+========================= */
+
+function charger(){
+
+  if(!localStorage.getItem(CLE)){
+
+    localStorage.setItem(
+      CLE,
+      JSON.stringify([])
+    );
+
+  }
+
+  chargerAffectations();
+  afficher();
+
+}
+
+
+/* =========================
+   CLASSES
+========================= */
+
+function chargerAffectations(){
+
+  const zone =
+    document.getElementById("affectations");
+
+  let classes = [];
+
+  try{
+
+    const data =
+      JSON.parse(
+        localStorage.getItem("EB_CLASSES")
+      );
+
+    if(Array.isArray(data) && data.length){
+
+      classes =
+        data
+          .filter(c => c.statut !== "Archivée")
+          .map(c => c.nom);
+
+    }
+
+  }catch(e){}
+
+
+  if(!classes.length){
+    classes = classesDefaut;
+  }
+
+
+  classes =
+    [...new Set(classes)];
+
+
+  zone.innerHTML =
+    classes.map((classe,index) => `
+
+      <div class="affectation-item">
+
+        <label>
+
+          <input
+            type="checkbox"
+            name="classe"
+            value="${escapeHTML(classe)}"
+          >
+
+          ${escapeHTML(classe)}
+
+        </label>
+
+      </div>
+
+    `).join("");
+
+}
+
+
+/* =========================
+   OUVRIR MODAL
+========================= */
+
+function ouvrirModal(){
+
+  document.getElementById("modalTitre").textContent =
+    "Ajouter un enseignant";
+
+  document.getElementById("enseignantId").value="";
+
+  document.getElementById("nom").value="";
+  document.getElementById("prenom").value="";
+  document.getElementById("telephone").value="";
+  document.getElementById("email").value="";
+  document.getElementById("fonction").value="Enseignant";
+  document.getElementById("cycle").value="Préscolaire";
+  document.getElementById("matieres").value="";
+  document.getElementById("dateDebut").value="";
+  document.getElementById("statut").value="Actif";
+  document.getElementById("observations").value="";
+
+  photoBase64="";
+
+  document.getElementById("photo").value="";
+
+  const preview =
+    document.getElementById("photoPreview");
+
+  preview.src="";
+  preview.style.display="none";
+
+  chargerAffectations();
+
+  document.getElementById("modal").style.display="block";
+
+}
+
+
+/* =========================
+   FERMER
+========================= */
+
+function fermerModal(){
+
+  document.getElementById("modal").style.display="none";
+
+}
+
+
+/* =========================
+   PHOTO
+========================= */
+
+function previsualiserPhoto(){
+
+  const fichier =
+    document.getElementById("photo").files[0];
+
+  if(!fichier){
+    return;
+  }
+
+  const lecteur =
+    new FileReader();
+
+  lecteur.onload=function(e){
+
+    photoBase64=e.target.result;
+
+    const preview =
+      document.getElementById("photoPreview");
+
+    preview.src=photoBase64;
+
+    preview.style.display="block";
+
+  };
+
+  lecteur.readAsDataURL(fichier);
+
+}
+
+
+/* =========================
+   ENREGISTRER
+========================= */
+
+function enregistrer(){
+
+  const nom =
+    document.getElementById("nom").value.trim();
+
+  const prenom =
+    document.getElementById("prenom").value.trim();
+
+  const telephone =
+    document.getElementById("telephone").value.trim();
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  const matieres =
+    document.getElementById("matieres").value.trim();
+
+
+  if(!nom || !prenom){
+
+    alert(
+      "Veuillez renseigner le nom et le prénom."
+    );
+
+    return;
+
+  }
+
+
+  if(!matieres){
+
+    alert(
+      "Veuillez renseigner au moins une matière."
+    );
+
+    return;
+
+  }
+
+
+  const classes =
+    Array.from(
+      document.querySelectorAll(
+        'input[name="classe"]:checked'
+      )
+    ).map(input => input.value);
+
+
+  let enseignants =
+    obtenir();
+
+
+  const id =
+    document.getElementById("enseignantId").value;
+
+
+  const enseignant = {
+
+    id:
+      id
+      ? Number(id)
+      : Date.now(),
+
+    nom:nom,
+
+    prenom:prenom,
+
+    telephone:telephone,
+
+    email:email,
+
+    fonction:
+      document.getElementById("fonction").value,
+
+    cycle:
+      document.getElementById("cycle").value,
+
+    matieres:
+      matieres
+        .split(",")
+        .map(m => m.trim())
+        .filter(Boolean),
+
+    classes:classes,
+
+    dateDebut:
+      document.getElementById("dateDebut").value,
+
+    statut:
+      document.getElementById("statut").value,
+
+    observations:
+      document.getElementById("observations")
+        .value
+        .trim(),
+
+    photo:
+      photoBase64,
+
+    dateModification:
+      new Date().toISOString()
+
+  };
+
+
+  if(id){
+
+    const index =
+      enseignants.findIndex(
+        e => e.id === Number(id)
+      );
+
+    if(index !== -1){
+
+      /*
+        Si aucune nouvelle photo n'est sélectionnée,
+        on conserve l'ancienne.
+      */
+
+      if(!photoBase64){
+
+        enseignant.photo =
+          enseignants[index].photo || "";
+
+      }
+
+      enseignants[index]=enseignant;
+
+    }
+
+  }else{
+
+    enseignants.push(enseignant);
+
+  }
+
+
+  localStorage.setItem(
+    CLE,
+    JSON.stringify(enseignants)
+  );
+
+
+  fermerModal();
+
+  afficher();
+
+  alert(
+    "Enseignant enregistré avec succès."
+  );
+
+}
+
+
+/* =========================
+   AFFICHER
+========================= */
+
+function afficher(){
+
+  const body =
+    document.getElementById("enseignantsBody");
+
+
+  const recherche =
+    document.getElementById("recherche")
+      .value
+      .toLowerCase();
+
+  const cycle =
+    document.getElementById("filtreCycle")
+      .value;
+
+  const statut =
+    document.getElementById("filtreStatut")
+      .value;
+
+
+  let enseignants =
+    obtenir();
+
+
+  enseignants =
+    enseignants.filter(e => {
+
+      const texte =
+        `
+        ${e.nom}
+        ${e.prenom}
+        ${e.telephone}
+        ${e.email}
+        ${(e.matieres || []).join(" ")}
+        ${(e.classes || []).join(" ")}
+        `.toLowerCase();
+
+
+      return (
+
+        (!recherche ||
+          texte.includes(recherche)
+        ) &&
+
+        (!cycle ||
+          e.cycle === cycle
+        ) &&
+
+        (!statut ||
+          e.statut === statut
+        )
+
+      );
+
+    });
+
+
+  if(!enseignants.length){
+
+    body.innerHTML=`
+
+      <tr>
+
+        <td
+          colspan="9"
+          class="empty"
+        >
+          Aucun enseignant enregistré.
+          Cliquez sur « Ajouter un enseignant »
+          pour commencer.
+
+        </td>
+
+      </tr>
+
+    `;
+
+    mettreAJourStats();
+
+    return;
+
+  }
+
+
+  body.innerHTML =
+    enseignants.map(e => {
+
+      const nomComplet =
+        `${e.nom} ${e.prenom}`;
+
+
+      const initiales =
+        (
+          (e.nom || "").charAt(0) +
+          (e.prenom || "").charAt(0)
+        ).toUpperCase();
+
+
+      const photo =
+        e.photo
+
+        ? `
+          <img
+            src="${e.photo}"
+            class="photo"
+            alt="Photo"
+          >
+        `
+
+        : `
+          <div class="no-photo">
+            ${escapeHTML(initiales)}
+          </div>
+        `;
+
+
+      const classes =
+        (e.classes || []).join(", ") || "—";
+
+
+      const matieres =
+        (e.matieres || []).join(", ") || "—";
+
+
+      const statutClasse =
+        e.statut === "Actif"
+        ? "active"
+        : "inactive";
+
+
+      return `
+
+        <tr>
+
+          <td>
+            ${photo}
+          </td>
+
+          <td>
+            <strong>
+              ${escapeHTML(nomComplet)}
+            </strong>
+
+            <br>
+
+            <small>
+              ${escapeHTML(e.fonction || "")}
+            </small>
+
+          </td>
+
+          <td>
+            ${escapeHTML(e.telephone || "—")}
+          </td>
+
+          <td>
+            ${escapeHTML(e.email || "—")}
+          </td>
+
+          <td>
+            ${escapeHTML(matieres)}
+          </td>
+
+          <td>
+            ${escapeHTML(e.cycle || "—")}
+          </td>
+
+          <td>
+            ${escapeHTML(classes)}
+          </td>
+
+          <td>
+
+            <span class="badge ${statutClasse}">
+              ${escapeHTML(e.statut)}
+            </span>
+
+          </td>
+
+          <td>
+
+            <button
+              class="btn-gold small-btn"
+              onclick="modifier(${e.id})"
+            >
+              Modifier
+            </button>
+
+            <button
+              class="btn-primary small-btn"
+              onclick="voirFiche(${e.id})"
+            >
+              Fiche
+            </button>
+
+            <button
+              class="btn-danger small-btn"
+              onclick="changerStatut(${e.id})"
+            >
+              ${e.statut === "Actif"
+                ? "Désactiver"
+                : "Activer"}
+            </button>
+
+          </td>
+
+        </tr>
+
+      `;
+
+    }).join("");
+
+
+  mettreAJourStats();
+
+}
+
+
+/* =========================
+   MODIFIER
+========================= */
+
+function modifier(id){
+
+  const enseignant =
+    obtenir().find(e => e.id === id);
+
+  if(!enseignant){
+    return;
+  }
+
+
+  document.getElementById("modalTitre").textContent =
+    "Modifier l'enseignant";
+
+
+  document.getElementById("enseignantId").value =
+    enseignant.id;
+
+  document.getElementById("nom").value =
+    enseignant.nom || "";
+
+  document.getElementById("prenom").value =
+    enseignant.prenom || "";
+
+  document.getElementById("telephone").value =
+    enseignant.telephone || "";
+
+  document.getElementById("email").value =
+    enseignant.email || "";
+
+  document.getElementById("fonction").value =
+    enseignant.fonction || "Enseignant";
+
+  document.getElementById("cycle").value =
+    enseignant.cycle || "Préscolaire";
+
+  document.getElementById("matieres").value =
+    (enseignant.matieres || []).join(", ");
+
+  document.getElementById("dateDebut").value =
+    enseignant.dateDebut || "";
+
+  document.getElementById("statut").value =
+    enseignant.statut || "Actif";
+
+  document.getElementById("observations").value =
+    enseignant.observations || "";
+
+
+  photoBase64 =
+    enseignant.photo || "";
+
+
+  const preview =
+    document.getElementById("photoPreview");
+
+
+  if(enseignant.photo){
+
+    preview.src =
+      enseignant.photo;
+
+    preview.style.display="block";
+
+  }else{
+
+    preview.src="";
+    preview.style.display="none";
+
+  }
+
+
+  chargerAffectations();
+
+
+  setTimeout(() => {
+
+    (enseignant.classes || [])
+      .forEach(classe => {
+
+        const checkbox =
+          document.querySelector(
+            `input[name="classe"][value="${CSS.escape(classe)}"]`
+          );
+
+        if(checkbox){
+          checkbox.checked=true;
+        }
+
+      });
+
+  },50);
+
+
+  document.getElementById("modal").style.display =
+    "block";
+
+}
+
+
+/* =========================
+   STATUT
+========================= */
+
+function changerStatut(id){
+
+  let enseignants =
+    obtenir();
+
+
+  const index =
+    enseignants.findIndex(
+      e => e.id === id
+    );
+
+
+  if(index === -1){
+    return;
+  }
+
+
+  const actuel =
+    enseignants[index].statut;
+
+
+  const nouveau =
+    actuel === "Actif"
+    ? "Inactif"
+    : "Actif";
+
+
+  if(!confirm(
+    `Voulez-vous ${nouveau === "Actif"
+      ? "réactiver"
+      : "désactiver"} cet enseignant ?`
+  )){
+    return;
+  }
+
+
+  enseignants[index].statut =
+    nouveau;
+
+
+  enseignants[index].dateModification =
+    new Date().toISOString();
+
+
+  localStorage.setItem(
+    CLE,
+    JSON.stringify(enseignants)
+  );
+
+
+  afficher();
+
+}
+
+
+/* =========================
+   FICHE
+========================= */
+
+function voirFiche(id){
+
+  const enseignant =
+    obtenir().find(e => e.id === id);
+
+  if(!enseignant){
+    return;
+  }
+
+
+  const matieres =
+    (enseignant.matieres || []).join(", ") || "—";
+
+  const classes =
+    (enseignant.classes || []).join(", ") || "Aucune";
+
+
+  alert(
+
+    "FICHE ENSEIGNANT\n\n" +
+
+    "Nom : " +
+    enseignant.nom + "\n" +
+
+    "Prénom : " +
+    enseignant.prenom + "\n" +
+
+    "Téléphone : " +
+    (enseignant.telephone || "—") + "\n" +
+
+    "E-mail : " +
+    (enseignant.email || "—") + "\n" +
+
+    "Fonction : " +
+    (enseignant.fonction || "—") + "\n" +
+
+    "Cycle : " +
+    (enseignant.cycle || "—") + "\n" +
+
+    "Matière(s) : " +
+    matieres + "\n" +
+
+    "Classe(s) : " +
+    classes + "\n" +
+
+    "Statut : " +
+    enseignant.statut + "\n\n" +
+
+    "Observations : " +
+    (enseignant.observations || "—")
+
+  );
+
+}
+
+
+/* =========================
+   STATISTIQUES
+========================= */
+
+function mettreAJourStats(){
+
+  const enseignants =
+    obtenir();
+
+
+  document.getElementById(
+    "totalEnseignants"
+  ).textContent =
+    enseignants.length;
+
+
+  document.getElementById(
+    "enseignantsActifs"
+  ).textContent =
+    enseignants.filter(
+      e => e.statut === "Actif"
+    ).length;
+
+
+  const matieres = new Set();
+
+  enseignants.forEach(e => {
+
+    (e.matieres || [])
+      .forEach(m => matieres.add(m));
+
+  });
+
+
+  document.getElementById(
+    "totalMatieres"
+  ).textContent =
+    matieres.size;
+
+
+  const affectations =
+    enseignants.reduce(
+      (total,e) =>
+        total + (e.classes || []).length,
+      0
+    );
+
+
+  document.getElementById(
+    "totalAffectations"
+  ).textContent =
+    affectations;
+
+}
+
+
+/* =========================
+   DONNÉES
+========================= */
+
+function obtenir(){
+
+  try{
+
+    return JSON.parse(
+      localStorage.getItem(CLE)
+    ) || [];
+
+  }catch(e){
+
+    return [];
+
+  }
+
+}
+
+
+/* =========================
+   SÉCURITÉ AFFICHAGE
+========================= */
+
+function escapeHTML(value){
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================
+   FERMER MODAL
+========================= */
+
+window.onclick=function(event){
+
+  const modal =
+    document.getElementById("modal");
+
+  if(event.target === modal){
+
+    fermerModal();
+
+  }
+
+};
+
+
+/* =========================
+   DÉMARRAGE
+========================= */
+
+charger();
+
+</script>
+
+</body>
+</html>
