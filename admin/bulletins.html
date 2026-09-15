@@ -7,6 +7,7 @@
 <title>Bulletin scolaire - Groupe Scolaire Étoile Brillante</title>
 
 <style>
+
 :root{
     --bleu:#0A2A78;
     --or:#C9A227;
@@ -168,6 +169,11 @@ button{
     font-weight:bold;
 }
 
+.table-wrapper{
+    width:100%;
+    overflow-x:auto;
+}
+
 table{
     width:100%;
     border-collapse:collapse;
@@ -222,6 +228,21 @@ td:first-child{
     color:var(--rouge)!important;
 }
 
+.bilan-annuel{
+    margin-top:25px;
+    padding:18px;
+    border:2px solid var(--or);
+    border-radius:10px;
+}
+
+.bilan-annuel h2{
+    color:var(--bleu);
+}
+
+.bilan-annuel table{
+    margin-top:10px;
+}
+
 .signature{
     margin-top:45px;
     text-align:right;
@@ -266,10 +287,6 @@ td:first-child{
         font-size:1.25rem;
     }
 
-    .table-wrapper{
-        overflow-x:auto;
-    }
-
     table{
         min-width:850px;
     }
@@ -303,221 +320,376 @@ td:first-child{
         padding:20px;
     }
 
-    .logo{
-        -webkit-print-color-adjust:exact;
-        print-color-adjust:exact;
-    }
-
     th{
         -webkit-print-color-adjust:exact;
         print-color-adjust:exact;
     }
 }
+
 </style>
 </head>
 
 <body>
 
 <header>
-    <h1>Groupe Scolaire Étoile Brillante</h1>
-    <p>Administration — Bulletins scolaires</p>
+
+    <h1>
+        Groupe Scolaire Étoile Brillante
+    </h1>
+
+    <p>
+        Administration — Bulletins scolaires
+    </p>
+
 </header>
+
 
 <div class="container">
 
-    <div class="card selection-card">
 
-        <h2>Sélection du bulletin</h2>
+<div class="card selection-card">
 
-        <div class="selection">
+    <h2>Sélection du bulletin</h2>
 
-            <div>
-                <label for="classe">Classe</label>
+    <div class="selection">
 
-                <select id="classe" onchange="chargerEleves()">
-                    <option value="">-- Choisir une classe --</option>
-                    <option value="6e">6e</option>
-                    <option value="5e">5e</option>
-                    <option value="4e">4e</option>
-                    <option value="3e">3e</option>
-                    <option value="Seconde">Seconde</option>
-                    <option value="Première A">Première A</option>
-                    <option value="Première D">Première D</option>
-                    <option value="Terminale A">Terminale A</option>
-                    <option value="Terminale D">Terminale D</option>
-                </select>
-            </div>
+        <div>
 
-            <div>
-                <label for="eleve">Élève</label>
+            <label for="classe">
+                Classe
+            </label>
 
-                <select id="eleve">
-                    <option value="">-- Choisir un élève --</option>
-                </select>
-            </div>
+            <select
+                id="classe"
+                onchange="chargerEleves()"
+            >
+
+                <option value="">
+                    -- Choisir une classe --
+                </option>
+
+                <option value="6e">6e</option>
+                <option value="5e">5e</option>
+                <option value="4e">4e</option>
+                <option value="3e">3e</option>
+                <option value="Seconde">Seconde</option>
+                <option value="Première A">Première A</option>
+                <option value="Première D">Première D</option>
+                <option value="Terminale A">Terminale A</option>
+                <option value="Terminale D">Terminale D</option>
+
+            </select>
 
         </div>
 
-        <button class="btn" onclick="chargerBulletin()">
-            Afficher le bulletin
-        </button>
 
-        <button class="btn-print" onclick="window.print()">
-            Imprimer le bulletin
-        </button>
+        <div>
 
-        <div id="message" class="message"></div>
+            <label for="eleve">
+                Élève
+            </label>
 
-    </div>
+            <select id="eleve">
 
+                <option value="">
+                    -- Choisir un élève --
+                </option>
 
-    <div class="card">
-
-        <div id="bulletin" class="bulletin">
-
-            <div class="entete">
-
-                <img
-                    src="../assets/images/logo-officiel.png"
-                    class="logo"
-                    alt="Logo officiel du Groupe Scolaire Étoile Brillante"
-                >
-
-                <div class="entete-texte">
-
-                    <h1>
-                        GROUPE SCOLAIRE ÉTOILE BRILLANTE
-                    </h1>
-
-                    <h2>
-                        BULLETIN SCOLAIRE
-                    </h2>
-
-                    <p>
-                        Excellence • Discipline • Innovation
-                    </p>
-
-                    <p>
-                        03 rue Poumako, marché Massengo,
-                        arrondissement 9 Djiri — Brazzaville
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="info-eleve">
-
-                <div>
-                    <span>Élève :</span>
-                    <span id="nomEleve">--</span>
-                </div>
-
-                <div>
-                    <span>Classe :</span>
-                    <span id="classeEleve">--</span>
-                </div>
-
-                <div>
-                    <span>Matricule :</span>
-                    <span id="matricule">--</span>
-                </div>
-
-                <div>
-                    <span>Année scolaire :</span>
-                    <span>2026-2027</span>
-                </div>
-
-            </div>
-
-
-            <div class="table-wrapper">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-                            <th>Matière</th>
-                            <th>Devoir classe</th>
-                            <th>Devoir départemental</th>
-                            <th>Moyenne classe</th>
-                            <th>Composition</th>
-                            <th>Moyenne générale</th>
-                            <th>Coef.</th>
-                        </tr>
-
-                    </thead>
-
-                    <tbody id="corpsBulletin">
-
-                        <tr>
-                            <td colspan="7">
-                                Sélectionnez un élève puis cliquez sur
-                                « Afficher le bulletin ».
-                            </td>
-                        </tr>
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-
-            <div class="total">
-
-                <div class="total-box">
-                    Moyenne générale
-                    <strong id="moyenneFinale">-- / 20</strong>
-                </div>
-
-                <div class="total-box">
-                    Décision
-                    <strong id="decision">--</strong>
-                </div>
-
-                <div class="total-box">
-                    Mention
-                    <strong id="mention">--</strong>
-                </div>
-
-            </div>
-
-
-            <div class="signature">
-
-                <p>
-                    Le Directeur des études
-                </p>
-
-                <strong>
-                    NGATSONGO Clarmy Nice
-                </strong>
-
-                <p>
-                    Signature
-                </p>
-
-            </div>
-
-
-            <div class="footer-bulletin">
-
-                <p>
-                    Groupe Scolaire Étoile Brillante
-                </p>
-
-                <p>
-                    « Révéler leur potentiel. Construire leur avenir. »
-                </p>
-
-            </div>
+            </select>
 
         </div>
 
     </div>
+
+
+    <button
+        class="btn"
+        onclick="chargerBulletin()"
+    >
+        Afficher le bulletin
+    </button>
+
+
+    <button
+        class="btn-print"
+        onclick="window.print()"
+    >
+        Imprimer le bulletin
+    </button>
+
+
+    <div
+        id="message"
+        class="message"
+    ></div>
+
+</div>
+
+
+<div class="card">
+
+<div id="bulletin" class="bulletin">
+
+
+<div class="entete">
+
+    <img
+        src="../assets/images/logo-officiel.png"
+        class="logo"
+        alt="Logo officiel"
+    >
+
+    <div class="entete-texte">
+
+        <h1>
+            GROUPE SCOLAIRE ÉTOILE BRILLANTE
+        </h1>
+
+        <h2>
+            BULLETIN SCOLAIRE — 3e TRIMESTRE
+        </h2>
+
+        <p>
+            Excellence • Discipline • Innovation
+        </p>
+
+        <p>
+            03 rue Poumako, marché Massengo,
+            arrondissement 9 Djiri — Brazzaville
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="info-eleve">
+
+    <div>
+        Élève :
+        <span id="nomEleve">--</span>
+    </div>
+
+    <div>
+        Classe :
+        <span id="classeEleve">--</span>
+    </div>
+
+    <div>
+        Matricule :
+        <span id="matricule">--</span>
+    </div>
+
+    <div>
+        Année scolaire :
+        <span>2026-2027</span>
+    </div>
+
+</div>
+
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+    <th>Matière</th>
+    <th>Devoir classe</th>
+    <th>Devoir départemental</th>
+    <th>Moyenne classe</th>
+    <th>Composition</th>
+    <th>Moyenne générale</th>
+    <th>Coef.</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="corpsBulletin">
+
+<tr>
+
+<td colspan="7">
+
+Sélectionnez un élève puis cliquez sur
+« Afficher le bulletin ».
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<div class="total">
+
+<div class="total-box">
+
+    Moyenne du 3e trimestre
+
+    <strong id="moyenneFinale">
+        -- / 20
+    </strong>
+
+</div>
+
+
+<div class="total-box">
+
+    Décision du trimestre
+
+    <strong id="decision">
+        --
+    </strong>
+
+</div>
+
+
+<div class="total-box">
+
+    Mention
+
+    <strong id="mention">
+        --
+    </strong>
+
+</div>
+
+</div>
+
+
+<div class="bilan-annuel">
+
+<h2>
+    Bilan annuel
+</h2>
+
+
+<table>
+
+<thead>
+
+<tr>
+
+    <th>1er trimestre</th>
+    <th>2e trimestre</th>
+    <th>3e trimestre</th>
+    <th>Moyenne annuelle</th>
+    <th>Rang annuel</th>
+
+</tr>
+
+</thead>
+
+
+<tbody>
+
+<tr>
+
+<td id="moyenneT1">
+    -- / 20
+</td>
+
+<td id="moyenneT2">
+    -- / 20
+</td>
+
+<td id="moyenneT3">
+    -- / 20
+</td>
+
+<td>
+
+<strong id="moyenneAnnuelle">
+    -- / 20
+</strong>
+
+</td>
+
+<td>
+
+<strong id="rangAnnuel">
+    --
+</strong>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+
+<div class="total">
+
+<div class="total-box">
+
+    Décision annuelle
+
+    <strong id="decisionAnnuelle">
+        --
+    </strong>
+
+</div>
+
+
+<div class="total-box">
+
+    Mention annuelle
+
+    <strong id="mentionAnnuelle">
+        --
+    </strong>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="signature">
+
+    <p>
+        Le Directeur des études
+    </p>
+
+    <strong>
+        NGATSONGO Clarmy Nice
+    </strong>
+
+    <p>
+        Signature
+    </p>
+
+</div>
+
+
+<div class="footer-bulletin">
+
+    <p>
+        Groupe Scolaire Étoile Brillante
+    </p>
+
+    <p>
+        « Révéler leur potentiel. Construire leur avenir. »
+    </p>
+
+</div>
+
+
+</div>
+
+</div>
 
 </div>
 
@@ -532,15 +704,14 @@ function afficherMessage(texte){
     message.textContent = texte;
 
     message.style.display = "block";
-
 }
 
 
 function cacherMessage(){
 
-    document.getElementById("message").style.display =
-        "none";
-
+    document.getElementById(
+        "message"
+    ).style.display = "none";
 }
 
 
@@ -549,13 +720,18 @@ function chargerEleves(){
     cacherMessage();
 
     const classe =
-        document.getElementById("classe").value;
+        document.getElementById(
+            "classe"
+        ).value;
 
     const selectEleve =
-        document.getElementById("eleve");
+        document.getElementById(
+            "eleve"
+        );
 
     selectEleve.innerHTML =
         '<option value="">-- Choisir un élève --</option>';
+
 
     if(!classe){
         return;
@@ -564,37 +740,55 @@ function chargerEleves(){
 
     const index =
         JSON.parse(
-            localStorage.getItem("EB_INDEX_NOTES") || "[]"
+            localStorage.getItem(
+                "EB_INDEX_NOTES"
+            ) || "[]"
         );
 
 
-    const eleves =
-        index.filter(
-            item => item.classe === classe
-        );
+    const eleves = [];
+
+
+    index.forEach(item => {
+
+        if(
+            item.classe === classe &&
+            !eleves.includes(item.eleve)
+        ){
+
+            eleves.push(item.eleve);
+
+        }
+
+    });
 
 
     if(eleves.length === 0){
 
         selectEleve.innerHTML +=
-            '<option value="">Aucun bulletin enregistré</option>';
+            '<option value="">Aucun élève enregistré</option>';
 
         return;
     }
 
 
-    eleves.forEach(item => {
+    eleves.sort();
+
+
+    eleves.forEach(nom => {
 
         const option =
-            document.createElement("option");
+            document.createElement(
+                "option"
+            );
 
-        option.value =
-            item.eleve;
+        option.value = nom;
 
-        option.textContent =
-            item.eleve;
+        option.textContent = nom;
 
-        selectEleve.appendChild(option);
+        selectEleve.appendChild(
+            option
+        );
 
     });
 
@@ -606,10 +800,14 @@ function chargerBulletin(){
     cacherMessage();
 
     const classe =
-        document.getElementById("classe").value;
+        document.getElementById(
+            "classe"
+        ).value;
 
     const eleve =
-        document.getElementById("eleve").value;
+        document.getElementById(
+            "eleve"
+        ).value;
 
 
     if(!classe){
@@ -633,7 +831,7 @@ function chargerBulletin(){
 
 
     const cle =
-        "EB_NOTES_" +
+        "EB_NOTES_3T_" +
         classe +
         "_" +
         eleve;
@@ -646,7 +844,7 @@ function chargerBulletin(){
     if(!donneesBrutes){
 
         afficherMessage(
-            "Aucune note enregistrée pour cet élève dans ce navigateur."
+            "Aucune note du 3e trimestre n'est enregistrée pour cet élève."
         );
 
         return;
@@ -654,7 +852,9 @@ function chargerBulletin(){
 
 
     const donnees =
-        JSON.parse(donneesBrutes);
+        JSON.parse(
+            donneesBrutes
+        );
 
 
     afficherInformations(
@@ -666,33 +866,46 @@ function chargerBulletin(){
         donnees
     );
 
+
+    chargerBilanAnnuel(
+        classe,
+        eleve
+    );
+
 }
 
 
 function afficherInformations(donnees){
 
-    document.getElementById("nomEleve").textContent =
+    document.getElementById(
+        "nomEleve"
+    ).textContent =
         donnees.eleve || "--";
 
-    document.getElementById("classeEleve").textContent =
+
+    document.getElementById(
+        "classeEleve"
+    ).textContent =
         donnees.classe || "--";
 
-    document.getElementById("matricule").textContent =
-        obtenirMatricule(donnees.eleve);
+
+    document.getElementById(
+        "matricule"
+    ).textContent =
+        obtenirMatricule(
+            donnees.eleve
+        );
 
 }
 
 
 function obtenirMatricule(nom){
 
-    /*
-       Pour l'instant, le matricule sera récupéré
-       du registre des élèves lorsqu'il sera connecté.
-    */
-
     const eleves =
         JSON.parse(
-            localStorage.getItem("EB_ELEVES") || "[]"
+            localStorage.getItem(
+                "EB_ELEVES"
+            ) || "[]"
         );
 
 
@@ -705,7 +918,10 @@ function obtenirMatricule(nom){
         );
 
 
-    if(eleve && eleve.matricule){
+    if(
+        eleve &&
+        eleve.matricule
+    ){
 
         return eleve.matricule;
 
@@ -720,7 +936,9 @@ function obtenirMatricule(nom){
 function afficherNotes(donnees){
 
     const corps =
-        document.getElementById("corpsBulletin");
+        document.getElementById(
+            "corpsBulletin"
+        );
 
     corps.innerHTML = "";
 
@@ -739,63 +957,97 @@ function afficherNotes(donnees){
     }
 
 
-    Object.keys(donnees.notes).forEach(
-        matiere => {
+    Object.keys(
+        donnees.notes
+    ).forEach(matiere => {
 
-            const note =
-                donnees.notes[matiere];
-
-
-            const ligne =
-                document.createElement("tr");
+        const note =
+            donnees.notes[matiere];
 
 
-            ligne.innerHTML = `
-
-                <td>${matiere}</td>
-
-                <td>${formatNote(note.devoirClasse)}</td>
-
-                <td>${formatNote(note.devoirDepartemental)}</td>
-
-                <td>${formatNote(note.moyenneClasse)}</td>
-
-                <td>${formatNote(note.composition)}</td>
-
-                <td>
-                    <strong>
-                        ${formatNote(note.moyenneGenerale)}
-                    </strong>
-                </td>
-
-                <td>
-                    ${note.coefficient || 1}
-                </td>
-
-            `;
+        const ligne =
+            document.createElement(
+                "tr"
+            );
 
 
-            corps.appendChild(ligne);
+        ligne.innerHTML = `
 
-        }
-    );
+            <td>
+                ${matiere}
+            </td>
+
+            <td>
+                ${formatNote(
+                    note.devoirClasse
+                )}
+            </td>
+
+            <td>
+                ${formatNote(
+                    note.devoirDepartemental
+                )}
+            </td>
+
+            <td>
+                ${formatNote(
+                    note.moyenneClasse
+                )}
+            </td>
+
+            <td>
+                ${formatNote(
+                    note.composition
+                )}
+            </td>
+
+            <td>
+                <strong>
+                    ${formatNote(
+                        note.moyenneGenerale
+                    )}
+                </strong>
+            </td>
+
+            <td>
+                ${note.coefficient || 1}
+            </td>
+
+        `;
+
+
+        corps.appendChild(
+            ligne
+        );
+
+    });
 
 
     const moyenne =
-        Number(donnees.moyenneFinale);
+        Number(
+            donnees.moyenneFinale
+        );
 
 
-    document.getElementById("moyenneFinale").textContent =
+    document.getElementById(
+        "moyenneFinale"
+    ).textContent =
         isNaN(moyenne)
         ? "-- / 20"
-        : moyenne.toFixed(2) + " / 20";
+        : moyenne.toFixed(2) +
+          " / 20";
 
 
     const decision =
-        document.getElementById("decision");
+        document.getElementById(
+            "decision"
+        );
 
 
-    if(donnees.decision === "ADMIS"){
+    if(
+        donnees.decision ===
+        "ADMIS"
+    ){
 
         decision.textContent =
             "ADMIS";
@@ -805,7 +1057,10 @@ function afficherNotes(donnees){
 
     }
 
-    else if(donnees.decision === "ÉCHOUÉ"){
+    else if(
+        donnees.decision ===
+        "ÉCHOUÉ"
+    ){
 
         decision.textContent =
             "ÉCHOUÉ";
@@ -823,8 +1078,12 @@ function afficherNotes(donnees){
     }
 
 
-    document.getElementById("mention").textContent =
-        obtenirMention(moyenne);
+    document.getElementById(
+        "mention"
+    ).textContent =
+        obtenirMention(
+            moyenne
+        );
 
 }
 
@@ -845,43 +1104,370 @@ function formatNote(valeur){
 
 function obtenirMention(moyenne){
 
-    if(isNaN(moyenne)){
+    if(isNaN(moyenne))
         return "--";
-    }
 
-    if(moyenne < 4){
+    if(moyenne < 4)
         return "Nul";
-    }
 
-    if(moyenne < 6){
+    if(moyenne < 6)
         return "Très faible";
-    }
 
-    if(moyenne < 8){
+    if(moyenne < 8)
         return "Faible";
-    }
 
-    if(moyenne < 10){
+    if(moyenne < 10)
         return "Insuffisant";
-    }
 
-    if(moyenne < 12){
+    if(moyenne < 12)
         return "Passable";
-    }
 
-    if(moyenne < 14){
+    if(moyenne < 14)
         return "Assez bien";
-    }
 
-    if(moyenne < 16){
+    if(moyenne < 16)
         return "Bien";
-    }
 
-    if(moyenne < 18){
+    if(moyenne < 18)
         return "Très bien";
-    }
 
     return "Excellent";
+
+}
+
+
+function chargerBilanAnnuel(
+    classe,
+    eleve
+){
+
+    const moyennes = {
+
+        "1T": null,
+        "2T": null,
+        "3T": null
+
+    };
+
+
+    ["1T","2T","3T"].forEach(
+        trimestre => {
+
+            const cle =
+                "EB_NOTES_" +
+                trimestre +
+                "_" +
+                classe +
+                "_" +
+                eleve;
+
+
+            const donnees =
+                localStorage.getItem(
+                    cle
+                );
+
+
+            if(donnees){
+
+                const objet =
+                    JSON.parse(
+                        donnees
+                    );
+
+                moyennes[trimestre] =
+                    Number(
+                        objet.moyenneFinale
+                    );
+
+            }
+
+        }
+    );
+
+
+    afficherMoyenneTrimestre(
+        "moyenneT1",
+        moyennes["1T"]
+    );
+
+
+    afficherMoyenneTrimestre(
+        "moyenneT2",
+        moyennes["2T"]
+    );
+
+
+    afficherMoyenneTrimestre(
+        "moyenneT3",
+        moyennes["3T"]
+    );
+
+
+    if(
+        moyennes["1T"] === null ||
+        moyennes["2T"] === null ||
+        moyennes["3T"] === null
+    ){
+
+        document.getElementById(
+            "moyenneAnnuelle"
+        ).textContent =
+            "-- / 20";
+
+
+        document.getElementById(
+            "rangAnnuel"
+        ).textContent =
+            "En attente";
+
+
+        document.getElementById(
+            "decisionAnnuelle"
+        ).textContent =
+            "--";
+
+
+        document.getElementById(
+            "mentionAnnuelle"
+        ).textContent =
+            "--";
+
+
+        return;
+
+    }
+
+
+    const moyenneAnnuelle =
+        (
+            moyennes["1T"] +
+            moyennes["2T"] +
+            moyennes["3T"]
+        ) / 3;
+
+
+    document.getElementById(
+        "moyenneAnnuelle"
+    ).textContent =
+        moyenneAnnuelle.toFixed(2) +
+        " / 20";
+
+
+    const decision =
+        document.getElementById(
+            "decisionAnnuelle"
+        );
+
+
+    if(moyenneAnnuelle >= 10){
+
+        decision.textContent =
+            "ADMIS";
+
+        decision.className =
+            "admis";
+
+    }else{
+
+        decision.textContent =
+            "ÉCHOUÉ";
+
+        decision.className =
+            "echoue";
+
+    }
+
+
+    document.getElementById(
+        "mentionAnnuelle"
+    ).textContent =
+        obtenirMention(
+            moyenneAnnuelle
+        );
+
+
+    calculerRangAnnuel(
+        classe,
+        eleve
+    );
+
+}
+
+
+function afficherMoyenneTrimestre(
+    id,
+    valeur
+){
+
+    if(
+        valeur === null ||
+        isNaN(valeur)
+    ){
+
+        document.getElementById(
+            id
+        ).textContent =
+            "-- / 20";
+
+        return;
+    }
+
+
+    document.getElementById(
+        id
+    ).textContent =
+        valeur.toFixed(2) +
+        " / 20";
+
+}
+
+
+function calculerRangAnnuel(
+    classe,
+    eleve
+){
+
+    const index =
+        JSON.parse(
+            localStorage.getItem(
+                "EB_INDEX_NOTES"
+            ) || "[]"
+        );
+
+
+    const candidats = {};
+
+
+    index.forEach(item => {
+
+        if(
+            item.classe !== classe
+        ){
+            return;
+        }
+
+
+        if(
+            !candidats[item.eleve]
+        ){
+
+            candidats[item.eleve] = {};
+
+        }
+
+
+        const donnees =
+            localStorage.getItem(
+                item.cle
+            );
+
+
+        if(!donnees){
+            return;
+        }
+
+
+        const objet =
+            JSON.parse(
+                donnees
+            );
+
+
+        if(
+            objet.trimestre
+        ){
+
+            candidats[
+                item.eleve
+            ][
+                objet.trimestre
+            ] =
+                Number(
+                    objet.moyenneFinale
+                );
+
+        }
+
+    });
+
+
+    const classement = [];
+
+
+    Object.keys(
+        candidats
+    ).forEach(nom => {
+
+        const t1 =
+            candidats[nom]["1T"];
+
+        const t2 =
+            candidats[nom]["2T"];
+
+        const t3 =
+            candidats[nom]["3T"];
+
+
+        if(
+            t1 !== undefined &&
+            t2 !== undefined &&
+            t3 !== undefined &&
+            !isNaN(t1) &&
+            !isNaN(t2) &&
+            !isNaN(t3)
+        ){
+
+            const annuelle =
+                (t1 + t2 + t3) / 3;
+
+
+            classement.push({
+
+                eleve:nom,
+
+                moyenne:annuelle
+
+            });
+
+        }
+
+    });
+
+
+    classement.sort(
+        (a,b) =>
+            b.moyenne -
+            a.moyenne
+    );
+
+
+    const position =
+        classement.findIndex(
+            item =>
+                item.eleve ===
+                eleve
+        );
+
+
+    if(position === -1){
+
+        document.getElementById(
+            "rangAnnuel"
+        ).textContent =
+            "--";
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "rangAnnuel"
+    ).textContent =
+        (position + 1) +
+        "e / " +
+        classement.length;
 
 }
 
