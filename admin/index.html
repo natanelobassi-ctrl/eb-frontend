@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Administration | Groupe Scolaire Étoile Brillante</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+
+<style>
+body{margin:0;background:#f4f6fb;}
+.admin{display:flex;min-height:100vh;}
+.sidebar{width:260px;background:#0A2A78;color:white;padding:20px;}
+.sidebar h2{margin-bottom:25px;font-size:22px;}
+.sidebar a{display:block;color:white;text-decoration:none;padding:12px;border-radius:10px;margin-bottom:8px;}
+.sidebar a:hover{background:#123A9B;}
+.content{flex:1;padding:25px;}
+.topbar{display:flex;justify-content:space-between;align-items:center;background:white;padding:15px 20px;border-radius:15px;box-shadow:0 4px 10px rgba(0,0,0,.08);}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px;margin:25px 0;}
+.stat{background:white;padding:20px;border-radius:15px;box-shadow:0 4px 10px rgba(0,0,0,.08);}
+.stat h3{color:#0A2A78;margin-bottom:8px;}
+.quick{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;}
+.quick .card{cursor:pointer;}
+.badge{background:#C9A227;color:#111;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:bold;}
+@media(max-width:768px){
+.admin{flex-direction:column;}
+.sidebar{width:100%;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="admin">
+
+<aside class="sidebar">
+
+<h2>⭐ Étoile Brillante</h2>
+
+<a href="#">📊 Tableau de bord</a>
+<a href="#">👨‍🎓 Élèves</a>
+<a href="#">📝 Inscriptions</a>
+<a href="#">📄 Bulletins</a>
+<a href="#">📚 Résultats</a>
+<a href="#">💳 Paiements</a>
+<a href="#">👨‍🏫 Enseignants</a>
+<a href="#">👨‍👩‍👧 Parents</a>
+<a href="#">📅 Absences</a>
+<a href="#">🏠 Internat</a>
+<a href="#">📰 Actualités</a>
+<a href="#">⚙️ Paramètres</a>
+
+</aside>
+
+
+<main class="content">
+
+<div class="topbar">
+
+<div>
+<h2>Tableau de bord</h2>
+<p>Bienvenue dans l'administration.</p>
+</div>
+
+<div class="badge">
+Coordonnatrice générale
+</div>
+
+</div>
+
+
+<div class="stats">
+
+<div class="stat">
+<h3>👨‍🎓 Élèves</h3>
+<h1>0</h1>
+<p>Total inscrit</p>
+</div>
+
+<div class="stat">
+<h3>📄 Bulletins</h3>
+<h1>0</h1>
+<p>Générés</p>
+</div>
+
+<div class="stat">
+<h3>💳 Paiements</h3>
+<h1>0</h1>
+<p>Confirmés</p>
+</div>
+
+<div class="stat">
+<h3>👨‍🏫 Enseignants</h3>
+<h1>0</h1>
+<p>Enregistrés</p>
+</div>
+
+</div>
+
+
+<h2>Accès rapide</h2>
+
+<div class="quick">
+
+<div class="card">
+<h3>Nouvel élève</h3>
+<p>Inscrire un nouvel élève.</p>
+</div>
+
+<div class="card">
+<h3>Saisir des notes</h3>
+<p>Ajouter les notes d'une classe.</p>
+</div>
+
+<div class="card">
+<h3>Créer un bulletin</h3>
+<p>Calcul automatique.</p>
+</div>
+
+<div class="card">
+<h3>Confirmer un paiement</h3>
+<p>Valider Mobile Money.</p>
+</div>
+
+<div class="card">
+<h3>Publier une actualité</h3>
+<p>Informer parents et élèves.</p>
+</div>
+
+<div class="card">
+<h3>Gérer les comptes</h3>
+<p>Parents et personnel.</p>
+</div>
+
+</div>
+
+</main>
+
+</div>
+
+</body>
+</html>
