@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestion des classes — Groupe Scolaire Étoile Brillante</title>
+
+<style>
+:root{
+  --bleu:#0A2A78;
+  --bleu2:#123A9B;
+  --or:#C9A227;
+  --ivoire:#F7F4ED;
+  --blanc:#fff;
+  --texte:#1F2937;
+  --vert:#16803c;
+  --rouge:#b42318;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--ivoire);
+  color:var(--texte);
+}
+
+header{
+  background:linear-gradient(135deg,var(--bleu),var(--bleu2));
+  color:white;
+  padding:20px;
+  box-shadow:0 3px 12px rgba(0,0,0,.2);
+}
+
+.container{
+  width:94%;
+  max-width:1250px;
+  margin:auto;
+}
+
+.header-flex{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.logo{
+  width:65px;
+  height:65px;
+  border-radius:50%;
+  background:white;
+  border:3px solid var(--or);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--bleu);
+  font-weight:bold;
+  font-size:22px;
+}
+
+header h1{
+  font-size:1.35rem;
+}
+
+header p{
+  font-size:.9rem;
+  margin-top:4px;
+}
+
+nav{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:18px;
+}
+
+nav a{
+  color:white;
+  text-decoration:none;
+  padding:9px 12px;
+  border-radius:7px;
+  font-weight:bold;
+}
+
+nav a:hover{
+  background:rgba(255,255,255,.15);
+}
+
+main{
+  padding:35px 0;
+}
+
+.title{
+  margin-bottom:25px;
+}
+
+.title h2{
+  color:var(--bleu);
+  margin-bottom:7px;
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:20px;
+}
+
+button{
+  border:0;
+  border-radius:8px;
+  padding:11px 16px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.btn-primary{
+  background:var(--bleu);
+  color:white;
+}
+
+.btn-gold{
+  background:var(--or);
+  color:#111;
+}
+
+.btn-danger{
+  background:var(--rouge);
+  color:white;
+}
+
+.btn-success{
+  background:var(--vert);
+  color:white;
+}
+
+.filters{
+  background:white;
+  padding:20px;
+  border-radius:14px;
+  box-shadow:0 4px 15px rgba(0,0,0,.08);
+  margin-bottom:20px;
+}
+
+.filters-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:12px;
+}
+
+input,select{
+  width:100%;
+  padding:12px;
+  border:1px solid #ccc;
+  border-radius:8px;
+  font-size:1rem;
+}
+
+.table-box{
+  background:white;
+  border-radius:14px;
+  overflow-x:auto;
+  box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:1000px;
+}
+
+th,td{
+  padding:13px 10px;
+  border-bottom:1px solid #eee;
+  text-align:left;
+}
+
+th{
+  background:var(--bleu);
+  color:white;
+}
+
+tr:hover{
+  background:#f8f8f8;
+}
+
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:.82rem;
+  font-weight:bold;
+}
+
+.badge-prescolaire{background:#eee1ff;color:#6420a0}
+.badge-primaire{background:#fff0c2;color:#765500}
+.badge-college{background:#dce9ff;color:#123a9b}
+.badge-lycee{background:#dff5e7;color:#146b34}
+
+.small-btn{
+  padding:7px 9px;
+  margin:2px;
+  font-size:.78rem;
+}
+
+.empty{
+  text-align:center;
+  padding:35px;
+  color:#666;
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:10;
+  padding:20px;
+  overflow:auto;
+}
+
+.modal-content{
+  background:white;
+  max-width:600px;
+  margin:40px auto;
+  padding:25px;
+  border-radius:15px;
+}
+
+.modal-content h3{
+  color:var(--bleu);
+  margin-bottom:20px;
+}
+
+.form-group{
+  margin-bottom:14px;
+}
+
+.form-group label{
+  display:block;
+  font-weight:bold;
+  margin-bottom:6px;
+}
+
+.modal-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top:20px;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-bottom:25px;
+}
+
+.stat{
+  background:white;
+  padding:20px;
+  border-radius:14px;
+  box-shadow:0 4px 15px rgba(0,0,0,.07);
+}
+
+.stat strong{
+  display:block;
+  color:var(--bleu);
+  font-size:1.8rem;
+}
+
+.stat span{
+  color:#666;
+  font-size:.9rem;
+}
+
+footer{
+  margin-top:50px;
+  background:var(--bleu);
+  color:white;
+  text-align:center;
+  padding:25px;
+}
+
+@media(max-width:800px){
+  .filters-grid{
+    grid-template-columns:1fr;
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:500px){
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  header h1{
+    font-size:1.05rem;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="container">
+
+    <div class="header-flex">
+      <div class="logo">EB</div>
+
+      <div>
+        <h1>Groupe Scolaire Étoile Brillante</h1>
+        <p>Gestion administrative — Classes et salles</p>
+      </div>
+    </div>
+
+    <nav>
+      <a href="index.html">Tableau de bord</a>
+      <a href="eleves.html">Élèves</a>
+      <a href="notes.html">Notes</a>
+      <a href="bulletins.html">Bulletins</a>
+      <a href="classes.html">Classes</a>
+      <a href="../index.html">Site public</a>
+    </nav>
+
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="title">
+    <h2>Gestion des classes</h2>
+    <p>Gérez les niveaux, salles, effectifs et enseignants titulaires.</p>
+  </section>
+
+  <section class="stats">
+
+    <div class="stat">
+      <strong id="totalClasses">0</strong>
+      <span>Classes</span>
+    </div>
+
+    <div class="stat">
+      <strong id="totalEleves">0</strong>
+      <span>Élèves</span>
+    </div>
+
+    <div class="stat">
+      <strong id="totalPrescolaire">0</strong>
+      <span>Préscolaire</span>
+    </div>
+
+    <div class="stat">
+      <strong id="totalSecondaire">0</strong>
+      <span>Collège / Lycée</span>
+    </div>
+
+  </section>
+
+  <div class="actions">
+    <button class="btn-primary" onclick="ouvrirModal()">
+      + Ajouter une classe
+    </button>
+
+    <button class="btn-gold" onclick="chargerClasses()">
+      Actualiser
+    </button>
+  </div>
+
+  <section class="filters">
+
+    <div class="filters-grid">
+
+      <input
+        type="search"
+        id="recherche"
+        placeholder="Rechercher une classe, un titulaire..."
+        oninput="afficherClasses()"
+      >
+
+      <select id="filtreCycle" onchange="afficherClasses()">
+        <option value="">Tous les cycles</option>
+        <option value="Préscolaire">Préscolaire</option>
+        <option value="Primaire">Primaire</option>
+        <option value="Collège">Collège</option>
+        <option value="Lycée">Lycée</option>
+      </select>
+
+      <select id="filtreStatut" onchange="afficherClasses()">
+        <option value="">Tous les statuts</option>
+        <option value="Active">Active</option>
+        <option value="Archivée">Archivée</option>
+      </select>
+
+    </div>
+
+  </section>
+
+  <section class="table-box">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Classe</th>
+          <th>Cycle</th>
+          <th>Salle</th>
+          <th>Titulaire</th>
+          <th>Effectif</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody id="classesBody"></tbody>
+
+    </table>
+
+  </section>
+
+</main>
+
+<div class="modal" id="modalClasse">
+
+  <div class="modal-content">
+
+    <h3 id="modalTitre">Ajouter une classe</h3>
+
+    <input type="hidden" id="classeId">
+
+    <div class="form-group">
+      <label>Nom de la classe</label>
+      <input id="nomClasse" placeholder="Ex. 6e A">
+    </div>
+
+    <div class="form-group">
+      <label>Cycle</label>
+
+      <select id="cycleClasse">
+        <option value="Préscolaire">Préscolaire</option>
+        <option value="Primaire">Primaire</option>
+        <option value="Collège">Collège</option>
+        <option value="Lycée">Lycée</option>
+      </select>
+
+    </div>
+
+    <div class="form-group">
+      <label>Salle</label>
+      <input id="salleClasse" placeholder="Ex. Salle 12">
+    </div>
+
+    <div class="form-group">
+      <label>Enseignant titulaire</label>
+      <input id="titulaireClasse" placeholder="Nom et prénom">
+    </div>
+
+    <div class="form-group">
+      <label>Effectif</label>
+      <input id="effectifClasse" type="number" min="0" value="0">
+    </div>
+
+    <div class="form-group">
+      <label>Statut</label>
+
+      <select id="statutClasse">
+        <option value="Active">Active</option>
+        <option value="Archivée">Archivée</option>
+      </select>
+
+    </div>
+
+    <div class="modal-actions">
+
+      <button onclick="fermerModal()">
+        Annuler
+      </button>
+
+      <button class="btn-primary" onclick="enregistrerClasse()">
+        Enregistrer
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<footer>
+  <p><strong>Groupe Scolaire Étoile Brillante</strong></p>
+  <p>Excellence • Discipline • Innovation</p>
+  <p>03 rue Poumako, marché Massengo, arrondissement 9 Djiri — Brazzaville</p>
+</footer>
+
+<script>
+
+const CLE = "EB_CLASSES";
+
+const classesInitiales = [
+
+  {id:1,nom:"P1",cycle:"Préscolaire",salle:"Salle P1",titulaire:"À désigner",effectif:0,statut:"Active"},
+  {id:2,nom:"P2",cycle:"Préscolaire",salle:"Salle P2",titulaire:"À désigner",effectif:0,statut:"Active"},
+  {id:3,nom:"P3",cycle:"Préscolaire",salle:"Salle P3",titulaire:"À désigner",effectif:0,statut:"Active"},
+
+  {id:4,nom:"CP1",cycle:"Primaire",salle:"Salle CP1",titulaire:"À désigner",effectif:0,statut:"Active"},
+  {id:5,nom:"CP2",cycle:"Primaire",salle:"Salle CP2",titulaire:"À désigner",effectif:0,statut:"Active"},
+  {id:6,nom:"CE1",cycle:"Primaire",salle:"Salle CE1",titulaire:"À désigner",effectif:0,statut:"Active"},
+  {id:7,nom:"CE2",cycle:"Primaire",salle:"Salle CE2",titulaire:"À désigner",effectif:0,statut:"Active"},
+  {id:8,nom:"CM1",cycle:"Primaire",salle:"Salle CM1",titulaire:"À désigner",effectif:0,statut:"Active"},
+  {id:9,nom:"CM2",cycle:"Primaire",salle:"Salle CM2",titulaire:"À désigner",effectif:0,statut:"Active"},
+
+  {id:10,nom:"6e",cycle:"Collège",salle:"Salle 6e",titulaire:"À désigner",effectif:0,statut:"Active"},
+  {id:11,nom:"5e",cycle:"Collège",salle:"Salle 5e",titulaire:"À désigner",effectif:0,statut:"Active"},
+  {id:12,nom:"4e",cycle:"Collège",salle:"Salle 4e",titulaire:"À désigner",effectif:0,statut:"Active"},
+  {id:13,nom:"3e",cycle:"Collège",salle:"Salle 3e",titulaire:"À désigner",effectif:0,statut:"Active"},
+
+  {id:14,nom:"STC",cycle:"Lycée",salle:"Salle STC",titulaire:"À désigner",effectif:0,statut:"Active"},
+  {id:15,nom:"Première A",cycle:"Lycée",salle:"Salle 1A",titulaire:"À désigner",effectif:0,statut:"Active"},
+  {id:16,nom:"Première D",cycle:"Lycée",salle:"Salle 1D",titulaire:"À désigner",effectif:0,statut:"Active"},
+  {id:17,nom:"Terminale A",cycle:"Lycée",salle:"Salle TA",titulaire:"À désigner",effectif:0,statut:"Active"},
+  {id:18,nom:"Terminale D",cycle:"Lycée",salle:"Salle TD",titulaire:"À désigner",effectif:0,statut:"Active"}
+
+];
+
+function chargerClasses(){
+
+  let data = localStorage.getItem(CLE);
+
+  if(!data){
+    localStorage.setItem(CLE,JSON.stringify(classesInitiales));
+  }
+
+  afficherClasses();
+}
+
+function obtenirClasses(){
+
+  try{
+    return JSON.parse(localStorage.getItem(CLE)) || [];
+  }catch(e){
+    return [];
+  }
+
+}
+
+function afficherClasses(){
+
+  const body = document.getElementById("classesBody");
+
+  const recherche =
+    document.getElementById("recherche").value.toLowerCase();
+
+  const cycle =
+    document.getElementById("filtreCycle").value;
+
+  const statut =
+    document.getElementById("filtreStatut").value;
+
+  let classes = obtenirClasses();
+
+  classes = classes.filter(c => {
+
+    const texte =
+      (c.nom+" "+c.titulaire+" "+c.salle).toLowerCase();
+
+    return (
+      texte.includes(recherche) &&
+      (!cycle || c.cycle === cycle) &&
+      (!statut || c.statut === statut)
+    );
+
+  });
+
+  if(classes.length === 0){
+
+    body.innerHTML =
+      `<tr><td colspan="7" class="empty">
+      Aucune classe trouvée.
+      </td></tr>`;
+
+    mettreAJourStats();
+
+    return;
+  }
+
+  body.innerHTML = classes.map(c => {
+
+    let badge = "badge-"+c.cycle.toLowerCase();
+
+    if(c.cycle === "Collège") badge = "badge-college";
+    if(c.cycle === "Lycée") badge = "badge-lycee";
+    if(c.cycle === "Primaire") badge = "badge-primaire";
+    if(c.cycle === "Préscolaire") badge = "badge-prescolaire";
+
+    return `
+
+      <tr>
+
+        <td><strong>${escapeHTML(c.nom)}</strong></td>
+
+        <td>
+          <span class="badge ${badge}">
+            ${escapeHTML(c.cycle)}
+          </span>
+        </td>
+
+        <td>${escapeHTML(c.salle)}</td>
+
+        <td>${escapeHTML(c.titulaire)}</td>
+
+        <td>${c.effectif}</td>
+
+        <td>
+          <span class="badge ${c.statut==="Active" ? "badge-lycee":"badge-prescolaire"}">
+            ${escapeHTML(c.statut)}
+          </span>
+        </td>
+
+        <td>
+
+          <button class="btn-gold small-btn"
+            onclick="modifierClasse(${c.id})">
+            Modifier
+          </button>
+
+          <button class="btn-primary small-btn"
+            onclick="ouvrirModule('eleves','${encodeURIComponent(c.nom)}')">
+            Élèves
+          </button>
+
+          <button class="btn-success small-btn"
+            onclick="ouvrirModule('notes','${encodeURIComponent(c.nom)}')">
+            Notes
+          </button>
+
+          <button class="btn-primary small-btn"
+            onclick="ouvrirModule('bulletins','${encodeURIComponent(c.nom)}')">
+            Bulletins
+          </button>
+
+          <button class="btn-danger small-btn"
+            onclick="archiverClasse(${c.id})">
+            ${c.statut==="Active" ? "Archiver":"Réactiver"}
+          </button>
+
+        </td>
+
+      </tr>
+
+    `;
+
+  }).join("");
+
+  mettreAJourStats();
+}
+
+function mettreAJourStats(){
+
+  const classes = obtenirClasses();
+
+  document.getElementById("totalClasses").textContent =
+    classes.filter(c=>c.statut==="Active").length;
+
+  document.getElementById("totalEleves").textContent =
+    classes.reduce((total,c)=>total+Number(c.effectif||0),0);
+
+  document.getElementById("totalPrescolaire").textContent =
+    classes.filter(c=>c.cycle==="Préscolaire" && c.statut==="Active").length;
+
+  document.getElementById("totalSecondaire").textContent =
+    classes.filter(c=>
+      (c.cycle==="Collège" || c.cycle==="Lycée") &&
+      c.statut==="Active"
+    ).length;
+}
+
+function ouvrirModal(){
+
+  document.getElementById("modalTitre").textContent =
+    "Ajouter une classe";
+
+  document.getElementById("classeId").value="";
+  document.getElementById("nomClasse").value="";
+  document.getElementById("cycleClasse").value="Préscolaire";
+  document.getElementById("salleClasse").value="";
+  document.getElementById("titulaireClasse").value="";
+  document.getElementById("effectifClasse").value=0;
+  document.getElementById("statutClasse").value="Active";
+
+  document.getElementById("modalClasse").style.display="block";
+}
+
+function fermerModal(){
+  document.getElementById("modalClasse").style.display="none";
+}
+
+function enregistrerClasse(){
+
+  const nom =
+    document.getElementById("nomClasse").value.trim();
+
+  if(!nom){
+    alert("Veuillez saisir le nom de la classe.");
+    return;
+  }
+
+  let classes = obtenirClasses();
+
+  const id =
+    document.getElementById("classeId").value;
+
+  const objet = {
+
+    id: id ? Number(id) : Date.now(),
+
+    nom:nom,
+
+    cycle:
+      document.getElementById("cycleClasse").value,
+
+    salle:
+      document.getElementById("salleClasse").value.trim() ||
+      "À définir",
+
+    titulaire:
+      document.getElementById("titulaireClasse").value.trim() ||
+      "À désigner",
+
+    effectif:
+      Number(document.getElementById("effectifClasse").value || 0),
+
+    statut:
+      document.getElementById("statutClasse").value
+
+  };
+
+  if(id){
+
+    const index =
+      classes.findIndex(c=>c.id===Number(id));
+
+    if(index !== -1){
+      classes[index]=objet;
+    }
+
+  }else{
+
+    classes.push(objet);
+
+  }
+
+  localStorage.setItem(CLE,JSON.stringify(classes));
+
+  fermerModal();
+  afficherClasses();
+
+}
+
+function modifierClasse(id){
+
+  const classe =
+    obtenirClasses().find(c=>c.id===id);
+
+  if(!classe) return;
+
+  document.getElementById("modalTitre").textContent =
+    "Modifier la classe";
+
+  document.getElementById("classeId").value=classe.id;
+  document.getElementById("nomClasse").value=classe.nom;
+  document.getElementById("cycleClasse").value=classe.cycle;
+  document.getElementById("salleClasse").value=classe.salle;
+  document.getElementById("titulaireClasse").value=classe.titulaire;
+  document.getElementById("effectifClasse").value=classe.effectif;
+  document.getElementById("statutClasse").value=classe.statut;
+
+  document.getElementById("modalClasse").style.display="block";
+}
+
+function archiverClasse(id){
+
+  let classes = obtenirClasses();
+
+  const index =
+    classes.findIndex(c=>c.id===id);
+
+  if(index===-1) return;
+
+  const nouvelleAction =
+    classes[index].statut==="Active"
+    ? "Archiver"
+    : "Réactiver";
+
+  if(!confirm(
+    "Voulez-vous vraiment "+nouvelleAction.toLowerCase()+" cette classe ?"
+  )){
+    return;
+  }
+
+  classes[index].statut =
+    classes[index].statut==="Active"
+    ? "Archivée"
+    : "Active";
+
+  localStorage.setItem(CLE,JSON.stringify(classes));
+
+  afficherClasses();
+}
+
+function ouvrirModule(module,classe){
+
+  const nom =
+    decodeURIComponent(classe);
+
+  if(module==="eleves"){
+    window.location.href =
+      "eleves.html?classe="+encodeURIComponent(nom);
+    return;
+  }
+
+  if(module==="notes"){
+    window.location.href =
+      "notes.html?classe="+encodeURIComponent(nom);
+    return;
+  }
+
+  if(module==="bulletins"){
+    window.location.href =
+      "bulletins.html?classe="+encodeURIComponent(nom);
+    return;
+  }
+
+}
+
+function escapeHTML(value){
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+window.onclick=function(event){
+
+  const modal =
+    document.getElementById("modalClasse");
+
+  if(event.target===modal){
+    fermerModal();
+  }
+
+};
+
+chargerClasses();
+
+</script>
+
+</body>
+</html>
