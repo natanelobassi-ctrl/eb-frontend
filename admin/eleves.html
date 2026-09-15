@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestion des élèves | Étoile Brillante</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+
+<style>
+body{margin:0;background:#f4f6fb;font-family:Arial,sans-serif;}
+.admin{display:flex;min-height:100vh;}
+.sidebar{width:260px;background:#0A2A78;color:white;padding:20px;}
+.sidebar h2{margin-bottom:25px;}
+.sidebar a{display:block;color:white;text-decoration:none;padding:12px;border-radius:10px;margin-bottom:8px;}
+.sidebar a:hover{background:#123A9B;}
+.content{flex:1;padding:25px;}
+.box{background:white;padding:20px;border-radius:15px;box-shadow:0 4px 10px rgba(0,0,0,.08);margin-bottom:20px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;}
+.preview{width:120px;height:120px;border-radius:12px;object-fit:cover;background:#eee;border:2px solid #ddd;}
+table{width:100%;border-collapse:collapse;margin-top:15px;}
+th,td{padding:10px;border-bottom:1px solid #ddd;text-align:left;}
+th{background:#0A2A78;color:white;}
+@media(max-width:768px){.admin{flex-direction:column;}.sidebar{width:100%;}}
+</style>
+</head>
+
+<body>
+
+<div class="admin">
+
+<aside class="sidebar">
+<h2>⭐ Étoile Brillante</h2>
+
+<a href="index.html">📊 Tableau de bord</a>
+<a href="eleves.html">👨‍🎓 Élèves</a>
+<a href="#">📝 Inscriptions</a>
+<a href="#">📄 Bulletins</a>
+<a href="#">📚 Résultats</a>
+<a href="#">💳 Paiements</a>
+<a href="#">👨‍🏫 Enseignants</a>
+<a href="#">👨‍👩‍👧 Parents</a>
+<a href="#">📅 Absences</a>
+<a href="#">🏠 Internat</a>
+
+</aside>
+
+<main class="content">
+
+<div class="box">
+
+<h2>Nouvel élève</h2>
+
+<div class="grid">
+
+<div>
+<label>Photo</label>
+<br><br>
+
+<img id="photoPreview" class="preview">
+
+<input type="file" id="photo" accept="image/*">
+</div>
+
+<div>
+<label>Nom</label>
+<input id="nom" type="text">
+</div>
+
+<div>
+<label>Prénom</label>
+<input id="prenom" type="text">
+</div>
+
+<div>
+<label>Date de naissance</label>
+<input id="date" type="date">
+</div>
+
+<div>
+<label>Lieu de naissance</label>
+<input id="lieu" type="text">
+</div>
+
+<div>
+<label>Sexe</label>
+<select id="sexe">
+<option>Garçon</option>
+<option>Fille</option>
+</select>
+</div>
+
+<div>
+<label>Classe</label>
+<select id="classe">
+<option>P1</option>
+<option>P2</option>
+<option>P3</option>
+<option>CP1</option>
+<option>CP2</option>
+<option>CE1</option>
+<option>CE2</option>
+<option>CM1</option>
+<option>CM2</option>
+<option>6e</option>
+<option>5e</option>
+<option>4e</option>
+<option>3e</option>
+<option>STC</option>
+<option>Première A</option>
+<option>Première D</option>
+<option>Terminale A</option>
+<option>Terminale D</option>
+</select>
+</div>
+
+<div>
+<label>Nom du parent</label>
+<input id="parent" type="text">
+</div>
+
+<div>
+<label>Téléphone du parent</label>
+<input id="tel" type="tel">
+</div>
+
+<div>
+<label>Adresse</label>
+<input id="adresse" type="text">
+</div>
+
+</div>
+
+<br>
+
+<button class="btn" onclick="ajouterEleve()">Enregistrer l'élève</button>
+
+</div>
+
+<div class="box">
+
+<h2>Liste des élèves</h2>
+
+<table>
+
+<thead>
+<tr>
+<th>Matricule</th>
+<th>Nom</th>
+<th>Classe</th>
+<th>Parent</th>
+</tr>
+</thead>
+
+<tbody id="listeEleves">
+</tbody>
+
+</table>
+
+</div>
+
+</main>
+
+</div>
+
+<script>
+
+let compteur=1;
+
+document.getElementById("photo").addEventListener("change",function(e){
+
+const file=e.target.files[0];
+
+if(file){
+
+document.getElementById("photoPreview").src=URL.createObjectURL(file);
+
+}
+
+});
+
+function ajouterEleve(){
+
+const matricule="EB2026-"+String(compteur).padStart(4,"0");
+
+const nom=document.getElementById("nom").value;
+const prenom=document.getElementById("prenom").value;
+const classe=document.getElementById("classe").value;
+const parent=document.getElementById("parent").value;
+
+if(nom===""||prenom===""){
+
+alert("Veuillez remplir au moins le nom et le prénom.");
+
+return;
+
+}
+
+const ligne=`
+<tr>
+<td>${matricule}</td>
+<td>${nom} ${prenom}</td>
+<td>${classe}</td>
+<td>${parent}</td>
+</tr>
+`;
+
+document.getElementById("listeEleves").innerHTML+=ligne;
+
+alert("Élève enregistré avec le matricule : "+matricule);
+
+compteur++;
+
+document.getElementById("nom").value="";
+document.getElementById("prenom").value="";
+document.getElementById("parent").value="";
+document.getElementById("tel").value="";
+document.getElementById("adresse").value="";
+document.getElementById("photoPreview").src="";
+
+}
+
+</script>
+
+</body>
+</html>
