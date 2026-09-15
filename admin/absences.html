@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gestion des absences — Groupe Scolaire Étoile Brillante</title>
+
+<style>
+:root{
+  --bleu:#0A2A78;
+  --bleu2:#123A9B;
+  --or:#C9A227;
+  --ivoire:#F7F4ED;
+  --blanc:#fff;
+  --texte:#1F2937;
+  --vert:#16803c;
+  --rouge:#b42318;
+  --orange:#b45309;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--ivoire);
+  color:var(--texte);
+  line-height:1.5;
+}
+
+.container{
+  width:94%;
+  max-width:1250px;
+  margin:auto;
+}
+
+header{
+  background:linear-gradient(135deg,var(--bleu),var(--bleu2));
+  color:white;
+  padding:20px;
+  box-shadow:0 3px 12px rgba(0,0,0,.2);
+}
+
+.header-flex{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.logo{
+  width:65px;
+  height:65px;
+  border-radius:50%;
+  background:white;
+  border:3px solid var(--or);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--bleu);
+  font-weight:bold;
+  font-size:22px;
+}
+
+header h1{
+  font-size:1.35rem;
+}
+
+header p{
+  font-size:.9rem;
+  margin-top:4px;
+}
+
+nav{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:18px;
+}
+
+nav a{
+  color:white;
+  text-decoration:none;
+  padding:9px 12px;
+  border-radius:7px;
+  font-weight:bold;
+}
+
+nav a:hover{
+  background:rgba(255,255,255,.15);
+}
+
+main{
+  padding:35px 0;
+}
+
+.title{
+  margin-bottom:25px;
+}
+
+.title h2{
+  color:var(--bleu);
+  margin-bottom:7px;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-bottom:25px;
+}
+
+.stat{
+  background:white;
+  padding:20px;
+  border-radius:14px;
+  box-shadow:0 4px 15px rgba(0,0,0,.07);
+}
+
+.stat strong{
+  display:block;
+  color:var(--bleu);
+  font-size:1.8rem;
+}
+
+.stat span{
+  color:#666;
+  font-size:.9rem;
+}
+
+.panel{
+  background:white;
+  padding:22px;
+  border-radius:14px;
+  box-shadow:0 4px 15px rgba(0,0,0,.08);
+  margin-bottom:20px;
+}
+
+.panel h3{
+  color:var(--bleu);
+  margin-bottom:18px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+
+.form-group label{
+  display:block;
+  font-weight:bold;
+  margin-bottom:6px;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  padding:12px;
+  border:1px solid #ccc;
+  border-radius:8px;
+  font-size:1rem;
+}
+
+textarea{
+  min-height:80px;
+  resize:vertical;
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:18px;
+}
+
+button{
+  border:0;
+  border-radius:8px;
+  padding:11px 16px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.btn-primary{
+  background:var(--bleu);
+  color:white;
+}
+
+.btn-gold{
+  background:var(--or);
+  color:#111;
+}
+
+.btn-success{
+  background:var(--vert);
+  color:white;
+}
+
+.btn-danger{
+  background:var(--rouge);
+  color:white;
+}
+
+.btn-orange{
+  background:var(--orange);
+  color:white;
+}
+
+.table-box{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:900px;
+}
+
+th,
+td{
+  padding:12px 10px;
+  border-bottom:1px solid #eee;
+  text-align:left;
+}
+
+th{
+  background:var(--bleu);
+  color:white;
+}
+
+tr:hover{
+  background:#f8f8f8;
+}
+
+.badge{
+  display:inline-block;
+  padding:5px 10px;
+  border-radius:20px;
+  font-size:.8rem;
+  font-weight:bold;
+}
+
+.present{
+  background:#dff5e7;
+  color:#146b34;
+}
+
+.absent{
+  background:#ffe1e1;
+  color:#a51d1d;
+}
+
+.retard{
+  background:#fff0c2;
+  color:#795500;
+}
+
+.small-btn{
+  padding:7px 9px;
+  font-size:.78rem;
+  margin:2px;
+}
+
+.empty{
+  text-align:center;
+  padding:35px;
+  color:#666;
+}
+
+.search{
+  margin-bottom:15px;
+}
+
+footer{
+  margin-top:50px;
+  background:var(--bleu);
+  color:white;
+  text-align:center;
+  padding:25px;
+}
+
+@media(max-width:850px){
+  .grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:550px){
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  header h1{
+    font-size:1.05rem;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="container">
+
+    <div class="header-flex">
+
+      <div class="logo">EB</div>
+
+      <div>
+        <h1>Groupe Scolaire Étoile Brillante</h1>
+        <p>Gestion des présences, absences et retards</p>
+      </div>
+
+    </div>
+
+    <nav>
+      <a href="index.html">Tableau de bord</a>
+      <a href="eleves.html">Élèves</a>
+      <a href="classes.html">Classes</a>
+      <a href="notes.html">Notes</a>
+      <a href="bulletins.html">Bulletins</a>
+      <a href="absences.html">Absences</a>
+      <a href="../index.html">Site public</a>
+    </nav>
+
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="title">
+    <h2>Gestion des absences</h2>
+    <p>
+      Enregistrement quotidien des présences, absences et retards.
+    </p>
+  </section>
+
+  <section class="stats">
+
+    <div class="stat">
+      <strong id="statPresent">0</strong>
+      <span>Présents aujourd'hui</span>
+    </div>
+
+    <div class="stat">
+      <strong id="statAbsent">0</strong>
+      <span>Absents aujourd'hui</span>
+    </div>
+
+    <div class="stat">
+      <strong id="statRetard">0</strong>
+      <span>Retards aujourd'hui</span>
+    </div>
+
+    <div class="stat">
+      <strong id="statTotal">0</strong>
+      <span>Enregistrements</span>
+    </div>
+
+  </section>
+
+  <!-- ENREGISTREMENT -->
+
+  <section class="panel">
+
+    <h3>Nouvel enregistrement</h3>
+
+    <div class="grid">
+
+      <div class="form-group">
+        <label>Date</label>
+        <input type="date" id="dateAbsence">
+      </div>
+
+      <div class="form-group">
+        <label>Classe</label>
+
+        <select id="classeAbsence" onchange="chargerEleves()">
+          <option value="">Sélectionner une classe</option>
+        </select>
+
+      </div>
+
+      <div class="form-group">
+        <label>Élève</label>
+
+        <select id="eleveAbsence">
+          <option value="">Sélectionner un élève</option>
+        </select>
+
+      </div>
+
+      <div class="form-group">
+        <label>Statut</label>
+
+        <select id="statutAbsence">
+          <option value="Présent">Présent</option>
+          <option value="Absent">Absent</option>
+          <option value="Retard">Retard</option>
+        </select>
+
+      </div>
+
+      <div class="form-group">
+        <label>Motif</label>
+
+        <input
+          type="text"
+          id="motifAbsence"
+          placeholder="Ex. maladie, autorisation..."
+        >
+
+      </div>
+
+      <div class="form-group">
+        <label>Observation</label>
+
+        <input
+          type="text"
+          id="observationAbsence"
+          placeholder="Observation éventuelle"
+        >
+
+      </div>
+
+    </div>
+
+    <div class="actions">
+
+      <button class="btn-primary" onclick="enregistrerAbsence()">
+        Enregistrer
+      </button>
+
+      <button class="btn-gold" onclick="reinitialiserFormulaire()">
+        Réinitialiser
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- RECHERCHE / HISTORIQUE -->
+
+  <section class="panel">
+
+    <h3>Historique des présences</h3>
+
+    <div class="grid">
+
+      <div class="form-group">
+        <label>Rechercher</label>
+
+        <input
+          type="search"
+          id="recherche"
+          placeholder="Nom, prénom ou matricule..."
+          oninput="afficherHistorique()"
+        >
+
+      </div>
+
+      <div class="form-group">
+        <label>Date</label>
+
+        <input
+          type="date"
+          id="filtreDate"
+          onchange="afficherHistorique()"
+        >
+
+      </div>
+
+      <div class="form-group">
+        <label>Classe</label>
+
+        <select id="filtreClasse" onchange="afficherHistorique()">
+          <option value="">Toutes les classes</option>
+        </select>
+
+      </div>
+
+    </div>
+
+    <div class="grid">
+
+      <div class="form-group">
+        <label>Statut</label>
+
+        <select id="filtreStatut" onchange="afficherHistorique()">
+          <option value="">Tous</option>
+          <option value="Présent">Présent</option>
+          <option value="Absent">Absent</option>
+          <option value="Retard">Retard</option>
+        </select>
+
+      </div>
+
+    </div>
+
+    <div class="actions">
+
+      <button class="btn-gold" onclick="effacerFiltres()">
+        Effacer les filtres
+      </button>
+
+      <button class="btn-success" onclick="exporterCSV()">
+        Exporter CSV
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- TABLEAU -->
+
+  <section class="panel">
+
+    <div class="table-box">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Date</th>
+            <th>Classe</th>
+            <th>Élève</th>
+            <th>Matricule</th>
+            <th>Statut</th>
+            <th>Motif</th>
+            <th>Observation</th>
+            <th>Actions</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="historiqueBody"></tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+
+  <p><strong>Groupe Scolaire Étoile Brillante</strong></p>
+
+  <p>Excellence • Discipline • Innovation</p>
+
+  <p>
+    03 rue Poumako, marché Massengo,
+    arrondissement 9 Djiri — Brazzaville
+  </p>
+
+</footer>
+
+
+<script>
+
+const CLE_ABSENCES = "EB_ABSENCES";
+
+const classesDefaut = [
+
+  "P1","P2","P3",
+  "CP1","CP2","CE1","CE2","CM1","CM2",
+  "6e","5e","4e","3e",
+  "STC","Première A","Première D",
+  "Terminale A","Terminale D"
+
+];
+
+
+/* =========================
+   INITIALISATION
+========================= */
+
+function initialiser(){
+
+  const aujourdHui =
+    new Date().toISOString().split("T")[0];
+
+  document.getElementById("dateAbsence").value =
+    aujourdHui;
+
+  document.getElementById("filtreDate").value =
+    aujourdHui;
+
+  chargerClasses();
+
+  afficherHistorique();
+
+}
+
+
+/* =========================
+   CLASSES
+========================= */
+
+function chargerClasses(){
+
+  const select =
+    document.getElementById("classeAbsence");
+
+  const filtre =
+    document.getElementById("filtreClasse");
+
+  let classes = [];
+
+  try{
+
+    const data =
+      JSON.parse(localStorage.getItem("EB_CLASSES"));
+
+    if(Array.isArray(data) && data.length){
+      classes = data
+        .filter(c => c.statut !== "Archivée")
+        .map(c => c.nom);
+    }
+
+  }catch(e){}
+
+  if(!classes.length){
+    classes = classesDefaut;
+  }
+
+  classes =
+    [...new Set(classes)];
+
+  select.innerHTML =
+    `<option value="">Sélectionner une classe</option>` +
+    classes.map(c =>
+      `<option value="${escapeHTML(c)}">${escapeHTML(c)}</option>`
+    ).join("");
+
+  filtre.innerHTML =
+    `<option value="">Toutes les classes</option>` +
+    classes.map(c =>
+      `<option value="${escapeHTML(c)}">${escapeHTML(c)}</option>`
+    ).join("");
+
+}
+
+
+/* =========================
+   ÉLÈVES
+========================= */
+
+function chargerEleves(){
+
+  const classe =
+    document.getElementById("classeAbsence").value;
+
+  const select =
+    document.getElementById("eleveAbsence");
+
+  select.innerHTML =
+    `<option value="">Sélectionner un élève</option>`;
+
+  if(!classe){
+    return;
+  }
+
+  let eleves = [];
+
+  try{
+
+    const data =
+      JSON.parse(localStorage.getItem("EB_ELEVES"));
+
+    if(Array.isArray(data)){
+
+      eleves =
+        data.filter(e =>
+          e.classe === classe
+        );
+
+    }
+
+  }catch(e){}
+
+  /*
+    Si aucun élève réel n'est encore enregistré,
+    on affiche quelques élèves de démonstration.
+  */
+
+  if(!eleves.length){
+
+    eleves = [
+      {
+        id:"demo1",
+        nom:"AMBoulou",
+        prenom:"Dellat",
+        matricule:"EB2026-0001",
+        classe:classe
+      },
+      {
+        id:"demo2",
+        nom:"Dimi",
+        prenom:"Ferry",
+        matricule:"EB2026-0002",
+        classe:classe
+      },
+      {
+        id:"demo3",
+        nom:"Mamboula",
+        prenom:"Perle",
+        matricule:"EB2026-0003",
+        classe:classe
+      }
+    ];
+
+  }
+
+  select.innerHTML +=
+    eleves.map(e => {
+
+      const id =
+        e.id || e.matricule || e.nom;
+
+      const nom =
+        `${e.nom || ""} ${e.prenom || ""}`.trim();
+
+      const matricule =
+        e.matricule || "Sans matricule";
+
+      return `
+        <option
+          value="${escapeHTML(String(id))}"
+          data-nom="${escapeHTML(nom)}"
+          data-matricule="${escapeHTML(matricule)}"
+        >
+          ${escapeHTML(nom)}
+          — ${escapeHTML(matricule)}
+        </option>
+      `;
+
+    }).join("");
+
+}
+
+
+/* =========================
+   ENREGISTRER
+========================= */
+
+function enregistrerAbsence(){
+
+  const date =
+    document.getElementById("dateAbsence").value;
+
+  const classe =
+    document.getElementById("classeAbsence").value;
+
+  const selectEleve =
+    document.getElementById("eleveAbsence");
+
+  const option =
+    selectEleve.options[selectEleve.selectedIndex];
+
+  const statut =
+    document.getElementById("statutAbsence").value;
+
+  const motif =
+    document.getElementById("motifAbsence").value.trim();
+
+  const observation =
+    document.getElementById("observationAbsence").value.trim();
+
+
+  if(!date){
+    alert("Veuillez sélectionner une date.");
+    return;
+  }
+
+  if(!classe){
+    alert("Veuillez sélectionner une classe.");
+    return;
+  }
+
+  if(!selectEleve.value){
+    alert("Veuillez sélectionner un élève.");
+    return;
+  }
+
+
+  const nom =
+    option.dataset.nom || option.textContent;
+
+  const matricule =
+    option.dataset.matricule || "";
+
+
+  let absences =
+    obtenirAbsences();
+
+
+  const enregistrement = {
+
+    id:Date.now(),
+
+    date:date,
+
+    classe:classe,
+
+    eleveId:selectEleve.value,
+
+    eleve:nom,
+
+    matricule:matricule,
+
+    statut:statut,
+
+    motif:motif,
+
+    observation:observation,
+
+    enregistrePar:"Administration",
+
+    dateEnregistrement:
+      new Date().toISOString()
+
+  };
+
+
+  absences.push(enregistrement);
+
+  localStorage.setItem(
+    CLE_ABSENCES,
+    JSON.stringify(absences)
+  );
+
+
+  alert("Enregistrement effectué avec succès.");
+
+  reinitialiserFormulaire();
+
+  afficherHistorique();
+
+}
+
+
+/* =========================
+   AFFICHER HISTORIQUE
+========================= */
+
+function afficherHistorique(){
+
+  const body =
+    document.getElementById("historiqueBody");
+
+  const recherche =
+    document.getElementById("recherche")
+      .value
+      .toLowerCase();
+
+  const date =
+    document.getElementById("filtreDate").value;
+
+  const classe =
+    document.getElementById("filtreClasse").value;
+
+  const statut =
+    document.getElementById("filtreStatut").value;
+
+
+  let absences =
+    obtenirAbsences();
+
+
+  absences =
+    absences.filter(a => {
+
+      const texte =
+        `${a.eleve} ${a.matricule} ${a.classe}`
+          .toLowerCase();
+
+      return (
+
+        (!recherche || texte.includes(recherche)) &&
+
+        (!date || a.date === date) &&
+
+        (!classe || a.classe === classe) &&
+
+        (!statut || a.statut === statut)
+
+      );
+
+    });
+
+
+  absences.sort((a,b) =>
+    new Date(b.dateEnregistrement) -
+    new Date(a.dateEnregistrement)
+  );
+
+
+  if(!absences.length){
+
+    body.innerHTML = `
+      <tr>
+        <td colspan="8" class="empty">
+          Aucun enregistrement trouvé.
+        </td>
+      </tr>
+    `;
+
+    mettreAJourStats();
+
+    return;
+  }
+
+
+  body.innerHTML =
+    absences.map(a => {
+
+      let classeStatut = "";
+
+      if(a.statut === "Présent"){
+        classeStatut = "present";
+      }
+
+      if(a.statut === "Absent"){
+        classeStatut = "absent";
+      }
+
+      if(a.statut === "Retard"){
+        classeStatut = "retard";
+      }
+
+
+      return `
+
+        <tr>
+
+          <td>${escapeHTML(a.date)}</td>
+
+          <td>
+            <strong>
+              ${escapeHTML(a.classe)}
+            </strong>
+          </td>
+
+          <td>
+            ${escapeHTML(a.eleve)}
+          </td>
+
+          <td>
+            ${escapeHTML(a.matricule)}
+          </td>
+
+          <td>
+            <span class="badge ${classeStatut}">
+              ${escapeHTML(a.statut)}
+            </span>
+          </td>
+
+          <td>
+            ${escapeHTML(a.motif || "—")}
+          </td>
+
+          <td>
+            ${escapeHTML(a.observation || "—")}
+          </td>
+
+          <td>
+
+            <button
+              class="btn-danger small-btn"
+              onclick="supprimerAbsence(${a.id})">
+              Supprimer
+            </button>
+
+          </td>
+
+        </tr>
+
+      `;
+
+    }).join("");
+
+
+  mettreAJourStats();
+
+}
+
+
+/* =========================
+   STATISTIQUES
+========================= */
+
+function mettreAJourStats(){
+
+  const aujourdHui =
+    new Date().toISOString().split("T")[0];
+
+  const absences =
+    obtenirAbsences()
+      .filter(a => a.date === aujourdHui);
+
+
+  document.getElementById("statPresent").textContent =
+    absences.filter(a => a.statut === "Présent").length;
+
+
+  document.getElementById("statAbsent").textContent =
+    absences.filter(a => a.statut === "Absent").length;
+
+
+  document.getElementById("statRetard").textContent =
+    absences.filter(a => a.statut === "Retard").length;
+
+
+  document.getElementById("statTotal").textContent =
+    obtenirAbsences().length;
+
+}
+
+
+/* =========================
+   SUPPRIMER
+========================= */
+
+function supprimerAbsence(id){
+
+  if(!confirm(
+    "Voulez-vous supprimer cet enregistrement ?"
+  )){
+    return;
+  }
+
+
+  let absences =
+    obtenirAbsences();
+
+
+  absences =
+    absences.filter(a => a.id !== id);
+
+
+  localStorage.setItem(
+    CLE_ABSENCES,
+    JSON.stringify(absences)
+  );
+
+
+  afficherHistorique();
+
+}
+
+
+/* =========================
+   RÉINITIALISER
+========================= */
+
+function reinitialiserFormulaire(){
+
+  document.getElementById("classeAbsence").value="";
+
+  document.getElementById("eleveAbsence").innerHTML =
+    `<option value="">Sélectionner un élève</option>`;
+
+  document.getElementById("statutAbsence").value =
+    "Présent";
+
+  document.getElementById("motifAbsence").value="";
+  document.getElementById("observationAbsence").value="";
+
+}
+
+
+/* =========================
+   FILTRES
+========================= */
+
+function effacerFiltres(){
+
+  document.getElementById("recherche").value="";
+  document.getElementById("filtreDate").value="";
+  document.getElementById("filtreClasse").value="";
+  document.getElementById("filtreStatut").value="";
+
+  afficherHistorique();
+
+}
+
+
+/* =========================
+   EXPORT CSV
+========================= */
+
+function exporterCSV(){
+
+  const absences =
+    obtenirAbsences();
+
+
+  if(!absences.length){
+
+    alert("Aucune donnée à exporter.");
+
+    return;
+
+  }
+
+
+  let csv =
+    "Date;Classe;Élève;Matricule;Statut;Motif;Observation\n";
+
+
+  absences.forEach(a => {
+
+    csv +=
+      `"${a.date}";` +
+      `"${nettoyerCSV(a.classe)}";` +
+      `"${nettoyerCSV(a.eleve)}";` +
+      `"${nettoyerCSV(a.matricule)}";` +
+      `"${nettoyerCSV(a.statut)}";` +
+      `"${nettoyerCSV(a.motif || "")}";` +
+      `"${nettoyerCSV(a.observation || "")}"\n`;
+
+  });
+
+
+  const blob =
+    new Blob(
+      ["\ufeff" + csv],
+      {type:"text/csv;charset=utf-8;"}
+    );
+
+
+  const url =
+    URL.createObjectURL(blob);
+
+
+  const lien =
+    document.createElement("a");
+
+  lien.href=url;
+
+  lien.download =
+    "absences-etoile-brillante.csv";
+
+  lien.click();
+
+
+  URL.revokeObjectURL(url);
+
+}
+
+
+/* =========================
+   OUTILS
+========================= */
+
+function obtenirAbsences(){
+
+  try{
+
+    return JSON.parse(
+      localStorage.getItem(CLE_ABSENCES)
+    ) || [];
+
+  }catch(e){
+
+    return [];
+
+  }
+
+}
+
+
+function nettoyerCSV(value){
+
+  return String(value)
+    .replace(/"/g,'""')
+    .replace(/\n/g," ")
+    .replace(/\r/g," ");
+
+}
+
+
+function escapeHTML(value){
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================
+   DÉMARRAGE
+========================= */
+
+initialiser();
+
+</script>
+
+</body>
+</html>
