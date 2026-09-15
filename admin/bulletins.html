@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bulletin scolaire - Groupe Scolaire Étoile Brillante</title>
+
+<style>
+:root{
+    --bleu:#0A2A78;
+    --or:#C9A227;
+    --ivoire:#F7F4ED;
+    --texte:#1F2937;
+}
+
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--ivoire);
+    color:var(--texte);
+}
+
+.admin-bar{
+    background:var(--bleu);
+    color:white;
+    padding:18px 4%;
+}
+
+.admin-bar h1{
+    margin:0;
+    font-size:1.35rem;
+}
+
+.admin-bar p{
+    margin:5px 0 0;
+}
+
+.container{
+    width:94%;
+    max-width:1200px;
+    margin:25px auto;
+}
+
+.controls{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+    margin-bottom:20px;
+}
+
+.controls-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+label{
+    font-weight:bold;
+    display:block;
+    margin-bottom:6px;
+}
+
+select{
+    width:100%;
+    padding:11px;
+    border:1px solid #ccc;
+    border-radius:7px;
+    font-size:1rem;
+}
+
+button{
+    border:0;
+    border-radius:8px;
+    padding:12px 20px;
+    margin-top:15px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.btn{
+    background:var(--bleu);
+    color:white;
+}
+
+.btn-print{
+    background:var(--or);
+    color:#111;
+}
+
+.bulletin{
+    background:white;
+    padding:35px;
+    box-shadow:0 4px 20px rgba(0,0,0,.12);
+}
+
+.entete{
+    display:grid;
+    grid-template-columns:100px 1fr 180px;
+    align-items:center;
+    gap:20px;
+    border-bottom:3px solid var(--or);
+    padding-bottom:18px;
+}
+
+.logo{
+    width:90px;
+    height:90px;
+    object-fit:contain;
+    border:2px solid var(--or);
+    border-radius:50%;
+    padding:5px;
+}
+
+.logo-fallback{
+    width:90px;
+    height:90px;
+    border:2px solid var(--or);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--bleu);
+    font-weight:bold;
+    text-align:center;
+}
+
+.ecole{
+    text-align:center;
+}
+
+.ecole h2{
+    color:var(--bleu);
+    margin:0;
+    font-size:1.5rem;
+}
+
+.ecole p{
+    margin:5px 0;
+}
+
+.direction{
+    text-align:right;
+    font-size:.9rem;
+}
+
+.direction strong{
+    color:var(--bleu);
+}
+
+.titre{
+    text-align:center;
+    margin:22px 0;
+}
+
+.titre h3{
+    display:inline-block;
+    border:2px solid var(--bleu);
+    color:var(--bleu);
+    padding:10px 25px;
+    margin:0;
+}
+
+.identite{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.identite div{
+    border:1px solid #ccc;
+    padding:10px;
+}
+
+.identite strong{
+    display:block;
+    color:var(--bleu);
+    margin-bottom:4px;
+}
+
+.table-wrapper{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:850px;
+}
+
+th,td{
+    border:1px solid #999;
+    padding:8px;
+    text-align:center;
+}
+
+th{
+    background:var(--bleu);
+    color:white;
+    font-size:.85rem;
+}
+
+td:first-child{
+    text-align:left;
+    font-weight:bold;
+}
+
+.resultats{
+    margin-top:20px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.resultat-box{
+    border:1px solid #bbb;
+    padding:15px;
+    text-align:center;
+}
+
+.resultat-box strong{
+    display:block;
+    font-size:1.4rem;
+    color:var(--bleu);
+    margin-top:5px;
+}
+
+.admis{
+    color:#198754 !important;
+}
+
+.echoue{
+    color:#dc3545 !important;
+}
+
+.observation{
+    margin-top:25px;
+    border:1px solid #bbb;
+    padding:15px;
+    min-height:70px;
+}
+
+.signatures{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+    margin-top:45px;
+    text-align:center;
+}
+
+.signature-box{
+    min-height:100px;
+}
+
+.signature-box strong{
+    display:block;
+    margin-top:50px;
+}
+
+.footer{
+    text-align:center;
+    margin-top:25px;
+    font-size:.8rem;
+    color:#555;
+}
+
+@media(max-width:700px){
+    .controls-grid,
+    .identite,
+    .resultats,
+    .signatures{
+        grid-template-columns:1fr;
+    }
+
+    .entete{
+        grid-template-columns:1fr;
+        text-align:center;
+    }
+
+    .direction{
+        text-align:center;
+    }
+
+    .bulletin{
+        padding:18px;
+    }
+}
+
+@media print{
+
+    body{
+        background:white;
+    }
+
+    .admin-bar,
+    .controls{
+        display:none;
+    }
+
+    .container{
+        width:100%;
+        max-width:none;
+        margin:0;
+    }
+
+    .bulletin{
+        box-shadow:none;
+        padding:10px;
+    }
+
+    @page{
+        size:A4 portrait;
+        margin:10mm;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="admin-bar">
+    <h1>Groupe Scolaire Étoile Brillante</h1>
+    <p>Administration — Bulletins scolaires</p>
+</div>
+
+<div class="container">
+
+    <div class="controls">
+
+        <div class="controls-grid">
+
+            <div>
+                <label>Classe</label>
+                <select id="classe" onchange="chargerBulletin()">
+                    <option value="">-- Choisir une classe --</option>
+                    <option>6e</option>
+                    <option>5e</option>
+                    <option>4e</option>
+                    <option>3e</option>
+                    <option>Seconde</option>
+                    <option>Première A</option>
+                    <option>Première D</option>
+                    <option>Terminale A</option>
+                    <option>Terminale D</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Élève</label>
+                <select id="eleve" onchange="chargerBulletin()">
+                    <option value="">-- Choisir un élève --</option>
+                    <option value="EB20260001">EB20260001 — MABIALA Exemple</option>
+                    <option value="EB20260002">EB20260002 — NGOMA Exemple</option>
+                    <option value="EB20260003">EB20260003 — MBOUKOU Exemple</option>
+                </select>
+            </div>
+
+        </div>
+
+        <button class="btn" onclick="genererBulletin()">
+            Générer le bulletin
+        </button>
+
+        <button class="btn-print" onclick="window.print()">
+            🖨️ Imprimer le bulletin
+        </button>
+
+    </div>
+
+
+    <div class="bulletin" id="bulletin">
+
+        <div class="entete">
+
+            <div>
+                <img
+                    src="../assets/images/logo-officiel.png"
+                    class="logo"
+                    alt="Logo officiel"
+                    onerror="this.style.display='none';document.getElementById('logoFallback').style.display='flex';"
+                >
+
+                <div id="logoFallback" class="logo-fallback" style="display:none;">
+                    LOGO<br>ÉB
+                </div>
+            </div>
+
+            <div class="ecole">
+
+                <h2>GROUPE SCOLAIRE ÉTOILE BRILLANTE</h2>
+
+                <p>
+                    <strong>Excellence • Discipline • Innovation</strong>
+                </p>
+
+                <p>
+                    03 rue Poumako, marché Massengo,
+                    arrondissement 9 Djiri — Brazzaville
+                </p>
+
+            </div>
+
+            <div class="direction">
+
+                <strong>DIRECTEUR DES ÉTUDES</strong>
+
+                <p>
+                    NGATSONGO Clarmy Nice
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="titre">
+
+            <h3>BULLETIN SCOLAIRE</h3>
+
+        </div>
+
+
+        <div class="identite">
+
+            <div>
+                <strong>Année scolaire</strong>
+                2025-2026
+            </div>
+
+            <div>
+                <strong>Élève</strong>
+                <span id="nomEleve">—</span>
+            </div>
+
+            <div>
+                <strong>Matricule</strong>
+                <span id="matricule">—</span>
+            </div>
+
+            <div>
+                <strong>Classe</strong>
+                <span id="classeBulletin">—</span>
+            </div>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Matière</th>
+                        <th>Devoir classe</th>
+                        <th>Devoir départemental</th>
+                        <th>Moyenne classe</th>
+                        <th>Composition</th>
+                        <th>Moyenne générale</th>
+                        <th>Coef.</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="tableBulletin">
+
+                    <tr>
+                        <td colspan="7">
+                            Sélectionnez une classe et un élève.
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <div class="resultats">
+
+            <div class="resultat-box">
+
+                Moyenne générale
+
+                <strong id="moyenneFinale">
+                    —
+                </strong>
+
+            </div>
+
+            <div class="resultat-box">
+
+                Rang
+
+                <strong id="rang">
+                    —
+                </strong>
+
+            </div>
+
+            <div class="resultat-box">
+
+                Décision
+
+                <strong id="decision">
+                    —
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="observation">
+
+            <strong>Appréciation :</strong>
+
+            <span id="appreciation">
+                —
+            </span>
+
+        </div>
+
+
+        <div class="signatures">
+
+            <div class="signature-box">
+
+                <strong>
+                    Signature du Directeur des études
+                </strong>
+
+                <strong>
+                    NGATSONGO Clarmy Nice
+                </strong>
+
+            </div>
+
+            <div class="signature-box">
+
+                <strong>
+                    Cachet de l'établissement
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer">
+
+            Groupe Scolaire Étoile Brillante —
+            Révéler leur potentiel. Construire leur avenir.
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const coefficients = {
+
+    "6e":{
+        "Français":1,
+        "Mathématiques":1,
+        "Histoire":1,
+        "Anglais":1,
+        "SVT":1,
+        "Sciences physiques":1,
+        "EPS":1
+    },
+
+    "5e":{
+        "Français":1,
+        "Mathématiques":1,
+        "Histoire":1,
+        "Anglais":1,
+        "SVT":1,
+        "Sciences physiques":1,
+        "EPS":1
+    },
+
+    "4e":{
+        "Français":1,
+        "Mathématiques":1,
+        "Histoire":1,
+        "Anglais":1,
+        "SVT":1,
+        "Sciences physiques":1,
+        "EPS":1
+    },
+
+    "3e":{
+        "Français":2,
+        "Mathématiques":4,
+        "Histoire":2,
+        "Anglais":2,
+        "SVT":2,
+        "Sciences physiques":2,
+        "EPS":2
+    },
+
+    "Seconde":{
+        "Français":1,
+        "Mathématiques":1,
+        "Histoire":1,
+        "Anglais":1,
+        "SVT":1,
+        "Sciences physiques":1,
+        "EPS":1
+    },
+
+    "Première A":{
+        "Français":1,
+        "Mathématiques":1,
+        "Histoire":1,
+        "Anglais":1,
+        "Philosophie":1,
+        "Espagnol":1,
+        "EPS":1
+    },
+
+    "Première D":{
+        "Français":1,
+        "Mathématiques":1,
+        "Histoire":1,
+        "Anglais":1,
+        "SVT":1,
+        "Sciences physiques":1,
+        "EPS":1
+    },
+
+    "Terminale A":{
+        "Philosophie":5,
+        "Français":5,
+        "Histoire":4,
+        "Anglais":4,
+        "Mathématiques":3,
+        "Espagnol":3,
+        "EPS":2
+    },
+
+    "Terminale D":{
+        "Mathématiques":4,
+        "SVT":5,
+        "Sciences physiques":5,
+        "Histoire":3,
+        "Français":3,
+        "Anglais":3,
+        "Histoire-géographie":3,
+        "EPS":2
+    }
+
+};
+
+
+const donneesDemo = {
+
+    "EB20260001":{
+        nom:"MABIALA Exemple",
+        rang:"1er"
+    },
+
+    "EB20260002":{
+        nom:"NGOMA Exemple",
+        rang:"2e"
+    },
+
+    "EB20260003":{
+        nom:"MBOUKOU Exemple",
+        rang:"1er"
+    }
+
+};
+
+
+function chargerBulletin(){
+
+    const classe =
+        document.getElementById("classe").value;
+
+    const eleve =
+        document.getElementById("eleve").value;
+
+    if(!classe || !eleve) return;
+
+    const donne =
+        donneesDemo[eleve];
+
+    document.getElementById("nomEleve").textContent =
+        donne ? donne.nom : "—";
+
+    document.getElementById("matricule").textContent =
+        eleve;
+
+    document.getElementById("classeBulletin").textContent =
+        classe;
+
+}
+
+
+function genererBulletin(){
+
+    const classe =
+        document.getElementById("classe").value;
+
+    const eleve =
+        document.getElementById("eleve").value;
+
+    if(!classe || !eleve){
+
+        alert("Veuillez sélectionner la classe et l'élève.");
+
+        return;
+    }
+
+    chargerBulletin();
+
+    const matieres =
+        coefficients[classe];
+
+    const table =
+        document.getElementById("tableBulletin");
+
+    table.innerHTML = "";
+
+    let total = 0;
+    let totalCoef = 0;
+
+
+    Object.keys(matieres).forEach(matiere=>{
+
+        /*
+        Démonstration.
+        Les vraies notes seront récupérées
+        directement depuis le module Notes.
+        */
+
+        const devoirClasse = 14;
+        const devoirDepartemental = 16;
+        const composition = 13;
+
+        const moyenneClasse =
+            (
+                devoirClasse +
+                devoirDepartemental
+            ) / 2;
+
+        const moyenneGenerale =
+            (
+                moyenneClasse +
+                composition
+            ) / 2;
+
+        const coef =
+            matieres[matiere];
+
+        total += moyenneGenerale * coef;
+        totalCoef += coef;
+
+
+        table.innerHTML += `
+
+            <tr>
+
+                <td>${matiere}</td>
+
+                <td>${devoirClasse.toFixed(2)}</td>
+
+                <td>${devoirDepartemental.toFixed(2)}</td>
+
+                <td>${moyenneClasse.toFixed(2)}</td>
+
+                <td>${composition.toFixed(2)}</td>
+
+                <td>${moyenneGenerale.toFixed(2)}</td>
+
+                <td>${coef}</td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    const moyenne =
+        total / totalCoef;
+
+
+    document.getElementById(
+        "moyenneFinale"
+    ).textContent =
+        moyenne.toFixed(2) + " / 20";
+
+
+    const decision =
+        document.getElementById("decision");
+
+
+    if(moyenne >= 10){
+
+        decision.textContent =
+            "ADMIS";
+
+        decision.className =
+            "admis";
+
+    }else{
+
+        decision.textContent =
+            "ÉCHOUÉ";
+
+        decision.className =
+            "echoue";
+
+    }
+
+
+    const appreciation =
+        document.getElementById("appreciation");
+
+
+    if(moyenne >= 18){
+        appreciation.textContent = "Excellent";
+    }else if(moyenne >= 16){
+        appreciation.textContent = "Très bien";
+    }else if(moyenne >= 14){
+        appreciation.textContent = "Bien";
+    }else if(moyenne >= 12){
+        appreciation.textContent = "Assez bien";
+    }else if(moyenne >= 10){
+        appreciation.textContent = "Passable";
+    }else if(moyenne >= 8){
+        appreciation.textContent = "Insuffisant";
+    }else if(moyenne >= 6){
+        appreciation.textContent = "Faible";
+    }else if(moyenne >= 4){
+        appreciation.textContent = "Très faible";
+    }else{
+        appreciation.textContent = "Nul";
+    }
+
+
+    document.getElementById("rang").textContent =
+        donneesDemo[eleve]
+        ? donneesDemo[eleve].rang
+        : "—";
+
+}
+
+</script>
+
+</body>
+</html>
