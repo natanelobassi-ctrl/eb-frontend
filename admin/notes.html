@@ -7,7 +7,6 @@
 <title>Saisie des notes - Groupe Scolaire Étoile Brillante</title>
 
 <style>
-
 :root{
     --bleu:#0A2A78;
     --bleu-clair:#123A9B;
@@ -32,11 +31,6 @@ body{
     line-height:1.5;
 }
 
-
-/* =========================
-   EN-TÊTE
-========================= */
-
 header{
     background:var(--bleu);
     color:white;
@@ -53,21 +47,11 @@ header p{
     opacity:.9;
 }
 
-
-/* =========================
-   CONTENEUR
-========================= */
-
 .container{
     width:94%;
     max-width:1400px;
     margin:25px auto;
 }
-
-
-/* =========================
-   CARTES
-========================= */
 
 .card{
     background:white;
@@ -82,11 +66,6 @@ header p{
     margin-bottom:18px;
 }
 
-
-/* =========================
-   INFORMATION
-========================= */
-
 .info{
     background:#fff8dc;
     border-left:5px solid var(--or);
@@ -94,11 +73,6 @@ header p{
     margin-bottom:20px;
     border-radius:8px;
 }
-
-
-/* =========================
-   FILTRES
-========================= */
 
 .filters{
     display:grid;
@@ -121,11 +95,6 @@ select{
     background:white;
 }
 
-
-/* =========================
-   TABLEAU
-========================= */
-
 .table-wrapper{
     width:100%;
     overflow-x:auto;
@@ -134,7 +103,7 @@ select{
 table{
     width:100%;
     border-collapse:collapse;
-    min-width:1050px;
+    min-width:1100px;
 }
 
 th{
@@ -188,11 +157,6 @@ input.note:focus{
     font-weight:bold;
 }
 
-
-/* =========================
-   BOUTONS
-========================= */
-
 .actions{
     display:flex;
     flex-wrap:wrap;
@@ -229,11 +193,6 @@ button:hover{
     transform:translateY(-1px);
 }
 
-
-/* =========================
-   RÉSULTATS
-========================= */
-
 .resume{
     display:grid;
     grid-template-columns:repeat(3,1fr);
@@ -268,10 +227,23 @@ button:hover{
     color:var(--rouge)!important;
 }
 
+.message{
+    padding:14px;
+    margin-top:15px;
+    border-radius:8px;
+    display:none;
+    font-weight:bold;
+}
 
-/* =========================
-   MOBILE
-========================= */
+.succes{
+    background:#d1e7dd;
+    color:#0f5132;
+}
+
+.erreur{
+    background:#f8d7da;
+    color:#842029;
+}
 
 @media(max-width:700px){
 
@@ -290,46 +262,761 @@ button:hover{
     .card{
         padding:16px;
     }
-
 }
-
 </style>
 </head>
 
-
 <body>
 
-
-<!-- =========================
-     EN-TÊTE
-========================= -->
-
 <header>
-
-    <h1>
-        Groupe Scolaire Étoile Brillante
-    </h1>
-
-    <p>
-        Administration — Saisie et gestion des notes
-    </p>
-
+    <h1>Groupe Scolaire Étoile Brillante</h1>
+    <p>Administration — Saisie et gestion des notes</p>
 </header>
-
-
 
 <div class="container">
 
+    <div class="card">
 
-<!-- =========================
-     PARAMÈTRES
-========================= -->
+        <h2>Paramètres de saisie</h2>
 
-<div class="card">
+        <div class="info">
+            <strong>Principe de calcul :</strong><br>
+            Moyenne de classe = (Devoir de classe + Devoir départemental) ÷ 2.<br>
+            Moyenne générale de la matière = (Moyenne de classe + Moyenne de composition) ÷ 2.<br>
+            La moyenne finale de l'élève est calculée selon les coefficients des matières.
+        </div>
 
-    <h2>
-        Paramètres de saisie
-    </h2>
+        <div class="filters">
+
+            <div>
+                <label for="classe">Classe</label>
+
+                <select id="classe" onchange="chargerClasse()">
+                    <option value="">-- Choisir une classe --</option>
+                    <option value="6e">6e</option>
+                    <option value="5e">5e</option>
+                    <option value="4e">4e</option>
+                    <option value="3e">3e</option>
+                    <option value="Seconde">Seconde</option>
+                    <option value="Première A">Première A</option>
+                    <option value="Première D">Première D</option>
+                    <option value="Terminale A">Terminale A</option>
+                    <option value="Terminale D">Terminale D</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="eleve">Élève</label>
+
+                <select id="eleve">
+                    <option value="">-- Choisir un élève --</option>
+                    <option value="AMBoulou Dellat">AMBoulou Dellat</option>
+                    <option value="Dimi Ferry">Dimi Ferry</option>
+                    <option value="Mamboula Perle">Mamboula Perle</option>
+                    <option value="Élève de démonstration">Élève de démonstration</option>
+                </select>
+            </div>
+
+        </div>
+
+    </div>
 
 
-    <div class="info">
+    <div class="card">
+
+        <h2>Saisie des notes</h2>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Matière</th>
+                        <th>Devoir de classe</th>
+                        <th>Devoir départemental</th>
+                        <th>Moyenne de classe</th>
+                        <th>Composition</th>
+                        <th>Moyenne générale</th>
+                        <th>Coefficient</th>
+                    </tr>
+                </thead>
+
+                <tbody id="tableNotes">
+
+                    <tr>
+                        <td colspan="7">
+                            Sélectionnez une classe pour afficher les matières.
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <div class="actions">
+
+            <button class="btn-calculer" onclick="calculerMoyenne()">
+                Calculer la moyenne
+            </button>
+
+            <button class="btn-enregistrer" onclick="enregistrerNotes()">
+                Enregistrer les notes
+            </button>
+
+            <button class="btn-reinitialiser" onclick="reinitialiser()">
+                Réinitialiser
+            </button>
+
+        </div>
+
+        <div id="message" class="message"></div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>Résultat de l'élève</h2>
+
+        <div class="resume">
+
+            <div class="resume-box">
+                <span>Moyenne générale</span>
+                <strong id="moyenneFinale">-- / 20</strong>
+            </div>
+
+            <div class="resume-box">
+                <span>Décision</span>
+                <strong id="decision" class="decision">--</strong>
+            </div>
+
+            <div class="resume-box">
+                <span>Mention</span>
+                <strong id="mention">--</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const coefficients = {
+
+    "6e":{
+        "Français":1,
+        "Mathématiques":1,
+        "Histoire":1,
+        "Anglais":1,
+        "SVT":1,
+        "Sciences physiques":1,
+        "EPS":1
+    },
+
+    "5e":{
+        "Français":1,
+        "Mathématiques":1,
+        "Histoire":1,
+        "Anglais":1,
+        "SVT":1,
+        "Sciences physiques":1,
+        "EPS":1
+    },
+
+    "4e":{
+        "Français":1,
+        "Mathématiques":1,
+        "Histoire":1,
+        "Anglais":1,
+        "SVT":1,
+        "Sciences physiques":1,
+        "EPS":1
+    },
+
+    "3e":{
+        "Français":2,
+        "Mathématiques":4,
+        "Histoire":2,
+        "Anglais":2,
+        "SVT":2,
+        "Sciences physiques":2,
+        "EPS":2
+    },
+
+    "Seconde":{
+        "Français":1,
+        "Mathématiques":1,
+        "Histoire":1,
+        "Anglais":1,
+        "SVT":1,
+        "Sciences physiques":1,
+        "EPS":1
+    },
+
+    "Première A":{
+        "Français":1,
+        "Philosophie":1,
+        "Histoire":1,
+        "Anglais":1,
+        "Mathématiques":1,
+        "Espagnol":1,
+        "EPS":1
+    },
+
+    "Première D":{
+        "Français":1,
+        "Mathématiques":1,
+        "Histoire":1,
+        "Anglais":1,
+        "SVT":1,
+        "Sciences physiques":1,
+        "EPS":1
+    },
+
+    "Terminale A":{
+        "Philosophie":5,
+        "Français":5,
+        "Histoire":4,
+        "Anglais":4,
+        "Mathématiques":3,
+        "Espagnol":3,
+        "EPS":2
+    },
+
+    "Terminale D":{
+        "Mathématiques":4,
+        "SVT":5,
+        "Sciences physiques":5,
+        "Histoire":3,
+        "Français":3,
+        "Anglais":3,
+        "Histoire-géographie":3,
+        "EPS":2
+    }
+
+};
+
+
+function chargerClasse(){
+
+    const classe = document.getElementById("classe").value;
+
+    const tableau = document.getElementById("tableNotes");
+
+    tableau.innerHTML = "";
+
+    if(!classe){
+
+        tableau.innerHTML = `
+            <tr>
+                <td colspan="7">
+                    Sélectionnez une classe pour afficher les matières.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+
+    const matieres = coefficients[classe];
+
+    for(const matiere in matieres){
+
+        const coef = matieres[matiere];
+
+        const ligne = document.createElement("tr");
+
+        ligne.innerHTML = `
+
+            <td>${matiere}</td>
+
+            <td>
+                <input
+                    type="number"
+                    min="0"
+                    max="20"
+                    step="0.01"
+                    class="note devoirClasse"
+                    data-index="${Object.keys(matieres).indexOf(matiere)}"
+                >
+            </td>
+
+            <td>
+                <input
+                    type="number"
+                    min="0"
+                    max="20"
+                    step="0.01"
+                    class="note devoirDepartemental"
+                    data-index="${Object.keys(matieres).indexOf(matiere)}"
+                >
+            </td>
+
+            <td class="resultat moyenne-classe">
+                <span id="mc_${Object.keys(matieres).indexOf(matiere)}">--</span>
+            </td>
+
+            <td>
+                <input
+                    type="number"
+                    min="0"
+                    max="20"
+                    step="0.01"
+                    class="note composition"
+                    data-index="${Object.keys(matieres).indexOf(matiere)}"
+                >
+            </td>
+
+            <td class="resultat moyenne-generale">
+                <span id="mg_${Object.keys(matieres).indexOf(matiere)}">--</span>
+            </td>
+
+            <td class="coeff">${coef}</td>
+
+        `;
+
+        tableau.appendChild(ligne);
+    }
+
+}
+
+
+function calculerLignes(){
+
+    const classe = document.getElementById("classe").value;
+
+    if(!classe){
+        alert("Veuillez sélectionner une classe.");
+        return;
+    }
+
+    const lignes = document.querySelectorAll("#tableNotes tr");
+
+    lignes.forEach((ligne,index)=>{
+
+        const devoirClasse =
+            ligne.querySelector(".devoirClasse");
+
+        const devoirDepartemental =
+            ligne.querySelector(".devoirDepartemental");
+
+        const composition =
+            ligne.querySelector(".composition");
+
+        if(!devoirClasse || !devoirDepartemental || !composition){
+            return;
+        }
+
+        const dc = parseFloat(devoirClasse.value);
+        const dd = parseFloat(devoirDepartemental.value);
+        const comp = parseFloat(composition.value);
+
+        if(
+            isNaN(dc) ||
+            isNaN(dd) ||
+            isNaN(comp)
+        ){
+            document.getElementById("mc_"+index).textContent="--";
+            document.getElementById("mg_"+index).textContent="--";
+            return;
+        }
+
+        const moyenneClasse = (dc + dd) / 2;
+
+        const moyenneGenerale =
+            (moyenneClasse + comp) / 2;
+
+        document.getElementById("mc_"+index).textContent =
+            moyenneClasse.toFixed(2);
+
+        document.getElementById("mg_"+index).textContent =
+            moyenneGenerale.toFixed(2);
+
+    });
+
+}
+
+
+function calculerMoyenne(){
+
+    calculerLignes();
+
+    const classe =
+        document.getElementById("classe").value;
+
+    const eleve =
+        document.getElementById("eleve").value;
+
+    if(!classe){
+
+        afficherMessage(
+            "Veuillez sélectionner une classe.",
+            "erreur"
+        );
+
+        return;
+    }
+
+    if(!eleve){
+
+        afficherMessage(
+            "Veuillez sélectionner un élève.",
+            "erreur"
+        );
+
+        return;
+    }
+
+
+    const matieres = coefficients[classe];
+
+    let total = 0;
+    let totalCoefficients = 0;
+
+    const lignes =
+        document.querySelectorAll("#tableNotes tr");
+
+
+    lignes.forEach((ligne,index)=>{
+
+        const moyenneElement =
+            document.getElementById("mg_"+index);
+
+        if(!moyenneElement){
+            return;
+        }
+
+        const moyenne =
+            parseFloat(moyenneElement.textContent);
+
+        if(isNaN(moyenne)){
+            return;
+        }
+
+        const matiere =
+            Object.keys(matieres)[index];
+
+        const coef =
+            matieres[matiere];
+
+        total += moyenne * coef;
+
+        totalCoefficients += coef;
+
+    });
+
+
+    if(totalCoefficients === 0){
+
+        afficherMessage(
+            "Veuillez saisir toutes les notes nécessaires avant de calculer.",
+            "erreur"
+        );
+
+        return;
+    }
+
+
+    const moyenneFinale =
+        total / totalCoefficients;
+
+
+    document.getElementById("moyenneFinale").textContent =
+        moyenneFinale.toFixed(2) + " / 20";
+
+
+    const decision =
+        document.getElementById("decision");
+
+
+    if(moyenneFinale >= 10){
+
+        decision.textContent = "ADMIS";
+
+        decision.className =
+            "decision admis";
+
+    }else{
+
+        decision.textContent = "ÉCHOUÉ";
+
+        decision.className =
+            "decision echoue";
+
+    }
+
+
+    document.getElementById("mention").textContent =
+        obtenirMention(moyenneFinale);
+
+}
+
+
+function obtenirMention(moyenne){
+
+    if(moyenne < 4){
+        return "Nul";
+    }
+
+    if(moyenne < 6){
+        return "Très faible";
+    }
+
+    if(moyenne < 8){
+        return "Faible";
+    }
+
+    if(moyenne < 10){
+        return "Insuffisant";
+    }
+
+    if(moyenne < 12){
+        return "Passable";
+    }
+
+    if(moyenne < 14){
+        return "Assez bien";
+    }
+
+    if(moyenne < 16){
+        return "Bien";
+    }
+
+    if(moyenne < 18){
+        return "Très bien";
+    }
+
+    return "Excellent";
+
+}
+
+
+function enregistrerNotes(){
+
+    calculerMoyenne();
+
+    const classe =
+        document.getElementById("classe").value;
+
+    const eleve =
+        document.getElementById("eleve").value;
+
+    if(!classe || !eleve){
+        return;
+    }
+
+
+    const matieres =
+        coefficients[classe];
+
+    const notes = {};
+
+    const lignes =
+        document.querySelectorAll("#tableNotes tr");
+
+
+    lignes.forEach((ligne,index)=>{
+
+        const dc =
+            ligne.querySelector(".devoirClasse");
+
+        const dd =
+            ligne.querySelector(".devoirDepartemental");
+
+        const comp =
+            ligne.querySelector(".composition");
+
+        if(!dc || !dd || !comp){
+            return;
+        }
+
+
+        const matiere =
+            Object.keys(matieres)[index];
+
+        const devoirClasse =
+            parseFloat(dc.value);
+
+        const devoirDepartemental =
+            parseFloat(dd.value);
+
+        const composition =
+            parseFloat(comp.value);
+
+        const moyenneClasse =
+            (devoirClasse + devoirDepartemental) / 2;
+
+        const moyenneGenerale =
+            (moyenneClasse + composition) / 2;
+
+
+        notes[matiere] = {
+
+            devoirClasse:
+                devoirClasse,
+
+            devoirDepartemental:
+                devoirDepartemental,
+
+            moyenneClasse:
+                moyenneClasse,
+
+            composition:
+                composition,
+
+            moyenneGenerale:
+                moyenneGenerale,
+
+            coefficient:
+                matieres[matiere]
+
+        };
+
+    });
+
+
+    const moyenneFinale =
+        parseFloat(
+            document
+            .getElementById("moyenneFinale")
+            .textContent
+            .replace("/ 20","")
+        );
+
+
+    const decision =
+        document.getElementById("decision")
+        .textContent;
+
+
+    const cle =
+        "EB_NOTES_" +
+        classe +
+        "_" +
+        eleve;
+
+
+    const donnees = {
+
+        eleve:eleve,
+
+        classe:classe,
+
+        notes:notes,
+
+        moyenneFinale:moyenneFinale,
+
+        decision:decision,
+
+        dateEnregistrement:
+            new Date().toISOString()
+
+    };
+
+
+    localStorage.setItem(
+        cle,
+        JSON.stringify(donnees)
+    );
+
+
+    let indexNotes =
+        JSON.parse(
+            localStorage.getItem("EB_INDEX_NOTES") || "[]"
+        );
+
+
+    indexNotes =
+        indexNotes.filter(
+            item => item.cle !== cle
+        );
+
+
+    indexNotes.push({
+
+        classe:classe,
+
+        eleve:eleve,
+
+        cle:cle
+
+    });
+
+
+    localStorage.setItem(
+        "EB_INDEX_NOTES",
+        JSON.stringify(indexNotes)
+    );
+
+
+    afficherMessage(
+        "Notes enregistrées avec succès.",
+        "succes"
+    );
+
+}
+
+
+function reinitialiser(){
+
+    document
+        .getElementById("tableNotes")
+        .innerHTML = `
+            <tr>
+                <td colspan="7">
+                    Sélectionnez une classe pour afficher les matières.
+                </td>
+            </tr>
+        `;
+
+
+    document.getElementById("classe").value = "";
+
+    document.getElementById("eleve").value = "";
+
+    document.getElementById("moyenneFinale").textContent =
+        "-- / 20";
+
+    document.getElementById("decision").textContent =
+        "--";
+
+    document.getElementById("decision").className =
+        "decision";
+
+    document.getElementById("mention").textContent =
+        "--";
+
+    document.getElementById("message").style.display =
+        "none";
+
+}
+
+
+function afficherMessage(texte,type){
+
+    const message =
+        document.getElementById("message");
+
+    message.textContent = texte;
+
+    message.className =
+        "message " + type;
+
+    message.style.display =
+        "block";
+
+}
+
+
+</script>
+
+</body>
+</html>
