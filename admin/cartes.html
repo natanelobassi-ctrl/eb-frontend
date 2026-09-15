@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carte scolaire | Étoile Brillante</title>
+
+<link rel="stylesheet" href="../assets/css/style.css">
+
+<style>
+body{background:#f4f6fb;font-family:Arial,sans-serif;padding:20px;}
+.card-box{max-width:380px;margin:auto;background:white;border-radius:20px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.15);}
+.top{background:#0A2A78;color:white;text-align:center;padding:20px;}
+.logo{width:70px;height:70px;border-radius:50%;background:white;color:#0A2A78;font-weight:bold;font-size:30px;display:flex;align-items:center;justify-content:center;margin:auto;border:3px solid #C9A227;}
+.photo{width:120px;height:140px;object-fit:cover;border-radius:12px;border:3px solid #C9A227;margin:15px auto;display:block;background:#eee;}
+.info{padding:20px;}
+.info p{margin:8px 0;}
+.qr{display:flex;justify-content:center;margin:20px;}
+button{margin:15px auto;display:block;}
+@media print{
+button,input{display:none;}
+body{background:white;}
+}
+</style>
+
+</head>
+<body>
+
+<div class="card-box">
+
+<div class="top">
+
+<div class="logo">EB</div>
+
+<h3>Groupe Scolaire Étoile Brillante</h3>
+
+<p>Carte scolaire</p>
+
+</div>
+
+<img id="photoPreview" class="photo">
+
+<div class="info">
+
+<input type="file" id="photo" accept="image/*">
+
+<p><strong>Matricule :</strong> <span id="matricule">EB2026-0001</span></p>
+
+<p><strong>Nom :</strong> <span id="nomAff">Nom Prénom</span></p>
+
+<p><strong>Classe :</strong> <span id="classeAff">6e</span></p>
+
+<p><strong>Adresse :</strong> <span id="adresseAff">Brazzaville</span></p>
+
+<div class="qr">
+<img id="qr" src="">
+</div>
+
+<p style="text-align:center;font-size:13px;">
+Signature du Directeur des études
+</p>
+
+</div>
+
+</div>
+
+<div style="max-width:380px;margin:auto;">
+
+<input id="nom" placeholder="Nom et prénom">
+<input id="classe" placeholder="Classe">
+<input id="adresse" placeholder="Adresse">
+
+<button class="btn" onclick="generer()">
+Générer la carte
+</button>
+
+<button class="btn" onclick="window.print()">
+Imprimer
+</button>
+
+</div>
+
+<script>
+
+document.getElementById("photo").addEventListener("change",e=>{
+
+const file=e.target.files[0];
+
+if(file){
+
+photoPreview.src=URL.createObjectURL(file);
+
+}
+
+});
+
+function generer(){
+
+const matricule="EB2026-0001";
+
+document.getElementById("matricule").textContent=matricule;
+document.getElementById("nomAff").textContent=document.getElementById("nom").value;
+document.getElementById("classeAff").textContent=document.getElementById("classe").value;
+document.getElementById("adresseAff").textContent=document.getElementById("adresse").value;
+
+document.getElementById("qr").src=
+"https://api.qrserver.com/v1/create-qr-code/?size=120x120&data="+matricule;
+
+}
+
+</script>
+
+</body>
+</html>
