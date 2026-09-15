@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Notes | Étoile Brillante</title>
+
+<link rel="stylesheet" href="../assets/css/style.css">
+
+<style>
+body{
+    margin:0;
+    background:#f4f6fb;
+    font-family:Arial,sans-serif;
+}
+
+.admin{
+    display:flex;
+    min-height:100vh;
+}
+
+.sidebar{
+    width:250px;
+    background:#0A2A78;
+    color:white;
+    padding:20px;
+}
+
+.sidebar h2{
+    margin-bottom:25px;
+}
+
+.sidebar a{
+    display:block;
+    color:white;
+    text-decoration:none;
+    padding:11px;
+    border-radius:8px;
+    margin-bottom:6px;
+}
+
+.sidebar a:hover{
+    background:#123A9B;
+}
+
+.content{
+    flex:1;
+    padding:25px;
+}
+
+.box{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+    margin-bottom:20px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:15px;
+}
+
+input,select{
+    width:100%;
+    padding:11px;
+    margin-top:6px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    box-sizing:border-box;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+th,td{
+    padding:10px;
+    border-bottom:1px solid #ddd;
+    text-align:left;
+}
+
+th{
+    background:#0A2A78;
+    color:white;
+}
+
+.resultat{
+    font-size:18px;
+    font-weight:bold;
+    margin-top:20px;
+}
+
+.admis{
+    color:green;
+}
+
+.echoue{
+    color:#b00020;
+}
+
+@media(max-width:768px){
+    .admin{
+        flex-direction:column;
+    }
+
+    .sidebar{
+        width:auto;
+    }
+
+    table{
+        font-size:13px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="admin">
+
+<aside class="sidebar">
+
+<h2>⭐ Étoile Brillante</h2>
+
+<a href="index.html">📊 Tableau de bord</a>
+<a href="eleves.html">👨‍🎓 Élèves</a>
+<a href="cartes.html">🪪 Cartes scolaires</a>
+<a href="notes.html">📚 Notes</a>
+<a href="#">📄 Bulletins</a>
+<a href="#">💳 Paiements</a>
+<a href="#">👨‍🏫 Enseignants</a>
+<a href="#">👨‍👩‍👧 Parents</a>
+<a href="#">📅 Absences</a>
+<a href="#">🏠 Internat</a>
+
+</aside>
+
+
+<main class="content">
+
+<div class="box">
+
+<h2>Gestion des notes</h2>
+
+<p>
+Saisie et calcul automatique des résultats scolaires.
+</p>
+
+<div class="grid">
+
+<div>
+<label>Classe</label>
+
+<select id="classe" onchange="chargerMatieres()">
+
+<option value="6e">6e</option>
+<option value="5e">5e</option>
+<option value="4e">4e</option>
+<option value="3e">3e</option>
+<option value="Seconde">Seconde</option>
+<option value="Première A">Première A</option>
+<option value="Première D">Première D</option>
+<option value="Terminale A">Terminale A</option>
+<option value="Terminale D">Terminale D</option>
+
+</select>
+</div>
+
+
+<div>
+<label>Élève</label>
+
+<select id="eleve">
+
+<option>MABIALA Exemple</option>
+<option>NGOMA Exemple</option>
+<option>MBOUKOU Exemple</option>
+
+</select>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="box">
+
+<h2>Notes de l'élève</h2>
+
+<table>
+
+<thead>
+<tr>
+<th>Matière</th>
+<th>Note /20</th>
+<th>Coefficient</th>
+</tr>
+</thead>
+
+<tbody id="matieres"></tbody>
+
+</table>
+
+
+<button
+class="btn"
+type="button"
+onclick="calculer()">
+
+Calculer la moyenne
+
+</button>
+
+
+<div id="resultat" class="resultat"></div>
+
+</div>
+
+
+<div class="box">
+
+<h2>Règles d'admission</h2>
+
+<p>
+<strong>10/20 ou plus :</strong> ADMIS
+</p>
+
+<p>
+<strong>Moins de 10/20 :</strong> ÉCHOUÉ
+</p>
+
+</div>
+
+</main>
+
+</div>
+
+
+<script>
+
+const coefficients = {
+
+"6e":{
+"Français":1,
+"Mathématiques":1,
+"Histoire":1,
+"Anglais":1,
+"SVT":1,
+"Sciences physiques":1,
+"EPS":1
+},
+
+"5e":{
+"Français":1,
+"Mathématiques":1,
+"Histoire":1,
+"Anglais":1,
+"SVT":1,
+"Sciences physiques":1,
+"EPS":1
+},
+
+"4e":{
+"Français":1,
+"Mathématiques":1,
+"Histoire":1,
+"Anglais":1,
+"SVT":1,
+"Sciences physiques":1,
+"EPS":1
+},
+
+"3e":{
+"Français":2,
+"Mathématiques":4,
+"Histoire":2,
+"Anglais":2,
+"SVT":2,
+"Sciences physiques":2,
+"EPS":2
+},
+
+"Seconde":{
+"Français":1,
+"Mathématiques":1,
+"Histoire":1,
+"Anglais":1,
+"SVT":1,
+"Sciences physiques":1,
+"EPS":1
+},
+
+"Première A":{
+"Français":1,
+"Mathématiques":1,
+"Histoire":1,
+"Anglais":1,
+"Philosophie":1,
+"Espagnol":1,
+"EPS":1
+},
+
+"Première D":{
+"Français":1,
+"Mathématiques":1,
+"Histoire":1,
+"Anglais":1,
+"SVT":1,
+"Sciences physiques":1,
+"EPS":1
+},
+
+"Terminale A":{
+"Philosophie":5,
+"Français":5,
+"Histoire":4,
+"Anglais":4,
+"Mathématiques":3,
+"Espagnol":3,
+"EPS":2
+},
+
+"Terminale D":{
+"Mathématiques":4,
+"SVT":5,
+"Sciences physiques":5,
+"Histoire":3,
+"Français":3,
+"Anglais":3,
+"Histoire-géographie":3,
+"EPS":2
+}
+
+};
+
+
+function chargerMatieres(){
+
+const classe =
+document.getElementById("classe").value;
+
+const liste =
+coefficients[classe];
+
+const tableau =
+document.getElementById("matieres");
+
+tableau.innerHTML="";
+
+
+for(const matiere in liste){
+
+tableau.innerHTML += `
+
+<tr>
+
+<td>${matiere}</td>
+
+<td>
+<input
+type="number"
+min="0"
+max="20"
+step="0.01"
+class="note"
+data-coef="${liste[matiere]}"
+placeholder="0 à 20">
+</td>
+
+<td>${liste[matiere]}</td>
+
+</tr>
+
+`;
+
+}
+
+}
+
+
+function calculer(){
+
+const notes =
+document.querySelectorAll(".note");
+
+let total=0;
+let totalCoef=0;
+
+
+notes.forEach(function(note){
+
+const valeur =
+parseFloat(note.value);
+
+const coef =
+parseFloat(note.dataset.coef);
+
+
+if(!isNaN(valeur)){
+
+total += valeur * coef;
+totalCoef += coef;
+
+}
+
+});
+
+
+if(totalCoef===0){
+
+document.getElementById("resultat").innerHTML =
+"Veuillez saisir au moins une note.";
+
+return;
+
+}
+
+
+const moyenne =
+total / totalCoef;
+
+
+const decision =
+moyenne >= 10
+? "ADMIS"
+: "ÉCHOUÉ";
+
+
+const classe =
+document.getElementById("classe").value;
+
+
+document.getElementById("resultat").innerHTML = `
+
+Classe : <strong>${classe}</strong><br>
+
+Moyenne :
+<strong>${moyenne.toFixed(2)}/20</strong><br>
+
+Décision :
+<strong class="${moyenne>=10?'admis':'echoue'}">
+${decision}
+</strong>
+
+`;
+
+}
+
+
+chargerMatieres();
+
+</script>
+
+</body>
+</html>
