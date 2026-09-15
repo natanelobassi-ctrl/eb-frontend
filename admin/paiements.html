@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paiements - Groupe Scolaire Étoile Brillante</title>
+
+<style>
+:root{
+    --bleu:#0A2A78;
+    --bleu2:#123A9B;
+    --or:#C9A227;
+    --ivoire:#F7F4ED;
+    --vert:#198754;
+    --rouge:#C62828;
+    --orange:#EF6C00;
+    --blanc:#fff;
+    --texte:#1F2937;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--ivoire);
+    color:var(--texte);
+    line-height:1.5;
+}
+
+header{
+    background:var(--bleu);
+    color:white;
+    padding:18px 0;
+    box-shadow:0 3px 12px rgba(0,0,0,.2);
+}
+
+.container{
+    width:94%;
+    max-width:1250px;
+    margin:auto;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.logo{
+    width:65px;
+    height:65px;
+    border-radius:50%;
+    background:white;
+    color:var(--bleu);
+    border:3px solid var(--or);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    font-size:20px;
+}
+
+.brand h1{
+    font-size:1.35rem;
+}
+
+.brand p{
+    font-size:.9rem;
+}
+
+nav{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:18px;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    padding:9px 12px;
+    border-radius:7px;
+    font-weight:bold;
+}
+
+nav a:hover{
+    background:rgba(255,255,255,.15);
+    color:var(--or);
+}
+
+main{
+    padding:30px 0 60px;
+}
+
+.title{
+    background:linear-gradient(135deg,var(--bleu),var(--bleu2));
+    color:white;
+    padding:28px;
+    border-radius:15px;
+    margin-bottom:25px;
+}
+
+.title h2{
+    font-size:2rem;
+    margin-bottom:7px;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.stat{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+    border-left:5px solid var(--bleu);
+}
+
+.stat strong{
+    display:block;
+    font-size:1.8rem;
+    color:var(--bleu);
+}
+
+.stat span{
+    font-size:.9rem;
+}
+
+.panel{
+    background:white;
+    padding:24px;
+    border-radius:15px;
+    box-shadow:0 5px 18px rgba(0,0,0,.08);
+    margin-bottom:25px;
+}
+
+.panel h3{
+    color:var(--bleu);
+    margin-bottom:18px;
+}
+
+.notice{
+    background:#fff8df;
+    border-left:5px solid var(--or);
+    padding:15px;
+    border-radius:8px;
+    margin-bottom:20px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.full{
+    grid-column:1/-1;
+}
+
+label{
+    display:block;
+    font-weight:bold;
+    margin-bottom:5px;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:11px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:1rem;
+    margin-bottom:10px;
+}
+
+textarea{
+    min-height:80px;
+    resize:vertical;
+}
+
+button{
+    border:0;
+    border-radius:8px;
+    padding:11px 16px;
+    cursor:pointer;
+    font-weight:bold;
+    margin:3px;
+}
+
+.btn{
+    background:var(--bleu);
+    color:white;
+}
+
+.btn-green{
+    background:var(--vert);
+    color:white;
+}
+
+.btn-red{
+    background:var(--rouge);
+    color:white;
+}
+
+.btn-orange{
+    background:var(--orange);
+    color:white;
+}
+
+.btn-or{
+    background:var(--or);
+    color:#111;
+}
+
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:1050px;
+}
+
+th,
+td{
+    padding:10px;
+    border-bottom:1px solid #ddd;
+    text-align:left;
+}
+
+th{
+    background:var(--bleu);
+    color:white;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:.8rem;
+    font-weight:bold;
+}
+
+.attente{
+    background:#fff3cd;
+    color:#856404;
+}
+
+.confirme{
+    background:#d9f5e5;
+    color:#08753a;
+}
+
+.echoue{
+    background:#ffdede;
+    color:#a00000;
+}
+
+.annule{
+    background:#eeeeee;
+    color:#555;
+}
+
+.actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:4px;
+}
+
+.receipt{
+    max-width:760px;
+    margin:25px auto;
+    background:white;
+    border:2px solid #222;
+    padding:25px;
+    display:none;
+}
+
+.receipt-head{
+    text-align:center;
+    border-bottom:2px solid var(--bleu);
+    padding-bottom:15px;
+    margin-bottom:20px;
+}
+
+.receipt-head h2{
+    color:var(--bleu);
+}
+
+.receipt-title{
+    text-align:center;
+    margin:20px 0;
+    font-size:1.4rem;
+    font-weight:bold;
+}
+
+.receipt-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+}
+
+.receipt-row{
+    padding:8px;
+    border-bottom:1px solid #ddd;
+}
+
+.paid{
+    border:3px solid var(--vert);
+    color:var(--vert);
+    padding:12px;
+    text-align:center;
+    font-size:1.3rem;
+    font-weight:bold;
+    margin:20px 0;
+}
+
+.signature{
+    margin-top:35px;
+    display:flex;
+    justify-content:space-between;
+}
+
+footer{
+    background:var(--bleu);
+    color:white;
+    text-align:center;
+    padding:25px;
+}
+
+@media(max-width:700px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .full{
+        grid-column:auto;
+    }
+
+    .title h2{
+        font-size:1.5rem;
+    }
+
+    .receipt-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media print{
+
+    body *{
+        visibility:hidden;
+    }
+
+    #receipt,
+    #receipt *{
+        visibility:visible;
+    }
+
+    #receipt{
+        display:block !important;
+        position:absolute;
+        left:0;
+        top:0;
+        width:100%;
+        margin:0;
+        border:1px solid #000;
+    }
+
+    .no-print{
+        display:none !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="no-print">
+
+<div class="container">
+
+    <div class="brand">
+
+        <div class="logo">EB</div>
+
+        <div>
+            <h1>Groupe Scolaire Étoile Brillante</h1>
+            <p>Administration — Gestion des paiements</p>
+        </div>
+
+    </div>
+
+    <nav>
+        <a href="index.html">Dashboard</a>
+        <a href="eleves.html">Élèves</a>
+        <a href="classes.html">Classes</a>
+        <a href="notes.html">Notes</a>
+        <a href="bulletins.html">Bulletins</a>
+        <a href="absences.html">Absences</a>
+        <a href="enseignants.html">Enseignants</a>
+        <a href="internat.html">Internat</a>
+        <a href="paiements.html">Paiements</a>
+    </nav>
+
+</div>
+
+</header>
+
+<main class="no-print">
+
+<div class="container">
+
+<div class="title">
+
+    <h2>Gestion des paiements</h2>
+
+    <p>
+        Paiements scolaires par Mobile Money,
+        confirmation administrative et émission du reçu.
+    </p>
+
+</div>
+
+<div class="notice">
+
+    <strong>Numéro Mobile Money de l'école :</strong>
+    067598453
+
+    <br><br>
+
+    Le paiement est considéré comme définitif uniquement
+    après vérification et confirmation par l'administration.
+
+</div>
+
+<!-- STATISTIQUES -->
+
+<div class="cards">
+
+    <div class="stat">
+        <strong id="totalPaiements">0</strong>
+        <span>Total paiements</span>
+    </div>
+
+    <div class="stat">
+        <strong id="attentePaiements">0</strong>
+        <span>En attente</span>
+    </div>
+
+    <div class="stat">
+        <strong id="confirmePaiements">0</strong>
+        <span>Confirmés</span>
+    </div>
+
+    <div class="stat">
+        <strong id="montantTotal">0 FCFA</strong>
+        <span>Montant confirmé</span>
+    </div>
+
+</div>
+
+<!-- FORMULAIRE -->
+
+<section class="panel">
+
+<h3>➕ Enregistrer un paiement</h3>
+
+<form id="paiementForm">
+
+<div class="grid">
+
+    <div>
+        <label>Nom de l'élève</label>
+        <input
+            type="text"
+            id="nomEleve"
+            required
+            placeholder="Nom">
+    </div>
+
+    <div>
+        <label>Prénom de l'élève</label>
+        <input
+            type="text"
+            id="prenomEleve"
+            required
+            placeholder="Prénom">
+    </div>
+
+    <div>
+        <label>Matricule</label>
+        <input
+            type="text"
+            id="matricule"
+            placeholder="Ex : EB2026-0001">
+    </div>
+
+    <div>
+        <label>Classe</label>
+
+        <select id="classe" required>
+
+            <option value="">Sélectionner</option>
+
+            <option>P1</option>
+            <option>P2</option>
+            <option>P3</option>
+
+            <option>CP1</option>
+            <option>CP2</option>
+            <option>CE1</option>
+            <option>CE2</option>
+            <option>CM1</option>
+            <option>CM2</option>
+
+            <option>6e</option>
+            <option>5e</option>
+            <option>4e</option>
+            <option>3e</option>
+
+            <option>STC</option>
+            <option>Première A</option>
+            <option>Première D</option>
+            <option>Terminale A</option>
+            <option>Terminale D</option>
+
+        </select>
+
+    </div>
+
+    <div>
+        <label>Nom du parent / payeur</label>
+        <input
+            type="text"
+            id="parent"
+            placeholder="Nom du payeur">
+    </div>
+
+    <div>
+        <label>Téléphone du payeur</label>
+        <input
+            type="tel"
+            id="telephonePayeur"
+            placeholder="06...">
+    </div>
+
+    <div>
+        <label>Motif du paiement</label>
+
+        <select id="motif" required>
+
+            <option value="">Sélectionner</option>
+
+            <option>Inscription</option>
+            <option>Réinscription</option>
+            <option>Scolarité</option>
+            <option>Frais d'internat</option>
+            <option>Frais d'examen</option>
+            <option>Transport</option>
+            <option>Cantine</option>
+            <option>Tenue scolaire</option>
+            <option>Carte scolaire</option>
+            <option>Autre</option>
+
+        </select>
+
+    </div>
+
+    <div>
+        <label>Montant (FCFA)</label>
+        <input
+            type="number"
+            id="montant"
+            min="1"
+            required
+            placeholder="Ex : 50000">
+    </div>
+
+    <div>
+        <label>Référence de transaction</label>
+        <input
+            type="text"
+            id="reference"
+            required
+            placeholder="Référence Mobile Money">
+    </div>
+
+    <div>
+        <label>Date du paiement</label>
+        <input
+            type="date"
+            id="datePaiement"
+            required>
+    </div>
+
+    <div>
+        <label>Heure</label>
+        <input
+            type="time"
+            id="heurePaiement">
+    </div>
+
+    <div class="full">
+        <label>Observation</label>
+
+        <textarea
+            id="observation"
+            placeholder="Observation éventuelle..."></textarea>
+    </div>
+
+</div>
+
+<button type="submit" class="btn-green">
+    Enregistrer le paiement
+</button>
+
+<button type="reset" class="btn">
+    Réinitialiser
+</button>
+
+</form>
+
+</section>
+
+<!-- TABLEAU -->
+
+<section class="panel">
+
+<h3>💰 Liste des paiements</h3>
+
+<div class="grid">
+
+    <div>
+        <label>Recherche</label>
+
+        <input
+            type="text"
+            id="recherche"
+            placeholder="Nom, matricule, référence..."
+            oninput="afficherPaiements()">
+    </div>
+
+    <div>
+        <label>Statut</label>
+
+        <select
+            id="filtreStatut"
+            onchange="afficherPaiements()">
+
+            <option value="">Tous</option>
+            <option value="En attente">En attente</option>
+            <option value="Confirmée">Confirmée</option>
+            <option value="Échouée">Échouée</option>
+            <option value="Annulée">Annulée</option>
+
+        </select>
+
+    </div>
+
+</div>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+    <th>Reçu</th>
+    <th>Élève</th>
+    <th>Classe</th>
+    <th>Motif</th>
+    <th>Montant</th>
+    <th>Référence</th>
+    <th>Date</th>
+    <th>Statut</th>
+    <th>Actions</th>
+</tr>
+
+</thead>
+
+<tbody id="tablePaiements"></tbody>
+
+</table>
+
+</div>
+
+</section>
+
+</div>
+
+</main>
+
+<!-- REÇU -->
+
+<section id="receipt" class="receipt">
+
+<div class="receipt-head">
+
+    <div style="
+        font-weight:bold;
+        font-size:1.5rem;
+        color:#0A2A78;
+        margin-bottom:5px;
+    ">
+        GROUPE SCOLAIRE ÉTOILE BRILLANTE
+    </div>
+
+    <div>
+        Excellence • Discipline • Innovation
+    </div>
+
+    <div>
+        03 rue Poumako, marché Massengo,
+        arrondissement 9 Djiri — Brazzaville
+    </div>
+
+    <div>
+        WhatsApp / Mobile Money : 067598453
+    </div>
+
+</div>
+
+<div class="receipt-title">
+    REÇU DE PAIEMENT
+</div>
+
+<div class="paid">
+    REÇU PAYÉ
+</div>
+
+<div class="receipt-grid">
+
+    <div class="receipt-row">
+        <strong>N° reçu :</strong>
+        <span id="rNumero"></span>
+    </div>
+
+    <div class="receipt-row">
+        <strong>Date :</strong>
+        <span id="rDate"></span>
+    </div>
+
+    <div class="receipt-row">
+        <strong>Élève :</strong>
+        <span id="rEleve"></span>
+    </div>
+
+    <div class="receipt-row">
+        <strong>Matricule :</strong>
+        <span id="rMatricule"></span>
+    </div>
+
+    <div class="receipt-row">
+        <strong>Classe :</strong>
+        <span id="rClasse"></span>
+    </div>
+
+    <div class="receipt-row">
+        <strong>Payeur :</strong>
+        <span id="rParent"></span>
+    </div>
+
+    <div class="receipt-row">
+        <strong>Motif :</strong>
+        <span id="rMotif"></span>
+    </div>
+
+    <div class="receipt-row">
+        <strong>Mode :</strong>
+        Mobile Money
+    </div>
+
+    <div class="receipt-row">
+        <strong>Référence :</strong>
+        <span id="rReference"></span>
+    </div>
+
+    <div class="receipt-row">
+        <strong>Montant :</strong>
+        <strong id="rMontant"></strong>
+    </div>
+
+</div>
+
+<div style="
+    margin-top:20px;
+    padding:15px;
+    background:#f7f7f7;
+    text-align:center;
+">
+
+    <strong>
+        Montant reçu :
+        <span id="rMontant2"></span>
+    </strong>
+
+</div>
+
+<div class="signature">
+
+    <div>
+        <strong>Administration</strong><br>
+        Confirmation du paiement
+    </div>
+
+    <div style="text-align:right;">
+        <strong>REÇU PAYÉ</strong><br>
+        Groupe Scolaire Étoile Brillante
+    </div>
+
+</div>
+
+<div style="text-align:center;margin-top:30px;">
+    Merci pour votre confiance.
+</div>
+
+</section>
+
+<div class="no-print"
+     style="text-align:center;margin-bottom:40px;">
+
+    <button
+        class="btn"
+        onclick="window.location.href='index.html'">
+        Retour administration
+    </button>
+
+</div>
+
+<footer class="no-print">
+
+<strong>Groupe Scolaire Étoile Brillante</strong><br>
+Excellence • Discipline • Innovation
+
+</footer>
+
+<script>
+
+const CLE_PAIEMENTS = "EB_PAIEMENTS";
+
+let paiements =
+    JSON.parse(
+        localStorage.getItem(CLE_PAIEMENTS) || "[]"
+    );
+
+const aujourdHui =
+    new Date().toISOString().slice(0,10);
+
+document.getElementById("datePaiement").value =
+    aujourdHui;
+
+document.getElementById("heurePaiement").value =
+    new Date().toTimeString().slice(0,5);
+
+
+/* NUMÉRO REÇU */
+
+function genererNumero(){
+
+    const annee =
+        new Date().getFullYear();
+
+    const numero =
+        String(paiements.length + 1)
+        .padStart(5,"0");
+
+    return "EB-" + annee + "-" + numero;
+}
+
+
+/* SAUVEGARDE */
+
+function sauvegarder(){
+
+    localStorage.setItem(
+        CLE_PAIEMENTS,
+        JSON.stringify(paiements)
+    );
+}
+
+
+/* FORMULAIRE */
+
+document
+.getElementById("paiementForm")
+.addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    const paiement = {
+
+        id:
+            "PAY-" +
+            Date.now(),
+
+        numeroRecu:
+            genererNumero(),
+
+        nomEleve:
+            document.getElementById("nomEleve").value.trim(),
+
+        prenomEleve:
+            document.getElementById("prenomEleve").value.trim(),
+
+        matricule:
+            document.getElementById("matricule").value.trim(),
+
+        classe:
+            document.getElementById("classe").value,
+
+        parent:
+            document.getElementById("parent").value.trim(),
+
+        telephonePayeur:
+            document.getElementById("telephonePayeur").value.trim(),
+
+        motif:
+            document.getElementById("motif").value,
+
+        montant:
+            Number(document.getElementById("montant").value),
+
+        reference:
+            document.getElementById("reference").value.trim(),
+
+        date:
+            document.getElementById("datePaiement").value,
+
+        heure:
+            document.getElementById("heurePaiement").value,
+
+        observation:
+            document.getElementById("observation").value.trim(),
+
+        mode:
+            "Mobile Money",
+
+        statut:
+            "En attente",
+
+        dateCreation:
+            new Date().toISOString(),
+
+        confirmePar:"",
+        dateConfirmation:""
+
+    };
+
+    paiements.push(paiement);
+
+    sauvegarder();
+
+    alert(
+        "Paiement enregistré.\n\n" +
+        "Statut : EN ATTENTE\n" +
+        "Référence : " +
+        paiement.reference
+    );
+
+    this.reset();
+
+    document.getElementById("datePaiement").value =
+        aujourdHui;
+
+    document.getElementById("heurePaiement").value =
+        new Date().toTimeString().slice(0,5);
+
+    actualiser();
+
+});
+
+
+/* AFFICHER PAIEMENTS */
+
+function afficherPaiements(){
+
+    const tbody =
+        document.getElementById("tablePaiements");
+
+    const recherche =
+        document.getElementById("recherche")
+        .value
+        .toLowerCase();
+
+    const filtre =
+        document.getElementById("filtreStatut")
+        .value;
+
+    tbody.innerHTML = "";
+
+    const liste =
+        paiements.filter(p => {
+
+            const texte =
+                (
+                    p.nomEleve + " " +
+                    p.prenomEleve + " " +
+                    p.matricule + " " +
+                    p.reference + " " +
+                    p.numeroRecu
+                ).toLowerCase();
+
+            return (
+
+                (!recherche ||
+                 texte.includes(recherche))
+
+                &&
+
+                (!filtre ||
+                 p.statut === filtre)
+
+            );
+
+        });
+
+    if(liste.length === 0){
+
+        tbody.innerHTML = `
+        <tr>
+            <td colspan="9">
+                Aucun paiement trouvé.
+            </td>
+        </tr>`;
+
+        return;
+    }
+
+    [...liste]
+    .reverse()
+    .forEach(p => {
+
+        let classeBadge = "attente";
+
+        if(p.statut === "Confirmée")
+            classeBadge = "confirme";
+
+        if(p.statut === "Échouée")
+            classeBadge = "echoue";
+
+        if(p.statut === "Annulée")
+            classeBadge = "annule";
+
+        let actions = "";
+
+        if(p.statut === "En attente"){
+
+            actions += `
+            <button
+                class="btn-green"
+                onclick="confirmerPaiement('${p.id}')">
+                CONFIRMER
+            </button>
+
+            <button
+                class="btn-red"
+                onclick="annulerPaiement('${p.id}')">
+                ANNULER
+            </button>
+            `;
+
+        }
+
+        if(p.statut === "Confirmée"){
+
+            actions += `
+            <button
+                class="btn-or"
+                onclick="voirRecu('${p.id}')">
+                REÇU
+            </button>
+            `;
+
+        }
+
+        tbody.innerHTML += `
+
+        <tr>
+
+            <td>
+                ${escapeHTML(p.numeroRecu)}
+            </td>
+
+            <td>
+                <strong>
+                    ${escapeHTML(p.nomEleve)}
+                    ${escapeHTML(p.prenomEleve)}
+                </strong>
+            </td>
+
+            <td>
+                ${escapeHTML(p.classe)}
+            </td>
+
+            <td>
+                ${escapeHTML(p.motif)}
+            </td>
+
+            <td>
+                <strong>
+                    ${formaterMontant(p.montant)}
+                </strong>
+            </td>
+
+            <td>
+                ${escapeHTML(p.reference)}
+            </td>
+
+            <td>
+                ${escapeHTML(p.date)}
+                <br>
+                ${escapeHTML(p.heure || "")}
+            </td>
+
+            <td>
+                <span class="badge ${classeBadge}">
+                    ${escapeHTML(p.statut)}
+                </span>
+            </td>
+
+            <td>
+                <div class="actions">
+                    ${actions}
+                </div>
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+}
+
+
+/* CONFIRMATION */
+
+function confirmerPaiement(id){
+
+    const paiement =
+        paiements.find(p => p.id === id);
+
+    if(!paiement) return;
+
+    const confirmation =
+        confirm(
+
+            "CONFIRMATION DU PAIEMENT\n\n" +
+
+            "Élève : " +
+            paiement.nomEleve + " " +
+            paiement.prenomEleve + "\n" +
+
+            "Montant : " +
+            formaterMontant(paiement.montant) + "\n" +
+
+            "Référence : " +
+            paiement.reference + "\n\n" +
+
+            "Avez-vous vérifié le paiement Mobile Money ?"
+
+        );
+
+    if(!confirmation) return;
+
+    paiement.statut =
+        "Confirmée";
+
+    paiement.confirmePar =
+        "Administration";
+
+    paiement.dateConfirmation =
+        new Date().toISOString();
+
+    sauvegarder();
+
+    alert(
+        "Paiement confirmé avec succès.\n\n" +
+        "Le REÇU PAYÉ peut maintenant être imprimé."
+    );
+
+    afficherPaiements();
+
+    statistiques();
+
+}
+
+
+/* ANNULATION */
+
+function annulerPaiement(id){
+
+    const paiement =
+        paiements.find(p => p.id === id);
+
+    if(!paiement) return;
+
+    if(!confirm(
+        "Voulez-vous annuler ce paiement ?"
+    )) return;
+
+    paiement.statut =
+        "Annulée";
+
+    sauvegarder();
+
+    actualiser();
+
+}
+
+
+/* REÇU */
+
+function voirRecu(id){
+
+    const paiement =
+        paiements.find(p => p.id === id);
+
+    if(!paiement) return;
+
+    if(paiement.statut !== "Confirmée"){
+
+        alert(
+            "Le reçu ne peut être imprimé qu'après confirmation du paiement."
+        );
+
+        return;
+    }
+
+    document.getElementById("rNumero")
+        .textContent =
+        paiement.numeroRecu;
+
+    document.getElementById("rDate")
+        .textContent =
+        paiement.date + " " +
+        paiement.heure;
+
+    document.getElementById("rEleve")
+        .textContent =
+        paiement.nomEleve + " " +
+        paiement.prenomEleve;
+
+    document.getElementById("rMatricule")
+        .textContent =
+        paiement.matricule || "À compléter";
+
+    document.getElementById("rClasse")
+        .textContent =
+        paiement.classe;
+
+    document.getElementById("rParent")
+        .textContent =
+        paiement.parent || "—";
+
+    document.getElementById("rMotif")
+        .textContent =
+        paiement.motif;
+
+    document.getElementById("rReference")
+        .textContent =
+        paiement.reference;
+
+    document.getElementById("rMontant")
+        .textContent =
+        formaterMontant(paiement.montant);
+
+    document.getElementById("rMontant2")
+        .textContent =
+        formaterMontant(paiement.montant);
+
+    const receipt =
+        document.getElementById("receipt");
+
+    receipt.style.display = "block";
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+    setTimeout(() => {
+
+        window.print();
+
+    },500);
+
+}
+
+
+/* STATISTIQUES */
+
+function statistiques(){
+
+    document.getElementById("totalPaiements")
+        .textContent =
+        paiements.length;
+
+    document.getElementById("attentePaiements")
+        .textContent =
+        paiements.filter(
+            p => p.statut === "En attente"
+        ).length;
+
+    document.getElementById("confirmePaiements")
+        .textContent =
+        paiements.filter(
+            p => p.statut === "Confirmée"
+        ).length;
+
+    const total =
+        paiements
+        .filter(p => p.statut === "Confirmée")
+        .reduce(
+            (s,p) => s + Number(p.montant || 0),
+            0
+        );
+
+    document.getElementById("montantTotal")
+        .textContent =
+        formaterMontant(total);
+
+}
+
+
+/* FORMAT MONTANT */
+
+function formaterMontant(montant){
+
+    return Number(montant || 0)
+        .toLocaleString("fr-FR") +
+        " FCFA";
+
+}
+
+
+/* PROTECTION HTML */
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* ACTUALISATION */
+
+function actualiser(){
+
+    afficherPaiements();
+
+    statistiques();
+
+}
+
+actualiser();
+
+</script>
+
+</body>
+</html>
