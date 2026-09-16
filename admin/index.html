@@ -2,140 +2,141 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Administration | Groupe Scolaire Étoile Brillante</title>
-<link rel="stylesheet" href="../assets/css/style.css">
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Administration - Groupe Scolaire Étoile Brillante</title>
 <style>
-body{margin:0;background:#f4f6fb;}
-.admin{display:flex;min-height:100vh;}
-.sidebar{width:260px;background:#0A2A78;color:white;padding:20px;}
-.sidebar h2{margin-bottom:25px;font-size:22px;}
-.sidebar a{display:block;color:white;text-decoration:none;padding:12px;border-radius:10px;margin-bottom:8px;}
-.sidebar a:hover{background:#123A9B;}
-.content{flex:1;padding:25px;}
-.topbar{display:flex;justify-content:space-between;align-items:center;background:white;padding:15px 20px;border-radius:15px;box-shadow:0 4px 10px rgba(0,0,0,.08);}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px;margin:25px 0;}
-.stat{background:white;padding:20px;border-radius:15px;box-shadow:0 4px 10px rgba(0,0,0,.08);}
-.stat h3{color:#0A2A78;margin-bottom:8px;}
-.quick{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;}
-.quick .card{cursor:pointer;}
-.badge{background:#C9A227;color:#111;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:bold;}
-@media(max-width:768px){
-.admin{flex-direction:column;}
-.sidebar{width:100%;}
-}
+:root{--bleu:#0A2A78;--or:#C9A227;--fond:#F7F4ED;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:Arial;background:var(--fond);}
+header{background:var(--bleu);color:white;padding:20px;}
+.container{width:94%;max-width:1200px;margin:auto;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px;margin:25px 0;}
+.card{background:white;border-radius:15px;padding:20px;box-shadow:0 5px 18px rgba(0,0,0,.08);}
+.card h3{color:var(--bleu);}
+.number{font-size:2rem;font-weight:bold;color:var(--or);margin:10px 0;}
+.modules{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;}
+.modules a{background:white;padding:18px;border-radius:12px;text-decoration:none;color:#111;font-weight:bold;box-shadow:0 4px 12px rgba(0,0,0,.08);}
+.modules a:hover{background:var(--bleu);color:white;}
+.alertes{background:white;padding:20px;border-radius:15px;margin-top:25px;}
+.alertes li{margin:10px 0;}
 </style>
 </head>
-
 <body>
 
-<div class="admin">
-
-<aside class="sidebar">
-
-<h2>⭐ Étoile Brillante</h2>
-
-<a href="#">📊 Tableau de bord</a>
-<a href="#">👨‍🎓 Élèves</a>
-<a href="#">📝 Inscriptions</a>
-<a href="#">📄 Bulletins</a>
-<a href="#">📚 Résultats</a>
-<a href="#">💳 Paiements</a>
-<a href="#">👨‍🏫 Enseignants</a>
-<a href="#">👨‍👩‍👧 Parents</a>
-<a href="#">📅 Absences</a>
-<a href="#">🏠 Internat</a>
-<a href="#">📰 Actualités</a>
-<a href="#">⚙️ Paramètres</a>
-
-</aside>
-
-
-<main class="content">
-
-<div class="topbar">
-
-<div>
-<h2>Tableau de bord</h2>
-<p>Bienvenue dans l'administration.</p>
+<header>
+<div class="container">
+<h1>Tableau de bord administratif</h1>
+<p>Groupe Scolaire Étoile Brillante</p>
 </div>
+</header>
 
-<div class="badge">
-Coordonnatrice générale
-</div>
+<div class="container">
 
-</div>
-
-
-<div class="stats">
-
-<div class="stat">
-<h3>👨‍🎓 Élèves</h3>
-<h1>0</h1>
-<p>Total inscrit</p>
-</div>
-
-<div class="stat">
-<h3>📄 Bulletins</h3>
-<h1>0</h1>
-<p>Générés</p>
-</div>
-
-<div class="stat">
-<h3>💳 Paiements</h3>
-<h1>0</h1>
-<p>Confirmés</p>
-</div>
-
-<div class="stat">
-<h3>👨‍🏫 Enseignants</h3>
-<h1>0</h1>
-<p>Enregistrés</p>
-</div>
-
-</div>
-
-
-<h2>Accès rapide</h2>
-
-<div class="quick">
+<div class="grid">
 
 <div class="card">
-<h3>Nouvel élève</h3>
-<p>Inscrire un nouvel élève.</p>
+<h3>Élèves</h3>
+<div class="number" id="nbEleves">0</div>
 </div>
 
 <div class="card">
-<h3>Saisir des notes</h3>
-<p>Ajouter les notes d'une classe.</p>
+<h3>Enseignants</h3>
+<div class="number" id="nbEnseignants">0</div>
 </div>
 
 <div class="card">
-<h3>Créer un bulletin</h3>
-<p>Calcul automatique.</p>
+<h3>Internes</h3>
+<div class="number" id="nbInternes">0</div>
 </div>
 
 <div class="card">
-<h3>Confirmer un paiement</h3>
-<p>Valider Mobile Money.</p>
+<h3>Paiements confirmés</h3>
+<div class="number" id="nbPaiements">0</div>
 </div>
 
 <div class="card">
-<h3>Publier une actualité</h3>
-<p>Informer parents et élèves.</p>
+<h3>Actualités</h3>
+<div class="number" id="nbActualites">0</div>
 </div>
 
 <div class="card">
-<h3>Gérer les comptes</h3>
-<p>Parents et personnel.</p>
+<h3>Absences aujourd'hui</h3>
+<div class="number" id="nbAbsences">0</div>
 </div>
 
 </div>
 
-</main>
+<h2 style="color:#0A2A78;margin-bottom:15px;">Accès rapides</h2>
+
+<div class="modules">
+
+<a href="eleves.html">👨‍🎓 Élèves</a>
+<a href="classes.html">🏫 Classes</a>
+<a href="notes.html">📝 Notes</a>
+<a href="bulletins.html">📄 Bulletins</a>
+<a href="absences.html">📅 Absences</a>
+<a href="enseignants.html">👨‍🏫 Enseignants</a>
+<a href="internat.html">🛏️ Internat</a>
+<a href="paiements.html">💳 Paiements</a>
+<a href="actualites.html">📢 Actualités</a>
+<a href="parametres.html">⚙️ Paramètres</a>
 
 </div>
+
+<div class="alertes">
+
+<h2 style="color:#0A2A78;">Alertes administratives</h2>
+
+<ul id="listeAlertes"></ul>
+
+</div>
+
+</div>
+
+<script>
+
+function lire(cle){
+ return JSON.parse(localStorage.getItem(cle)||"[]");
+}
+
+const eleves=lire("EB_ELEVES");
+const enseignants=lire("EB_ENSEIGNANTS");
+const internes=lire("EB_INTERNAT");
+const paiements=lire("EB_PAIEMENTS");
+const actualites=lire("EB_ACTUALITES");
+const absences=lire("EB_ABSENCES");
+
+document.getElementById("nbEleves").textContent=eleves.length;
+document.getElementById("nbEnseignants").textContent=enseignants.length;
+document.getElementById("nbInternes").textContent=internes.length;
+document.getElementById("nbPaiements").textContent=paiements.filter(p=>p.statut==="Confirmée").length;
+document.getElementById("nbActualites").textContent=actualites.filter(a=>a.statut==="Publié").length;
+
+const aujourd=new Date().toISOString().slice(0,10);
+
+document.getElementById("nbAbsences").textContent=
+absences.filter(a=>a.date===aujourd&&a.statut==="Absent").length;
+
+const alertes=[];
+
+const attente=paiements.filter(p=>p.statut==="En attente").length;
+if(attente) alertes.push(`💳 ${attente} paiement(s) en attente.`);
+
+const sorties=lire("EB_SORTIES").filter(s=>s.statut==="Sortie").length;
+if(sorties) alertes.push(`🚪 ${sorties} interne(s) sont encore en sortie.`);
+
+const brouillons=actualites.filter(a=>a.statut==="Brouillon").length;
+if(brouillons) alertes.push(`📢 ${brouillons} actualité(s) en brouillon.`);
+
+const ul=document.getElementById("listeAlertes");
+
+if(alertes.length===0){
+ ul.innerHTML="<li>✅ Aucune alerte importante.</li>";
+}else{
+ ul.innerHTML=alertes.map(a=>`<li>${a}</li>`).join("");
+}
+
+</script>
 
 </body>
 </html>
