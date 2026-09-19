@@ -1,755 +1,93 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gestion des actualités — Groupe Scolaire Étoile Brillante</title>
-
-<link rel="stylesheet" href="../assets/css/style.css">
+<title>Actualités - Groupe Scolaire Étoile Brillante</title>
 
 <style>
-.admin-wrap{
-    width:92%;
-    max-width:1200px;
-    margin:30px auto;
+:root{
+ --bleu:#0A2A78;
+ --bleu2:#123A9B;
+ --or:#C9A227;
+ --ivoire:#F7F4ED;
 }
-
-.topbar{
-    background:#0A2A78;
-    color:white;
-    padding:20px;
-    border-radius:14px;
-    margin-bottom:25px;
-}
-
-.topbar h1{
-    margin-bottom:5px;
-}
-
-.panel{
-    background:white;
-    padding:25px;
-    border-radius:15px;
-    box-shadow:0 5px 18px rgba(0,0,0,.08);
-    margin-bottom:25px;
-}
-
-.panel h2{
-    color:#0A2A78;
-    margin-bottom:18px;
-}
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-    gap:15px;
-}
-
-textarea{
-    min-height:140px;
-    resize:vertical;
-}
-
-button{
-    border:none;
-    cursor:pointer;
-}
-
-.btn-danger{
-    background:#b42318;
-    color:white;
-    padding:10px 15px;
-    border-radius:8px;
-    font-weight:bold;
-}
-
-.btn-edit{
-    background:#C9A227;
-    color:#111;
-    padding:10px 15px;
-    border-radius:8px;
-    font-weight:bold;
-}
-
-.btn-main{
-    background:#0A2A78;
-    color:white;
-    padding:12px 20px;
-    border-radius:8px;
-    font-weight:bold;
-}
-
-.btn-secondary{
-    background:#555;
-    color:white;
-    padding:12px 20px;
-    border-radius:8px;
-    font-weight:bold;
-}
-
-.actions{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-    margin-top:15px;
-}
-
-.actualite{
-    border:1px solid #ddd;
-    border-radius:12px;
-    padding:20px;
-    margin-bottom:15px;
-}
-
-.actualite h3{
-    color:#0A2A78;
-    margin-bottom:8px;
-}
-
-.meta{
-    font-size:.9rem;
-    color:#666;
-    margin-bottom:12px;
-}
-
-.badge{
-    display:inline-block;
-    padding:5px 9px;
-    border-radius:20px;
-    font-size:.8rem;
-    font-weight:bold;
-    margin-left:5px;
-}
-
-.publie{
-    background:#d1fae5;
-    color:#065f46;
-}
-
-.brouillon{
-    background:#fef3c7;
-    color:#92400e;
-}
-
-.photo-preview{
-    max-width:220px;
-    max-height:150px;
-    border-radius:10px;
-    display:none;
-    margin-top:10px;
-}
-
-.empty{
-    text-align:center;
-    color:#777;
-    padding:30px;
-}
-
-.small{
-    font-size:.9rem;
-    color:#666;
-}
-
-@media(max-width:600px){
-    .actions button{
-        width:100%;
-    }
-}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--ivoire);color:#1F2937;}
+header{background:linear-gradient(135deg,var(--bleu),var(--bleu2));color:white;padding:22px;}
+.container{width:94%;max-width:1100px;margin:auto;}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px;}
+nav a{color:white;text-decoration:none;padding:8px 12px;border-radius:8px;font-weight:bold;}
+nav a:hover{background:rgba(255,255,255,.15);}
+.hero{text-align:center;padding:35px 15px;}
+.hero h2{color:var(--bleu);font-size:2rem;}
+.hero p{margin-top:10px;}
+.news{display:grid;gap:20px;margin:25px 0;}
+.card{background:white;border-radius:15px;padding:22px;box-shadow:0 5px 18px rgba(0,0,0,.08);}
+.date{color:#666;font-size:.9rem;margin-bottom:10px;}
+.badge{display:inline-block;background:var(--or);color:#111;padding:5px 10px;border-radius:20px;font-size:.8rem;font-weight:bold;margin-bottom:10px;}
+footer{background:var(--bleu);color:white;text-align:center;padding:20px;margin-top:30px;}
 </style>
 </head>
 
 <body>
 
 <header>
-    <div class="container">
-        <div class="brand">
-            <div class="logo-placeholder">EB</div>
-            <div>
-                <h1>Groupe Scolaire Étoile Brillante</h1>
-                <p>Administration — Gestion des actualités</p>
-            </div>
-        </div>
+<div class="container">
+<h1>Groupe Scolaire Étoile Brillante</h1>
+<p>Excellence • Discipline • Innovation</p>
 
-        <nav>
-            <a href="index.html">Dashboard</a>
-            <a href="eleves.html">Élèves</a>
-            <a href="classes.html">Classes</a>
-            <a href="notes.html">Notes</a>
-            <a href="bulletins.html">Bulletins</a>
-            <a href="absences.html">Absences</a>
-            <a href="enseignants.html">Enseignants</a>
-            <a href="internat.html">Internat</a>
-            <a href="paiements.html">Paiements</a>
-            <a href="actualites.html">Actualités</a>
-            <a href="../index.html">Voir le site</a>
-        </nav>
-    </div>
+<nav>
+<a href="index.html">Accueil</a>
+<a href="ecole.html">L'École</a>
+<a href="cycles.html">Cycles</a>
+<a href="resultats.html">Résultats</a>
+<a href="galerie.html">Galerie</a>
+<a href="actualites.html">Actualités</a>
+<a href="contact.html">Contact</a>
+</nav>
+</div>
 </header>
 
-<main class="admin-wrap">
+<section class="hero">
+<h2>Actualités de l'école</h2>
+<p>Les informations publiées par l'administration apparaissent automatiquement ici.</p>
+</section>
 
-    <section class="topbar">
-        <h1>📢 Gestion des actualités</h1>
-        <p>
-            Publiez les informations importantes du Groupe Scolaire Étoile Brillante.
-        </p>
-    </section>
-
-    <section class="panel">
-
-        <h2 id="formTitle">➕ Ajouter une actualité</h2>
-
-        <form id="actualiteForm">
-
-            <input type="hidden" id="actualiteId">
-
-            <div class="grid">
-
-                <div>
-                    <label><strong>Titre</strong></label>
-                    <input
-                        type="text"
-                        id="titre"
-                        placeholder="Ex. Rentrée scolaire 2026-2027"
-                        required>
-                </div>
-
-                <div>
-                    <label><strong>Catégorie</strong></label>
-                    <select id="categorie">
-                        <option value="Information">Information</option>
-                        <option value="Annonce">Annonce</option>
-                        <option value="Événement">Événement</option>
-                        <option value="Résultats">Résultats</option>
-                        <option value="Vie scolaire">Vie scolaire</option>
-                        <option value="Urgent">Urgent</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label><strong>Date de publication</strong></label>
-                    <input type="date" id="datePublication" required>
-                </div>
-
-                <div>
-                    <label><strong>Auteur</strong></label>
-                    <input
-                        type="text"
-                        id="auteur"
-                        value="Administration">
-                </div>
-
-            </div>
-
-            <label><strong>Contenu</strong></label>
-            <textarea
-                id="contenu"
-                placeholder="Écrivez ici le contenu de l'actualité..."
-                required></textarea>
-
-            <label><strong>Image de l'actualité</strong></label>
-            <input
-                type="file"
-                id="image"
-                accept="image/*">
-
-            <img id="photoPreview" class="photo-preview">
-
-            <div class="grid" style="margin-top:15px;">
-
-                <div>
-                    <label><strong>Statut</strong></label>
-                    <select id="statut">
-                        <option value="Publié">Publié</option>
-                        <option value="Brouillon">Brouillon</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label><strong>Afficher sur l'accueil</strong></label>
-                    <select id="accueil">
-                        <option value="Oui">Oui</option>
-                        <option value="Non">Non</option>
-                    </select>
-                </div>
-
-            </div>
-
-            <div class="actions">
-                <button type="submit" class="btn-main">
-                    💾 Enregistrer l'actualité
-                </button>
-
-                <button
-                    type="button"
-                    class="btn-secondary"
-                    id="annulerBtn"
-                    style="display:none;">
-                    Annuler la modification
-                </button>
-            </div>
-
-        </form>
-
-    </section>
-
-
-    <section class="panel">
-
-        <h2>📋 Actualités enregistrées</h2>
-
-        <div class="grid">
-
-            <div>
-                <label><strong>Rechercher</strong></label>
-                <input
-                    type="text"
-                    id="recherche"
-                    placeholder="Titre, contenu, catégorie...">
-            </div>
-
-            <div>
-                <label><strong>Filtrer par statut</strong></label>
-                <select id="filtreStatut">
-                    <option value="">Toutes</option>
-                    <option value="Publié">Publiées</option>
-                    <option value="Brouillon">Brouillons</option>
-                </select>
-            </div>
-
-        </div>
-
-        <div id="listeActualites"></div>
-
-    </section>
-
-</main>
-
+<div class="container">
+<div id="listeActualites" class="news"></div>
+</div>
 
 <footer>
-    <p>
-        Groupe Scolaire Étoile Brillante
-        — Excellence • Discipline • Innovation
-    </p>
-    <p>
-        03 rue Poumako, marché Massengo, arrondissement 9 Djiri, Brazzaville
-    </p>
+Groupe Scolaire Étoile Brillante • Brazzaville
 </footer>
 
-
 <script>
+const actualites=JSON.parse(localStorage.getItem("EB_ACTUALITES")||"[]");
 
-const STORAGE_KEY = "EB_ACTUALITES";
+const liste=document.getElementById("listeActualites");
 
-let actualites = JSON.parse(
-    localStorage.getItem(STORAGE_KEY) || "[]"
-);
+const publiees=actualites.filter(a=>a.statut==="Publié");
 
-const form = document.getElementById("actualiteForm");
-const idInput = document.getElementById("actualiteId");
-const titreInput = document.getElementById("titre");
-const categorieInput = document.getElementById("categorie");
-const dateInput = document.getElementById("datePublication");
-const auteurInput = document.getElementById("auteur");
-const contenuInput = document.getElementById("contenu");
-const statutInput = document.getElementById("statut");
-const accueilInput = document.getElementById("accueil");
-const imageInput = document.getElementById("image");
-const photoPreview = document.getElementById("photoPreview");
-const liste = document.getElementById("listeActualites");
-const recherche = document.getElementById("recherche");
-const filtreStatut = document.getElementById("filtreStatut");
-const formTitle = document.getElementById("formTitle");
-const annulerBtn = document.getElementById("annulerBtn");
-
-
-dateInput.value = new Date().toISOString().split("T")[0];
-
-
-imageInput.addEventListener("change", function(){
-
-    const file = this.files[0];
-
-    if(!file){
-        photoPreview.style.display = "none";
-        return;
-    }
-
-    const reader = new FileReader();
-
-    reader.onload = function(e){
-        photoPreview.src = e.target.result;
-        photoPreview.style.display = "block";
-    };
-
-    reader.readAsDataURL(file);
-
-});
-
-
-function sauvegarder(){
-
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(actualites)
-    );
-
+if(publiees.length===0){
+ liste.innerHTML=`
+ <div class="card">
+   <span class="badge">Information</span>
+   <h3>Aucune actualité publiée</h3>
+   <p>Les prochaines annonces de l'administration apparaîtront ici.</p>
+ </div>`;
+}else{
+ publiees.reverse().forEach(a=>{
+   liste.innerHTML+=`
+   <div class="card">
+      <span class="badge">${a.categorie||"Actualité"}</span>
+      <div class="date">${a.date||""}</div>
+      <h3>${a.titre}</h3>
+      <p style="margin-top:12px;">${a.contenu}</p>
+   </div>`;
+ });
 }
-
-
-function genererId(){
-
-    return Date.now().toString();
-
-}
-
-
-function afficherActualites(){
-
-    const rechercheTexte =
-        recherche.value.toLowerCase().trim();
-
-    const filtre =
-        filtreStatut.value;
-
-    let resultats = actualites.filter(a => {
-
-        const texte =
-            `${a.titre} ${a.contenu} ${a.categorie} ${a.auteur}`
-            .toLowerCase();
-
-        const correspondRecherche =
-            !rechercheTexte ||
-            texte.includes(rechercheTexte);
-
-        const correspondStatut =
-            !filtre ||
-            a.statut === filtre;
-
-        return correspondRecherche && correspondStatut;
-
-    });
-
-
-    resultats.sort(
-        (a,b) =>
-        new Date(b.datePublication) -
-        new Date(a.datePublication)
-    );
-
-
-    if(resultats.length === 0){
-
-        liste.innerHTML = `
-            <div class="empty">
-                <p>📭 Aucune actualité trouvée.</p>
-            </div>
-        `;
-
-        return;
-
-    }
-
-
-    liste.innerHTML = resultats.map(a => {
-
-        const badgeClass =
-            a.statut === "Publié"
-            ? "publie"
-            : "brouillon";
-
-        const imageHTML =
-            a.image
-            ? `<img src="${a.image}"
-                    style="width:100%;max-height:250px;
-                    object-fit:cover;border-radius:10px;
-                    margin:12px 0;">`
-            : "";
-
-        return `
-
-        <article class="actualite">
-
-            <h3>
-                ${escapeHTML(a.titre)}
-            </h3>
-
-            <div class="meta">
-
-                📅 ${escapeHTML(a.datePublication)}
-                &nbsp; | &nbsp;
-
-                📁 ${escapeHTML(a.categorie)}
-
-                <span class="badge ${badgeClass}">
-                    ${escapeHTML(a.statut)}
-                </span>
-
-            </div>
-
-            ${imageHTML}
-
-            <p>
-                ${escapeHTML(a.contenu)}
-            </p>
-
-            <p class="small">
-                Publié par :
-                <strong>${escapeHTML(a.auteur)}</strong>
-                ${a.accueil === "Oui"
-                    ? " • ⭐ Affiché sur l'accueil"
-                    : ""}
-            </p>
-
-            <div class="actions">
-
-                <button
-                    class="btn-edit"
-                    onclick="modifierActualite('${a.id}')">
-                    ✏️ Modifier
-                </button>
-
-                <button
-                    class="btn-danger"
-                    onclick="supprimerActualite('${a.id}')">
-                    🗑️ Supprimer
-                </button>
-
-            </div>
-
-        </article>
-
-        `;
-
-    }).join("");
-
-}
-
-
-form.addEventListener("submit", function(e){
-
-    e.preventDefault();
-
-    const id = idInput.value;
-
-    const actualite = {
-
-        id: id || genererId(),
-
-        titre: titreInput.value.trim(),
-
-        categorie: categorieInput.value,
-
-        datePublication: dateInput.value,
-
-        auteur:
-            auteurInput.value.trim() ||
-            "Administration",
-
-        contenu:
-            contenuInput.value.trim(),
-
-        statut: statutInput.value,
-
-        accueil: accueilInput.value,
-
-        image:
-            photoPreview.style.display !== "none"
-            ? photoPreview.src
-            : ""
-
-    };
-
-
-    if(!actualite.titre || !actualite.contenu){
-
-        alert(
-            "Veuillez renseigner le titre et le contenu."
-        );
-
-        return;
-
-    }
-
-
-    if(id){
-
-        const index =
-            actualites.findIndex(a => a.id === id);
-
-        if(index !== -1){
-
-            /*
-             * Si aucune nouvelle image n'est choisie,
-             * on conserve l'ancienne image.
-             */
-            if(!actualite.image &&
-               actualites[index].image){
-
-                actualite.image =
-                    actualites[index].image;
-
-            }
-
-            actualites[index] = actualite;
-
-        }
-
-        alert("Actualité modifiée avec succès.");
-
-    }else{
-
-        actualites.push(actualite);
-
-        alert("Actualité enregistrée avec succès.");
-
-    }
-
-
-    sauvegarder();
-
-    reinitialiserFormulaire();
-
-    afficherActualites();
-
-});
-
-
-function modifierActualite(id){
-
-    const a =
-        actualites.find(x => x.id === id);
-
-    if(!a) return;
-
-
-    idInput.value = a.id;
-
-    titreInput.value = a.titre;
-
-    categorieInput.value = a.categorie;
-
-    dateInput.value = a.datePublication;
-
-    auteurInput.value = a.auteur;
-
-    contenuInput.value = a.contenu;
-
-    statutInput.value = a.statut;
-
-    accueilInput.value = a.accueil;
-
-
-    if(a.image){
-
-        photoPreview.src = a.image;
-
-        photoPreview.style.display = "block";
-
-    }else{
-
-        photoPreview.style.display = "none";
-
-    }
-
-
-    formTitle.textContent =
-        "✏️ Modifier une actualité";
-
-    annulerBtn.style.display =
-        "inline-block";
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
-}
-
-
-function supprimerActualite(id){
-
-    const a =
-        actualites.find(x => x.id === id);
-
-    if(!a) return;
-
-
-    const confirmation =
-        confirm(
-            `Voulez-vous vraiment supprimer l'actualité "${a.titre}" ?`
-        );
-
-    if(!confirmation) return;
-
-
-    actualites =
-        actualites.filter(x => x.id !== id);
-
-    sauvegarder();
-
-    afficherActualites();
-
-}
-
-
-annulerBtn.addEventListener(
-    "click",
-    reinitialiserFormulaire
-);
-
-
-function reinitialiserFormulaire(){
-
-    form.reset();
-
-    idInput.value = "";
-
-    dateInput.value =
-        new Date().toISOString().split("T")[0];
-
-    auteurInput.value =
-        "Administration";
-
-    photoPreview.src = "";
-
-    photoPreview.style.display =
-        "none";
-
-    formTitle.textContent =
-        "➕ Ajouter une actualité";
-
-    annulerBtn.style.display =
-        "none";
-
-}
-
-
-recherche.addEventListener(
-    "input",
-    afficherActualites
-);
-
-filtreStatut.addEventListener(
-    "change",
-    afficherActualites
-);
-
-
-function escapeHTML(texte){
-
-    return String(texte)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-
-}
-
-
-afficherActualites();
-
 </script>
 
 </body>
