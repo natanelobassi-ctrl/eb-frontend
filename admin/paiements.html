@@ -109,15 +109,11 @@ label{
  margin-bottom:5px;
 }
 
-input,select,textarea{
+input,select{
  width:100%;
  padding:10px;
  border:1px solid #ccc;
  border-radius:8px;
-}
-
-textarea{
- min-height:80px;
 }
 
 button{
@@ -130,16 +126,15 @@ button{
 
 .btn-main{background:var(--bleu);color:white;}
 .btn-green{background:var(--vert);color:white;}
-.btn-red{background:var(--rouge);color:white;}
+
+.table-wrap{
+ overflow-x:auto;
+}
 
 table{
  width:100%;
  border-collapse:collapse;
- min-width:900px;
-}
-
-.table-wrap{
- overflow-x:auto;
+ min-width:800px;
 }
 
 th,td{
@@ -154,14 +149,13 @@ th{
 }
 
 .badge{
+ background:#d9f5e5;
+ color:#08753a;
  padding:5px 10px;
  border-radius:20px;
  font-size:.8rem;
  font-weight:bold;
 }
-
-.attente{background:#fff3cd;color:#856404;}
-.confirme{background:#d9f5e5;color:#08753a;}
 
 .receipt{
  display:none;
@@ -225,8 +219,8 @@ footer{
 <div class="brand">
 
 <img src="../assets/css/logo-etoile-brillante.png"
-alt="Logo Groupe Scolaire Étoile Brillante"
-class="logo">
+     alt="Logo Groupe Scolaire Étoile Brillante"
+     class="logo">
 
 <div>
 <h1>Groupe Scolaire Étoile Brillante</h1>
@@ -262,7 +256,8 @@ class="logo">
 <h2>Gestion des paiements</h2>
 
 <div class="notice">
-Numéro Mobile Money officiel : <strong>067598453</strong><br>
+<strong>Numéro Mobile Money officiel :</strong> 067598453
+<br>
 Le paiement devient valide après confirmation par l'administration.
 </div>
 
@@ -366,14 +361,14 @@ Enregistrer le paiement
 <div class="receipt-head">
 
 <img src="../assets/css/logo-etoile-brillante.png"
-alt="Logo Groupe Scolaire Étoile Brillante"
-class="logo">
+     alt="Logo Groupe Scolaire Étoile Brillante"
+     class="logo">
 
 <h2>GROUPE SCOLAIRE ÉTOILE BRILLANTE</h2>
 
 <p>Excellence • Discipline • Innovation</p>
 
-<p>03 rue Poumako, marché Massengo, Djiri — Brazzaville</p>
+<p>03 rue Poumako, marché Massengo, arrondissement 9 Djiri — Brazzaville</p>
 
 <p>Mobile Money : 067598453</p>
 
@@ -384,37 +379,26 @@ REÇU PAYÉ
 </div>
 
 <p><strong>N° :</strong> <span id="rNumero"></span></p>
-
 <p><strong>Élève :</strong> <span id="rEleve"></span></p>
-
 <p><strong>Classe :</strong> <span id="rClasse"></span></p>
-
 <p><strong>Motif :</strong> <span id="rMotif"></span></p>
-
 <p><strong>Montant :</strong> <span id="rMontant"></span></p>
-
 <p><strong>Référence :</strong> <span id="rReference"></span></p>
-
 <p><strong>Date :</strong> <span id="rDate"></span></p>
 
 </div>
 
 <footer>
-
 Groupe Scolaire Étoile Brillante<br>
-
 Excellence • Discipline • Innovation
-
 </footer>
 
 <script>
 const CLE="EB_PAIEMENTS";
 
-let paiements=
-JSON.parse(localStorage.getItem(CLE)||"[]");
+let paiements=JSON.parse(localStorage.getItem(CLE)||"[]");
 
-document.getElementById("date").value=
-new Date().toISOString().slice(0,10);
+document.getElementById("date").value=new Date().toISOString().slice(0,10);
 
 function sauver(){
  localStorage.setItem(CLE,JSON.stringify(paiements));
@@ -425,7 +409,6 @@ function numero(){
 }
 
 document.getElementById("form").onsubmit=function(e){
-
  e.preventDefault();
 
  paiements.push({
@@ -446,11 +429,9 @@ document.getElementById("form").onsubmit=function(e){
  this.reset();
  date.value=new Date().toISOString().slice(0,10);
  afficher();
-
 };
 
 function afficher(){
-
  const tbody=document.getElementById("liste");
  tbody.innerHTML="";
 
@@ -463,16 +444,13 @@ function afficher(){
  <td>${p.classe}</td>
  <td>${Number(p.montant).toLocaleString()} FCFA</td>
  <td>${p.reference}</td>
- <td><span class="badge confirme">${p.statut}</span></td>
+ <td><span class="badge">${p.statut}</span></td>
  <td><button class="btn-main" onclick="recu(${p.id})">REÇU</button></td>
  </tr>`;
-
  });
-
 }
 
 function recu(id){
-
  const p=paiements.find(x=>x.id===id);
 
  rNumero.textContent=p.numero;
@@ -484,9 +462,7 @@ function recu(id){
  rDate.textContent=p.date;
 
  receipt.style.display="block";
-
  setTimeout(()=>window.print(),400);
-
 }
 
 afficher();
