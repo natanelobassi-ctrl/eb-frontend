@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Messagerie - Groupe Scolaire Étoile Brillante</title>
+
+<style>
+:root{
+ --bleu:#0A2A78;
+ --bleu2:#123A9B;
+ --or:#C9A227;
+ --ivoire:#F7F4ED;
+ --vert:#198754;
+ --rouge:#C62828;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+ font-family:Arial,Helvetica,sans-serif;
+ background:var(--ivoire);
+ color:#1F2937;
+}
+
+header{
+ background:linear-gradient(135deg,var(--bleu),var(--bleu2));
+ color:white;
+ padding:20px;
+}
+
+.container{
+ width:95%;
+ max-width:1200px;
+ margin:auto;
+}
+
+nav{
+ display:flex;
+ flex-wrap:wrap;
+ gap:8px;
+ margin-top:15px;
+}
+
+nav a{
+ color:white;
+ text-decoration:none;
+ padding:8px 12px;
+ border-radius:8px;
+ font-weight:bold;
+}
+
+nav a:hover{
+ background:rgba(255,255,255,.15);
+}
+
+.card{
+ background:white;
+ border-radius:15px;
+ padding:22px;
+ margin:22px 0;
+ box-shadow:0 5px 18px rgba(0,0,0,.08);
+}
+
+.grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+ gap:15px;
+}
+
+label{
+ display:block;
+ font-weight:bold;
+ margin-bottom:6px;
+}
+
+input,select,textarea{
+ width:100%;
+ padding:10px;
+ border:1px solid #ccc;
+ border-radius:8px;
+}
+
+textarea{
+ min-height:120px;
+ resize:vertical;
+}
+
+button{
+ border:none;
+ border-radius:8px;
+ padding:12px 18px;
+ cursor:pointer;
+ font-weight:bold;
+ color:white;
+}
+
+.btn-send{background:var(--vert);}
+.btn-delete{background:var(--rouge);}
+
+.message{
+ border-left:5px solid var(--bleu);
+ background:#fafafa;
+ padding:15px;
+ border-radius:10px;
+ margin-bottom:15px;
+}
+
+.tag{
+ display:inline-block;
+ padding:4px 8px;
+ border-radius:20px;
+ font-size:.75rem;
+ font-weight:bold;
+ color:white;
+ margin-bottom:8px;
+}
+
+.normale{background:#6c757d;}
+.importante{background:#C9A227;color:#111;}
+.urgente{background:#C62828;}
+
+.meta{
+ color:#666;
+ font-size:.85rem;
+ margin:6px 0;
+}
+
+footer{
+ background:var(--bleu);
+ color:white;
+ text-align:center;
+ padding:20px;
+ margin-top:30px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="container">
+
+<h1>Groupe Scolaire Étoile Brillante</h1>
+
+<p>Administration — Messagerie interne</p>
+
+<nav>
+<a href="index.html">Dashboard</a>
+<a href="eleves.html">Élèves</a>
+<a href="notes.html">Notes</a>
+<a href="bulletins.html">Bulletins</a>
+<a href="paiements.html">Paiements</a>
+<a href="emplois.html">Emplois</a>
+<a href="cartes.html">Cartes</a>
+<a href="actualites.html">Actualités</a>
+<a href="messages.html">Messages</a>
+<a href="parametres.html">Paramètres</a>
+<a href="sauvegarde.html">Sauvegarde</a>
+</nav>
+
+</div>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Nouveau message</h2>
+
+<div class="grid">
+
+<div>
+<label>Destinataire</label>
+<select id="destinataire">
+<option>Gracia IBEMBE — Coordonnatrice générale</option>
+<option>NGATSONGO Clarmy Nice Natanaël — Directeur des études</option>
+<option>NGOUTI Neja — Directeur du primaire</option>
+<option>Hermann NIANGA — Surveillant général</option>
+<option>Tous les enseignants</option>
+<option>Tous les parents</option>
+<option>Tous les élèves</option>
+</select>
+</div>
+
+<div>
+<label>Priorité</label>
+<select id="priorite">
+<option value="Normale">Normale</option>
+<option value="Importante">Importante</option>
+<option value="Urgente">Urgente</option>
+</select>
+</div>
+
+</div>
+
+<div style="margin-top:15px;">
+<label>Objet</label>
+<input id="objet" placeholder="Objet du message">
+</div>
+
+<div style="margin-top:15px;">
+<label>Message</label>
+<textarea id="contenu" placeholder="Écrivez votre message..."></textarea>
+</div>
+
+<div style="margin-top:20px;">
+<button class="btn-send" onclick="envoyer()">📨 Envoyer le message</button>
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Boîte d'envoi</h2>
+
+<div id="listeMessages"></div>
+
+</div>
+
+</div>
+
+<footer>
+
+Groupe Scolaire Étoile Brillante • Brazzaville
+
+</footer>
+
+<script>
+
+const CLE="EB_MESSAGES";
+
+let messages=JSON.parse(localStorage.getItem(CLE)||"[]");
+
+function sauver(){
+ localStorage.setItem(CLE,JSON.stringify(messages));
+}
+
+function envoyer(){
+
+ if(!objet.value.trim()||!contenu.value.trim()){
+  alert("Veuillez compléter l'objet et le message.");
+  return;
+ }
+
+ messages.unshift({
+  id:Date.now(),
+  destinataire:destinataire.value,
+  priorite:priorite.value,
+  objet:objet.value,
+  contenu:contenu.value,
+  date:new Date().toLocaleString("fr-FR")
+ });
+
+ sauver();
+
+ objet.value="";
+ contenu.value="";
+
+ afficher();
+
+ alert("Message envoyé.");
+
+}
+
+function supprimer(id){
+
+ if(!confirm("Supprimer ce message ?")) return;
+
+ messages=messages.filter(m=>m.id!==id);
+
+ sauver();
+
+ afficher();
+
+}
+
+function afficher(){
+
+ const liste=document.getElementById("listeMessages");
+
+ if(messages.length===0){
+
+  liste.innerHTML="<p>Aucun message envoyé.</p>";
+
+  return;
+
+ }
+
+ liste.innerHTML=messages.map(m=>`
+
+ <div class="message">
+
+  <span class="tag ${m.priorite.toLowerCase()}">${m.priorite}</span>
+
+  <h3>${m.objet}</h3>
+
+  <div class="meta">À : ${m.destinataire}</div>
+
+  <div class="meta">${m.date}</div>
+
+  <p style="margin:12px 0;">${m.contenu}</p>
+
+  <button class="btn-delete" onclick="supprimer(${m.id})">
+   Supprimer
+  </button>
+
+ </div>
+
+ `).join("");
+
+}
+
+afficher();
+
+</script>
+
+</body>
+</html>
