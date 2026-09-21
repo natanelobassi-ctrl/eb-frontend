@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emplois du temps - Groupe Scolaire Étoile Brillante</title>
+
+<style>
+:root{
+ --bleu:#0A2A78;
+ --bleu2:#123A9B;
+ --or:#C9A227;
+ --ivoire:#F7F4ED;
+ --vert:#198754;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+ font-family:Arial,Helvetica,sans-serif;
+ background:var(--ivoire);
+ color:#1F2937;
+}
+
+header{
+ background:linear-gradient(135deg,var(--bleu),var(--bleu2));
+ color:white;
+ padding:20px;
+}
+
+.container{
+ width:95%;
+ max-width:1300px;
+ margin:auto;
+}
+
+nav{
+ display:flex;
+ flex-wrap:wrap;
+ gap:8px;
+ margin-top:15px;
+}
+
+nav a{
+ color:white;
+ text-decoration:none;
+ padding:8px 12px;
+ border-radius:8px;
+ font-weight:bold;
+}
+
+nav a:hover{
+ background:rgba(255,255,255,.15);
+}
+
+.card{
+ background:white;
+ border-radius:15px;
+ padding:22px;
+ margin:22px 0;
+ box-shadow:0 5px 18px rgba(0,0,0,.08);
+}
+
+select,input{
+ width:100%;
+ padding:10px;
+ border:1px solid #ccc;
+ border-radius:8px;
+}
+
+button{
+ border:none;
+ border-radius:8px;
+ padding:12px 18px;
+ font-weight:bold;
+ cursor:pointer;
+ color:white;
+}
+
+.btn-save{background:var(--vert);}
+.btn-print{background:var(--bleu);}
+
+.table-wrap{
+ overflow:auto;
+}
+
+table{
+ width:100%;
+ border-collapse:collapse;
+ min-width:900px;
+}
+
+th,td{
+ border:1px solid #ddd;
+ padding:10px;
+ text-align:center;
+}
+
+th{
+ background:var(--bleu);
+ color:white;
+}
+
+input.cours{
+ min-width:120px;
+}
+
+footer{
+ background:var(--bleu);
+ color:white;
+ text-align:center;
+ padding:20px;
+ margin-top:30px;
+}
+
+@media print{
+ button,nav{display:none;}
+ body{background:white;}
+ .card{box-shadow:none;}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="container">
+
+<h1>Groupe Scolaire Étoile Brillante</h1>
+
+<p>Administration — Gestion des emplois du temps</p>
+
+<nav>
+<a href="index.html">Dashboard</a>
+<a href="eleves.html">Élèves</a>
+<a href="notes.html">Notes</a>
+<a href="bulletins.html">Bulletins</a>
+<a href="paiements.html">Paiements</a>
+<a href="emplois.html">Emplois</a>
+<a href="cartes.html">Cartes</a>
+<a href="actualites.html">Actualités</a>
+<a href="parametres.html">Paramètres</a>
+</nav>
+
+</div>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Créer un emploi du temps</h2>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;margin-bottom:20px;">
+
+<div>
+<label>Classe</label>
+<select id="classe">
+<option>P1</option>
+<option>P2</option>
+<option>P3</option>
+<option>CP1</option>
+<option>CP2</option>
+<option>CE1</option>
+<option>CE2</option>
+<option>CM1</option>
+<option>CM2</option>
+<option>6e</option>
+<option>5e</option>
+<option>4e</option>
+<option>3e</option>
+<option>STC</option>
+<option>Première A</option>
+<option>Première D</option>
+<option>Terminale A</option>
+<option>Terminale D</option>
+</select>
+</div>
+
+<div>
+<label>Salle</label>
+<input id="salle" placeholder="Salle A1">
+</div>
+
+</div>
+
+<div class="table-wrap">
+
+<table id="tableau">
+
+<thead>
+
+<tr>
+<th>Horaire</th>
+<th>Lundi</th>
+<th>Mardi</th>
+<th>Mercredi</th>
+<th>Jeudi</th>
+<th>Vendredi</th>
+<th>Samedi</th>
+</tr>
+
+</thead>
+
+<tbody></tbody>
+
+</table>
+
+</div>
+
+<div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">
+
+<button class="btn-save" onclick="enregistrer()">
+💾 Enregistrer
+</button>
+
+<button class="btn-print" onclick="window.print()">
+🖨 Imprimer
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<footer>
+
+Groupe Scolaire Étoile Brillante • Brazzaville
+
+</footer>
+
+<script>
+
+const horaires=[
+"07:30-08:30",
+"08:30-09:30",
+"09:30-10:00",
+"10:00-11:00",
+"11:00-12:00",
+"12:00-13:00",
+"13:00-14:00",
+"14:00-15:00",
+"15:00-16:00"
+];
+
+const jours=["lundi","mardi","mercredi","jeudi","vendredi","samedi"];
+
+const tbody=document.querySelector("#tableau tbody");
+
+horaires.forEach((h,i)=>{
+
+ const tr=document.createElement("tr");
+
+ tr.innerHTML=`<td><strong>${h}</strong></td>`;
+
+ jours.forEach(j=>{
+
+  tr.innerHTML+=`
+  <td>
+   <input class="cours" id="${j}_${i}" placeholder="Matière">
+  </td>`;
+
+ });
+
+ tbody.appendChild(tr);
+
+});
+
+function cle(){
+ return "EB_EMPLOI_"+classe.value;
+}
+
+function enregistrer(){
+
+ const data={
+  classe:classe.value,
+  salle:salle.value,
+  cours:{}
+ };
+
+ horaires.forEach((h,i)=>{
+  jours.forEach(j=>{
+   data.cours[j+"_"+i]=document.getElementById(j+"_"+i).value;
+  });
+ });
+
+ localStorage.setItem(cle(),JSON.stringify(data));
+
+ alert("Emploi du temps enregistré.");
+
+}
+
+function charger(){
+
+ const data=JSON.parse(localStorage.getItem(cle())||"null");
+
+ if(!data){
+
+  salle.value="";
+
+  horaires.forEach((h,i)=>{
+   jours.forEach(j=>{
+    document.getElementById(j+"_"+i).value="";
+   });
+  });
+
+  return;
+ }
+
+ salle.value=data.salle||"";
+
+ horaires.forEach((h,i)=>{
+  jours.forEach(j=>{
+   document.getElementById(j+"_"+i).value=data.cours[j+"_"+i]||"";
+  });
+ });
+
+}
+
+classe.addEventListener("change",charger);
+
+charger();
+
+</script>
+
+</body>
+</html>
