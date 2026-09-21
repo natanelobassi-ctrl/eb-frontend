@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Administration - Groupe Scolaire Étoile Brillante</title>
 
 <style>
@@ -12,50 +11,72 @@
  --bleu2:#123A9B;
  --or:#C9A227;
  --fond:#F7F4ED;
- --blanc:#fff;
- --vert:#198754;
- --rouge:#C62828;
 }
 
-*{
- margin:0;
- padding:0;
- box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box;}
 
 body{
  font-family:Arial,Helvetica,sans-serif;
  background:var(--fond);
- color:#1F2937;
+ display:flex;
+ min-height:100vh;
+}
+
+/* Sidebar */
+
+.sidebar{
+ width:260px;
+ background:linear-gradient(180deg,var(--bleu),var(--bleu2));
+ color:white;
+ padding:20px;
+}
+
+.sidebar h2{
+ font-size:1.3rem;
+ margin-bottom:5px;
+}
+
+.sidebar p{
+ font-size:.85rem;
+ opacity:.9;
+ margin-bottom:20px;
+}
+
+.sidebar a{
+ display:block;
+ color:white;
+ text-decoration:none;
+ padding:12px 14px;
+ border-radius:8px;
+ margin-bottom:6px;
+ font-weight:bold;
+}
+
+.sidebar a:hover,
+.sidebar a.active{
+ background:rgba(255,255,255,.15);
+ color:#FFD54F;
+}
+
+/* Contenu */
+
+.main{
+ flex:1;
+ padding:25px;
 }
 
 header{
- background:linear-gradient(135deg,var(--bleu),var(--bleu2));
- color:white;
- padding:22px;
- box-shadow:0 4px 15px rgba(0,0,0,.25);
-}
-
-.container{
- width:94%;
- max-width:1250px;
- margin:auto;
-}
-
-header h1{
- font-size:1.5rem;
-}
-
-header p{
- opacity:.9;
- margin-top:5px;
+ background:white;
+ border-radius:15px;
+ padding:20px;
+ box-shadow:0 5px 18px rgba(0,0,0,.08);
+ margin-bottom:20px;
 }
 
 .grid{
  display:grid;
- grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+ grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
  gap:18px;
- margin:25px 0;
 }
 
 .card{
@@ -63,10 +84,12 @@ header p{
  border-radius:15px;
  padding:20px;
  box-shadow:0 5px 18px rgba(0,0,0,.08);
+ text-align:center;
 }
 
 .card h3{
  color:var(--bleu);
+ font-size:1rem;
  margin-bottom:10px;
 }
 
@@ -76,201 +99,104 @@ header p{
  color:var(--or);
 }
 
-.modules{
- display:grid;
- grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
- gap:15px;
+.alertes{
+ background:white;
+ border-radius:15px;
+ padding:20px;
+ box-shadow:0 5px 18px rgba(0,0,0,.08);
  margin-top:20px;
 }
 
-.modules a{
- background:white;
- padding:18px;
- border-radius:12px;
- text-decoration:none;
- color:#111;
- font-weight:bold;
- box-shadow:0 4px 12px rgba(0,0,0,.08);
- transition:.2s;
-}
+@media(max-width:850px){
 
-.modules a:hover{
- background:var(--bleu);
- color:white;
-}
+ body{
+  flex-direction:column;
+ }
 
-.alertes{
- background:white;
- padding:20px;
- border-radius:15px;
- margin-top:25px;
- box-shadow:0 5px 18px rgba(0,0,0,.08);
-}
+ .sidebar{
+  width:100%;
+ }
 
-.alertes h2{
- color:var(--bleu);
- margin-bottom:15px;
-}
-
-.alertes li{
- margin:10px 0;
-}
-
-.sauvegarde{
- background:white;
- padding:20px;
- border-radius:15px;
- margin-top:25px;
- box-shadow:0 5px 18px rgba(0,0,0,.08);
-}
-
-.sauvegarde h2{
- color:var(--bleu);
- margin-bottom:10px;
-}
-
-.buttons{
- display:flex;
- flex-wrap:wrap;
- gap:12px;
- margin-top:15px;
-}
-
-button{
- border:none;
- border-radius:8px;
- padding:12px 18px;
- font-weight:bold;
- cursor:pointer;
-}
-
-.btn-bleu{
- background:var(--bleu);
- color:white;
-}
-
-.btn-vert{
- background:var(--vert);
- color:white;
-}
-
-footer{
- margin-top:35px;
- background:var(--bleu);
- color:white;
- text-align:center;
- padding:20px;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-<div class="container">
-<h1>🎛️ Tableau de bord administratif</h1>
-<p>Groupe Scolaire Étoile Brillante</p>
-</div>
-</header>
+<aside class="sidebar">
 
-<div class="container">
+<h2>Étoile Brillante</h2>
+<p>Administration</p>
 
-<div class="grid">
-
-<div class="card">
-<h3>👨‍🎓 Élèves</h3>
-<div class="number" id="nbEleves">0</div>
-</div>
-
-<div class="card">
-<h3>👨‍🏫 Enseignants</h3>
-<div class="number" id="nbEnseignants">0</div>
-</div>
-
-<div class="card">
-<h3>🛏️ Internes</h3>
-<div class="number" id="nbInternes">0</div>
-</div>
-
-<div class="card">
-<h3>💰 Paiements confirmés</h3>
-<div class="number" id="nbPaiements">0</div>
-</div>
-
-<div class="card">
-<h3>📢 Actualités</h3>
-<div class="number" id="nbActualites">0</div>
-</div>
-
-<div class="card">
-<h3>📅 Absences aujourd'hui</h3>
-<div class="number" id="nbAbsences">0</div>
-</div>
-
-</div>
-
-<h2 style="color:#0A2A78;margin-bottom:15px;">Accès rapides</h2>
-
-<div class="modules">
-
-<a href="eleves.html">👨‍🎓 Gestion des élèves</a>
+<a href="index.html" class="active">📊 Tableau de bord</a>
+<a href="eleves.html">👨‍🎓 Élèves</a>
 <a href="classes.html">🏫 Classes</a>
-<a href="notes.html">📝 Saisie des notes</a>
+<a href="notes.html">📝 Notes</a>
 <a href="bulletins.html">📄 Bulletins</a>
 <a href="absences.html">📅 Absences</a>
 <a href="enseignants.html">👨‍🏫 Enseignants</a>
 <a href="internat.html">🛏️ Internat</a>
 <a href="paiements.html">💳 Paiements</a>
+<a href="cartes.html">🪪 Cartes scolaires</a>
 <a href="actualites.html">📢 Actualités</a>
 <a href="parametres.html">⚙️ Paramètres</a>
+<a href="sauvegarde.html">💾 Sauvegarde</a>
 
+</aside>
+
+<div class="main">
+
+<header>
+
+<h1>Tableau de bord administratif</h1>
+
+<p>Groupe Scolaire Étoile Brillante — Excellence • Discipline • Innovation</p>
+
+</header>
+
+<div class="grid">
+
+<div class="card">
+<h3>Élèves</h3>
+<div class="number" id="nbEleves">0</div>
 </div>
 
-<div class="sauvegarde">
+<div class="card">
+<h3>Enseignants</h3>
+<div class="number" id="nbEnseignants">0</div>
+</div>
 
-<h2>💾 Sauvegarde générale</h2>
+<div class="card">
+<h3>Internes</h3>
+<div class="number" id="nbInternes">0</div>
+</div>
 
-<p>
-Exportez toutes les données de l'école ou restaurez une sauvegarde.
-</p>
+<div class="card">
+<h3>Paiements</h3>
+<div class="number" id="nbPaiements">0</div>
+</div>
 
-<div class="buttons">
+<div class="card">
+<h3>Actualités</h3>
+<div class="number" id="nbActualites">0</div>
+</div>
 
-<button class="btn-bleu" onclick="exporterDonnees()">
-📥 Exporter toutes les données
-</button>
-
-<input type="file"
-id="importFile"
-accept=".json"
-style="display:none;">
-
-<button class="btn-vert"
-onclick="document.getElementById('importFile').click()">
-📤 Restaurer une sauvegarde
-</button>
-
+<div class="card">
+<h3>Absences</h3>
+<div class="number" id="nbAbsences">0</div>
 </div>
 
 </div>
 
 <div class="alertes">
 
-<h2>🚨 Alertes administratives</h2>
+<h2 style="color:#0A2A78;margin-bottom:12px;">Alertes administratives</h2>
 
 <ul id="listeAlertes"></ul>
 
 </div>
 
 </div>
-
-<footer>
-
-<strong>Groupe Scolaire Étoile Brillante</strong><br>
-
-Excellence • Discipline • Innovation
-
-</footer>
 
 <script>
 
@@ -284,116 +210,26 @@ const internes=lire("EB_INTERNAT");
 const paiements=lire("EB_PAIEMENTS");
 const actualites=lire("EB_ACTUALITES");
 const absences=lire("EB_ABSENCES");
-const sorties=lire("EB_SORTIES");
 
-document.getElementById("nbEleves").textContent=eleves.length;
-document.getElementById("nbEnseignants").textContent=enseignants.length;
-document.getElementById("nbInternes").textContent=internes.length;
-
-document.getElementById("nbPaiements").textContent=
-paiements.filter(p=>p.statut==="Confirmée").length;
-
-document.getElementById("nbActualites").textContent=
-actualites.filter(a=>a.statut==="Publié").length;
-
-const aujourd=new Date().toISOString().slice(0,10);
-
-document.getElementById("nbAbsences").textContent=
-absences.filter(a=>a.date===aujourd&&a.statut==="Absent").length;
+nbEleves.textContent=eleves.length;
+nbEnseignants.textContent=enseignants.length;
+nbInternes.textContent=internes.length;
+nbPaiements.textContent=paiements.length;
+nbActualites.textContent=actualites.length;
+nbAbsences.textContent=absences.length;
 
 const alertes=[];
 
-const attente=paiements.filter(p=>p.statut==="En attente").length;
-if(attente) alertes.push(`💳 ${attente} paiement(s) en attente.`);
+if(paiements.some(p=>p.statut==="En attente"))
+ alertes.push("💳 Des paiements sont en attente.");
 
-const sortiesEnCours=sorties.filter(s=>s.statut==="Sortie").length;
-if(sortiesEnCours) alertes.push(`🚪 ${sortiesEnCours} interne(s) encore en sortie.`);
+if(actualites.some(a=>a.statut==="Brouillon"))
+ alertes.push("📢 Une actualité est en brouillon.");
 
-const brouillons=actualites.filter(a=>a.statut==="Brouillon").length;
-if(brouillons) alertes.push(`📢 ${brouillons} actualité(s) en brouillon.`);
-
-const ul=document.getElementById("listeAlertes");
-
-if(alertes.length===0){
- ul.innerHTML="<li>✅ Aucune alerte importante.</li>";
-}else{
- ul.innerHTML=alertes.map(a=>`<li>${a}</li>`).join("");
-}
-
-/* SAUVEGARDE */
-
-const cles=[
-"EB_ELEVES",
-"EB_CLASSES",
-"EB_NOTES",
-"EB_BULLETINS",
-"EB_ABSENCES",
-"EB_ENSEIGNANTS",
-"EB_INTERNAT",
-"EB_SORTIES",
-"EB_PRESENCES",
-"EB_PAIEMENTS",
-"EB_ACTUALITES",
-"EB_PARAMETRES"
-];
-
-function exporterDonnees(){
-
- const sauvegarde={};
-
- cles.forEach(c=>{
-   sauvegarde[c]=localStorage.getItem(c);
- });
-
- sauvegarde.date=new Date().toISOString();
-
- const blob=new Blob(
-   [JSON.stringify(sauvegarde,null,2)],
-   {type:"application/json"}
- );
-
- const url=URL.createObjectURL(blob);
-
- const a=document.createElement("a");
-
- a.href=url;
-
- a.download=`Sauvegarde_EB_${new Date().toISOString().slice(0,10)}.json`;
-
- a.click();
-
- URL.revokeObjectURL(url);
-
-}
-
-document.getElementById("importFile").addEventListener("change",function(e){
-
- const fichier=e.target.files[0];
-
- if(!fichier) return;
-
- const lecteur=new FileReader();
-
- lecteur.onload=function(){
-
-  const data=JSON.parse(lecteur.result);
-
-  cles.forEach(c=>{
-
-   if(data[c]!==undefined)
-    localStorage.setItem(c,data[c]);
-
-  });
-
-  alert("Sauvegarde restaurée avec succès.");
-
-  location.reload();
-
- };
-
- lecteur.readAsText(fichier);
-
-});
+listeAlertes.innerHTML=
+alertes.length
+? alertes.map(a=>`<li>${a}</li>`).join("")
+: "<li>✅ Aucune alerte importante.</li>";
 
 </script>
 
