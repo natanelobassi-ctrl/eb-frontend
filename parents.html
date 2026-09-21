@@ -1,278 +1,250 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Espace Parents - Groupe Scolaire Étoile Brillante</title>
 
-    <title>Espace Parents | Groupe Scolaire Étoile Brillante</title>
-
-    <link rel="stylesheet" href="assets/css/style.css">
+<style>
+:root{
+ --bleu:#0A2A78;
+ --bleu2:#123A9B;
+ --or:#C9A227;
+ --ivoire:#F7F4ED;
+ --vert:#198754;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--ivoire);color:#1F2937;}
+header{background:linear-gradient(135deg,var(--bleu),var(--bleu2));color:white;padding:22px;}
+.container{width:94%;max-width:1100px;margin:auto;}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px;}
+nav a{color:white;text-decoration:none;padding:8px 12px;border-radius:8px;font-weight:bold;}
+nav a:hover{background:rgba(255,255,255,.15);}
+.card{background:white;border-radius:15px;padding:22px;margin:22px 0;box-shadow:0 5px 18px rgba(0,0,0,.08);}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:15px;}
+label{display:block;font-weight:bold;margin-bottom:6px;}
+input{width:100%;padding:11px;border:1px solid #ccc;border-radius:8px;}
+button{background:var(--bleu);color:white;border:none;border-radius:8px;padding:12px 18px;font-weight:bold;cursor:pointer;}
+button:hover{background:var(--bleu2);}
+.badge{display:inline-block;background:var(--or);padding:5px 10px;border-radius:20px;font-size:.8rem;font-weight:bold;}
+.info{background:#fff8dc;border-left:5px solid var(--or);padding:14px;border-radius:8px;margin-bottom:18px;}
+table{width:100%;border-collapse:collapse;}
+th,td{padding:10px;border-bottom:1px solid #ddd;text-align:left;}
+th{background:var(--bleu);color:white;}
+.table-wrap{overflow-x:auto;}
+footer{background:var(--bleu);color:white;text-align:center;padding:20px;margin-top:30px;}
+.hidden{display:none;}
+.photo{width:90px;height:90px;border-radius:50%;background:#e5e7eb;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#555;}
+</style>
 </head>
 
 <body>
 
 <header>
-    <div class="container">
+<div class="container">
+<h1>Groupe Scolaire Étoile Brillante</h1>
+<p>Excellence • Discipline • Innovation</p>
 
-        <div class="brand">
-
-            <img src="assets/css/logo-etoile-brillante.png"
-     alt="Logo Groupe Scolaire Étoile Brillante"
-     class="logo">
-                EB
-            </div>
-
-            <div>
-                <h1>Groupe Scolaire Étoile Brillante</h1>
-                <p>Excellence • Discipline • Innovation</p>
-            </div>
-
-        </div>
-
-        <nav>
-            <a href="index.html">Accueil</a>
-            <a href="ecole.html">L'École</a>
-            <a href="cycles.html">Cycles</a>
-            <a href="resultats.html">Résultats</a>
-            <a href="inscription.html">Inscription</a>
-            <a href="galerie.html">Galerie</a>
-            <a href="actualites.html">Actualités</a>
-            <a href="parents.html">Espace Parents</a>
-            <a href="recrutement.html">Recrutement</a>
-            <a href="contact.html">Contact</a>
-        </nav>
-
-    </div>
+<nav>
+<a href="index.html">Accueil</a>
+<a href="ecole.html">L'École</a>
+<a href="cycles.html">Cycles</a>
+<a href="resultats.html">Résultats</a>
+<a href="actualites.html">Actualités</a>
+<a href="contact.html">Contact</a>
+</nav>
+</div>
 </header>
-
-
-<main>
-
-<section class="hero">
-
-    <div class="container">
-
-        <h2>Espace Parents</h2>
-
-        <p>
-            Suivez la scolarité de vos enfants
-            depuis votre téléphone.
-        </p>
-
-    </div>
-
-</section>
-
-
-<section class="section">
-
-    <div class="container">
-
-        <div class="card">
-
-            <h2>Connexion parent</h2>
-
-            <p>
-                Connectez-vous avec le numéro de téléphone
-                enregistré auprès de l'établissement.
-            </p>
-
-
-            <label for="telephone">
-                Numéro de téléphone
-            </label>
-
-            <input
-                type="tel"
-                id="telephone"
-                placeholder="Exemple : 067598453"
-                autocomplete="tel"
-            >
-
-
-            <label for="motdepasse">
-                Mot de passe
-            </label>
-
-            <input
-                type="password"
-                id="motdepasse"
-                placeholder="Votre mot de passe"
-                autocomplete="current-password"
-            >
-
-
-            <button
-                class="btn"
-                type="button"
-                onclick="connexion()">
-                Se connecter
-            </button>
-
-
-            <p id="message"></p>
-
-
-            <p>
-                <a href="#">
-                    Mot de passe oublié ?
-                </a>
-            </p>
-
-        </div>
-
-
-        <br>
-
-
-        <div class="cards">
-
-            <div class="card">
-
-                <h3>👨‍👩‍👧 Mes enfants</h3>
-
-                <p>
-                    Retrouvez tous les enfants rattachés
-                    à votre compte parent.
-                </p>
-
-            </div>
-
-
-            <div class="card">
-
-                <h3>📊 Résultats</h3>
-
-                <p>
-                    Consultez les moyennes, rangs,
-                    mentions et décisions.
-                </p>
-
-            </div>
-
-
-            <div class="card">
-
-                <h3>📄 Bulletins</h3>
-
-                <p>
-                    Consultez et téléchargez les bulletins
-                    validés par l'administration.
-                </p>
-
-            </div>
-
-
-            <div class="card">
-
-                <h3>📅 Absences</h3>
-
-                <p>
-                    Consultez les absences et retards
-                    de vos enfants.
-                </p>
-
-            </div>
-
-
-            <div class="card">
-
-                <h3>💳 Paiements</h3>
-
-                <p>
-                    Suivez vos paiements scolaires et
-                    retrouvez vos reçus payés.
-                </p>
-
-            </div>
-
-
-            <div class="card">
-
-                <h3>🔔 Notifications</h3>
-
-                <p>
-                    Recevez les informations importantes
-                    de l'établissement.
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-</main>
-
-
-<footer>
 
 <div class="container">
 
-<p>
-<strong>
-Groupe Scolaire Étoile Brillante
-</strong>
-</p>
+<div class="card">
 
-<p>
-03 rue Poumako, marché Massengo,
-arrondissement 9 Djiri, Brazzaville
-</p>
+<h2>Espace Parents</h2>
 
-<p>
-WhatsApp : 067598453
-</p>
+<div class="info">
+Entrez le <strong>nom</strong> et le <strong>matricule</strong> de l'élève pour consulter ses informations.
+</div>
 
-<p>
-E-mail : groupescolaireeb26@gmail.com
-</p>
+<div class="grid">
 
-<p>
-Excellence • Discipline • Innovation
-</p>
+<div>
+<label>Nom de l'élève</label>
+<input id="nomRecherche" placeholder="Ex : OBASSI">
+</div>
 
-<p>
-© 2026 Groupe Scolaire Étoile Brillante
-</p>
+<div>
+<label>Matricule</label>
+<input id="matriculeRecherche" placeholder="Ex : EB-2026-00001">
+</div>
 
 </div>
 
+<div style="margin-top:18px;">
+<button onclick="rechercher()">Rechercher</button>
+</div>
+
+</div>
+
+<div id="profil" class="card hidden">
+
+<div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap;">
+
+<div class="photo" id="avatar">EB</div>
+
+<div>
+<h2 id="nomComplet"></h2>
+<p><strong>Matricule :</strong> <span id="matricule"></span></p>
+<p><strong>Classe :</strong> <span id="classe"></span></p>
+<p><strong>Date de naissance :</strong> <span id="naissance"></span></p>
+<p><strong>Lieu de naissance :</strong> <span id="lieu"></span></p>
+</div>
+
+</div>
+
+</div>
+
+<div id="bulletin" class="card hidden">
+
+<h2>Résultats scolaires</h2>
+
+<div class="table-wrap">
+
+<table>
+
+<tr><th>Période</th><th>Moyenne</th></tr>
+<tr><td>1er trimestre</td><td id="t1">-</td></tr>
+<tr><td>2e trimestre</td><td id="t2">-</td></tr>
+<tr><td>3e trimestre</td><td id="t3">-</td></tr>
+<tr><td><strong>Moyenne annuelle</strong></td><td id="annuelle"><strong>-</strong></td></tr>
+<tr><td><strong>Rang annuel</strong></td><td id="rang"><strong>-</strong></td></tr>
+
+</table>
+
+</div>
+
+</div>
+
+<div id="absencesCard" class="card hidden">
+
+<h2>Absences</h2>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Date</th>
+<th>Statut</th>
+</tr>
+
+</thead>
+
+<tbody id="listeAbsences"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<div id="paiementsCard" class="card hidden">
+
+<h2>Paiements</h2>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Date</th>
+<th>Motif</th>
+<th>Montant</th>
+<th>Statut</th>
+</tr>
+
+</thead>
+
+<tbody id="listePaiements"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<footer>
+
+Groupe Scolaire Étoile Brillante<br>
+
+Brazzaville • Excellence • Discipline • Innovation
+
 </footer>
 
-
 <script>
+const eleves=JSON.parse(localStorage.getItem("EB_ELEVES")||"[]");
+const bulletins=JSON.parse(localStorage.getItem("EB_BULLETINS")||"[]");
+const absences=JSON.parse(localStorage.getItem("EB_ABSENCES")||"[]");
+const paiements=JSON.parse(localStorage.getItem("EB_PAIEMENTS")||"[]");
 
-function connexion() {
+function rechercher(){
 
-    const telephone =
-        document.getElementById("telephone").value.trim();
+const nom=document.getElementById("nomRecherche").value.trim().toLowerCase();
+const matricule=document.getElementById("matriculeRecherche").value.trim().toLowerCase();
 
-    const motdepasse =
-        document.getElementById("motdepasse").value.trim();
+const eleve=eleves.find(e=>
+(e.nom||"").toLowerCase()===nom &&
+(e.matricule||"").toLowerCase()===matricule
+);
 
-    const message =
-        document.getElementById("message");
-
-
-    if (telephone === "" || motdepasse === "") {
-
-        message.innerHTML =
-            "Veuillez renseigner votre numéro de téléphone et votre mot de passe.";
-
-        return;
-    }
-
-
-    message.innerHTML =
-        "Connexion sécurisée : le système d'authentification sera activé avec l'espace administratif.";
-
+if(!eleve){
+alert("Aucun élève trouvé.");
+return;
 }
 
-</script>
+profil.classList.remove("hidden");
+bulletin.classList.remove("hidden");
+absencesCard.classList.remove("hidden");
+paiementsCard.classList.remove("hidden");
 
+nomComplet.textContent=(eleve.nom||"")+" "+(eleve.prenom||"");
+document.getElementById("matricule").textContent=eleve.matricule||"-";
+document.getElementById("classe").textContent=eleve.classe||"-";
+document.getElementById("naissance").textContent=eleve.dateNaissance||"-";
+document.getElementById("lieu").textContent=eleve.lieuNaissance||"-";
+avatar.textContent=(eleve.prenom||"E").charAt(0)+(eleve.nom||"B").charAt(0);
+
+const b=bulletins.find(x=>x.matricule===eleve.matricule)||{};
+t1.textContent=b.trimestre1??"-";
+t2.textContent=b.trimestre2??"-";
+t3.textContent=b.trimestre3??"-";
+annuelle.textContent=b.moyenneAnnuelle??"-";
+rang.textContent=b.rangAnnuel??"-";
+
+const abs=absences.filter(a=>a.matricule===eleve.matricule);
+listeAbsences.innerHTML=abs.length?abs.map(a=>`
+<tr>
+<td>${a.date||"-"}</td>
+<td>${a.statut||"-"}</td>
+</tr>`).join(""):"<tr><td colspan='2'>Aucune absence enregistrée.</td></tr>";
+
+const pay=paiements.filter(p=>p.matricule===eleve.matricule);
+listePaiements.innerHTML=pay.length?pay.map(p=>`
+<tr>
+<td>${p.date||"-"}</td>
+<td>${p.motif||"-"}</td>
+<td>${Number(p.montant||0).toLocaleString()} FCFA</td>
+<td><span class="badge">${p.statut||"Confirmée"}</span></td>
+</tr>`).join(""):"<tr><td colspan='4'>Aucun paiement enregistré.</td></tr>";
+
+}
+</script>
 
 </body>
 </html>
