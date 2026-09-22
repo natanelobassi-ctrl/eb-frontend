@@ -1,401 +1,485 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Élèves - Groupe Scolaire Étoile Brillante</title>
 
-    <title>L'École | Groupe Scolaire Étoile Brillante</title>
+<style>
+:root{
+ --bleu:#0A2A78;
+ --bleu2:#123A9B;
+ --or:#C9A227;
+ --ivoire:#F7F4ED;
+ --vert:#198754;
+ --rouge:#C62828;
+}
 
-    <link rel="stylesheet" href="assets/css/style.css">
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+ font-family:Arial,Helvetica,sans-serif;
+ background:var(--ivoire);
+ color:#1F2937;
+}
+
+header{
+ background:linear-gradient(135deg,var(--bleu),var(--bleu2));
+ color:white;
+ padding:20px;
+}
+
+.container{
+ width:95%;
+ max-width:1300px;
+ margin:auto;
+}
+
+nav{
+ display:flex;
+ flex-wrap:wrap;
+ gap:8px;
+ margin-top:15px;
+}
+
+nav a{
+ color:white;
+ text-decoration:none;
+ padding:8px 12px;
+ border-radius:8px;
+ font-weight:bold;
+}
+
+nav a:hover{
+ background:rgba(255,255,255,.15);
+}
+
+.card{
+ background:white;
+ border-radius:15px;
+ padding:22px;
+ margin:22px 0;
+ box-shadow:0 5px 18px rgba(0,0,0,.08);
+}
+
+.grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+ gap:15px;
+}
+
+label{
+ display:block;
+ font-weight:bold;
+ margin-bottom:6px;
+}
+
+input,select{
+ width:100%;
+ padding:10px;
+ border:1px solid #ccc;
+ border-radius:8px;
+}
+
+.actions{
+ display:flex;
+ flex-wrap:wrap;
+ gap:10px;
+ margin-top:20px;
+}
+
+button{
+ border:none;
+ border-radius:8px;
+ padding:12px 18px;
+ cursor:pointer;
+ font-weight:bold;
+ color:white;
+}
+
+.btn-save{background:var(--vert);}
+.btn-clear{background:#666;}
+.btn-print{background:var(--bleu);}
+.btn-edit{background:#C9A227;color:#111;padding:8px 10px;}
+.btn-delete{background:var(--rouge);padding:8px 10px;}
+
+.table-wrap{
+ overflow:auto;
+}
+
+table{
+ width:100%;
+ border-collapse:collapse;
+ min-width:1100px;
+}
+
+th,td{
+ border-bottom:1px solid #ddd;
+ padding:10px;
+ text-align:left;
+}
+
+th{
+ background:var(--bleu);
+ color:white;
+}
+
+.photo{
+ width:42px;
+ height:42px;
+ border-radius:50%;
+ background:#ddd;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-weight:bold;
+}
+
+footer{
+ background:var(--bleu);
+ color:white;
+ text-align:center;
+ padding:20px;
+ margin-top:30px;
+}
+
+@media(max-width:800px){
+ .grid{grid-template-columns:1fr;}
+}
+</style>
 </head>
 
 <body>
 
 <header>
-    <div class="container">
+<div class="container">
 
-        <div class="brand">
-            
-<img src="assets/css/logo-etoile-brillante.png"
-     alt="Logo Groupe Scolaire Étoile Brillante"
-     class="logo">
-            <div>
-                <h1>Groupe Scolaire Étoile Brillante</h1>
-                <p>Excellence • Discipline • Innovation</p>
-            </div>
-        </div>
+<h1>Groupe Scolaire Étoile Brillante</h1>
+<p>Administration — Gestion des élèves</p>
 
-        <nav>
-            <a href="index.html">Accueil</a>
-            <a href="ecole.html">L'École</a>
-            <a href="cycles.html">Cycles</a>
-            <a href="resultats.html">Résultats</a>
-            <a href="inscription.html">Inscription</a>
-            <a href="galerie.html">Galerie</a>
-            <a href="actualites.html">Actualités</a>
-            <a href="parents.html">Espace Parents</a>
-            <a href="recrutement.html">Recrutement</a>
-            <a href="contact.html">Contact</a>
-        </nav>
+<nav>
+<a href="index.html">Dashboard</a>
+<a href="eleves.html">Élèves</a>
+<a href="classes.html">Classes</a>
+<a href="notes.html">Notes</a>
+<a href="bulletins.html">Bulletins</a>
+<a href="absences.html">Absences</a>
+<a href="internat.html">Internat</a>
+<a href="paiements.html">Paiements</a>
+<a href="cartes.html">Cartes</a>
+<a href="emplois.html">Emplois</a>
+<a href="messages.html">Messages</a>
+<a href="sauvegarde.html">Sauvegarde</a>
+</nav>
 
-    </div>
+</div>
 </header>
 
-
-<main>
-
-    <!-- TITRE -->
-
-    <section class="hero">
-
-        <div class="container">
-
-            <h2>Notre école</h2>
-
-            <p>
-                Une école tournée vers l'excellence,
-                la discipline et l'innovation.
-            </p>
-
-        </div>
-
-    </section>
-
-
-    <!-- HISTOIRE -->
-
-    <section class="section">
-
-        <div class="container">
-
-            <h2>Notre histoire</h2>
-
-            <div class="card">
-
-                <p>
-                    Le Groupe Scolaire Étoile Brillante est un
-                    établissement scolaire engagé dans
-                    l'accompagnement et la formation des jeunes.
-                </p>
-
-                <br>
-
-                <p>
-                    Depuis sa création, l'établissement œuvre
-                    pour offrir aux élèves un cadre propice
-                    aux apprentissages, à l'épanouissement et
-                    à la préparation de leur avenir.
-                </p>
-
-                <br>
-
-                <p>
-                    Notre ambition est de former des élèves
-                    responsables, compétents, disciplinés et
-                    capables de contribuer positivement à la
-                    société.
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- MISSION -->
-
-    <section class="section">
-
-        <div class="container">
-
-            <h2>Notre mission</h2>
-
-            <div class="cards">
-
-                <div class="card">
-
-                    <h3>Former</h3>
-
-                    <p>
-                        Donner aux élèves des connaissances
-                        solides et les compétences nécessaires
-                        à leur parcours scolaire.
-                    </p>
-
-                </div>
-
-
-                <div class="card">
-
-                    <h3>Accompagner</h3>
-
-                    <p>
-                        Suivre chaque élève et l'aider à
-                        développer son potentiel.
-                    </p>
-
-                </div>
-
-
-                <div class="card">
-
-                    <h3>Préparer l'avenir</h3>
-
-                    <p>
-                        Développer l'autonomie, la responsabilité,
-                        la créativité et l'esprit d'initiative.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- VISION -->
-
-    <section class="section">
-
-        <div class="container">
-
-            <h2>Notre vision</h2>
-
-            <div class="card">
-
-                <p>
-                    Construire une école moderne et performante,
-                    intégrant progressivement les outils numériques
-                    dans la gestion scolaire et dans l'apprentissage.
-                </p>
-
-                <br>
-
-                <p>
-                    Nous voulons révéler le potentiel de chaque
-                    élève et contribuer à construire son avenir.
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- VALEURS -->
-
-    <section class="section">
-
-        <div class="container">
-
-            <h2>Nos valeurs</h2>
-
-            <div class="cards">
-
-                <div class="card">
-
-                    <h3>Excellence</h3>
-
-                    <p>
-                        Rechercher constamment la qualité et
-                        la réussite.
-                    </p>
-
-                </div>
-
-
-                <div class="card">
-
-                    <h3>Discipline</h3>
-
-                    <p>
-                        Respecter les règles, les personnes
-                        et les engagements.
-                    </p>
-
-                </div>
-
-
-                <div class="card">
-
-                    <h3>Innovation</h3>
-
-                    <p>
-                        Encourager la créativité et l'utilisation
-                        responsable du numérique.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- ÉQUIPE -->
-
-    <section class="section">
-
-        <div class="container">
-
-            <h2>Notre équipe dirigeante</h2>
-
-            <div class="cards">
-
-                <div class="card">
-
-                    <h3>Gracia IBEMBE</h3>
-
-                    <p>
-                        <strong>Coordonnatrice générale</strong>
-                    </p>
-
-                    <br>
-
-                    <p>
-                        Coordination générale de l'établissement
-                        et supervision de l'ensemble des activités
-                        scolaires.
-                    </p>
-
-                </div>
-
-
-                <div class="card">
-
-                    <h3>NGATSONGO Clarmy Nice</h3>
-
-                    <p>
-                        <strong>Directeur des études</strong>
-                    </p>
-
-                    <br>
-
-                    <p>
-                        Supervision des études du collège et du lycée,
-                        suivi pédagogique et coordination des activités
-                        liées au secondaire.
-                    </p>
-
-                </div>
-
-
-                <div class="card">
-
-                    <h3>NGOUTI Neja</h3>
-
-                    <p>
-                        <strong>Directeur du primaire</strong>
-                    </p>
-
-                    <br>
-
-                    <p>
-                        Supervision du préscolaire et du primaire,
-                        suivi des apprentissages et accompagnement
-                        des équipes pédagogiques.
-                    </p>
-
-                </div>
-
-
-                <div class="card">
-
-                    <h3>Hermann NIANGA</h3>
-
-                    <p>
-                        <strong>Surveillant général</strong>
-                    </p>
-
-                    <br>
-
-                    <p>
-                        Suivi de la discipline, de la présence
-                        des élèves et de la vie scolaire.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- ENGAGEMENT -->
-
-    <section class="section">
-
-        <div class="container">
-
-            <div class="card">
-
-                <h2>
-                    Révéler leur potentiel.
-                    Construire leur avenir.
-                </h2>
-
-                <p>
-                    Au Groupe Scolaire Étoile Brillante,
-                    chaque élève compte.
-                </p>
-
-                <br>
-
-                <a href="inscription.html" class="btn">
-                    Découvrir les inscriptions
-                </a>
-
-            </div>
-
-        </div>
-
-    </section>
-
-</main>
-
+<div class="container">
+
+<div class="card">
+
+<h2>Fiche élève</h2>
+
+<div class="grid">
+
+<div>
+<label>Nom</label>
+<input id="nom">
+</div>
+
+<div>
+<label>Prénom</label>
+<input id="prenom">
+</div>
+
+<div>
+<label>Sexe</label>
+<select id="sexe">
+<option>Masculin</option>
+<option>Féminin</option>
+</select>
+</div>
+
+<div>
+<label>Classe</label>
+<select id="classe">
+<option>P1</option><option>P2</option><option>P3</option>
+<option>CP1</option><option>CP2</option>
+<option>CE1</option><option>CE2</option>
+<option>CM1</option><option>CM2</option>
+<option>6e</option><option>5e</option>
+<option>4e</option><option>3e</option>
+<option>STC</option>
+<option>Première A</option>
+<option>Première D</option>
+<option>Terminale A</option>
+<option>Terminale D</option>
+</select>
+</div>
+
+<div>
+<label>Date de naissance</label>
+<input id="dateNaissance" type="date">
+</div>
+
+<div>
+<label>Lieu de naissance</label>
+<input id="lieuNaissance">
+</div>
+
+<div>
+<label>Père / Tuteur</label>
+<input id="pere">
+</div>
+
+<div>
+<label>Téléphone</label>
+<input id="telephone">
+</div>
+
+<div style="grid-column:1/-1;">
+<label>Adresse</label>
+<input id="adresse">
+</div>
+
+</div>
+
+<div class="actions">
+
+<button class="btn-save" onclick="enregistrer()">
+💾 Enregistrer
+</button>
+
+<button class="btn-clear" onclick="reinitialiser()">
+↺ Réinitialiser
+</button>
+
+<button class="btn-print" onclick="window.print()">
+🖨 Imprimer
+</button>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Liste des élèves</h2>
+
+<div class="grid">
+
+<div>
+<label>Recherche</label>
+<input id="recherche" placeholder="Nom, prénom ou matricule" oninput="afficher()">
+</div>
+
+<div>
+<label>Classe</label>
+<select id="filtreClasse" onchange="afficher()">
+<option value="">Toutes les classes</option>
+<option>P1</option><option>P2</option><option>P3</option>
+<option>CP1</option><option>CP2</option>
+<option>CE1</option><option>CE2</option>
+<option>CM1</option><option>CM2</option>
+<option>6e</option><option>5e</option>
+<option>4e</option><option>3e</option>
+<option>STC</option>
+<option>Première A</option>
+<option>Première D</option>
+<option>Terminale A</option>
+<option>Terminale D</option>
+</select>
+</div>
+
+</div>
+
+<div class="table-wrap" style="margin-top:20px;">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Photo</th>
+<th>Matricule</th>
+<th>Nom</th>
+<th>Prénom</th>
+<th>Classe</th>
+<th>Sexe</th>
+<th>Téléphone</th>
+<th>Actions</th>
+</tr>
+
+</thead>
+
+<tbody id="listeEleves"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
 
 <footer>
-
-    <div class="container">
-
-        <p>
-            <strong>
-                Groupe Scolaire Étoile Brillante
-            </strong>
-        </p>
-
-        <p>
-            03 rue Poumako, marché Massengo,
-            arrondissement 9 Djiri, Brazzaville
-        </p>
-
-        <p>
-            WhatsApp : 067598453
-        </p>
-
-        <p>
-            E-mail : groupescolaireeb26@gmail.com
-        </p>
-
-        <p>
-            Excellence • Discipline • Innovation
-        </p>
-
-        <p>
-            © 2026 Groupe Scolaire Étoile Brillante
-        </p>
-
-    </div>
-
+Groupe Scolaire Étoile Brillante • Brazzaville
 </footer>
+
+<script>
+
+const CLE="EB_ELEVES";
+
+let eleves=JSON.parse(localStorage.getItem(CLE)||"[]");
+let edition=null;
+
+function sauver(){
+ localStorage.setItem(CLE,JSON.stringify(eleves));
+}
+
+function nouveauMatricule(){
+
+ const annee=new Date().getFullYear();
+
+ const dernier=eleves
+ .filter(e=>e.matricule&&e.matricule.startsWith("EB-"+annee))
+ .map(e=>parseInt(e.matricule.split("-")[2]||0))
+ .sort((a,b)=>b-a)[0]||0;
+
+ return `EB-${annee}-${String(dernier+1).padStart(5,"0")}`;
+
+}
+
+function enregistrer(){
+
+ if(!nom.value.trim()||!prenom.value.trim()){
+  alert("Nom et prénom obligatoires.");
+  return;
+ }
+
+ const data={
+  nom:nom.value.trim(),
+  prenom:prenom.value.trim(),
+  sexe:sexe.value,
+  classe:classe.value,
+  dateNaissance:dateNaissance.value,
+  lieuNaissance:lieuNaissance.value,
+  pere:pere.value,
+  telephone:telephone.value,
+  adresse:adresse.value
+ };
+
+ if(edition!==null){
+
+  data.matricule=eleves[edition].matricule;
+  eleves[edition]=data;
+
+ }else{
+
+  data.matricule=nouveauMatricule();
+  eleves.push(data);
+
+ }
+
+ sauver();
+
+ reinitialiser();
+
+ afficher();
+
+ alert("Élève enregistré avec succès.");
+
+}
+
+function reinitialiser(){
+
+ edition=null;
+
+ nom.value="";
+ prenom.value="";
+ sexe.value="Masculin";
+ classe.value="P1";
+ dateNaissance.value="";
+ lieuNaissance.value="";
+ pere.value="";
+ telephone.value="";
+ adresse.value="";
+
+}
+
+function modifier(i){
+
+ edition=i;
+
+ const e=eleves[i];
+
+ nom.value=e.nom;
+ prenom.value=e.prenom;
+ sexe.value=e.sexe;
+ classe.value=e.classe;
+ dateNaissance.value=e.dateNaissance||"";
+ lieuNaissance.value=e.lieuNaissance||"";
+ pere.value=e.pere||"";
+ telephone.value=e.telephone||"";
+ adresse.value=e.adresse||"";
+
+ window.scrollTo({top:0,behavior:"smooth"});
+
+}
+
+function supprimer(i){
+
+ if(!confirm("Supprimer cet élève ?")) return;
+
+ eleves.splice(i,1);
+
+ sauver();
+
+ afficher();
+
+}
+
+function afficher(){
+
+ const tbody=document.getElementById("listeEleves");
+
+ const mot=recherche.value.toLowerCase();
+
+ const classeFiltre=filtreClasse.value;
+
+ tbody.innerHTML="";
+
+ eleves.forEach((e,i)=>{
+
+  if(classeFiltre&&e.classe!==classeFiltre) return;
+
+  const texte=(e.nom+" "+e.prenom+" "+e.matricule).toLowerCase();
+
+  if(!texte.includes(mot)) return;
+
+  tbody.innerHTML+=`
+  <tr>
+   <td><div class="photo">${e.prenom.charAt(0)}${e.nom.charAt(0)}</div></td>
+   <td>${e.matricule}</td>
+   <td>${e.nom}</td>
+   <td>${e.prenom}</td>
+   <td>${e.classe}</td>
+   <td>${e.sexe}</td>
+   <td>${e.telephone||"-"}</td>
+   <td>
+    <button class="btn-edit" onclick="modifier(${i})">Modifier</button>
+    <button class="btn-delete" onclick="supprimer(${i})">Supprimer</button>
+   </td>
+  </tr>`;
+
+ });
+
+}
+
+afficher();
+
+</script>
 
 </body>
 </html>
