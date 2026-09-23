@@ -3,311 +3,138 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gestion de l'internat - Groupe Scolaire Étoile Brillante</title>
+<title>Internat - Groupe Scolaire Étoile Brillante</title>
 
 <style>
 :root{
-    --bleu:#0A2A78;
-    --bleu2:#123A9B;
-    --or:#C9A227;
-    --ivoire:#F7F4ED;
-    --vert:#198754;
-    --rouge:#C62828;
-    --orange:#EF6C00;
-    --blanc:#fff;
-    --texte:#1F2937;
+ --bleu:#0A2A78;
+ --bleu2:#123A9B;
+ --or:#C9A227;
+ --ivoire:#F7F4ED;
+ --vert:#198754;
+ --rouge:#C62828;
 }
-
-*{box-sizing:border-box;margin:0;padding:0}
+*{margin:0;padding:0;box-sizing:border-box;}
 
 body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:var(--ivoire);
-    color:var(--texte);
-    line-height:1.5;
+ font-family:Arial,Helvetica,sans-serif;
+ background:var(--ivoire);
+ color:#1F2937;
 }
 
 header{
-    background:var(--bleu);
-    color:white;
-    padding:18px 0;
-    box-shadow:0 3px 12px rgba(0,0,0,.2);
+ background:linear-gradient(135deg,var(--bleu),var(--bleu2));
+ color:white;
+ padding:20px;
 }
 
 .container{
-    width:94%;
-    max-width:1250px;
-    margin:auto;
-}
-
-.brand{
-    display:flex;
-    align-items:center;
-    gap:15px;
-}
-
-.logo{<img src="../assets/css/logo-etoile-brillante.png"
-     alt="Logo Groupe Scolaire Étoile Brillante"
-     class="logo">
-    width:65px;
-    height:65px;
-    border-radius:50%;
-    background:white;
-    color:var(--bleu);
-    border:3px solid var(--or);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:bold;
-    font-size:20px;
-}
-
-.brand h1{
-    font-size:1.35rem;
-}
-
-.brand p{
-    font-size:.9rem;
+ width:95%;
+ max-width:1200px;
+ margin:auto;
 }
 
 nav{
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    margin-top:18px;
+ display:flex;
+ flex-wrap:wrap;
+ gap:8px;
+ margin-top:15px;
 }
 
 nav a{
-    color:white;
-    text-decoration:none;
-    padding:9px 12px;
-    border-radius:7px;
-    font-weight:bold;
+ color:white;
+ text-decoration:none;
+ padding:8px 12px;
+ border-radius:8px;
+ font-weight:bold;
 }
 
 nav a:hover{
-    background:rgba(255,255,255,.15);
-    color:var(--or);
+ background:rgba(255,255,255,.15);
 }
 
-main{
-    padding:30px 0 60px;
-}
-
-.title{
-    background:linear-gradient(135deg,var(--bleu),var(--bleu2));
-    color:white;
-    padding:28px;
-    border-radius:15px;
-    margin-bottom:25px;
-}
-
-.title h2{
-    font-size:2rem;
-    margin-bottom:7px;
-}
-
-.cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:15px;
-    margin-bottom:25px;
-}
-
-.stat{
-    background:white;
-    padding:20px;
-    border-radius:12px;
-    box-shadow:0 4px 15px rgba(0,0,0,.08);
-    border-left:5px solid var(--bleu);
-}
-
-.stat strong{
-    display:block;
-    font-size:1.8rem;
-    color:var(--bleu);
-}
-
-.stat span{
-    font-size:.9rem;
-}
-
-.panel{
-    background:white;
-    padding:24px;
-    border-radius:15px;
-    box-shadow:0 5px 18px rgba(0,0,0,.08);
-    margin-bottom:25px;
-}
-
-.panel h3{
-    color:var(--bleu);
-    margin-bottom:18px;
+.card{
+ background:white;
+ border-radius:15px;
+ padding:22px;
+ margin:22px 0;
+ box-shadow:0 5px 18px rgba(0,0,0,.08);
 }
 
 .grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:15px;
-}
-
-.full{
-    grid-column:1/-1;
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+ gap:15px;
 }
 
 label{
-    display:block;
-    font-weight:bold;
-    margin-bottom:5px;
+ display:block;
+ font-weight:bold;
+ margin-bottom:6px;
 }
 
-input,select,textarea{
-    width:100%;
-    padding:11px;
-    border:1px solid #ccc;
-    border-radius:8px;
-    font-size:1rem;
-    margin-bottom:10px;
-}
-
-textarea{
-    min-height:90px;
-    resize:vertical;
+input,select{
+ width:100%;
+ padding:10px;
+ border:1px solid #ccc;
+ border-radius:8px;
 }
 
 button{
-    border:0;
-    border-radius:8px;
-    padding:11px 16px;
-    cursor:pointer;
-    font-weight:bold;
-    margin:3px;
+ border:none;
+ border-radius:8px;
+ padding:12px 18px;
+ color:white;
+ font-weight:bold;
+ cursor:pointer;
 }
 
-.btn{
-    background:var(--bleu);
-    color:white;
-}
+.btn-save{background:var(--vert);}
+.btn-print{background:var(--bleu);}
+.btn-sortie{background:var(--rouge);}
 
-.btn:hover{
-    background:var(--bleu2);
-}
-
-.btn-or{
-    background:var(--or);
-    color:#111;
-}
-
-.btn-green{
-    background:var(--vert);
-    color:white;
-}
-
-.btn-red{
-    background:var(--rouge);
-    color:white;
-}
-
-.btn-orange{
-    background:var(--orange);
-    color:white;
-}
-
-.table-wrap{
-    overflow-x:auto;
-}
+.table-wrap{overflow:auto;}
 
 table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:1000px;
+ width:100%;
+ border-collapse:collapse;
+ min-width:900px;
 }
 
 th,td{
-    padding:10px;
-    border-bottom:1px solid #ddd;
-    text-align:left;
+ border-bottom:1px solid #ddd;
+ padding:10px;
+ text-align:left;
 }
 
 th{
-    background:var(--bleu);
-    color:white;
-}
-
-tr:hover{
-    background:#f5f5f5;
+ background:var(--bleu);
+ color:white;
 }
 
 .badge{
-    display:inline-block;
-    padding:5px 9px;
-    border-radius:20px;
-    font-size:.8rem;
-    font-weight:bold;
+ display:inline-block;
+ padding:4px 10px;
+ border-radius:20px;
+ font-size:.8rem;
+ font-weight:bold;
 }
 
-.actif{
-    background:#d9f5e5;
-    color:#08753a;
-}
-
-.sortie{
-    background:#fff0d9;
-    color:#a64b00;
-}
-
-.absent{
-    background:#ffdede;
-    color:#a00000;
-}
-
-.retour{
-    background:#dce8ff;
-    color:#16499c;
-}
-
-.attente{
-    background:#fff3cd;
-    color:#856404;
-}
-
-.actions{
-    display:flex;
-    flex-wrap:wrap;
-    gap:4px;
-}
-
-.notice{
-    background:#fff8df;
-    border-left:5px solid var(--or);
-    padding:15px;
-    border-radius:8px;
-    margin-bottom:20px;
-}
+.present{background:#d9f5e5;color:#08753a;}
+.sorti{background:#fde2e2;color:#b00020;}
 
 footer{
-    background:var(--bleu);
-    color:white;
-    text-align:center;
-    padding:25px;
+ background:var(--bleu);
+ color:white;
+ text-align:center;
+ padding:20px;
+ margin-top:30px;
 }
 
-.hidden{
-    display:none;
-}
-
-@media(max-width:700px){
-    .grid{
-        grid-template-columns:1fr;
-    }
-
-    .full{
-        grid-column:auto;
-    }
-
-    .title h2{
-        font-size:1.5rem;
-    }
+@media print{
+ nav,button{display:none;}
+ .card{box-shadow:none;}
+ body{background:white;}
 }
 </style>
 </head>
@@ -315,1059 +142,265 @@ footer{
 <body>
 
 <header>
+
 <div class="container">
 
-    <div class="brand">
-        <div class="logo">EB</div>
-        <div>
-            <h1>Groupe Scolaire Étoile Brillante</h1>
-            <p>Administration — Gestion de l'internat</p>
-        </div>
-    </div>
+<h1>Groupe Scolaire Étoile Brillante</h1>
 
-    <nav>
-        <a href="index.html">Dashboard</a>
-        <a href="eleves.html">Élèves</a>
-        <a href="classes.html">Classes</a>
-        <a href="notes.html">Notes</a>
-        <a href="bulletins.html">Bulletins</a>
-        <a href="absences.html">Absences</a>
-        <a href="enseignants.html">Enseignants</a>
-        <a href="internat.html">Internat</a>
-        <a href="paiements.html">Paiements</a>
-    </nav>
+<p>Administration — Gestion de l'Internat</p>
+
+<nav>
+<a href="index.html">Dashboard</a>
+<a href="eleves.html">Élèves</a>
+<a href="internat.html">Internat</a>
+<a href="paiements.html">Paiements</a>
+<a href="bulletins.html">Bulletins</a>
+<a href="cartes.html">Cartes</a>
+</nav>
 
 </div>
+
 </header>
 
-<main>
 <div class="container">
 
-<div class="title">
-    <h2>Gestion de l'internat</h2>
-    <p>
-        Suivi des internes du collège et du lycée, présences,
-        sorties, retours et discipline.
-    </p>
-</div>
+<div class="card">
 
-<div class="notice">
-    <strong>Responsabilité :</strong>
-    le Directeur des études, <strong>NGATSONGO Clarmy Nice</strong>,
-    assure la gestion administrative de l'internat.
-    Le Surveillant général assure le suivi quotidien de la présence
-    et de la discipline.
-</div>
-
-<!-- STATISTIQUES -->
-<div class="cards">
-
-    <div class="stat">
-        <strong id="totalInternes">0</strong>
-        <span>Internes enregistrés</span>
-    </div>
-
-    <div class="stat">
-        <strong id="presentJour">0</strong>
-        <span>Présents aujourd'hui</span>
-    </div>
-
-    <div class="stat">
-        <strong id="sortiesJour">0</strong>
-        <span>En sortie</span>
-    </div>
-
-    <div class="stat">
-        <strong id="retoursJour">0</strong>
-        <span>Retours enregistrés</span>
-    </div>
-
-</div>
-
-<!-- AJOUT INTERNE -->
-<section class="panel">
-
-<h3>➕ Enregistrer un interne</h3>
-
-<form id="internatForm">
+<h2>Nouvel interne</h2>
 
 <div class="grid">
 
-    <div>
-        <label>Matricule</label>
-        <input type="text" id="matricule" placeholder="Ex : EB2026-0001">
-    </div>
+<div>
+<label>Élève</label>
+<select id="eleveSelect">
+<option value="">Sélectionner un élève</option>
+</select>
+</div>
 
-    <div>
-        <label>Nom</label>
-        <input type="text" id="nom" required>
-    </div>
+<div>
+<label>Matricule</label>
+<input id="matricule" readonly>
+</div>
 
-    <div>
-        <label>Prénom</label>
-        <input type="text" id="prenom" required>
-    </div>
+<div>
+<label>Nom</label>
+<input id="nom" readonly>
+</div>
 
-    <div>
-        <label>Classe</label>
-        <select id="classe" required>
-            <option value="">Sélectionner</option>
-            <option>6e</option>
-            <option>5e</option>
-            <option>4e</option>
-            <option>3e</option>
-            <option>STC</option>
-            <option>Première A</option>
-            <option>Première D</option>
-            <option>Terminale A</option>
-            <option>Terminale D</option>
-        </select>
-    </div>
+<div>
+<label>Prénom</label>
+<input id="prenom" readonly>
+</div>
 
-    <div>
-        <label>Date d'entrée à l'internat</label>
-        <input type="date" id="dateEntree" required>
-    </div>
+<div>
+<label>Classe</label>
+<input id="classe" readonly>
+</div>
 
-    <div>
-        <label>Dortoir / Chambre</label>
-        <input type="text" id="chambre" placeholder="Ex : Dortoir A - Chambre 3">
-    </div>
+<div>
+<label>Dortoir</label>
+<select id="dortoir">
+<option>Dortoir A</option>
+<option>Dortoir B</option>
+<option>Dortoir C</option>
+<option>Dortoir Filles</option>
+<option>Dortoir Garçons</option>
+</select>
+</div>
 
-    <div>
-        <label>Nom du parent / tuteur</label>
-        <input type="text" id="parent">
-    </div>
+<div>
+<label>Chambre</label>
+<input id="chambre" placeholder="Ex : C-03">
+</div>
 
-    <div>
-        <label>Téléphone du parent / tuteur</label>
-        <input type="tel" id="telephone">
-    </div>
+<div>
+<label>Lit</label>
+<input id="lit" placeholder="Ex : Lit 12">
+</div>
 
-    <div>
-        <label>Contact d'urgence</label>
-        <input type="tel" id="urgence">
-    </div>
+<div>
+<label>Date d'entrée</label>
+<input id="dateEntree" type="date">
+</div>
 
-    <div>
-        <label>Statut</label>
-        <select id="statut">
-            <option value="Actif">Actif</option>
-            <option value="Suspendu">Suspendu</option>
-            <option value="Sorti de l'internat">Sorti de l'internat</option>
-        </select>
-    </div>
-
-    <div class="full">
-        <label>Observations</label>
-        <textarea id="observations"
-        placeholder="Informations utiles concernant l'interne..."></textarea>
-    </div>
+<div>
+<label>Responsable</label>
+<input value="Hermann NIANGA" readonly>
+</div>
 
 </div>
 
-<button type="submit" class="btn-green">
-    Enregistrer l'interne
+<div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">
+
+<button class="btn-save" onclick="enregistrer()">
+💾 Enregistrer
 </button>
 
-<button type="reset" class="btn">
-    Réinitialiser
+<button class="btn-print" onclick="window.print()">
+🖨 Imprimer
 </button>
-
-</form>
-</section>
-
-<!-- PRESENCE -->
-<section class="panel">
-
-<h3>📋 Présence quotidienne</h3>
-
-<div class="grid">
-
-    <div>
-        <label>Date</label>
-        <input type="date" id="datePresence">
-    </div>
-
-    <div>
-        <label>Interne</label>
-        <select id="internePresence"></select>
-    </div>
-
-    <div>
-        <label>Statut</label>
-        <select id="statutPresence">
-            <option value="Présent">Présent</option>
-            <option value="Absent">Absent</option>
-            <option value="Retard">Retard</option>
-        </select>
-    </div>
-
-    <div>
-        <label>Observation</label>
-        <input type="text" id="obsPresence">
-    </div>
 
 </div>
 
-<button class="btn-green" onclick="enregistrerPresence()">
-    Enregistrer la présence
-</button>
-
-</section>
-
-<!-- SORTIE -->
-<section class="panel">
-
-<h3>🚪 Gestion des sorties et retours</h3>
-
-<div class="grid">
-
-    <div>
-        <label>Interne</label>
-        <select id="interneSortie"></select>
-    </div>
-
-    <div>
-        <label>Motif de sortie</label>
-        <input type="text" id="motifSortie"
-        placeholder="Ex : sortie familiale, rendez-vous...">
-    </div>
-
-    <div>
-        <label>Date de sortie</label>
-        <input type="date" id="dateSortie">
-    </div>
-
-    <div>
-        <label>Heure de sortie</label>
-        <input type="time" id="heureSortie">
-    </div>
-
-    <div>
-        <label>Date prévue du retour</label>
-        <input type="date" id="dateRetourPrevue">
-    </div>
-
-    <div>
-        <label>Heure prévue du retour</label>
-        <input type="time" id="heureRetourPrevue">
-    </div>
-
 </div>
 
-<button class="btn-orange" onclick="enregistrerSortie()">
-    Autoriser la sortie
-</button>
+<div class="card">
 
-</section>
-
-<!-- FILTRES -->
-<section class="panel">
-
-<h3>🔎 Rechercher un interne</h3>
-
-<div class="grid">
-
-    <div>
-        <label>Recherche</label>
-        <input
-            type="text"
-            id="recherche"
-            placeholder="Nom, prénom ou matricule..."
-            oninput="afficherInternes()">
-    </div>
-
-    <div>
-        <label>Classe</label>
-        <select id="filtreClasse" onchange="afficherInternes()">
-            <option value="">Toutes les classes</option>
-            <option>6e</option>
-            <option>5e</option>
-            <option>4e</option>
-            <option>3e</option>
-            <option>STC</option>
-            <option>Première A</option>
-            <option>Première D</option>
-            <option>Terminale A</option>
-            <option>Terminale D</option>
-        </select>
-    </div>
-
-    <div>
-        <label>Statut</label>
-        <select id="filtreStatut" onchange="afficherInternes()">
-            <option value="">Tous</option>
-            <option>Actif</option>
-            <option>Sortie de l'internat</option>
-            <option>Suspendu</option>
-        </select>
-    </div>
-
-</div>
-
-</section>
-
-<!-- TABLE INTERNE -->
-<section class="panel">
-
-<h3>🏫 Liste des internes</h3>
+<h2>Liste des internes</h2>
 
 <div class="table-wrap">
 
 <table>
 
 <thead>
+
 <tr>
-    <th>Matricule</th>
-    <th>Élève</th>
-    <th>Classe</th>
-    <th>Chambre</th>
-    <th>Parent / Tuteur</th>
-    <th>Téléphone</th>
-    <th>Statut</th>
-    <th>Actions</th>
+<th>Matricule</th>
+<th>Élève</th>
+<th>Classe</th>
+<th>Dortoir</th>
+<th>Chambre</th>
+<th>Lit</th>
+<th>Statut</th>
+<th>Action</th>
 </tr>
+
 </thead>
 
-<tbody id="tableInternes"></tbody>
+<tbody id="liste"></tbody>
 
 </table>
 
 </div>
 
-</section>
-
-<!-- JOURNAL SORTIES -->
-<section class="panel">
-
-<h3>📖 Journal des sorties et retours</h3>
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-<tr>
-    <th>Interne</th>
-    <th>Motif</th>
-    <th>Sortie</th>
-    <th>Retour prévu</th>
-    <th>Statut</th>
-    <th>Action</th>
-</tr>
-</thead>
-
-<tbody id="tableSorties"></tbody>
-
-</table>
-
 </div>
 
-</section>
-
-<!-- PRESENCES -->
-<section class="panel">
-
-<h3>🕘 Historique des présences</h3>
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-<tr>
-    <th>Date</th>
-    <th>Interne</th>
-    <th>Classe</th>
-    <th>Statut</th>
-    <th>Observation</th>
-</tr>
-</thead>
-
-<tbody id="tablePresences"></tbody>
-
-</table>
-
 </div>
-
-</section>
-
-</div>
-</main>
 
 <footer>
-    <strong>Groupe Scolaire Étoile Brillante</strong><br>
-    Excellence • Discipline • Innovation<br>
-    03 rue Poumako, marché Massengo, arrondissement 9 Djiri — Brazzaville
+
+Groupe Scolaire Étoile Brillante • Brazzaville
+
 </footer>
 
 <script>
 
-const CLE_INTERNAT = "EB_INTERNAT";
-const CLE_SORTIES = "EB_SORTIES";
-const CLE_PRESENCES = "EB_PRESENCES";
+const CLE_E="EB_ELEVES";
+const CLE_I="EB_INTERNAT";
 
-let internes = JSON.parse(localStorage.getItem(CLE_INTERNAT) || "[]");
-let sorties = JSON.parse(localStorage.getItem(CLE_SORTIES) || "[]");
-let presences = JSON.parse(localStorage.getItem(CLE_PRESENCES) || "[]");
+let eleves=JSON.parse(localStorage.getItem(CLE_E)||"[]");
+let internes=JSON.parse(localStorage.getItem(CLE_I)||"[]");
 
-const aujourdHui = new Date().toISOString().slice(0,10);
+dateEntree.value=new Date().toISOString().slice(0,10);
 
-document.getElementById("dateEntree").value = aujourdHui;
-document.getElementById("datePresence").value = aujourdHui;
-document.getElementById("dateSortie").value = aujourdHui;
+eleves.forEach((e,i)=>{
 
-function sauvegarder(){
+ const option=document.createElement("option");
 
-    localStorage.setItem(
-        CLE_INTERNAT,
-        JSON.stringify(internes)
-    );
+ option.value=i;
 
-    localStorage.setItem(
-        CLE_SORTIES,
-        JSON.stringify(sorties)
-    );
+ option.textContent=e.nom+" "+e.prenom+" ("+e.classe+")";
 
-    localStorage.setItem(
-        CLE_PRESENCES,
-        JSON.stringify(presences)
-    );
-}
-
-function idUnique(){
-
-    return "INT-" +
-        Date.now() +
-        "-" +
-        Math.floor(Math.random()*1000);
-}
-
-/* AJOUT INTERNE */
-
-document.getElementById("internatForm")
-.addEventListener("submit",function(e){
-
-    e.preventDefault();
-
-    const interne = {
-
-        id:idUnique(),
-
-        matricule:
-            document.getElementById("matricule").value.trim(),
-
-        nom:
-            document.getElementById("nom").value.trim(),
-
-        prenom:
-            document.getElementById("prenom").value.trim(),
-
-        classe:
-            document.getElementById("classe").value,
-
-        dateEntree:
-            document.getElementById("dateEntree").value,
-
-        chambre:
-            document.getElementById("chambre").value.trim(),
-
-        parent:
-            document.getElementById("parent").value.trim(),
-
-        telephone:
-            document.getElementById("telephone").value.trim(),
-
-        urgence:
-            document.getElementById("urgence").value.trim(),
-
-        statut:
-            document.getElementById("statut").value,
-
-        observations:
-            document.getElementById("observations").value.trim(),
-
-        dateCreation:
-            new Date().toISOString()
-
-    };
-
-    internes.push(interne);
-
-    sauvegarder();
-
-    alert("Interne enregistré avec succès.");
-
-    this.reset();
-
-    document.getElementById("dateEntree").value =
-        aujourdHui;
-
-    actualiser();
+ eleveSelect.appendChild(option);
 
 });
 
-/* SELECT INTERNES */
+eleveSelect.onchange=function(){
 
-function remplirSelects(){
+ const e=eleves[this.value];
 
-    const selectPresence =
-        document.getElementById("internePresence");
+ if(!e)return;
 
-    const selectSortie =
-        document.getElementById("interneSortie");
+ matricule.value=e.matricule;
+ nom.value=e.nom;
+ prenom.value=e.prenom;
+ classe.value=e.classe;
 
-    selectPresence.innerHTML =
-        '<option value="">Sélectionner un interne</option>';
+};
 
-    selectSortie.innerHTML =
-        '<option value="">Sélectionner un interne</option>';
+function sauver(){
 
-    internes
-    .filter(i => i.statut === "Actif")
-    .forEach(i => {
-
-        const texte =
-            `${i.nom} ${i.prenom} — ${i.classe}`;
-
-        selectPresence.innerHTML +=
-            `<option value="${i.id}">
-                ${texte}
-            </option>`;
-
-        selectSortie.innerHTML +=
-            `<option value="${i.id}">
-                ${texte}
-            </option>`;
-
-    });
-}
-
-/* PRESENCE */
-
-function enregistrerPresence(){
-
-    const interneId =
-        document.getElementById("internePresence").value;
-
-    if(!interneId){
-        alert("Sélectionnez un interne.");
-        return;
-    }
-
-    const interne =
-        internes.find(i => i.id === interneId);
-
-    const date =
-        document.getElementById("datePresence").value;
-
-    const statut =
-        document.getElementById("statutPresence").value;
-
-    const observation =
-        document.getElementById("obsPresence").value.trim();
-
-    const index =
-        presences.findIndex(p =>
-            p.interneId === interneId &&
-            p.date === date
-        );
-
-    const objet = {
-
-        interneId,
-        nom:interne.nom,
-        prenom:interne.prenom,
-        classe:interne.classe,
-        date,
-        statut,
-        observation
-
-    };
-
-    if(index >= 0){
-
-        presences[index] = objet;
-
-    }else{
-
-        presences.push(objet);
-
-    }
-
-    sauvegarder();
-
-    document.getElementById("obsPresence").value = "";
-
-    alert("Présence enregistrée.");
-
-    actualiser();
-}
-
-/* SORTIE */
-
-function enregistrerSortie(){
-
-    const interneId =
-        document.getElementById("interneSortie").value;
-
-    if(!interneId){
-        alert("Sélectionnez un interne.");
-        return;
-    }
-
-    const interne =
-        internes.find(i => i.id === interneId);
-
-    const sortie = {
-
-        id:idUnique(),
-
-        interneId,
-
-        nom:interne.nom,
-
-        prenom:interne.prenom,
-
-        classe:interne.classe,
-
-        motif:
-            document.getElementById("motifSortie").value,
-
-        dateSortie:
-            document.getElementById("dateSortie").value,
-
-        heureSortie:
-            document.getElementById("heureSortie").value,
-
-        dateRetourPrevue:
-            document.getElementById("dateRetourPrevue").value,
-
-        heureRetourPrevue:
-            document.getElementById("heureRetourPrevue").value,
-
-        statut:"Sortie",
-
-        dateCreation:
-            new Date().toISOString()
-
-    };
-
-    sorties.push(sortie);
-
-    sauvegarder();
-
-    alert(
-        "Sortie autorisée. L'interne est maintenant indiqué comme étant en sortie."
-    );
-
-    document.getElementById("motifSortie").value = "";
-
-    actualiser();
-}
-
-/* RETOUR */
-
-function enregistrerRetour(id){
-
-    const sortie =
-        sorties.find(s => s.id === id);
-
-    if(!sortie) return;
-
-    sortie.statut = "Retour";
-
-    sortie.dateRetourReelle = aujourdHui;
-
-    sortie.heureRetourReelle =
-        new Date().toTimeString().slice(0,5);
-
-    sauvegarder();
-
-    alert("Retour enregistré.");
-
-    actualiser();
-}
-
-/* SUPPRESSION */
-
-function supprimerInterne(id){
-
-    if(!confirm(
-        "Voulez-vous réellement supprimer cet interne ?"
-    )) return;
-
-    internes =
-        internes.filter(i => i.id !== id);
-
-    sauvegarder();
-
-    actualiser();
-}
-
-/* AFFICHER INTERNES */
-
-function afficherInternes(){
-
-    const tbody =
-        document.getElementById("tableInternes");
-
-    const recherche =
-        document.getElementById("recherche")
-        .value
-        .toLowerCase();
-
-    const classe =
-        document.getElementById("filtreClasse").value;
-
-    const statut =
-        document.getElementById("filtreStatut").value;
-
-    tbody.innerHTML = "";
-
-    const liste =
-        internes.filter(i => {
-
-            const texte =
-                (
-                    i.nom + " " +
-                    i.prenom + " " +
-                    i.matricule
-                ).toLowerCase();
-
-            return (
-
-                (!recherche || texte.includes(recherche)) &&
-
-                (!classe || i.classe === classe) &&
-
-                (!statut || i.statut === statut)
-
-            );
-
-        });
-
-    if(liste.length === 0){
-
-        tbody.innerHTML =
-            `<tr>
-                <td colspan="8">
-                    Aucun interne trouvé.
-                </td>
-            </tr>`;
-
-        return;
-    }
-
-    liste.forEach(i => {
-
-        const badge =
-            i.statut === "Actif"
-            ? "actif"
-            : i.statut === "Suspendu"
-            ? "absent"
-            : "sortie";
-
-        tbody.innerHTML += `
-
-        <tr>
-
-            <td>${escapeHTML(i.matricule || "—")}</td>
-
-            <td>
-                <strong>
-                    ${escapeHTML(i.nom)}
-                    ${escapeHTML(i.prenom)}
-                </strong>
-            </td>
-
-            <td>${escapeHTML(i.classe)}</td>
-
-            <td>${escapeHTML(i.chambre || "—")}</td>
-
-            <td>${escapeHTML(i.parent || "—")}</td>
-
-            <td>${escapeHTML(i.telephone || "—")}</td>
-
-            <td>
-                <span class="badge ${badge}">
-                    ${escapeHTML(i.statut)}
-                </span>
-            </td>
-
-            <td>
-
-                <div class="actions">
-
-                    <button
-                        class="btn"
-                        onclick="voirInterne('${i.id}')">
-                        Voir
-                    </button>
-
-                    <button
-                        class="btn-red"
-                        onclick="supprimerInterne('${i.id}')">
-                        Supprimer
-                    </button>
-
-                </div>
-
-            </td>
-
-        </tr>
-
-        `;
-
-    });
-}
-
-/* DETAILS */
-
-function voirInterne(id){
-
-    const i =
-        internes.find(x => x.id === id);
-
-    if(!i) return;
-
-    alert(
-
-        "DOSSIER INTERNE\n\n" +
-
-        "Matricule : " + (i.matricule || "—") + "\n" +
-
-        "Nom : " + i.nom + " " + i.prenom + "\n" +
-
-        "Classe : " + i.classe + "\n" +
-
-        "Dortoir/Chambre : " + (i.chambre || "—") + "\n" +
-
-        "Date d'entrée : " + i.dateEntree + "\n" +
-
-        "Parent/Tuteur : " + (i.parent || "—") + "\n" +
-
-        "Téléphone : " + (i.telephone || "—") + "\n" +
-
-        "Urgence : " + (i.urgence || "—") + "\n" +
-
-        "Statut : " + i.statut + "\n\n" +
-
-        "Observations : " +
-        (i.observations || "Aucune")
-
-    );
-}
-
-/* SORTIES */
-
-function afficherSorties(){
-
-    const tbody =
-        document.getElementById("tableSorties");
-
-    tbody.innerHTML = "";
-
-    if(sorties.length === 0){
-
-        tbody.innerHTML =
-            `<tr>
-                <td colspan="6">
-                    Aucune sortie enregistrée.
-                </td>
-            </tr>`;
-
-        return;
-    }
-
-    [...sorties]
-    .reverse()
-    .forEach(s => {
-
-        const badge =
-            s.statut === "Retour"
-            ? "retour"
-            : "sortie";
-
-        tbody.innerHTML += `
-
-        <tr>
-
-            <td>
-                ${escapeHTML(s.nom)}
-                ${escapeHTML(s.prenom)}
-                <br>
-                <small>${escapeHTML(s.classe)}</small>
-            </td>
-
-            <td>${escapeHTML(s.motif || "—")}</td>
-
-            <td>
-                ${s.dateSortie || "—"}
-                ${s.heureSortie || ""}
-            </td>
-
-            <td>
-                ${s.dateRetourPrevue || "—"}
-                ${s.heureRetourPrevue || ""}
-            </td>
-
-            <td>
-                <span class="badge ${badge}">
-                    ${escapeHTML(s.statut)}
-                </span>
-            </td>
-
-            <td>
-
-                ${
-                    s.statut === "Sortie"
-                    ?
-                    `<button
-                        class="btn-green"
-                        onclick="enregistrerRetour('${s.id}')">
-                        Enregistrer retour
-                    </button>`
-                    :
-                    "✓ Retour enregistré"
-                }
-
-            </td>
-
-        </tr>
-
-        `;
-
-    });
-}
-
-/* PRESENCES */
-
-function afficherPresences(){
-
-    const tbody =
-        document.getElementById("tablePresences");
-
-    tbody.innerHTML = "";
-
-    if(presences.length === 0){
-
-        tbody.innerHTML =
-            `<tr>
-                <td colspan="5">
-                    Aucune présence enregistrée.
-                </td>
-            </tr>`;
-
-        return;
-    }
-
-    [...presences]
-    .reverse()
-    .forEach(p => {
-
-        let classeBadge = "actif";
-
-        if(p.statut === "Absent")
-            classeBadge = "absent";
-
-        if(p.statut === "Retard")
-            classeBadge = "sortie";
-
-        tbody.innerHTML += `
-
-        <tr>
-
-            <td>${p.date}</td>
-
-            <td>
-                ${escapeHTML(p.nom)}
-                ${escapeHTML(p.prenom)}
-            </td>
-
-            <td>${escapeHTML(p.classe)}</td>
-
-            <td>
-                <span class="badge ${classeBadge}">
-                    ${escapeHTML(p.statut)}
-                </span>
-            </td>
-
-            <td>
-                ${escapeHTML(p.observation || "—")}
-            </td>
-
-        </tr>
-
-        `;
-
-    });
-}
-
-/* STATISTIQUES */
-
-function statistiques(){
-
-    document.getElementById("totalInternes")
-        .textContent = internes.length;
-
-    const pres =
-        presences.filter(p =>
-            p.date === aujourdHui &&
-            p.statut === "Présent"
-        );
-
-    document.getElementById("presentJour")
-        .textContent = pres.length;
-
-    const sortiesJour =
-        sorties.filter(s =>
-            s.statut === "Sortie"
-        );
-
-    document.getElementById("sortiesJour")
-        .textContent = sortiesJour.length;
-
-    const retours =
-        sorties.filter(s =>
-            s.statut === "Retour" &&
-            s.dateRetourReelle === aujourdHui
-        );
-
-    document.getElementById("retoursJour")
-        .textContent = retours.length;
-}
-
-/* PROTECTION AFFICHAGE */
-
-function escapeHTML(value){
-
-    return String(value ?? "")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-}
-
-/* ACTUALISATION */
-
-function actualiser(){
-
-    remplirSelects();
-
-    afficherInternes();
-
-    afficherSorties();
-
-    afficherPresences();
-
-    statistiques();
+ localStorage.setItem(CLE_I,JSON.stringify(internes));
 
 }
 
-actualiser();
+function afficher(){
+
+ liste.innerHTML="";
+
+ [...internes].reverse().forEach((i,index)=>{
+
+  liste.innerHTML+=`
+  <tr>
+   <td>${i.matricule}</td>
+   <td>${i.nom} ${i.prenom}</td>
+   <td>${i.classe}</td>
+   <td>${i.dortoir}</td>
+   <td>${i.chambre}</td>
+   <td>${i.lit}</td>
+   <td><span class="badge ${i.statut==="Présent"?"present":"sorti"}">${i.statut}</span></td>
+   <td>
+    <button class="btn-sortie" onclick="sortie(${internes.length-1-index})">
+     Sortie
+    </button>
+   </td>
+  </tr>`;
+
+ });
+
+}
+
+function enregistrer(){
+
+ if(!matricule.value){
+
+  alert("Sélectionnez un élève.");
+
+  return;
+
+ }
+
+ internes.push({
+
+  matricule:matricule.value,
+  nom:nom.value,
+  prenom:prenom.value,
+  classe:classe.value,
+  dortoir:dortoir.value,
+  chambre:chambre.value,
+  lit:lit.value,
+  dateEntree:dateEntree.value,
+  responsable:"Hermann NIANGA",
+  statut:"Présent"
+
+ });
+
+ sauver();
+
+ afficher();
+
+ chambre.value="";
+ lit.value="";
+
+ alert("Interne enregistré.");
+
+}
+
+function sortie(index){
+
+ if(!confirm("Enregistrer la sortie de cet interne ?")) return;
+
+ internes[index].statut="Sorti";
+
+ internes[index].dateSortie=new Date().toLocaleDateString("fr-FR");
+
+ sauver();
+
+ afficher();
+
+}
+
+afficher();
 
 </script>
 
