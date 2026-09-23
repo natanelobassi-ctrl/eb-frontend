@@ -11,9 +11,7 @@
  --bleu2:#123A9B;
  --or:#C9A227;
  --ivoire:#F7F4ED;
- --vert:#198754;
 }
-
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
@@ -29,22 +27,16 @@ header{
 }
 
 .container{
- width:94%;
+ width:95%;
  max-width:1200px;
  margin:auto;
-}
-
-.brand{
- display:flex;
- align-items:center;
- gap:15px;
 }
 
 nav{
  display:flex;
  flex-wrap:wrap;
  gap:8px;
- margin-top:18px;
+ margin-top:15px;
 }
 
 nav a{
@@ -79,7 +71,7 @@ label{
  margin-bottom:6px;
 }
 
-input{
+select,input{
  width:100%;
  padding:10px;
  border:1px solid #ccc;
@@ -92,22 +84,18 @@ button{
  border:none;
  border-radius:8px;
  padding:12px 18px;
- cursor:pointer;
  font-weight:bold;
-}
-
-button:hover{
- background:var(--bleu2);
+ cursor:pointer;
+ margin-top:15px;
 }
 
 .badge{
  width:340px;
- background:white;
+ margin:30px auto;
  border:3px solid var(--bleu);
  border-radius:18px;
  overflow:hidden;
- margin:25px auto;
- box-shadow:0 8px 25px rgba(0,0,0,.15);
+ background:white;
 }
 
 .badge-header{
@@ -117,16 +105,12 @@ button:hover{
  padding:18px;
 }
 
-.badge-header h2{
- font-size:1.2rem;
-}
-
 .photo{
  width:90px;
  height:90px;
+ margin:15px auto;
  border-radius:50%;
  background:#e5e7eb;
- margin:15px auto;
  display:flex;
  align-items:center;
  justify-content:center;
@@ -142,24 +126,24 @@ button:hover{
  margin:8px 0;
 }
 
-.signature{
- margin-top:18px;
- border-top:1px dashed #999;
- padding-top:12px;
- text-align:center;
- font-size:.9rem;
-}
-
 .qr{
- width:70px;
- height:70px;
- margin:15px auto;
+ width:75px;
+ height:75px;
+ margin:18px auto;
  border:2px solid var(--bleu);
  display:flex;
  align-items:center;
  justify-content:center;
  font-size:.7rem;
  color:#666;
+}
+
+.signature{
+ margin-top:18px;
+ padding-top:12px;
+ border-top:1px dashed #999;
+ text-align:center;
+ font-size:.9rem;
 }
 
 footer{
@@ -171,14 +155,9 @@ footer{
 }
 
 @media print{
- body *{visibility:hidden;}
- #badge,#badge *{visibility:visible;}
- #badge{
-  position:absolute;
-  left:0;
-  top:0;
-  width:100%;
- }
+ nav,button{display:none;}
+ body{background:white;}
+ .card{box-shadow:none;}
 }
 </style>
 </head>
@@ -189,22 +168,16 @@ footer{
 
 <div class="container">
 
-<div class="brand">
-
-<div>
 <h1>Groupe Scolaire Étoile Brillante</h1>
-<p>Administration — Cartes scolaires</p>
-</div>
 
-</div>
+<p>Administration — Cartes scolaires intelligentes</p>
 
 <nav>
 <a href="index.html">Dashboard</a>
 <a href="eleves.html">Élèves</a>
-<a href="notes.html">Notes</a>
-<a href="bulletins.html">Bulletins</a>
-<a href="paiements.html">Paiements</a>
 <a href="cartes.html">Cartes</a>
+<a href="paiements.html">Paiements</a>
+<a href="bulletins.html">Bulletins</a>
 </nav>
 
 </div>
@@ -220,50 +193,29 @@ footer{
 <div class="grid">
 
 <div>
-<label>Nom</label>
-<input id="nom">
-</div>
-
-<div>
-<label>Prénom</label>
-<input id="prenom">
+<label>Élève</label>
+<select id="eleveSelect">
+<option value="">Sélectionner un élève</option>
+</select>
 </div>
 
 <div>
 <label>Matricule</label>
-<input id="matricule" placeholder="EB-2026-00001">
+<input id="matricule" readonly>
 </div>
 
 <div>
 <label>Classe</label>
-<input id="classe">
-</div>
-
-<div>
-<label>Date de naissance</label>
-<input id="dateNaissance" type="date">
-</div>
-
-<div>
-<label>Lieu de naissance</label>
-<input id="lieuNaissance">
-</div>
-
-<div style="grid-column:1/-1;">
-<label>Adresse</label>
-<input id="adresse">
+<input id="classe" readonly>
 </div>
 
 </div>
 
-<div style="margin-top:18px;display:flex;gap:12px;flex-wrap:wrap;">
-<button onclick="generer()">Générer la carte</button>
-<button onclick="window.print()">Imprimer</button>
-</div>
+<button onclick="window.print()">Imprimer la carte</button>
 
 </div>
 
-<div id="badge" class="badge">
+<div class="badge">
 
 <div class="badge-header">
 
@@ -285,13 +237,13 @@ footer{
 
 <div class="info"><strong>Classe :</strong> <span id="bClasse">-</span></div>
 
-<div class="info"><strong>Naissance :</strong> <span id="bDate">-</span></div>
+<div class="info"><strong>Date de naissance :</strong> <span id="bDate">-</span></div>
 
-<div class="info"><strong>Lieu :</strong> <span id="bLieu">-</span></div>
+<div class="info"><strong>Lieu de naissance :</strong> <span id="bLieu">-</span></div>
 
 <div class="info"><strong>Adresse :</strong> <span id="bAdresse">-</span></div>
 
-<div class="qr">QR CODE</div>
+<div class="qr" id="qr">QR</div>
 
 <div class="signature">
 
@@ -314,22 +266,46 @@ Groupe Scolaire Étoile Brillante • Brazzaville
 </footer>
 
 <script>
-function generer(){
 
- bNom.textContent=nom.value||"-";
- bPrenom.textContent=prenom.value||"-";
- bMatricule.textContent=matricule.value||"-";
- bClasse.textContent=classe.value||"-";
- bDate.textContent=dateNaissance.value||"-";
- bLieu.textContent=lieuNaissance.value||"-";
- bAdresse.textContent=adresse.value||"-";
+const eleves=JSON.parse(localStorage.getItem("EB_ELEVES")||"[]");
 
- const p=(prenom.value||"E").charAt(0).toUpperCase();
- const n=(nom.value||"B").charAt(0).toUpperCase();
+eleves.forEach((e,i)=>{
 
- avatar.textContent=p+n;
+ const option=document.createElement("option");
 
-}
+ option.value=i;
+
+ option.textContent=e.nom+" "+e.prenom+" ("+e.classe+")";
+
+ eleveSelect.appendChild(option);
+
+});
+
+eleveSelect.onchange=function(){
+
+ const e=eleves[this.value];
+
+ if(!e)return;
+
+ matricule.value=e.matricule;
+ classe.value=e.classe;
+
+ bNom.textContent=e.nom;
+ bPrenom.textContent=e.prenom;
+ bMatricule.textContent=e.matricule;
+ bClasse.textContent=e.classe;
+ bDate.textContent=e.dateNaissance||"-";
+ bLieu.textContent=e.lieuNaissance||"-";
+ bAdresse.textContent=e.adresse||"-";
+
+ avatar.textContent=
+ (e.prenom||"E").charAt(0).toUpperCase()+
+ (e.nom||"B").charAt(0).toUpperCase();
+
+ qr.textContent=e.matricule;
+
+};
+
 </script>
 
 </body>
