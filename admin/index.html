@@ -10,86 +10,67 @@
  --bleu:#0A2A78;
  --bleu2:#123A9B;
  --or:#C9A227;
- --fond:#F7F4ED;
+ --ivoire:#F7F4ED;
+ --vert:#198754;
+ --rouge:#C62828;
 }
 
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
  font-family:Arial,Helvetica,sans-serif;
- background:var(--fond);
- display:flex;
- min-height:100vh;
-}
-
-/* Sidebar */
-
-.sidebar{
- width:260px;
- background:linear-gradient(180deg,var(--bleu),var(--bleu2));
- color:white;
- padding:20px;
-}
-
-.sidebar h2{
- font-size:1.3rem;
- margin-bottom:5px;
-}
-
-.sidebar p{
- font-size:.85rem;
- opacity:.9;
- margin-bottom:20px;
-}
-
-.sidebar a{
- display:block;
- color:white;
- text-decoration:none;
- padding:12px 14px;
- border-radius:8px;
- margin-bottom:6px;
- font-weight:bold;
-}
-
-.sidebar a:hover,
-.sidebar a.active{
- background:rgba(255,255,255,.15);
- color:#FFD54F;
-}
-
-/* Contenu */
-
-.main{
- flex:1;
- padding:25px;
+ background:var(--ivoire);
+ color:#1F2937;
 }
 
 header{
- background:white;
- border-radius:15px;
+ background:linear-gradient(135deg,var(--bleu),var(--bleu2));
+ color:white;
  padding:20px;
- box-shadow:0 5px 18px rgba(0,0,0,.08);
- margin-bottom:20px;
+}
+
+.container{
+ width:95%;
+ max-width:1300px;
+ margin:auto;
+}
+
+nav{
+ display:flex;
+ flex-wrap:wrap;
+ gap:8px;
+ margin-top:15px;
+}
+
+nav a{
+ color:white;
+ text-decoration:none;
+ padding:8px 12px;
+ border-radius:8px;
+ font-weight:bold;
+}
+
+nav a:hover{
+ background:rgba(255,255,255,.15);
 }
 
 .grid{
  display:grid;
  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
- gap:18px;
+ gap:15px;
+ margin:22px 0;
 }
 
 .card{
  background:white;
  border-radius:15px;
  padding:20px;
- box-shadow:0 5px 18px rgba(0,0,0,.08);
  text-align:center;
+ box-shadow:0 5px 18px rgba(0,0,0,.08);
 }
 
 .card h3{
  color:var(--bleu);
- font-size:1rem;
  margin-bottom:10px;
 }
 
@@ -99,60 +80,68 @@ header{
  color:var(--or);
 }
 
-.alertes{
+.section{
  background:white;
  border-radius:15px;
  padding:20px;
+ margin-bottom:20px;
  box-shadow:0 5px 18px rgba(0,0,0,.08);
- margin-top:20px;
 }
 
-@media(max-width:850px){
+table{
+ width:100%;
+ border-collapse:collapse;
+}
 
- body{
-  flex-direction:column;
- }
+th,td{
+ padding:10px;
+ border-bottom:1px solid #ddd;
+ text-align:left;
+}
 
- .sidebar{
-  width:100%;
- }
+th{
+ background:var(--bleu);
+ color:white;
+}
 
+footer{
+ background:var(--bleu);
+ color:white;
+ text-align:center;
+ padding:20px;
+ margin-top:30px;
 }
 </style>
 </head>
 
 <body>
 
-<aside class="sidebar">
-
-<h2>Étoile Brillante</h2>
-<p>Administration</p>
-
-<a href="index.html" class="active">📊 Tableau de bord</a>
-<a href="eleves.html">👨‍🎓 Élèves</a>
-<a href="classes.html">🏫 Classes</a>
-<a href="notes.html">📝 Notes</a>
-<a href="bulletins.html">📄 Bulletins</a>
-<a href="absences.html">📅 Absences</a>
-<a href="enseignants.html">👨‍🏫 Enseignants</a>
-<a href="internat.html">🛏️ Internat</a>
-<a href="paiements.html">💳 Paiements</a>
-<a href="cartes.html">🪪 Cartes scolaires</a>
-<a href="actualites.html">📢 Actualités</a>
-<a href="parametres.html">⚙️ Paramètres</a>
-<a href="sauvegarde.html">💾 Sauvegarde</a>
-
-</aside>
-
-<div class="main">
-
 <header>
 
-<h1>Tableau de bord administratif</h1>
+<div class="container">
 
-<p>Groupe Scolaire Étoile Brillante — Excellence • Discipline • Innovation</p>
+<h1>Groupe Scolaire Étoile Brillante</h1>
+
+<p>Tableau de bord administratif</p>
+
+<nav>
+<a href="eleves.html">Élèves</a>
+<a href="bulletins.html">Bulletins</a>
+<a href="paiements.html">Paiements</a>
+<a href="internat.html">Internat</a>
+<a href="cartes.html">Cartes</a>
+<a href="emplois.html">Emplois</a>
+<a href="messages.html">Messages</a>
+<a href="actualites.html">Actualités</a>
+<a href="parametres.html">Paramètres</a>
+<a href="sauvegarde.html">Sauvegarde</a>
+</nav>
+
+</div>
 
 </header>
+
+<div class="container">
 
 <div class="grid">
 
@@ -162,8 +151,8 @@ header{
 </div>
 
 <div class="card">
-<h3>Enseignants</h3>
-<div class="number" id="nbEnseignants">0</div>
+<h3>Paiements</h3>
+<div class="number" id="nbPaiements">0</div>
 </div>
 
 <div class="card">
@@ -172,13 +161,8 @@ header{
 </div>
 
 <div class="card">
-<h3>Paiements</h3>
-<div class="number" id="nbPaiements">0</div>
-</div>
-
-<div class="card">
-<h3>Actualités</h3>
-<div class="number" id="nbActualites">0</div>
+<h3>Bulletins</h3>
+<div class="number" id="nbBulletins">0</div>
 </div>
 
 <div class="card">
@@ -188,48 +172,136 @@ header{
 
 </div>
 
-<div class="alertes">
+<div class="grid">
 
-<h2 style="color:#0A2A78;margin-bottom:12px;">Alertes administratives</h2>
+<div class="card">
+<h3>Préscolaire</h3>
+<div class="number" id="pre">0</div>
+</div>
 
-<ul id="listeAlertes"></ul>
+<div class="card">
+<h3>Primaire</h3>
+<div class="number" id="pri">0</div>
+</div>
+
+<div class="card">
+<h3>Collège</h3>
+<div class="number" id="col">0</div>
+</div>
+
+<div class="card">
+<h3>Lycée</h3>
+<div class="number" id="lyc">0</div>
+</div>
+
+</div>
+
+<div class="section">
+
+<h2>5 derniers élèves inscrits</h2>
+
+<table>
+
+<thead>
+<tr>
+<th>Matricule</th>
+<th>Nom</th>
+<th>Classe</th>
+</tr>
+</thead>
+
+<tbody id="listeEleves"></tbody>
+
+</table>
+
+</div>
+
+<div class="section">
+
+<h2>3 dernières actualités</h2>
+
+<table>
+
+<thead>
+<tr>
+<th>Titre</th>
+<th>Date</th>
+</tr>
+</thead>
+
+<tbody id="listeActu"></tbody>
+
+</table>
+
+</div>
+
+<div class="section">
+
+<h2>Dernière sauvegarde</h2>
+
+<p id="sauvegarde">Aucune sauvegarde enregistrée.</p>
 
 </div>
 
 </div>
+
+<footer>
+
+Groupe Scolaire Étoile Brillante • Excellence • Discipline • Innovation
+
+</footer>
 
 <script>
 
-function lire(cle){
- return JSON.parse(localStorage.getItem(cle)||"[]");
-}
-
-const eleves=lire("EB_ELEVES");
-const enseignants=lire("EB_ENSEIGNANTS");
-const internes=lire("EB_INTERNAT");
-const paiements=lire("EB_PAIEMENTS");
-const actualites=lire("EB_ACTUALITES");
-const absences=lire("EB_ABSENCES");
+const eleves=JSON.parse(localStorage.getItem("EB_ELEVES")||"[]");
+const paiements=JSON.parse(localStorage.getItem("EB_PAIEMENTS")||"[]");
+const internes=JSON.parse(localStorage.getItem("EB_INTERNAT")||"[]");
+const bulletins=JSON.parse(localStorage.getItem("EB_BULLETINS")||"[]");
+const absences=JSON.parse(localStorage.getItem("EB_ABSENCES")||"[]");
+const actus=JSON.parse(localStorage.getItem("EB_ACTUALITES")||"[]");
 
 nbEleves.textContent=eleves.length;
-nbEnseignants.textContent=enseignants.length;
-nbInternes.textContent=internes.length;
 nbPaiements.textContent=paiements.length;
-nbActualites.textContent=actualites.length;
+nbInternes.textContent=internes.length;
+nbBulletins.textContent=bulletins.length;
 nbAbsences.textContent=absences.length;
 
-const alertes=[];
+const preClasses=["P1","P2","P3"];
+const priClasses=["CP1","CP2","CE1","CE2","CM1","CM2"];
+const colClasses=["6e","5e","4e","3e"];
+const lycClasses=["STC","Première A","Première D","Terminale A","Terminale D"];
 
-if(paiements.some(p=>p.statut==="En attente"))
- alertes.push("💳 Des paiements sont en attente.");
+pre.textContent=eleves.filter(e=>preClasses.includes(e.classe)).length;
+pri.textContent=eleves.filter(e=>priClasses.includes(e.classe)).length;
+col.textContent=eleves.filter(e=>colClasses.includes(e.classe)).length;
+lyc.textContent=eleves.filter(e=>lycClasses.includes(e.classe)).length;
 
-if(actualites.some(a=>a.statut==="Brouillon"))
- alertes.push("📢 Une actualité est en brouillon.");
+listeEleves.innerHTML="";
 
-listeAlertes.innerHTML=
-alertes.length
-? alertes.map(a=>`<li>${a}</li>`).join("")
-: "<li>✅ Aucune alerte importante.</li>";
+eleves.slice(-5).reverse().forEach(e=>{
+ listeEleves.innerHTML+=`
+ <tr>
+  <td>${e.matricule}</td>
+  <td>${e.nom} ${e.prenom}</td>
+  <td>${e.classe}</td>
+ </tr>`;
+});
+
+listeActu.innerHTML="";
+
+actus.slice(-3).reverse().forEach(a=>{
+ listeActu.innerHTML+=`
+ <tr>
+  <td>${a.titre||"Actualité"}</td>
+  <td>${a.date||"-"}</td>
+ </tr>`;
+});
+
+const derniere=localStorage.getItem("EB_DERNIERE_SAUVEGARDE");
+
+if(derniere){
+ sauvegarde.textContent=derniere;
+}
 
 </script>
 
