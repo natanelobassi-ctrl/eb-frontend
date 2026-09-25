@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inscription - Groupe Scolaire Étoile Brillante</title>
+
+<style>
+:root{
+ --bleu:#0A2A78;
+ --bleu2:#123A9B;
+ --or:#C9A227;
+ --ivoire:#F7F4ED;
+ --vert:#198754;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+ font-family:Arial,Helvetica,sans-serif;
+ background:var(--ivoire);
+ color:#1F2937;
+}
+
+header{
+ background:linear-gradient(135deg,var(--bleu),var(--bleu2));
+ color:white;
+ padding:20px;
+ text-align:center;
+}
+
+nav{
+ margin-top:15px;
+ display:flex;
+ flex-wrap:wrap;
+ justify-content:center;
+ gap:10px;
+}
+
+nav a{
+ color:white;
+ text-decoration:none;
+ padding:8px 12px;
+ border-radius:8px;
+ font-weight:bold;
+}
+
+nav a:hover{
+ background:rgba(255,255,255,.15);
+}
+
+.container{
+ width:95%;
+ max-width:900px;
+ margin:25px auto;
+}
+
+.card{
+ background:white;
+ border-radius:15px;
+ padding:22px;
+ box-shadow:0 5px 18px rgba(0,0,0,.08);
+}
+
+.notice{
+ background:#fff8dc;
+ border-left:5px solid var(--or);
+ padding:15px;
+ border-radius:8px;
+ margin-bottom:20px;
+}
+
+.grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+ gap:15px;
+}
+
+label{
+ display:block;
+ font-weight:bold;
+ margin-bottom:5px;
+}
+
+input,select{
+ width:100%;
+ padding:10px;
+ border:1px solid #ccc;
+ border-radius:8px;
+}
+
+button{
+ background:var(--vert);
+ color:white;
+ border:none;
+ border-radius:8px;
+ padding:12px 20px;
+ font-weight:bold;
+ cursor:pointer;
+ margin-top:20px;
+ width:100%;
+}
+
+footer{
+ background:var(--bleu);
+ color:white;
+ text-align:center;
+ padding:20px;
+ margin-top:30px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<h1>Groupe Scolaire Étoile Brillante</h1>
+
+<p>Révéler leur potentiel. Construire leur avenir.</p>
+
+<nav>
+<a href="index.html">Accueil</a>
+<a href="ecole.html">École</a>
+<a href="cycles.html">Cycles</a>
+<a href="resultats.html">Résultats</a>
+<a href="galerie.html">Galerie</a>
+<a href="actualites.html">Actualités</a>
+</nav>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Inscription / Réinscription</h2>
+
+<div class="notice">
+Les réinscriptions sont enregistrées comme de nouvelles inscriptions.
+</div>
+
+<form id="formInscription">
+
+<div class="grid">
+
+<div>
+<label>Nom</label>
+<input id="nom" required>
+</div>
+
+<div>
+<label>Prénom</label>
+<input id="prenom" required>
+</div>
+
+<div>
+<label>Sexe</label>
+<select id="sexe">
+<option>Masculin</option>
+<option>Féminin</option>
+</select>
+</div>
+
+<div>
+<label>Date de naissance</label>
+<input id="dateNaissance" type="date">
+</div>
+
+<div>
+<label>Lieu de naissance</label>
+<input id="lieuNaissance">
+</div>
+
+<div>
+<label>Classe demandée</label>
+<select id="classe">
+<option>P1</option>
+<option>P2</option>
+<option>P3</option>
+<option>CP1</option>
+<option>CP2</option>
+<option>CE1</option>
+<option>CE2</option>
+<option>CM1</option>
+<option>CM2</option>
+<option>6e</option>
+<option>5e</option>
+<option>4e</option>
+<option>3e</option>
+<option>STC</option>
+<option>Première A</option>
+<option>Première D</option>
+<option>Terminale A</option>
+<option>Terminale D</option>
+</select>
+</div>
+
+<div>
+<label>Nom du père / tuteur</label>
+<input id="pere">
+</div>
+
+<div>
+<label>Téléphone</label>
+<input id="telephone" required>
+</div>
+
+<div style="grid-column:1/-1;">
+<label>Adresse</label>
+<input id="adresse">
+</div>
+
+</div>
+
+<button type="submit">
+Envoyer la demande d'inscription
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+<footer>
+03 rue Poumako, Marché Massengo, Djiri • WhatsApp : 067598453
+</footer>
+
+<script>
+const CLE="EB_DEMANDES_INSCRIPTION";
+
+let demandes=JSON.parse(localStorage.getItem(CLE)||"[]");
+
+document.getElementById("formInscription").onsubmit=function(e){
+
+ e.preventDefault();
+
+ demandes.push({
+  id:Date.now(),
+  nom:nom.value,
+  prenom:prenom.value,
+  sexe:sexe.value,
+  dateNaissance:dateNaissance.value,
+  lieuNaissance:lieuNaissance.value,
+  classe:classe.value,
+  pere:pere.value,
+  telephone:telephone.value,
+  adresse:adresse.value,
+  date:new Date().toLocaleString("fr-FR")
+ });
+
+ localStorage.setItem(CLE,JSON.stringify(demandes));
+
+ alert("Votre demande d'inscription a été enregistrée.");
+
+ this.reset();
+
+};
+</script>
+
+</body>
+</html>
