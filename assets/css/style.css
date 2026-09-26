@@ -394,3 +394,10 @@ footer p {
     }
 
 }
+/* Logo officiel sur toutes les pages */
+img.logo{
+  content: url("/eb-frontend/logo-etoile-brillante.png");
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
