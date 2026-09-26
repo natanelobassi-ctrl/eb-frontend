@@ -249,6 +249,14 @@ if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/eb-frontend/sw.js");
   });
 }
+
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("img.logo").forEach(function (img) {
+    img.src = "/eb-frontend/logo-etoile-brillante.png";
+    img.alt = "Logo Groupe Scolaire Étoile Brillante";
+  });
+});
 </script>
 </body>
 </html>
