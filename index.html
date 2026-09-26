@@ -241,6 +241,12 @@
 
 </footer>
 
-
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("/eb-frontend/sw.js");
+  });
+}
+</script>
 </body>
 </html>
