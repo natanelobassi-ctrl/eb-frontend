@@ -310,5 +310,15 @@ if(derniere){
 
 </script>
 <script src="../assets/js/logo.js"></script>
+ <button onclick="logout()" style="position:fixed;top:15px;right:15px;background:#C62828;color:white;border:none;padding:10px 15px;border-radius:8px;cursor:pointer;">
+Déconnexion
+</button>
+
+<script>
+function logout(){
+  sessionStorage.clear();
+  location.replace("login.html");
+}
+</script>
 </body>
 </html>
