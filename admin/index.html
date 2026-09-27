@@ -373,5 +373,34 @@ function logout(){
   location.replace("login.html");
 }
 </script>
+ <script>
+function majAccueil(){
+
+ const maintenant=new Date();
+
+ const jours=["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"];
+ const mois=["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+
+ const texte=jours[maintenant.getDay()]+" "+maintenant.getDate()+" "+mois[maintenant.getMonth()]+" "+maintenant.getFullYear()+" • "+maintenant.toLocaleTimeString("fr-FR");
+
+ document.getElementById("dateHeure").textContent=texte;
+
+ const u=sessionStorage.getItem("EB_USER")||"";
+
+ const noms={
+  gracia:"Gracia IBEMBE",
+  clarmy:"NGATSONGO Clarmy Nice Natanaël",
+  ngouti:"NGOUTI Neja",
+  hermann:"Hermann NIANGA"
+ };
+
+ document.getElementById("salutation").textContent="Bonjour "+(noms[u]||"Administration");
+
+}
+
+majAccueil();
+
+setInterval(majAccueil,1000);
+ </script>
 </body>
 </html>
