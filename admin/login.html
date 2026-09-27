@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connexion Administration - Groupe Scolaire Étoile Brillante</title>
+
+<style>
+:root{--bleu:#0A2A78;--or:#C9A227;--ivoire:#F7F4ED;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+ font-family:Arial,sans-serif;
+ background:linear-gradient(135deg,#0A2A78,#123A9B);
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ min-height:100vh;
+}
+.box{
+ background:white;
+ width:92%;
+ max-width:400px;
+ padding:30px;
+ border-radius:20px;
+ text-align:center;
+}
+.logo{
+ width:90px;
+ margin-bottom:15px;
+}
+input{
+ width:100%;
+ padding:12px;
+ margin:8px 0;
+ border:1px solid #ccc;
+ border-radius:8px;
+}
+button{
+ width:100%;
+ padding:12px;
+ background:var(--bleu);
+ color:white;
+ border:none;
+ border-radius:8px;
+ font-weight:bold;
+ cursor:pointer;
+}
+.error{
+ color:red;
+ margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<img src="/eb-frontend/logo-etoile-brillante.jpg" class="logo">
+
+<h2>Administration</h2>
+<p>Groupe Scolaire Étoile Brillante</p>
+
+<input id="user" placeholder="Identifiant">
+
+<input id="pass" type="password" placeholder="Mot de passe">
+
+<button onclick="login()">Se connecter</button>
+
+<p id="msg" class="error"></p>
+
+</div>
+
+<script>
+
+const comptes={
+ "gracia":"EB2026@Gracia",
+ "clarmy":"EB2026@Clarmy",
+ "ngouti":"EB2026@Ngouti",
+ "hermann":"EB2026@Hermann"
+};
+
+function login(){
+
+ const u=user.value.trim().toLowerCase();
+ const p=pass.value;
+
+ if(comptes[u]===p){
+
+  sessionStorage.setItem("EB_ADMIN","OK");
+  sessionStorage.setItem("EB_USER",u);
+
+  location.href="index.html";
+
+ }else{
+
+  msg.textContent="Identifiant ou mot de passe incorrect.";
+
+ }
+
+}
+
+</script>
+
+</body>
+</html>
