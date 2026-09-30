@@ -1,229 +1,1323 @@
 <!DOCTYPE html>
 <html lang="fr">
- <script>
-if(sessionStorage.getItem("EB_ADMIN")!=="OK"){
-  location.replace("login.html");
-}
-</script>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Paiements - Groupe Scolaire Étoile Brillante</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paiements — Administration | Groupe Scolaire Étoile Brillante</title>
 
-<style>
-body{font-family:Arial,sans-serif;background:#F7F4ED;margin:0}
-header{background:#0A2A78;color:#fff;padding:20px}
-.container{max-width:1100px;margin:auto;padding:20px}
-.card{background:#fff;padding:20px;border-radius:12px;margin-bottom:20px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-input,select{width:100%;padding:10px;border:1px solid #ccc;border-radius:8px}
-button{background:#198754;color:#fff;border:none;padding:12px 18px;border-radius:8px;font-weight:bold}
-table{width:100%;border-collapse:collapse}
-th,td{padding:10px;border-bottom:1px solid #ddd}
-th{background:#0A2A78;color:#fff}
-.notice{background:#fff8dc;border-left:5px solid #C9A227;padding:12px;margin-bottom:15px}
-</style>
+  <style>
+    :root{
+      --bleu:#0A2A78;
+      --bleu-clair:#123A9B;
+      --or:#C9A227;
+      --ivoire:#F7F4ED;
+      --vert:#16803C;
+      --rouge:#C62828;
+      --orange:#EF6C00;
+      --gris:#6B7280;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family:Arial,Helvetica,sans-serif;
+      background:var(--ivoire);
+      color:#1F2937;
+    }
+
+    header{
+      background:linear-gradient(135deg,var(--bleu),var(--bleu-clair));
+      color:white;
+      padding:22px 15px;
+      text-align:center;
+    }
+
+    header h1{
+      margin:0 0 7px;
+      font-size:25px;
+    }
+
+    header p{
+      margin:0;
+      opacity:.9;
+    }
+
+    .container{
+      max-width:1150px;
+      margin:25px auto;
+      padding:0 15px;
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom:20px;
+    }
+
+    .topbar h2{
+      margin:0;
+      color:var(--bleu);
+    }
+
+    .btn{
+      border:none;
+      border-radius:9px;
+      padding:11px 16px;
+      cursor:pointer;
+      font-weight:bold;
+      text-decoration:none;
+      display:inline-block;
+    }
+
+    .btn-primary{
+      background:var(--bleu);
+      color:white;
+    }
+
+    .btn-secondary{
+      background:#e8e8e8;
+      color:#333;
+    }
+
+    .btn-gold{
+      background:var(--or);
+      color:white;
+    }
+
+    .btn-green{
+      background:var(--vert);
+      color:white;
+    }
+
+    .btn-red{
+      background:var(--rouge);
+      color:white;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:20px;
+    }
+
+    .card{
+      background:white;
+      border-radius:16px;
+      padding:20px;
+      box-shadow:0 4px 15px rgba(0,0,0,.07);
+    }
+
+    .card h3{
+      margin-top:0;
+      color:var(--bleu);
+    }
+
+    label{
+      display:block;
+      font-weight:bold;
+      margin:13px 0 6px;
+    }
+
+    input,
+    select,
+    textarea{
+      width:100%;
+      padding:12px;
+      border:1px solid #ccc;
+      border-radius:9px;
+      font-size:15px;
+      background:white;
+    }
+
+    textarea{
+      min-height:80px;
+      resize:vertical;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus{
+      outline:none;
+      border-color:var(--bleu);
+    }
+
+    .student-info{
+      display:none;
+      background:#eef4ff;
+      border-left:5px solid var(--bleu);
+      border-radius:9px;
+      padding:14px;
+      margin-top:15px;
+    }
+
+    .student-info strong{
+      color:var(--bleu);
+    }
+
+    .notice{
+      background:#fff7e6;
+      border-left:5px solid var(--or);
+      padding:13px;
+      border-radius:8px;
+      margin-bottom:15px;
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:18px;
+    }
+
+    .table-card{
+      margin-top:20px;
+      background:white;
+      border-radius:16px;
+      padding:18px;
+      box-shadow:0 4px 15px rgba(0,0,0,.07);
+    }
+
+    .table-wrapper{
+      overflow-x:auto;
+    }
+
+    table{
+      width:100%;
+      min-width:1000px;
+      border-collapse:collapse;
+    }
+
+    th,
+    td{
+      padding:11px 9px;
+      border-bottom:1px solid #eee;
+      text-align:left;
+      vertical-align:middle;
+    }
+
+    th{
+      background:#f1f4fa;
+      color:var(--bleu);
+      font-size:14px;
+    }
+
+    .status{
+      display:inline-block;
+      padding:5px 9px;
+      border-radius:20px;
+      font-size:12px;
+      font-weight:bold;
+    }
+
+    .status-attente{
+      background:#fff2d9;
+      color:#a15c00;
+    }
+
+    .status-confirme{
+      background:#e6f6eb;
+      color:var(--vert);
+    }
+
+    .status-annule{
+      background:#ffe8e8;
+      color:var(--rouge);
+    }
+
+    .status-echoue{
+      background:#eee;
+      color:#555;
+    }
+
+    .receipt{
+      display:none;
+      background:white;
+      max-width:650px;
+      margin:25px auto;
+      padding:30px;
+      border:2px solid #ddd;
+      border-radius:12px;
+    }
+
+    .receipt-header{
+      text-align:center;
+      border-bottom:2px solid var(--bleu);
+      padding-bottom:15px;
+      margin-bottom:18px;
+    }
+
+    .receipt-header h2{
+      margin:0;
+      color:var(--bleu);
+    }
+
+    .paid{
+      display:inline-block;
+      margin:12px 0;
+      padding:9px 15px;
+      border:2px solid var(--vert);
+      color:var(--vert);
+      font-weight:bold;
+      border-radius:7px;
+    }
+
+    .receipt-row{
+      display:flex;
+      justify-content:space-between;
+      gap:15px;
+      padding:8px 0;
+      border-bottom:1px solid #eee;
+    }
+
+    .receipt-total{
+      font-size:20px;
+      font-weight:bold;
+      color:var(--bleu);
+      margin-top:15px;
+    }
+
+    .receipt-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:20px;
+    }
+
+    .empty{
+      text-align:center;
+      padding:35px;
+      color:#777;
+    }
+
+    @media(max-width:800px){
+      .grid{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media print{
+      body *{
+        visibility:hidden;
+      }
+
+      #recu,
+      #recu *{
+        visibility:visible;
+      }
+
+      #recu{
+        display:block !important;
+        position:absolute;
+        left:0;
+        top:0;
+        width:100%;
+        max-width:none;
+        border:none;
+        margin:0;
+      }
+
+      .receipt-actions{
+        display:none;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
 <header>
-<h1>Groupe Scolaire Étoile Brillante</h1>
-<p>Administration — Paiements intelligents</p>
+  <h1>Administration — Paiements</h1>
+  <p>Groupe Scolaire Étoile Brillante</p>
 </header>
 
 <div class="container">
 
-<div class="card">
+  <div class="topbar">
+    <h2>Gestion des paiements</h2>
 
-<h2>Nouveau paiement</h2>
+    <div>
+      <a href="index.html" class="btn btn-secondary">
+        Administration
+      </a>
 
-<div class="notice">
-Choisissez un élève : son nom, son prénom, sa classe et son matricule se remplissent automatiquement.
+      <a href="../inscription.html" class="btn btn-primary">
+        Nouvelle inscription
+      </a>
+    </div>
+  </div>
+
+  <div class="notice">
+    <strong>Paiement Mobile Money :</strong>
+    les parents effectuent le paiement au numéro de l'établissement
+    <strong>067598453</strong>.
+    La confirmation est effectuée par l'administration après vérification
+    de la transaction.
+  </div>
+
+  <div class="grid">
+
+    <!-- FORMULAIRE -->
+
+    <div class="card">
+
+      <h3>Nouveau paiement</h3>
+
+      <label for="rechercheEleve">
+        Rechercher l'élève
+      </label>
+
+      <input
+        type="search"
+        id="rechercheEleve"
+        placeholder="Matricule, nom ou prénom..."
+        oninput="rechercherEleve()"
+      >
+
+      <select
+        id="selectEleve"
+        onchange="selectionnerEleve()"
+      >
+        <option value="">
+          Sélectionner un élève
+        </option>
+      </select>
+
+      <div id="studentInfo" class="student-info"></div>
+
+      <label for="motif">
+        Motif du paiement *
+      </label>
+
+      <select id="motif" required>
+        <option value="">Sélectionner</option>
+        <option value="Inscription">Inscription</option>
+        <option value="Réinscription">Réinscription</option>
+        <option value="Scolarité">Scolarité</option>
+        <option value="Internat">Internat</option>
+        <option value="Fournitures scolaires">Fournitures scolaires</option>
+        <option value="Transport">Transport</option>
+        <option value="Autre">Autre</option>
+      </select>
+
+      <label for="montant">
+        Montant payé (FCFA) *
+      </label>
+
+      <input
+        type="number"
+        id="montant"
+        min="1"
+        placeholder="Ex. 50000"
+      >
+
+      <label for="mode">
+        Mode de paiement *
+      </label>
+
+      <select id="mode">
+        <option value="Mobile Money">
+          Mobile Money
+        </option>
+        <option value="Espèces">
+          Espèces
+        </option>
+        <option value="Virement">
+          Virement
+        </option>
+        <option value="Autre">
+          Autre
+        </option>
+      </select>
+
+      <label for="reference">
+        Référence de transaction
+      </label>
+
+      <input
+        type="text"
+        id="reference"
+        placeholder="Ex. TXN20260930..."
+      >
+
+      <label for="observation">
+        Observation
+      </label>
+
+      <textarea
+        id="observation"
+        placeholder="Information complémentaire..."
+      ></textarea>
+
+      <div class="actions">
+
+        <button
+          class="btn btn-primary"
+          onclick="enregistrerPaiement()"
+        >
+          Enregistrer le paiement
+        </button>
+
+        <button
+          class="btn btn-secondary"
+          onclick="viderFormulaire()"
+        >
+          Effacer
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- INFORMATIONS -->
+
+    <div class="card">
+
+      <h3>Fonctionnement</h3>
+
+      <p>
+        <strong>1.</strong>
+        Rechercher l'élève par matricule, nom ou prénom.
+      </p>
+
+      <p>
+        <strong>2.</strong>
+        Sélectionner l'élève concerné.
+      </p>
+
+      <p>
+        <strong>3.</strong>
+        Saisir le motif et le montant.
+      </p>
+
+      <p>
+        <strong>4.</strong>
+        Saisir la référence Mobile Money si elle existe.
+      </p>
+
+      <p>
+        <strong>5.</strong>
+        Enregistrer le paiement.
+      </p>
+
+      <p>
+        <strong>6.</strong>
+        Vérifier réellement la réception du paiement puis cliquer
+        sur <strong>CONFIRMER LE PAIEMENT</strong>.
+      </p>
+
+      <p>
+        <strong>7.</strong>
+        Le système génère alors le
+        <strong>REÇU PAYÉ</strong>.
+      </p>
+
+      <div class="notice">
+        ⚠️ Cette version ne vérifie pas automatiquement le solde
+        Mobile Money. La confirmation doit être faite par
+        l'administration après vérification.
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- HISTORIQUE -->
+
+  <div class="table-card">
+
+    <h3>Historique des paiements</h3>
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>N° reçu</th>
+            <th>Date</th>
+            <th>Élève</th>
+            <th>Matricule</th>
+            <th>Classe</th>
+            <th>Motif</th>
+            <th>Montant</th>
+            <th>Mode</th>
+            <th>Statut</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody id="listePaiements"></tbody>
+
+      </table>
+
+    </div>
+
+    <div
+      id="aucunPaiement"
+      class="empty"
+      style="display:none;"
+    >
+      Aucun paiement enregistré.
+    </div>
+
+  </div>
+
+
+  <!-- REÇU -->
+
+  <div id="recu" class="receipt">
+
+    <div class="receipt-header">
+
+      <h2>GROUPE SCOLAIRE ÉTOILE BRILLANTE</h2>
+
+      <p>
+        Excellence • Discipline • Innovation
+      </p>
+
+      <div class="paid">
+        REÇU PAYÉ
+      </div>
+
+    </div>
+
+    <div class="receipt-row">
+      <span>N° reçu</span>
+      <strong id="rNumero"></strong>
+    </div>
+
+    <div class="receipt-row">
+      <span>Date</span>
+      <strong id="rDate"></strong>
+    </div>
+
+    <div class="receipt-row">
+      <span>Élève</span>
+      <strong id="rEleve"></strong>
+    </div>
+
+    <div class="receipt-row">
+      <span>Matricule</span>
+      <strong id="rMatricule"></strong>
+    </div>
+
+    <div class="receipt-row">
+      <span>Classe</span>
+      <strong id="rClasse"></strong>
+    </div>
+
+    <div class="receipt-row">
+      <span>Motif</span>
+      <strong id="rMotif"></strong>
+    </div>
+
+    <div class="receipt-row">
+      <span>Mode</span>
+      <strong id="rMode"></strong>
+    </div>
+
+    <div class="receipt-row">
+      <span>Référence</span>
+      <strong id="rReference"></strong>
+    </div>
+
+    <div class="receipt-row receipt-total">
+      <span>Montant payé</span>
+      <strong id="rMontant"></strong>
+    </div>
+
+    <p style="margin-top:25px;">
+      Merci pour votre confiance.
+    </p>
+
+    <div class="receipt-actions">
+
+      <button
+        class="btn btn-primary"
+        onclick="window.print()"
+      >
+        Imprimer le reçu
+      </button>
+
+      <button
+        class="btn btn-secondary"
+        onclick="fermerRecu()"
+      >
+        Fermer
+      </button>
+
+    </div>
+
+  </div>
+
 </div>
 
-<div class="grid">
-
-<div>
-<label>Élève</label>
-<select id="eleveSelect">
-<option value="">Sélectionner un élève</option>
-</select>
-</div>
-
-<div>
-<label>Matricule</label>
-<input id="matricule" readonly>
-</div>
-
-<div>
-<label>Nom</label>
-<input id="nom" readonly>
-</div>
-
-<div>
-<label>Prénom</label>
-<input id="prenom" readonly>
-</div>
-
-<div>
-<label>Classe</label>
-<input id="classe" readonly>
-</div>
-
-<div>
-<label>Motif</label>
-<select id="motif">
-<option>Inscription</option>
-<option>Réinscription</option>
-<option>Scolarité</option>
-<option>Internat</option>
-<option>Examen</option>
-</select>
-</div>
-
-<div>
-<label>Montant (FCFA)</label>
-<input id="montant" type="number">
-</div>
-
-<div>
-<label>Référence Mobile Money</label>
-<input id="reference">
-</div>
-
-<div>
-<label>Date</label>
-<input id="date" type="date">
-</div>
-
-</div>
-
-<div style="margin-top:18px;">
-<button onclick="enregistrer()">Enregistrer le paiement</button>
-</div>
-
-</div>
-
-<div class="card">
-
-<h2>Historique des paiements</h2>
-
-<table>
-
-<thead>
-<tr>
-<th>N°</th>
-<th>Élève</th>
-<th>Classe</th>
-<th>Montant</th>
-<th>Référence</th>
-</tr>
-</thead>
-
-<tbody id="liste"></tbody>
-
-</table>
-
-</div>
-
-</div>
 
 <script>
-const CLE_ELEVES="EB_ELEVES";
-const CLE_PAIEMENTS="EB_PAIEMENTS";
 
-let eleves=JSON.parse(localStorage.getItem(CLE_ELEVES)||"[]");
-let paiements=JSON.parse(localStorage.getItem(CLE_PAIEMENTS)||"[]");
+  let eleves = [];
+  let paiements = [];
 
-document.getElementById("date").value=new Date().toISOString().slice(0,10);
 
-const select=document.getElementById("eleveSelect");
+  function chargerDonnees(){
 
-eleves.forEach((e,i)=>{
- const option=document.createElement("option");
- option.value=i;
- option.textContent=e.nom+" "+e.prenom+" ("+e.classe+")";
- select.appendChild(option);
-});
+    try{
+      eleves = JSON.parse(
+        localStorage.getItem("EB_ELEVES") || "[]"
+      );
+    }catch(e){
+      eleves = [];
+    }
 
-select.onchange=function(){
+    try{
+      paiements = JSON.parse(
+        localStorage.getItem("EB_PAIEMENTS") || "[]"
+      );
+    }catch(e){
+      paiements = [];
+    }
 
- const e=eleves[this.value];
- if(!e)return;
+    if(!Array.isArray(eleves)){
+      eleves = [];
+    }
 
- matricule.value=e.matricule;
- nom.value=e.nom;
- prenom.value=e.prenom;
- classe.value=e.classe;
+    if(!Array.isArray(paiements)){
+      paiements = [];
+    }
+  }
 
-};
 
-function sauvegarder(){
- localStorage.setItem(CLE_PAIEMENTS,JSON.stringify(paiements));
-}
+  function escapeHTML(value){
 
-function afficher(){
+    return String(value || "")
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;")
+      .replace(/'/g,"&#039;");
+  }
 
- liste.innerHTML="";
 
- [...paiements].reverse().forEach(p=>{
+  function rechercherEleve(){
 
- liste.innerHTML+=`
- <tr>
- <td>${p.numero}</td>
- <td>${p.nom} ${p.prenom}</td>
- <td>${p.classe}</td>
- <td>${Number(p.montant).toLocaleString()} FCFA</td>
- <td>${p.reference}</td>
- </tr>`;
+    const recherche =
+      document.getElementById("rechercheEleve")
+        .value
+        .trim()
+        .toLowerCase();
 
- });
+    const select =
+      document.getElementById("selectEleve");
 
-}
+    select.innerHTML =
+      '<option value="">Sélectionner un élève</option>';
 
-function enregistrer(){
+    if(!recherche){
+      return;
+    }
 
- if(!matricule.value){
-  alert("Choisissez un élève.");
-  return;
- }
+    const resultats =
+      eleves.filter(e => {
 
- if(!montant.value){
-  alert("Saisissez le montant.");
-  return;
- }
+        const texte =
+          (e.matricule || "") + " " +
+          (e.nom || "") + " " +
+          (e.prenom || "");
 
- const paiement={
+        return texte
+          .toLowerCase()
+          .includes(recherche);
 
- numero:"EB-"+new Date().getFullYear()+"-"+String(paiements.length+1).padStart(5,"0"),
+      });
 
- matricule:matricule.value,
- nom:nom.value,
- prenom:prenom.value,
- classe:classe.value,
- motif:motif.value,
- montant:montant.value,
- reference:reference.value,
- date:date.value
+    resultats.forEach(e => {
 
- };
+      const index =
+        eleves.indexOf(e);
 
- paiements.push(paiement);
+      const option =
+        document.createElement("option");
 
- sauvegarder();
+      option.value = index;
 
- afficher();
+      option.textContent =
+        (e.matricule || "") +
+        " — " +
+        (e.nom || "") +
+        " " +
+        (e.prenom || "") +
+        " — " +
+        (e.classe || "");
 
- alert("Paiement enregistré avec succès.");
+      select.appendChild(option);
 
- montant.value="";
- reference.value="";
+    });
 
-}
+  }
 
-afficher();
+
+  function selectionnerEleve(){
+
+    const select =
+      document.getElementById("selectEleve");
+
+    const index =
+      select.value;
+
+    const info =
+      document.getElementById("studentInfo");
+
+    if(index === ""){
+      info.style.display = "none";
+      info.innerHTML = "";
+      return;
+    }
+
+    const eleve =
+      eleves[parseInt(index,10)];
+
+    if(!eleve){
+      return;
+    }
+
+    info.innerHTML = `
+      <strong>Élève sélectionné</strong><br><br>
+      Matricule : <strong>${escapeHTML(eleve.matricule)}</strong><br>
+      Nom : ${escapeHTML(eleve.nom)}<br>
+      Prénom : ${escapeHTML(eleve.prenom)}<br>
+      Classe : <strong>${escapeHTML(eleve.classe)}</strong><br>
+      Parent/Tuteur : ${escapeHTML(eleve.pere)}<br>
+      Téléphone : ${escapeHTML(eleve.telephone)}
+    `;
+
+    info.style.display = "block";
+
+  }
+
+
+  function genererNumeroRecu(){
+
+    const annee =
+      new Date().getFullYear();
+
+    let compteur =
+      parseInt(
+        localStorage.getItem("EB_COMPTEUR_RECUS") || "0",
+        10
+      );
+
+    compteur++;
+
+    localStorage.setItem(
+      "EB_COMPTEUR_RECUS",
+      compteur
+    );
+
+    return "REC-" +
+      annee +
+      "-" +
+      String(compteur).padStart(4,"0");
+
+  }
+
+
+  function enregistrerPaiement(){
+
+    const select =
+      document.getElementById("selectEleve");
+
+    if(select.value === ""){
+
+      alert(
+        "Veuillez sélectionner un élève."
+      );
+
+      return;
+    }
+
+    const eleve =
+      eleves[parseInt(select.value,10)];
+
+    const motif =
+      document.getElementById("motif").value;
+
+    const montant =
+      Number(
+        document.getElementById("montant").value
+      );
+
+    const mode =
+      document.getElementById("mode").value;
+
+    const reference =
+      document.getElementById("reference").value.trim();
+
+    const observation =
+      document.getElementById("observation").value.trim();
+
+
+    if(!motif){
+
+      alert(
+        "Veuillez sélectionner le motif du paiement."
+      );
+
+      return;
+    }
+
+
+    if(!montant || montant <= 0){
+
+      alert(
+        "Veuillez saisir un montant valide."
+      );
+
+      return;
+    }
+
+
+    const paiement = {
+
+      numero:
+        genererNumeroRecu(),
+
+      date:
+        new Date().toISOString(),
+
+      matricule:
+        eleve.matricule || "",
+
+      eleve:
+        (eleve.nom || "") +
+        " " +
+        (eleve.prenom || ""),
+
+      classe:
+        eleve.classe || "",
+
+      parent:
+        eleve.pere || "",
+
+      telephone:
+        eleve.telephone || "",
+
+      motif:
+        motif,
+
+      montant:
+        montant,
+
+      mode:
+        mode,
+
+      reference:
+        reference,
+
+      observation:
+        observation,
+
+      statut:
+        "En attente",
+
+      confirmePar:
+        "",
+
+      dateConfirmation:
+        ""
+
+    };
+
+
+    paiements.push(paiement);
+
+    localStorage.setItem(
+      "EB_PAIEMENTS",
+      JSON.stringify(paiements)
+    );
+
+
+    alert(
+      "Paiement enregistré avec succès.\n\n" +
+      "Statut : EN ATTENTE\n" +
+      "N° : " +
+      paiement.numero
+    );
+
+
+    afficherPaiements();
+
+    viderFormulaire();
+
+  }
+
+
+  function afficherPaiements(){
+
+    const tbody =
+      document.getElementById("listePaiements");
+
+    const vide =
+      document.getElementById("aucunPaiement");
+
+    tbody.innerHTML = "";
+
+
+    if(paiements.length === 0){
+
+      vide.style.display = "block";
+
+      return;
+
+    }
+
+
+    vide.style.display = "none";
+
+
+    [...paiements]
+      .reverse()
+      .forEach((p, position) => {
+
+        const index =
+          paiements.length - 1 - position;
+
+        const tr =
+          document.createElement("tr");
+
+
+        let classeStatut =
+          "status-attente";
+
+        if(p.statut === "Confirmée"){
+          classeStatut = "status-confirme";
+        }
+
+        if(p.statut === "Annulée"){
+          classeStatut = "status-annule";
+        }
+
+        if(p.statut === "Échouée"){
+          classeStatut = "status-echoue";
+        }
+
+
+        let actions = "";
+
+
+        if(p.statut === "En attente"){
+
+          actions += `
+            <button
+              class="btn btn-green"
+              style="padding:7px 9px;font-size:12px;"
+              onclick="confirmerPaiement(${index})"
+            >
+              CONFIRMER
+            </button>
+          `;
+
+        }
+
+
+        if(p.statut === "Confirmée"){
+
+          actions += `
+            <button
+              class="btn btn-primary"
+              style="padding:7px 9px;font-size:12px;"
+              onclick="afficherRecu(${index})"
+            >
+              REÇU
+            </button>
+          `;
+
+        }
+
+
+        if(
+          p.statut !== "Confirmée" &&
+          p.statut !== "Annulée"
+        ){
+
+          actions += `
+            <button
+              class="btn btn-red"
+              style="padding:7px 9px;font-size:12px;"
+              onclick="annulerPaiement(${index})"
+            >
+              ANNULER
+            </button>
+          `;
+
+        }
+
+
+        const date =
+          new Date(p.date);
+
+
+        tr.innerHTML = `
+
+          <td>
+            ${escapeHTML(p.numero)}
+          </td>
+
+          <td>
+            ${date.toLocaleDateString("fr-FR")}
+          </td>
+
+          <td>
+            ${escapeHTML(p.eleve)}
+          </td>
+
+          <td>
+            ${escapeHTML(p.matricule)}
+          </td>
+
+          <td>
+            ${escapeHTML(p.classe)}
+          </td>
+
+          <td>
+            ${escapeHTML(p.motif)}
+          </td>
+
+          <td>
+            <strong>
+              ${Number(p.montant).toLocaleString("fr-FR")}
+              FCFA
+            </strong>
+          </td>
+
+          <td>
+            ${escapeHTML(p.mode)}
+          </td>
+
+          <td>
+            <span class="status ${classeStatut}">
+              ${escapeHTML(p.statut)}
+            </span>
+          </td>
+
+          <td>
+            ${actions}
+          </td>
+
+        `;
+
+        tbody.appendChild(tr);
+
+      });
+
+  }
+
+
+  function confirmerPaiement(index){
+
+    const p =
+      paiements[index];
+
+    if(!p){
+      return;
+    }
+
+
+    const confirmation =
+      confirm(
+        "Confirmez-vous avoir vérifié la réception réelle de ce paiement ?\n\n" +
+        "Élève : " + p.eleve + "\n" +
+        "Montant : " +
+        Number(p.montant).toLocaleString("fr-FR") +
+        " FCFA\n" +
+        "Référence : " +
+        (p.reference || "Non renseignée")
+      );
+
+
+    if(!confirmation){
+      return;
+    }
+
+
+    p.statut =
+      "Confirmée";
+
+    p.confirmePar =
+      sessionStorage.getItem("EB_USER") ||
+      "Administration";
+
+    p.dateConfirmation =
+      new Date().toISOString();
+
+
+    localStorage.setItem(
+      "EB_PAIEMENTS",
+      JSON.stringify(paiements)
+    );
+
+
+    alert(
+      "Paiement confirmé.\n\n" +
+      "Le REÇU PAYÉ peut maintenant être généré."
+    );
+
+
+    afficherPaiements();
+
+    afficherRecu(index);
+
+  }
+
+
+  function annulerPaiement(index){
+
+    const p =
+      paiements[index];
+
+    if(!p){
+      return;
+    }
+
+
+    if(
+      !confirm(
+        "Voulez-vous annuler ce paiement ?"
+      )
+    ){
+      return;
+    }
+
+
+    p.statut =
+      "Annulée";
+
+
+    localStorage.setItem(
+      "EB_PAIEMENTS",
+      JSON.stringify(paiements)
+    );
+
+
+    afficherPaiements();
+
+  }
+
+
+  function afficherRecu(index){
+
+    const p =
+      paiements[index];
+
+    if(!p){
+      return;
+    }
+
+
+    if(p.statut !== "Confirmée"){
+
+      alert(
+        "Le reçu ne peut être généré qu'après confirmation du paiement."
+      );
+
+      return;
+    }
+
+
+    document.getElementById("rNumero")
+      .textContent = p.numero;
+
+    document.getElementById("rDate")
+      .textContent =
+      new Date(p.date).toLocaleString("fr-FR");
+
+    document.getElementById("rEleve")
+      .textContent = p.eleve;
+
+    document.getElementById("rMatricule")
+      .textContent = p.matricule;
+
+    document.getElementById("rClasse")
+      .textContent = p.classe;
+
+    document.getElementById("rMotif")
+      .textContent = p.motif;
+
+    document.getElementById("rMode")
+      .textContent = p.mode;
+
+    document.getElementById("rReference")
+      .textContent =
+      p.reference || "Non renseignée";
+
+    document.getElementById("rMontant")
+      .textContent =
+      Number(p.montant).toLocaleString("fr-FR") +
+      " FCFA";
+
+
+    const recu =
+      document.getElementById("recu");
+
+    recu.style.display = "block";
+
+    recu.scrollIntoView({
+      behavior:"smooth"
+    });
+
+  }
+
+
+  function fermerRecu(){
+
+    document.getElementById("recu")
+      .style.display = "none";
+
+  }
+
+
+  function viderFormulaire(){
+
+    document.getElementById("rechercheEleve")
+      .value = "";
+
+    document.getElementById("selectEleve").innerHTML =
+      '<option value="">Sélectionner un élève</option>';
+
+    document.getElementById("studentInfo")
+      .style.display = "none";
+
+    document.getElementById("studentInfo")
+      .innerHTML = "";
+
+    document.getElementById("motif")
+      .value = "";
+
+    document.getElementById("montant")
+      .value = "";
+
+    document.getElementById("mode")
+      .value = "Mobile Money";
+
+    document.getElementById("reference")
+      .value = "";
+
+    document.getElementById("observation")
+      .value = "";
+
+  }
+
+
+  chargerDonnees();
+
+  afficherPaiements();
+
 </script>
-<script src="../assets/js/logo.js"></script>
+
 </body>
 </html>
