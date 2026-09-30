@@ -12,8 +12,6 @@
       --bleu-clair:#123A9B;
       --or:#C9A227;
       --ivoire:#F7F4ED;
-      --blanc:#FFFFFF;
-      --texte:#1F2937;
       --vert:#16803C;
       --rouge:#C62828;
     }
@@ -26,7 +24,7 @@
       margin:0;
       font-family:Arial,Helvetica,sans-serif;
       background:var(--ivoire);
-      color:var(--texte);
+      color:#1F2937;
     }
 
     header{
@@ -72,14 +70,14 @@
     }
 
     .btn{
-      display:inline-block;
       border:none;
       border-radius:9px;
-      padding:11px 15px;
+      padding:10px 14px;
       text-decoration:none;
       font-weight:bold;
       cursor:pointer;
-      font-size:14px;
+      display:inline-block;
+      font-size:13px;
     }
 
     .btn-primary{
@@ -95,6 +93,16 @@
     .btn-secondary{
       background:#e8e8e8;
       color:#333;
+    }
+
+    .btn-green{
+      background:var(--vert);
+      color:white;
+    }
+
+    .btn-red{
+      background:var(--rouge);
+      color:white;
     }
 
     .stats{
@@ -163,7 +171,7 @@
     table{
       width:100%;
       border-collapse:collapse;
-      min-width:950px;
+      min-width:1100px;
     }
 
     th,
@@ -202,7 +210,7 @@
       align-items:center;
       justify-content:center;
       color:#777;
-      font-size:11px;
+      font-size:10px;
       text-align:center;
     }
 
@@ -226,7 +234,7 @@
       border-radius:7px;
       padding:7px 9px;
       cursor:pointer;
-      font-size:12px;
+      font-size:11px;
       font-weight:bold;
       margin:2px;
     }
@@ -234,6 +242,11 @@
     .btn-view{
       background:#e8f0ff;
       color:var(--bleu);
+    }
+
+    .btn-payment{
+      background:#fff1c9;
+      color:#8a6500;
     }
 
     .btn-delete{
@@ -266,8 +279,8 @@
 
     .modal-content{
       background:white;
-      max-width:650px;
-      margin:40px auto;
+      max-width:750px;
+      margin:30px auto;
       border-radius:18px;
       padding:25px;
       position:relative;
@@ -276,10 +289,10 @@
     .modal-close{
       position:absolute;
       right:15px;
-      top:12px;
+      top:10px;
       border:none;
       background:none;
-      font-size:25px;
+      font-size:28px;
       cursor:pointer;
     }
 
@@ -306,6 +319,68 @@
       color:var(--bleu);
     }
 
+    .payment-box{
+      margin-top:25px;
+      border-top:2px solid #eee;
+      padding-top:20px;
+    }
+
+    .payment-card{
+      border:1px solid #ddd;
+      border-radius:10px;
+      padding:13px;
+      margin:10px 0;
+      background:#fafafa;
+    }
+
+    .payment-line{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      padding:5px 0;
+      border-bottom:1px solid #eee;
+    }
+
+    .payment-line:last-child{
+      border-bottom:none;
+    }
+
+    .status{
+      display:inline-block;
+      padding:5px 9px;
+      border-radius:20px;
+      font-size:11px;
+      font-weight:bold;
+    }
+
+    .attente{
+      background:#fff2d9;
+      color:#a15c00;
+    }
+
+    .confirmee{
+      background:#e6f6eb;
+      color:var(--vert);
+    }
+
+    .annulee{
+      background:#ffe8e8;
+      color:var(--rouge);
+    }
+
+    .echouee{
+      background:#eee;
+      color:#555;
+    }
+
+    .no-payment{
+      background:#f5f5f5;
+      padding:18px;
+      border-radius:9px;
+      text-align:center;
+      color:#777;
+    }
+
     @media(max-width:700px){
 
       .stats{
@@ -323,10 +398,6 @@
       .profile-photo{
         width:110px;
         height:130px;
-      }
-
-      .topbar{
-        align-items:flex-start;
       }
     }
   </style>
@@ -362,6 +433,13 @@
       </button>
 
       <a
+        href="paiements.html"
+        class="btn btn-green"
+      >
+        Paiements
+      </a>
+
+      <a
         href="index.html"
         class="btn btn-secondary"
       >
@@ -371,6 +449,7 @@
     </div>
 
   </div>
+
 
   <div class="stats">
 
@@ -391,6 +470,7 @@
 
   </div>
 
+
   <div class="filters">
 
     <div class="filters-grid">
@@ -398,7 +478,7 @@
       <input
         type="search"
         id="recherche"
-        placeholder="Rechercher par matricule, nom, prénom, parent ou téléphone..."
+        placeholder="Matricule, nom, prénom, parent ou téléphone..."
         oninput="afficherEleves()"
       >
 
@@ -421,6 +501,7 @@
     </div>
 
   </div>
+
 
   <div class="table-card">
 
@@ -463,12 +544,12 @@
 </div>
 
 
-<!-- MODAL PROFIL -->
+<!-- MODAL FICHE ÉLÈVE -->
 
 <div
-  id="modal"
+  id="modalEleve"
   class="modal"
-  onclick="fermerModal(event)"
+  onclick="fermerModal('modalEleve',event)"
 >
 
   <div
@@ -478,7 +559,7 @@
 
     <button
       class="modal-close"
-      onclick="fermerModal()"
+      onclick="fermerModal('modalEleve')"
     >
       ×
     </button>
@@ -503,28 +584,98 @@
 </div>
 
 
+<!-- MODAL PAIEMENTS -->
+
+<div
+  id="modalPaiements"
+  class="modal"
+  onclick="fermerModal('modalPaiements',event)"
+>
+
+  <div
+    class="modal-content"
+    onclick="event.stopPropagation()"
+  >
+
+    <button
+      class="modal-close"
+      onclick="fermerModal('modalPaiements')"
+    >
+      ×
+    </button>
+
+    <h2 style="color:#0A2A78;">
+      Historique des paiements
+    </h2>
+
+    <div id="infoElevePaiement"></div>
+
+    <div class="payment-box">
+
+      <div id="listePaiementsEleve"></div>
+
+    </div>
+
+    <div style="margin-top:20px;">
+
+      <a
+        id="lienNouveauPaiement"
+        href="paiements.html"
+        class="btn btn-primary"
+      >
+        + Nouveau paiement
+      </a>
+
+    </div>
+
+  </div>
+
+</div>
+
+
 <script>
 
   let eleves = [];
+  let paiements = [];
 
-  function chargerEleves(){
+
+  function chargerDonnees(){
 
     try{
-
       eleves = JSON.parse(
         localStorage.getItem("EB_ELEVES") || "[]"
       );
-
-      if(!Array.isArray(eleves)){
-        eleves = [];
-      }
-
-    }catch(erreur){
-
-      console.error(erreur);
-
+    }catch(e){
       eleves = [];
     }
+
+    try{
+      paiements = JSON.parse(
+        localStorage.getItem("EB_PAIEMENTS") || "[]"
+      );
+    }catch(e){
+      paiements = [];
+    }
+
+    if(!Array.isArray(eleves)){
+      eleves = [];
+    }
+
+    if(!Array.isArray(paiements)){
+      paiements = [];
+    }
+
+  }
+
+
+  function escapeHTML(value){
+
+    return String(value || "")
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;")
+      .replace(/'/g,"&#039;");
 
   }
 
@@ -572,6 +723,7 @@
     document.getElementById("totalGarcons")
       .textContent =
       eleves.filter(e => e.sexe === "M").length;
+
   }
 
 
@@ -599,6 +751,7 @@
 
     tbody.innerHTML = "";
 
+
     const resultats =
       eleves.filter(eleve => {
 
@@ -612,22 +765,10 @@
 
         ).toLowerCase();
 
-        const okRecherche =
-          !recherche ||
-          texte.includes(recherche);
-
-        const okClasse =
-          !classe ||
-          eleve.classe === classe;
-
-        const okSexe =
-          !sexe ||
-          eleve.sexe === sexe;
-
         return (
-          okRecherche &&
-          okClasse &&
-          okSexe
+          (!recherche || texte.includes(recherche)) &&
+          (!classe || eleve.classe === classe) &&
+          (!sexe || eleve.sexe === sexe)
         );
 
       });
@@ -636,7 +777,6 @@
     if(resultats.length === 0){
 
       messageVide.style.display = "block";
-
       return;
 
     }
@@ -666,7 +806,7 @@
           <img
             src="${eleve.photo}"
             class="photo"
-            alt="Photo de ${escapeHTML(eleve.prenom || "")}"
+            alt="Photo"
           >
         `;
 
@@ -675,36 +815,34 @@
 
       tr.innerHTML = `
 
-        <td>
-          ${photoHTML}
-        </td>
+        <td>${photoHTML}</td>
 
         <td>
           <span class="matricule">
-            ${escapeHTML(eleve.matricule || "")}
+            ${escapeHTML(eleve.matricule)}
           </span>
         </td>
 
         <td>
-          ${escapeHTML(eleve.nom || "")}
+          ${escapeHTML(eleve.nom)}
         </td>
 
         <td>
-          ${escapeHTML(eleve.prenom || "")}
+          ${escapeHTML(eleve.prenom)}
         </td>
 
         <td>
           <span class="badge">
-            ${escapeHTML(eleve.classe || "")}
+            ${escapeHTML(eleve.classe)}
           </span>
         </td>
 
         <td>
-          ${escapeHTML(eleve.pere || "")}
+          ${escapeHTML(eleve.pere)}
         </td>
 
         <td>
-          ${escapeHTML(eleve.telephone || "")}
+          ${escapeHTML(eleve.telephone)}
         </td>
 
         <td>
@@ -713,14 +851,21 @@
             class="btn-small btn-view"
             onclick="voirEleve(${index})"
           >
-            Voir
+            FICHE
+          </button>
+
+          <button
+            class="btn-small btn-payment"
+            onclick="voirPaiements(${index})"
+          >
+            PAIEMENTS
           </button>
 
           <button
             class="btn-small btn-delete"
             onclick="supprimerEleve(${index})"
           >
-            Supprimer
+            SUPPRIMER
           </button>
 
         </td>
@@ -736,7 +881,8 @@
 
   function voirEleve(index){
 
-    const eleve = eleves[index];
+    const eleve =
+      eleves[index];
 
     if(!eleve){
       return;
@@ -745,13 +891,16 @@
 
     document.getElementById("modalTitre")
       .textContent =
-      (eleve.nom || "") + " " +
+      (eleve.nom || "") +
+      " " +
       (eleve.prenom || "");
 
 
     let photoHTML = `
-      <div class="photo-empty"
-           style="width:120px;height:145px;">
+      <div
+        class="photo-empty"
+        style="width:120px;height:145px;"
+      >
         Pas de photo
       </div>
     `;
@@ -779,27 +928,27 @@
 
         <p>
           <strong>Matricule :</strong>
-          ${escapeHTML(eleve.matricule || "")}
+          ${escapeHTML(eleve.matricule)}
         </p>
 
         <p>
           <strong>Nom :</strong>
-          ${escapeHTML(eleve.nom || "")}
+          ${escapeHTML(eleve.nom)}
         </p>
 
         <p>
           <strong>Prénom :</strong>
-          ${escapeHTML(eleve.prenom || "")}
+          ${escapeHTML(eleve.prenom)}
         </p>
 
         <p>
           <strong>Date de naissance :</strong>
-          ${escapeHTML(eleve.dateNaissance || "")}
+          ${escapeHTML(eleve.dateNaissance)}
         </p>
 
         <p>
           <strong>Lieu de naissance :</strong>
-          ${escapeHTML(eleve.lieuNaissance || "")}
+          ${escapeHTML(eleve.lieuNaissance)}
         </p>
 
         <p>
@@ -809,45 +958,472 @@
 
         <p>
           <strong>Classe :</strong>
-          ${escapeHTML(eleve.classe || "")}
+          ${escapeHTML(eleve.classe)}
         </p>
 
         <p>
           <strong>Père / Tuteur :</strong>
-          ${escapeHTML(eleve.pere || "")}
+          ${escapeHTML(eleve.pere)}
         </p>
 
         <p>
           <strong>Téléphone :</strong>
-          ${escapeHTML(eleve.telephone || "")}
+          ${escapeHTML(eleve.telephone)}
         </p>
 
         <p>
           <strong>Adresse :</strong>
-          ${escapeHTML(eleve.adresse || "")}
+          ${escapeHTML(eleve.adresse)}
         </p>
 
         <p>
           <strong>Année scolaire :</strong>
-          ${escapeHTML(eleve.anneeScolaire || "2026-2027")}
+          ${escapeHTML(
+            eleve.anneeScolaire || "2026-2027"
+          )}
         </p>
 
       `;
 
 
-    document.getElementById("modal")
+    document.getElementById("modalEleve")
       .style.display = "block";
 
   }
 
 
-  function fermerModal(event){
+  function voirPaiements(index){
+
+    const eleve =
+      eleves[index];
+
+    if(!eleve){
+      return;
+    }
+
+
+    const matricule =
+      eleve.matricule || "";
+
+
+    const paiementsEleve =
+      paiements.filter(p =>
+        p.matricule === matricule
+      );
+
+
+    document.getElementById("infoElevePaiement")
+      .innerHTML = `
+
+        <div style="
+          background:#eef4ff;
+          border-left:5px solid #0A2A78;
+          padding:14px;
+          border-radius:8px;
+        ">
+
+          <strong>
+            ${escapeHTML(eleve.nom)}
+            ${escapeHTML(eleve.prenom)}
+          </strong>
+
+          <br>
+
+          Matricule :
+          <strong>
+            ${escapeHTML(matricule)}
+          </strong>
+
+          <br>
+
+          Classe :
+          <strong>
+            ${escapeHTML(eleve.classe)}
+          </strong>
+
+        </div>
+
+      `;
+
+
+    const liste =
+      document.getElementById(
+        "listePaiementsEleve"
+      );
+
+
+    if(paiementsEleve.length === 0){
+
+      liste.innerHTML = `
+        <div class="no-payment">
+          Aucun paiement enregistré pour cet élève.
+        </div>
+      `;
+
+    }else{
+
+      liste.innerHTML = "";
+
+      [...paiementsEleve]
+        .reverse()
+        .forEach(p => {
+
+          let classeStatus = "attente";
+
+          if(p.statut === "Confirmée"){
+            classeStatus = "confirmee";
+          }
+
+          if(p.statut === "Annulée"){
+            classeStatus = "annulee";
+          }
+
+          if(p.statut === "Échouée"){
+            classeStatus = "echouee";
+          }
+
+
+          const date =
+            new Date(p.date)
+              .toLocaleString("fr-FR");
+
+
+          let boutonRecu = "";
+
+          if(p.statut === "Confirmée"){
+
+            boutonRecu = `
+              <button
+                class="btn-small btn-view"
+                onclick="ouvrirRecu(${paiements.indexOf(p)})"
+              >
+                VOIR LE REÇU
+              </button>
+            `;
+
+          }
+
+
+          const div =
+            document.createElement("div");
+
+          div.className =
+            "payment-card";
+
+
+          div.innerHTML = `
+
+            <div class="payment-line">
+              <span>N° reçu</span>
+              <strong>
+                ${escapeHTML(p.numero)}
+              </strong>
+            </div>
+
+            <div class="payment-line">
+              <span>Date</span>
+              <strong>
+                ${escapeHTML(date)}
+              </strong>
+            </div>
+
+            <div class="payment-line">
+              <span>Motif</span>
+              <strong>
+                ${escapeHTML(p.motif)}
+              </strong>
+            </div>
+
+            <div class="payment-line">
+              <span>Montant</span>
+              <strong>
+                ${Number(p.montant || 0)
+                  .toLocaleString("fr-FR")}
+                FCFA
+              </strong>
+            </div>
+
+            <div class="payment-line">
+              <span>Mode</span>
+              <strong>
+                ${escapeHTML(p.mode)}
+              </strong>
+            </div>
+
+            <div class="payment-line">
+              <span>Référence</span>
+              <strong>
+                ${escapeHTML(
+                  p.reference || "Non renseignée"
+                )}
+              </strong>
+            </div>
+
+            <div class="payment-line">
+              <span>Statut</span>
+              <span class="status ${classeStatus}">
+                ${escapeHTML(p.statut)}
+              </span>
+            </div>
+
+            <div style="margin-top:10px;">
+              ${boutonRecu}
+            </div>
+
+          `;
+
+          liste.appendChild(div);
+
+        });
+
+    }
+
+
+    document.getElementById("lienNouveauPaiement")
+      .href =
+      "paiements.html?matricule=" +
+      encodeURIComponent(matricule);
+
+
+    document.getElementById("modalPaiements")
+      .style.display = "block";
+
+  }
+
+
+  function ouvrirRecu(index){
+
+    const paiement =
+      paiements[index];
+
+    if(!paiement){
+      return;
+    }
+
+
+    if(paiement.statut !== "Confirmée"){
+
+      alert(
+        "Ce paiement n'est pas encore confirmé."
+      );
+
+      return;
+
+    }
+
+
+    const date =
+      new Date(paiement.date)
+        .toLocaleString("fr-FR");
+
+
+    const fenetre =
+      window.open(
+        "",
+        "_blank",
+        "width=700,height=800"
+      );
+
+
+    if(!fenetre){
+      alert(
+        "Le navigateur bloque l'ouverture du reçu."
+      );
+      return;
+    }
+
+
+    fenetre.document.write(`
+
+      <!DOCTYPE html>
+
+      <html lang="fr">
+
+      <head>
+
+        <meta charset="UTF-8">
+
+        <title>Reçu ${escapeHTML(paiement.numero)}</title>
+
+        <style>
+
+          body{
+            font-family:Arial,sans-serif;
+            padding:30px;
+            color:#1F2937;
+          }
+
+          .recu{
+            max-width:650px;
+            margin:auto;
+            border:2px solid #ddd;
+            padding:30px;
+          }
+
+          h1{
+            text-align:center;
+            color:#0A2A78;
+          }
+
+          .slogan{
+            text-align:center;
+          }
+
+          .paid{
+            text-align:center;
+            margin:20px auto;
+            width:max-content;
+            padding:10px 18px;
+            border:2px solid #16803C;
+            color:#16803C;
+            font-weight:bold;
+          }
+
+          .ligne{
+            display:flex;
+            justify-content:space-between;
+            gap:20px;
+            padding:10px 0;
+            border-bottom:1px solid #ddd;
+          }
+
+          .montant{
+            font-size:20px;
+            color:#0A2A78;
+            font-weight:bold;
+          }
+
+          @media print{
+            button{
+              display:none;
+            }
+          }
+
+        </style>
+
+      </head>
+
+      <body>
+
+        <div class="recu">
+
+          <h1>
+            GROUPE SCOLAIRE<br>
+            ÉTOILE BRILLANTE
+          </h1>
+
+          <div class="slogan">
+            Excellence • Discipline • Innovation
+          </div>
+
+          <div class="paid">
+            REÇU PAYÉ
+          </div>
+
+          <div class="ligne">
+            <span>N° reçu</span>
+            <strong>
+              ${escapeHTML(paiement.numero)}
+            </strong>
+          </div>
+
+          <div class="ligne">
+            <span>Date</span>
+            <strong>${escapeHTML(date)}</strong>
+          </div>
+
+          <div class="ligne">
+            <span>Élève</span>
+            <strong>
+              ${escapeHTML(paiement.eleve)}
+            </strong>
+          </div>
+
+          <div class="ligne">
+            <span>Matricule</span>
+            <strong>
+              ${escapeHTML(paiement.matricule)}
+            </strong>
+          </div>
+
+          <div class="ligne">
+            <span>Classe</span>
+            <strong>
+              ${escapeHTML(paiement.classe)}
+            </strong>
+          </div>
+
+          <div class="ligne">
+            <span>Motif</span>
+            <strong>
+              ${escapeHTML(paiement.motif)}
+            </strong>
+          </div>
+
+          <div class="ligne">
+            <span>Mode</span>
+            <strong>
+              ${escapeHTML(paiement.mode)}
+            </strong>
+          </div>
+
+          <div class="ligne">
+            <span>Référence</span>
+            <strong>
+              ${escapeHTML(
+                paiement.reference ||
+                "Non renseignée"
+              )}
+            </strong>
+          </div>
+
+          <div class="ligne montant">
+            <span>Montant payé</span>
+            <strong>
+              ${Number(paiement.montant || 0)
+                .toLocaleString("fr-FR")}
+              FCFA
+            </strong>
+          </div>
+
+          <p style="margin-top:30px;">
+            Merci pour votre confiance.
+          </p>
+
+          <button
+            onclick="window.print()"
+            style="
+              padding:12px 18px;
+              background:#0A2A78;
+              color:white;
+              border:none;
+              border-radius:8px;
+              font-weight:bold;
+            "
+          >
+            Imprimer le reçu
+          </button>
+
+        </div>
+
+      </body>
+
+      </html>
+
+    `);
+
+    fenetre.document.close();
+
+  }
+
+
+  function fermerModal(id,event){
 
     if(event && event.target !== event.currentTarget){
       return;
     }
 
-    document.getElementById("modal")
+    document.getElementById(id)
       .style.display = "none";
 
   }
@@ -855,7 +1431,8 @@
 
   function supprimerEleve(index){
 
-    const eleve = eleves[index];
+    const eleve =
+      eleves[index];
 
     if(!eleve){
       return;
@@ -864,8 +1441,9 @@
 
     const confirmation =
       confirm(
-        "Voulez-vous vraiment supprimer l'élève " +
-        (eleve.nom || "") + " " +
+        "Voulez-vous vraiment supprimer " +
+        (eleve.nom || "") +
+        " " +
         (eleve.prenom || "") +
         " ?"
       );
@@ -886,7 +1464,6 @@
 
 
     afficherEleves();
-
     mettreAJourStatistiques();
 
   }
@@ -894,35 +1471,16 @@
 
   function actualiser(){
 
-    chargerEleves();
-
+    chargerDonnees();
     mettreAJourStatistiques();
-
     afficherEleves();
 
   }
 
 
-  function escapeHTML(value){
-
-    return String(value || "")
-      .replace(/&/g,"&amp;")
-      .replace(/</g,"&lt;")
-      .replace(/>/g,"&gt;")
-      .replace(/"/g,"&quot;")
-      .replace(/'/g,"&#039;");
-
-  }
-
-
-  // Initialisation
-
   remplirClasses();
-
-  chargerEleves();
-
+  chargerDonnees();
   mettreAJourStatistiques();
-
   afficherEleves();
 
 </script>
