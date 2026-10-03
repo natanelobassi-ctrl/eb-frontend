@@ -3,14 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bulletins - Groupe Scolaire Étoile Brillante</title>
+
+<title>Bulletins scolaires - Groupe Scolaire Étoile Brillante</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
 
 body{
   margin:0;
-  font-family:Arial,sans-serif;
+  font-family:Arial,Helvetica,sans-serif;
   background:#f4f6fa;
   color:#1f2937;
 }
@@ -22,45 +25,60 @@ header{
   text-align:center;
 }
 
-header h1{margin:0;font-size:24px}
-header p{margin:6px 0 0}
+header h1{
+  margin:0;
+  font-size:24px;
+}
+
+header p{
+  margin:6px 0 0;
+  opacity:.9;
+}
 
 .container{
   max-width:1100px;
-  margin:20px auto;
+  margin:25px auto;
   padding:0 15px;
 }
 
-.card{
+.panel{
   background:white;
-  border-radius:15px;
+  border-radius:14px;
   padding:20px;
   margin-bottom:20px;
   box-shadow:0 3px 12px rgba(0,0,0,.08);
 }
 
-.form-grid{
+h2{
+  color:#0A2A78;
+  margin-top:0;
+}
+
+.row{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:12px;
+  gap:15px;
 }
 
 label{
-  font-weight:bold;
   display:block;
-  margin-bottom:5px;
+  font-weight:bold;
+  margin-bottom:6px;
 }
 
-input,select,button{
+input,
+select{
   width:100%;
   padding:11px;
+  border:1px solid #ccd3df;
   border-radius:8px;
-  border:1px solid #ccc;
   font-size:15px;
 }
 
 button{
-  border:none;
+  border:0;
+  border-radius:8px;
+  padding:11px 16px;
   cursor:pointer;
   font-weight:bold;
 }
@@ -70,103 +88,116 @@ button{
   color:white;
 }
 
-.btn-gold{
+.btn-print{
   background:#C9A227;
   color:white;
 }
 
-.btn-print{
-  background:#198754;
+.btn-back{
+  background:#555;
   color:white;
-  max-width:220px;
 }
 
-.info{
-  background:#eef3ff;
-  border-left:5px solid #0A2A78;
+.message{
   padding:12px;
-  margin-top:15px;
+  background:#eef3ff;
   border-radius:8px;
+  margin-top:15px;
 }
 
-#bulletin{
-  display:none;
+.bulletin{
+  background:white;
+  border:1px solid #ddd;
+  margin-top:25px;
+  padding:25px;
 }
 
 .school-head{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  border-bottom:2px solid #0A2A78;
+  padding-bottom:15px;
+}
+
+.school-logo{
+  width:90px;
+  height:90px;
+  object-fit:contain;
+}
+
+.school-name{
+  flex:1;
   text-align:center;
-  border-bottom:3px solid #0A2A78;
-  padding-bottom:12px;
-  margin-bottom:15px;
 }
 
-.school-head h2{
-  color:#0A2A78;
+.school-name h2{
+  margin:0;
+  font-size:24px;
+}
+
+.school-name p{
   margin:5px 0;
-}
-
-.school-head p{
-  margin:3px 0;
 }
 
 .student-info{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  margin-bottom:15px;
+  gap:10px;
+  margin:20px 0;
+  background:#f6f7fa;
+  padding:15px;
+  border-radius:8px;
 }
 
-.student-info div{
-  border:1px solid #ddd;
-  padding:8px;
+.info-box{
+  padding:5px;
 }
 
-table{
+.notes-table{
   width:100%;
   border-collapse:collapse;
   margin-top:15px;
 }
 
-th,td{
-  border:1px solid #999;
-  padding:7px;
+.notes-table th,
+.notes-table td{
+  border:1px solid #555;
+  padding:8px;
   text-align:center;
 }
 
-th{
+.notes-table th{
   background:#0A2A78;
   color:white;
 }
 
-td.subject{
+.notes-table td:first-child{
   text-align:left;
-  font-weight:bold;
 }
 
-.summary{
-  margin-top:18px;
+.result-box{
+  margin-top:20px;
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(4,1fr);
   gap:10px;
 }
 
-.summary div{
-  border:1px solid #ccc;
+.result{
+  border:1px solid #bbb;
   padding:12px;
   text-align:center;
   border-radius:8px;
 }
 
-.summary strong{
+.result strong{
   display:block;
-  font-size:18px;
   color:#0A2A78;
-  margin-top:5px;
+  margin-bottom:5px;
 }
 
 .mention{
   font-weight:bold;
-  color:#C9A227;
 }
 
 .signature{
@@ -176,45 +207,73 @@ td.subject{
 }
 
 .signature-box{
-  width:250px;
   text-align:center;
+  width:280px;
+}
+
+.signature-line{
+  border-bottom:1px solid #333;
+  margin-top:55px;
+}
+
+.small{
+  font-size:13px;
+  color:#555;
 }
 
 @media(max-width:700px){
-  .student-info,
-  .summary{
+
+  .student-info{
     grid-template-columns:1fr;
   }
 
-  table{
+  .result-box{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .school-head{
+    flex-direction:column;
+    text-align:center;
+  }
+
+  .notes-table{
     font-size:12px;
   }
 
-  th,td{
+  .notes-table th,
+  .notes-table td{
     padding:5px;
   }
 }
 
 @media print{
-  body{background:white}
+
+  body{
+    background:white;
+  }
+
   header,
+  .panel,
   .no-print{
-    display:none!important;
+    display:none !important;
   }
 
   .container{
-    max-width:none;
     margin:0;
     padding:0;
+    max-width:none;
   }
 
-  .card{
+  .bulletin{
+    border:0;
     box-shadow:none;
-    padding:0;
+    margin:0;
+    padding:15px;
   }
 
-  #bulletin{
-    display:block!important;
+  @page{
+    size:A4;
+    margin:12mm;
   }
 }
 </style>
@@ -222,18 +281,18 @@ td.subject{
 
 <body>
 
-<header class="no-print">
+<header>
   <h1>Groupe Scolaire Étoile Brillante</h1>
-  <p>Gestion des bulletins scolaires</p>
+  <p>Excellence • Discipline • Innovation</p>
 </header>
 
 <div class="container">
 
-  <div class="card no-print">
+  <div class="panel no-print">
 
-    <h2>📘 Générer un bulletin</h2>
+    <h2>📘 Gestion des bulletins</h2>
 
-    <div class="form-grid">
+    <div class="row">
 
       <div>
         <label>Rechercher l'élève</label>
@@ -241,143 +300,202 @@ td.subject{
           type="text"
           id="recherche"
           placeholder="Nom, prénom ou matricule"
-          oninput="chercherEleves()">
+          oninput="chercherEleves()"
+        >
       </div>
 
       <div>
         <label>Élève</label>
         <select id="eleveSelect" onchange="chargerBulletin()">
-          <option value="">Sélectionner un élève</option>
+          <option value="">-- Sélectionner un élève --</option>
         </select>
       </div>
 
     </div>
 
-    <div id="resultatRecherche"></div>
+    <div style="margin-top:15px;display:flex;gap:10px;flex-wrap:wrap;">
 
-    <div class="info">
-      Le bulletin récupère automatiquement les notes enregistrées dans
-      <strong>Gestion des notes</strong>.
+      <button class="btn" onclick="chargerBulletin()">
+        📄 Afficher le bulletin
+      </button>
+
+      <button class="btn-print" onclick="window.print()">
+        🖨️ Imprimer
+      </button>
+
+      <button class="btn-back" onclick="history.back()">
+        ← Retour
+      </button>
+
+    </div>
+
+    <div id="message" class="message">
+      Sélectionnez un élève pour afficher son bulletin.
     </div>
 
   </div>
 
 
-  <div id="bulletin" class="card">
+  <!-- BULLETIN -->
+
+  <div id="bulletin" class="bulletin">
 
     <div class="school-head">
 
-      <h2>GROUPE SCOLAIRE ÉTOILE BRILLANTE</h2>
+      <img
+        src="/eb-frontend/logo-etoile-brillante.png"
+        class="school-logo"
+        alt="Logo Groupe Scolaire Étoile Brillante"
+      >
 
-      <p>
-        Excellence • Discipline • Innovation
-      </p>
+      <div class="school-name">
 
-      <p>
-        03 rue Poumako, marché Massengo, arrondissement 9 Djiri
-        (Brazzaville)
-      </p>
+        <h2>GROUPE SCOLAIRE ÉTOILE BRILLANTE</h2>
 
-      <p>
-        Année scolaire : <strong>2025-2026</strong>
-      </p>
+        <p>
+          Excellence • Discipline • Innovation
+        </p>
 
-      <h2>BULLETIN SCOLAIRE</h2>
+        <p>
+          03 rue Poumako, marché Massengo,
+          arrondissement 9 Djiri – Brazzaville
+        </p>
+
+        <p>
+          Tél. : 067598453
+        </p>
+
+        <h3>
+          BULLETIN SCOLAIRE ANNUEL
+        </h3>
+
+      </div>
 
     </div>
 
 
     <div class="student-info">
 
-      <div>
+      <div class="info-box">
         <strong>Nom :</strong>
-        <span id="bNom"></span>
+        <span id="bNom">-</span>
       </div>
 
-      <div>
+      <div class="info-box">
         <strong>Prénom :</strong>
-        <span id="bPrenom"></span>
+        <span id="bPrenom">-</span>
       </div>
 
-      <div>
+      <div class="info-box">
         <strong>Matricule :</strong>
-        <span id="bMatricule"></span>
+        <span id="bMatricule">-</span>
       </div>
 
-      <div>
+      <div class="info-box">
         <strong>Classe :</strong>
-        <span id="bClasse"></span>
+        <span id="bClasse">-</span>
       </div>
 
-      <div>
-        <strong>1er trimestre :</strong>
-        <span id="bT1"></span>
+      <div class="info-box">
+        <strong>Année scolaire :</strong>
+        <span>2025-2026</span>
       </div>
 
-      <div>
-        <strong>2e trimestre :</strong>
-        <span id="bT2"></span>
-      </div>
-
-      <div>
-        <strong>3e trimestre :</strong>
-        <span id="bT3"></span>
-      </div>
-
-      <div>
-        <strong>Moyenne annuelle :</strong>
-        <span id="bAnnuel"></span>
-      </div>
-
-      <div>
+      <div class="info-box">
         <strong>Rang annuel :</strong>
-        <span id="bRang"></span>
+        <span id="bRang">-</span>
       </div>
 
     </div>
 
 
-    <table>
+    <h3>
+      Résultats scolaires
+    </h3>
+
+
+    <table class="notes-table">
 
       <thead>
+
         <tr>
           <th>Matière</th>
+          <th>1er trimestre</th>
+          <th>2e trimestre</th>
+          <th>3e trimestre</th>
+          <th>Moyenne annuelle</th>
           <th>Coef.</th>
-          <th>T1</th>
-          <th>T2</th>
-          <th>T3</th>
-          <th>Moy. annuelle</th>
         </tr>
+
       </thead>
 
-      <tbody id="tableMatieres"></tbody>
+      <tbody id="tableauMatieres">
+
+        <tr>
+          <td colspan="6">
+            Sélectionnez un élève.
+          </td>
+        </tr>
+
+      </tbody>
 
     </table>
 
 
-    <div class="summary">
+    <div class="result-box">
 
-      <div>
-        Moyenne annuelle
-        <strong id="resumeMoyenne">-</strong>
+      <div class="result">
+        <strong>Moyenne T1</strong>
+        <span id="bT1">-</span>
       </div>
 
-      <div>
-        Rang annuel
-        <strong id="resumeRang">-</strong>
+      <div class="result">
+        <strong>Moyenne T2</strong>
+        <span id="bT2">-</span>
       </div>
 
-      <div>
-        Décision
-        <strong id="resumeDecision">-</strong>
+      <div class="result">
+        <strong>Moyenne T3</strong>
+        <span id="bT3">-</span>
       </div>
 
-      <div>
-        Mention
-        <strong id="resumeMention" class="mention">-</strong>
+      <div class="result">
+        <strong>Moyenne annuelle</strong>
+        <span id="bAnnuel">-</span>
       </div>
 
     </div>
+
+
+    <div class="result-box">
+
+      <div class="result">
+        <strong>Rang annuel</strong>
+        <span id="resumeRang">-</span>
+      </div>
+
+      <div class="result">
+        <strong>Décision</strong>
+        <span id="bDecision">-</span>
+      </div>
+
+      <div class="result">
+        <strong>Mention</strong>
+        <span id="bMention" class="mention">-</span>
+      </div>
+
+      <div class="result">
+        <strong>Statut</strong>
+        <span id="bStatut">-</span>
+      </div>
+
+    </div>
+
+
+    <p class="small" style="margin-top:20px;">
+      La décision d'admission est prononcée à partir de la moyenne
+      générale annuelle de 10/20.
+    </p>
 
 
     <div class="signature">
@@ -386,24 +504,17 @@ td.subject{
 
         <strong>Le Directeur des études</strong>
 
-        <br><br><br>
+        <p>
+          NGATSONGO Clarmy Nice
+        </p>
 
-        NGATSONGO Clarmy Nice Natanaël
+        <div class="signature-line"></div>
+
+        <p>Signature</p>
 
       </div>
 
     </div>
-
-  </div>
-
-
-  <div class="card no-print">
-
-    <button
-      class="btn-print"
-      onclick="window.print()">
-      🖨️ Imprimer le bulletin
-    </button>
 
   </div>
 
@@ -412,302 +523,277 @@ td.subject{
 
 <script>
 
-/* ===============================
-   DONNÉES DES MATIÈRES
-================================ */
+/* =========================================================
+   CONFIGURATION DES MATIÈRES ET COEFFICIENTS
+   ========================================================= */
 
 const MATIERES = {
 
-"6e":[
- ["Français",1],
- ["Mathématiques",1],
- ["Histoire",1],
- ["Géographie",1],
- ["Anglais",1],
- ["SVT",1],
- ["Sciences physiques",1],
- ["EPS",1]
-],
+  "6e":[
+    ["Français",1],
+    ["Mathématiques",1],
+    ["Anglais",1],
+    ["Histoire-Géographie",1],
+    ["SVT",1],
+    ["Sciences Physiques",1],
+    ["EPS",1]
+  ],
 
-"5e":[
- ["Français",1],
- ["Mathématiques",1],
- ["Histoire",1],
- ["Géographie",1],
- ["Anglais",1],
- ["SVT",1],
- ["Sciences physiques",1],
- ["EPS",1]
-],
+  "5e":[
+    ["Français",1],
+    ["Mathématiques",1],
+    ["Anglais",1],
+    ["Histoire-Géographie",1],
+    ["SVT",1],
+    ["Sciences Physiques",1],
+    ["EPS",1]
+  ],
 
-"4e":[
- ["Français",1],
- ["Mathématiques",1],
- ["Histoire",1],
- ["Géographie",1],
- ["Anglais",1],
- ["SVT",1],
- ["Sciences physiques",1],
- ["EPS",1]
-],
+  "4e":[
+    ["Français",1],
+    ["Mathématiques",1],
+    ["Anglais",1],
+    ["Histoire-Géographie",1],
+    ["SVT",1],
+    ["Sciences Physiques",1],
+    ["EPS",1]
+  ],
 
-"3e":[
- ["Français",2],
- ["Mathématiques",4],
- ["Histoire",2],
- ["Géographie",2],
- ["Anglais",2],
- ["SVT",2],
- ["Sciences physiques",2],
- ["EPS",2]
-],
+  "3e":[
+    ["Français",2],
+    ["Mathématiques",4],
+    ["Anglais",2],
+    ["Histoire-Géographie",2],
+    ["SVT",2],
+    ["Sciences Physiques",2],
+    ["EPS",2]
+  ],
 
-"Seconde":[
- ["Français",1],
- ["Mathématiques",1],
- ["Histoire",1],
- ["Géographie",1],
- ["Anglais",1],
- ["SVT",1],
- ["Sciences physiques",1],
- ["EPS",1]
-],
+  "Seconde":[
+    ["Français",1],
+    ["Mathématiques",1],
+    ["Anglais",1],
+    ["Histoire-Géographie",1],
+    ["SVT",1],
+    ["Sciences Physiques",1],
+    ["EPS",1]
+  ],
 
-"Première A":[
- ["Philosophie",5],
- ["Français",5],
- ["Histoire",4],
- ["Anglais",4],
- ["Mathématiques",3],
- ["Espagnol",3],
- ["EPS",2]
-],
+  "Première A":[
+    ["Français",1],
+    ["Philosophie",1],
+    ["Mathématiques",1],
+    ["Anglais",1],
+    ["Espagnol",1],
+    ["Histoire-Géographie",1],
+    ["EPS",1]
+  ],
 
-"Terminale A":[
- ["Philosophie",5],
- ["Français",5],
- ["Histoire",4],
- ["Anglais",4],
- ["Mathématiques",3],
- ["Espagnol",3],
- ["EPS",2]
-],
+  "Première D":[
+    ["Français",1],
+    ["Mathématiques",1],
+    ["Anglais",1],
+    ["SVT",1],
+    ["Sciences Physiques",1],
+    ["Histoire-Géographie",1],
+    ["EPS",1]
+  ],
 
-"Terminale D":[
- ["Mathématiques",4],
- ["SVT",5],
- ["Sciences physiques",5],
- ["Histoire",3],
- ["Français",3],
- ["Anglais",3],
- ["Histoire-Géographie",3],
- ["EPS",2]
-],
+  "Terminale A":[
+    ["Philosophie",5],
+    ["Français",5],
+    ["Histoire",4],
+    ["Anglais",4],
+    ["Mathématiques",3],
+    ["Espagnol",3],
+    ["EPS",2]
+  ],
 
-"STC":[
- ["Français",1],
- ["Mathématiques",1],
- ["Anglais",1],
- ["Histoire",1],
- ["Géographie",1],
- ["Sciences",1],
- ["EPS",1]
-],
+  "Terminale D":[
+    ["Mathématiques",4],
+    ["SVT",5],
+    ["Sciences Physiques",5],
+    ["Histoire",3],
+    ["Français",3],
+    ["Anglais",3],
+    ["Histoire-Géographie",3],
+    ["EPS",2]
+  ],
 
-"CP1":[
- ["Français",1],
- ["Mathématiques",1],
- ["Éveil",1],
- ["Écriture",1],
- ["Lecture",1]
-],
+  "STC":[
+    ["Français",1],
+    ["Mathématiques",1],
+    ["Anglais",1],
+    ["Sciences",1],
+    ["Histoire-Géographie",1],
+    ["EPS",1]
+  ],
 
-"CP2":[
- ["Français",1],
- ["Mathématiques",1],
- ["Éveil",1],
- ["Écriture",1],
- ["Lecture",1]
-],
+  "CP1":[
+    ["Français",1],
+    ["Mathématiques",1],
+    ["Éveil",1],
+    ["Écriture",1],
+    ["Lecture",1]
+  ],
 
-"CE1":[
- ["Français",1],
- ["Mathématiques",1],
- ["Sciences",1],
- ["Histoire",1],
- ["Géographie",1],
- ["Éducation civique",1]
-],
+  "CP2":[
+    ["Français",1],
+    ["Mathématiques",1],
+    ["Éveil",1],
+    ["Écriture",1],
+    ["Lecture",1]
+  ],
 
-"CE2":[
- ["Français",1],
- ["Mathématiques",1],
- ["Sciences",1],
- ["Histoire",1],
- ["Géographie",1],
- ["Éducation civique",1]
-],
+  "CE1":[
+    ["Français",1],
+    ["Mathématiques",1],
+    ["Sciences",1],
+    ["Histoire-Géographie",1],
+    ["Anglais",1]
+  ],
 
-"CM1":[
- ["Français",1],
- ["Mathématiques",1],
- ["Sciences",1],
- ["Histoire",1],
- ["Géographie",1],
- ["Éducation civique",1]
-],
+  "CE2":[
+    ["Français",1],
+    ["Mathématiques",1],
+    ["Sciences",1],
+    ["Histoire-Géographie",1],
+    ["Anglais",1]
+  ],
 
-"CM2":[
- ["Français",1],
- ["Mathématiques",1],
- ["Sciences",1],
- ["Histoire",1],
- ["Géographie",1],
- ["Éducation civique",1]
-]
+  "CM1":[
+    ["Français",1],
+    ["Mathématiques",1],
+    ["Sciences",1],
+    ["Histoire-Géographie",1],
+    ["Anglais",1]
+  ],
+
+  "CM2":[
+    ["Français",1],
+    ["Mathématiques",1],
+    ["Sciences",1],
+    ["Histoire-Géographie",1],
+    ["Anglais",1]
+  ]
 
 };
 
 
-/* ===============================
-   RÉCUPÉRER LES ÉLÈVES
-================================ */
+/* =========================================================
+   RÉCUPÉRATION DES ÉLÈVES
+   ========================================================= */
 
 function getEleves(){
 
-  return JSON.parse(
-    localStorage.getItem("EB_ELEVES") || "[]"
-  );
+  try{
+
+    const data =
+      JSON.parse(localStorage.getItem("EB_ELEVES") || "[]");
+
+    return Array.isArray(data) ? data : [];
+
+  }catch(e){
+
+    return [];
+
+  }
 
 }
 
 
-/* ===============================
-   RECHERCHE
-================================ */
-
-function chercherEleves(){
-
-  const texte =
-    document
-    .getElementById("recherche")
-    .value
-    .toLowerCase()
-    .trim();
-
-  const select =
-    document.getElementById("eleveSelect");
-
-  select.innerHTML =
-    '<option value="">Sélectionner un élève</option>';
-
-  if(!texte) return;
-
-  const eleves = getEleves();
-
-  eleves
-  .filter(e => {
-
-    const nom =
-      (e.nom || "").toLowerCase();
-
-    const prenom =
-      (e.prenom || "").toLowerCase();
-
-    const matricule =
-      (e.matricule || "").toLowerCase();
-
-    return (
-      nom.includes(texte) ||
-      prenom.includes(texte) ||
-      matricule.includes(texte)
-    );
-
-  })
-  .forEach(e => {
-
-    const option =
-      document.createElement("option");
-
-    option.value =
-      e.matricule;
-
-    option.textContent =
-      `${e.nom || ""} ${e.prenom || ""} — ${e.classe || ""} — ${e.matricule || ""}`;
-
-    select.appendChild(option);
-
-  });
-
-}
-
-
-/* ===============================
-   LECTURE DES NOTES
-================================ */
+/* =========================================================
+   RÉCUPÉRATION DES NOTES
+   ========================================================= */
 
 function getNotes(classe, matricule, trimestre){
 
   const cle =
-    `EB_NOTES_${trimestre}T_${classe}_${matricule}`;
+    "EB_NOTES_" +
+    trimestre +
+    "T_" +
+    classe +
+    "_" +
+    matricule;
 
-  return JSON.parse(
-    localStorage.getItem(cle) || "null"
-  );
+  try{
 
-}
+    return JSON.parse(
+      localStorage.getItem(cle) || "{}"
+    );
 
+  }catch(e){
 
-/* ===============================
-   MOYENNE D'UNE MATIÈRE
-================================ */
+    return {};
 
-function moyenneMatiere(note){
-
-  if(!note) return null;
-
-  if(
-    note.moyenneGenerale !== undefined &&
-    note.moyenneGenerale !== ""
-  ){
-    return Number(note.moyenneGenerale);
   }
 
-  const dc =
-    Number(note.devoirClasse || 0);
+}
 
-  const dd =
-    Number(note.devoirDepartemental || 0);
 
-  const mc =
-    (dc + dd) / 2;
+/* =========================================================
+   EXTRACTION D'UNE MOYENNE
+   ========================================================= */
 
-  const comp =
-    Number(note.moyenneComposition || 0);
+function obtenirMoyenne(notes, matiere){
 
-  return (mc + comp) / 2;
+  if(!notes){
+    return null;
+  }
+
+  const valeur = notes[matiere];
+
+  if(valeur === undefined || valeur === null){
+    return null;
+  }
+
+  if(typeof valeur === "number"){
+    return valeur;
+  }
+
+  if(typeof valeur === "object"){
+
+    if(
+      valeur.moyenneGenerale !== undefined &&
+      valeur.moyenneGenerale !== ""
+    ){
+      return Number(valeur.moyenneGenerale);
+    }
+
+    if(
+      valeur.moyenne !== undefined &&
+      valeur.moyenne !== ""
+    ){
+      return Number(valeur.moyenne);
+    }
+
+  }
+
+  return null;
 
 }
 
 
-/* ===============================
-   MOYENNE TRIMESTRIELLE
-================================ */
+/* =========================================================
+   MOYENNE D'UN TRIMESTRE
+   ========================================================= */
 
 function moyenneTrimestre(notes, matieres){
 
-  if(!notes) return null;
+  if(!notes || !matieres || !matieres.length){
+    return null;
+  }
 
   let total = 0;
-  let coefficients = 0;
+  let totalCoef = 0;
 
-  matieres.forEach(([matiere,coef]) => {
+  matieres.forEach(item => {
 
-    const note =
-      notes.matieres?.[matiere];
+    const nom = item[0];
+    const coef = Number(item[1]) || 1;
 
     const moyenne =
-      moyenneMatiere(note);
+      obtenirMoyenne(notes, nom);
 
     if(
       moyenne !== null &&
@@ -715,243 +801,109 @@ function moyenneTrimestre(notes, matieres){
     ){
 
       total += moyenne * coef;
-      coefficients += coef;
+      totalCoef += coef;
 
     }
 
   });
 
-  if(!coefficients) return null;
+  if(totalCoef === 0){
+    return null;
+  }
 
-  return total / coefficients;
+  return total / totalCoef;
 
 }
 
 
-/* ===============================
+/* =========================================================
+   FORMATAGE DES NOMBRES
+   ========================================================= */
+
+function afficherNombre(nombre){
+
+  if(
+    nombre === null ||
+    nombre === undefined ||
+    isNaN(nombre)
+  ){
+    return "-";
+  }
+
+  return Number(nombre).toFixed(2) + "/20";
+
+}
+
+
+/* =========================================================
    MENTION
-================================ */
+   ========================================================= */
 
-function mention(moyenne){
+function obtenirMention(moyenne){
 
-  if(moyenne === null) return "-";
+  if(moyenne === null){
+    return "-";
+  }
 
-  if(moyenne <= 3) return "Nul";
-  if(moyenne <= 5) return "Très faible";
-  if(moyenne <= 7) return "Faible";
-  if(moyenne <= 9) return "Insuffisant";
-  if(moyenne <= 11) return "Passable";
-  if(moyenne <= 13) return "Assez bien";
-  if(moyenne <= 15) return "Bien";
-  if(moyenne <= 17) return "Très bien";
+  if(moyenne <= 3){
+    return "Nul";
+  }
+
+  if(moyenne <= 5){
+    return "Très faible";
+  }
+
+  if(moyenne <= 7){
+    return "Faible";
+  }
+
+  if(moyenne <= 9){
+    return "Insuffisant";
+  }
+
+  if(moyenne <= 11){
+    return "Passable";
+  }
+
+  if(moyenne <= 13){
+    return "Assez bien";
+  }
+
+  if(moyenne <= 15){
+    return "Bien";
+  }
+
+  if(moyenne <= 17){
+    return "Très bien";
+  }
 
   return "Excellent";
 
 }
 
 
-/* ===============================
-   CHARGER BULLETIN
-================================ */
+/* =========================================================
+   DÉCISION
+   ========================================================= */
 
-function chargerBulletin(){
+function obtenirDecision(moyenne){
 
-  const matricule =
-    document.getElementById("eleveSelect").value;
-
-  if(!matricule) return;
-
-  const eleves = getEleves();
-
-  const eleve =
-    eleves.find(
-      e => String(e.matricule) === String(matricule)
-    );
-
-  if(!eleve) return;
-
-  const classe =
-    eleve.classe || "";
-
-  const matieres =
-    MATIERES[classe] || [];
-
-
-  /* Informations élève */
-
-  document.getElementById("bNom").textContent =
-    eleve.nom || "";
-
-  document.getElementById("bPrenom").textContent =
-    eleve.prenom || "";
-
-  document.getElementById("bMatricule").textContent =
-    eleve.matricule || "";
-
-  document.getElementById("bClasse").textContent =
-    classe;
-
-
-  /* Notes trimestrielles */
-
-  const notesT1 =
-    getNotes(classe,matricule,1);
-
-  const notesT2 =
-    getNotes(classe,matricule,2);
-
-  const notesT3 =
-    getNotes(classe,matricule,3);
-
-
-  const moyT1 =
-    moyenneTrimestre(notesT1,matieres);
-
-  const moyT2 =
-    moyenneTrimestre(notesT2,matieres);
-
-  const moyT3 =
-    moyenneTrimestre(notesT3,matieres);
-
-
-  document.getElementById("bT1").textContent =
-    moyT1 === null ? "-" : moyT1.toFixed(2)+"/20";
-
-  document.getElementById("bT2").textContent =
-    moyT2 === null ? "-" : moyT2.toFixed(2)+"/20";
-
-  document.getElementById("bT3").textContent =
-    moyT3 === null ? "-" : moyT3.toFixed(2)+"/20";
-
-
-  /* Moyenne annuelle */
-
-  const valeurs =
-    [moyT1,moyT2,moyT3]
-    .filter(v => v !== null);
-
-  let annuel = null;
-
-  if(valeurs.length === 3){
-
-    annuel =
-      (moyT1 + moyT2 + moyT3) / 3;
-
+  if(moyenne === null){
+    return "-";
   }
 
-
-  document.getElementById("bAnnuel").textContent =
-    annuel === null
-      ? "-"
-      : annuel.toFixed(2)+"/20";
-
-
-  document.getElementById("resumeMoyenne").textContent =
-    annuel === null
-      ? "-"
-      : annuel.toFixed(2)+"/20";
-
-
-  /* Décision */
-
-  const decision =
-    annuel === null
-      ? "-"
-      : annuel >= 10
-        ? "Admis"
-        : "Échoué";
-
-  document.getElementById("resumeDecision").textContent =
-    decision;
-
-
-  document.getElementById("resumeMention").textContent =
-    mention(annuel);
-
-
-  /* Matières */
-
-  const tbody =
-    document.getElementById("tableMatieres");
-
-  tbody.innerHTML = "";
-
-
-  matieres.forEach(([matiere,coef]) => {
-
-    const n1 =
-      moyenneMatiere(
-        notesT1?.matieres?.[matiere]
-      );
-
-    const n2 =
-      moyenneMatiere(
-        notesT2?.matieres?.[matiere]
-      );
-
-    const n3 =
-      moyenneMatiere(
-        notesT3?.matieres?.[matiere]
-      );
-
-
-    const valeurs =
-      [n1,n2,n3]
-      .filter(v => v !== null);
-
-    let ma = null;
-
-    if(valeurs.length === 3){
-
-      ma =
-        (n1+n2+n3)/3;
-
-    }
-
-
-    const tr =
-      document.createElement("tr");
-
-    tr.innerHTML = `
-
-      <td class="subject">${matiere}</td>
-
-      <td>${coef}</td>
-
-      <td>${n1 === null ? "-" : n1.toFixed(2)}</td>
-
-      <td>${n2 === null ? "-" : n2.toFixed(2)}</td>
-
-      <td>${n3 === null ? "-" : n3.toFixed(2)}</td>
-
-      <td>${ma === null ? "-" : ma.toFixed(2)}</td>
-
-    `;
-
-    tbody.appendChild(tr);
-
-  });
-
-
-  /* Rang */
-
-  calculerRang(
-    eleve,
-    annuel
-  );
-
-
-  document.getElementById("bulletin").style.display =
-    "block";
+  return moyenne >= 10
+    ? "Admis"
+    : "Échoué";
 
 }
 
 
-/* ===============================
-   RANG ANNUEL
-================================ */
+/* =========================================================
+   RANG AUTOMATIQUE
+   ========================================================= */
 
-function calculerRang(eleveActuel,moyenneActuelle){
+function calculerRang(eleveActuel, moyenneActuelle){
 
   const span =
     document.getElementById("bRang");
@@ -963,57 +915,78 @@ function calculerRang(eleveActuel,moyenneActuelle){
 
     span.textContent = "-";
     resume.textContent = "-";
+
     return;
 
   }
 
+  const classeActuelle =
+    String(eleveActuel.classe || "").trim();
 
   const eleves =
-    getEleves()
-    .filter(
-      e => e.classe === eleveActuel.classe
+    getEleves().filter(e =>
+      String(e.classe || "").trim() === classeActuelle
     );
 
+  const classement = [];
 
-  const moyennes = [];
+  eleves.forEach(eleve => {
 
+    const classe =
+      String(eleve.classe || "").trim();
 
-  eleves.forEach(e => {
-
-    const t1 =
-      getNotes(e.classe,e.matricule,1);
-
-    const t2 =
-      getNotes(e.classe,e.matricule,2);
-
-    const t3 =
-      getNotes(e.classe,e.matricule,3);
+    const matricule =
+      String(eleve.matricule || "").trim();
 
     const matieres =
-      MATIERES[e.classe] || [];
+      MATIERES[classe] || [];
 
-    const m1 =
-      moyenneTrimestre(t1,matieres);
+    const notesT1 =
+      getNotes(classe, matricule, 1);
 
-    const m2 =
-      moyenneTrimestre(t2,matieres);
+    const notesT2 =
+      getNotes(classe, matricule, 2);
 
-    const m3 =
-      moyenneTrimestre(t3,matieres);
+    const notesT3 =
+      getNotes(classe, matricule, 3);
 
+    const moyenneT1 =
+      moyenneTrimestre(notesT1, matieres);
+
+    const moyenneT2 =
+      moyenneTrimestre(notesT2, matieres);
+
+    const moyenneT3 =
+      moyenneTrimestre(notesT3, matieres);
+
+    /*
+      Un élève entre dans le classement annuel
+      seulement s'il possède les trois moyennes.
+    */
 
     if(
-      m1 !== null &&
-      m2 !== null &&
-      m3 !== null
+      moyenneT1 !== null &&
+      moyenneT2 !== null &&
+      moyenneT3 !== null
     ){
 
-      const annuel =
-        (m1+m2+m3)/3;
+      const moyenneAnnuelle =
+        (
+          moyenneT1 +
+          moyenneT2 +
+          moyenneT3
+        ) / 3;
 
-      moyennes.push({
-        matricule:e.matricule,
-        moyenne:annuel
+      classement.push({
+
+        matricule:matricule,
+
+        nom:eleve.nom || "",
+
+        prenom:eleve.prenom || "",
+
+        moyenne:moyenneAnnuelle
+
       });
 
     }
@@ -1021,53 +994,486 @@ function calculerRang(eleveActuel,moyenneActuelle){
   });
 
 
-  moyennes.sort(
-    (a,b) => b.moyenne-a.moyenne
-  );
+  /*
+    Classement du plus grand au plus petit.
+  */
+
+  classement.sort((a,b) => {
+
+    if(b.moyenne !== a.moyenne){
+
+      return b.moyenne - a.moyenne;
+
+    }
+
+    /*
+      En cas d'égalité parfaite,
+      classement alphabétique.
+    */
+
+    const nomA =
+      (
+        a.nom +
+        " " +
+        a.prenom
+      ).toLowerCase();
+
+    const nomB =
+      (
+        b.nom +
+        " " +
+        b.prenom
+      ).toLowerCase();
+
+    return nomA.localeCompare(nomB);
+
+  });
 
 
-  const position =
-    moyennes.findIndex(
-      e =>
-        String(e.matricule) ===
-        String(eleveActuel.matricule)
+  /*
+    Gestion des ex æquo :
+    
+    15,50 → 1er
+    15,50 → 1er
+    14,20 → 3e
+  */
+
+  let rang = 0;
+
+  let derniereMoyenne = null;
+
+  let compteur = 0;
+
+
+  classement.forEach((eleve,index) => {
+
+    compteur++;
+
+    if(
+      derniereMoyenne === null ||
+      Math.abs(
+        eleve.moyenne -
+        derniereMoyenne
+      ) > 0.0001
+    ){
+
+      rang = compteur;
+
+    }
+
+    eleve.rang = rang;
+
+    derniereMoyenne =
+      eleve.moyenne;
+
+  });
+
+
+  const eleveClasse =
+    classement.find(e =>
+      String(e.matricule) ===
+      String(eleveActuel.matricule)
     );
 
 
-  if(position >= 0){
+  if(!eleveClasse){
 
-    const rang =
-      position+1;
+    span.textContent = "-";
 
-    span.textContent =
-      rang+"e";
+    resume.textContent = "-";
 
-    resume.textContent =
-      rang+"e / "+moyennes.length;
-
-  }else{
-
-    span.textContent="-";
-    resume.textContent="-";
+    return;
 
   }
+
+
+  const rangTexte =
+    formaterRang(eleveClasse.rang);
+
+
+  span.textContent =
+    rangTexte;
+
+
+  resume.textContent =
+    rangTexte +
+    " / " +
+    classement.length;
 
 }
 
 
-/* ===============================
-   INITIALISATION
-================================ */
+/* =========================================================
+   FORMAT DU RANG
+   ========================================================= */
 
-document.addEventListener(
-  "DOMContentLoaded",
-  () => {
+function formaterRang(rang){
 
-    document.getElementById("bulletin").style.display =
-      "none";
+  if(rang === 1){
+
+    return "1er";
 
   }
-);
+
+  return rang + "e";
+
+}
+
+
+/* =========================================================
+   RECHERCHE DES ÉLÈVES
+   ========================================================= */
+
+function chercherEleves(){
+
+  const recherche =
+    document
+      .getElementById("recherche")
+      .value
+      .toLowerCase()
+      .trim();
+
+  const select =
+    document.getElementById("eleveSelect");
+
+  select.innerHTML =
+    '<option value="">-- Sélectionner un élève --</option>';
+
+
+  const eleves =
+    getEleves().filter(e => {
+
+      const texte = (
+
+        (e.nom || "") +
+        " " +
+        (e.prenom || "") +
+        " " +
+        (e.matricule || "") +
+        " " +
+        (e.classe || "")
+
+      ).toLowerCase();
+
+      return texte.includes(recherche);
+
+    });
+
+
+  eleves.forEach(eleve => {
+
+    const option =
+      document.createElement("option");
+
+    option.value =
+      eleve.matricule;
+
+    option.textContent =
+      (
+        eleve.nom || ""
+      ) +
+      " " +
+      (
+        eleve.prenom || ""
+      ) +
+      " — " +
+      (
+        eleve.classe || ""
+      ) +
+      " — " +
+      (
+        eleve.matricule || ""
+      );
+
+    select.appendChild(option);
+
+  });
+
+}
+
+
+/* =========================================================
+   CHARGEMENT DU BULLETIN
+   ========================================================= */
+
+function chargerBulletin(){
+
+  const matricule =
+    document
+      .getElementById("eleveSelect")
+      .value;
+
+
+  if(!matricule){
+
+    document.getElementById("message").textContent =
+      "Veuillez sélectionner un élève.";
+
+    return;
+
+  }
+
+
+  const eleve =
+    getEleves().find(e =>
+      String(e.matricule) ===
+      String(matricule)
+    );
+
+
+  if(!eleve){
+
+    document.getElementById("message").textContent =
+      "Élève introuvable.";
+
+    return;
+
+  }
+
+
+  const classe =
+    String(eleve.classe || "").trim();
+
+
+  const matieres =
+    MATIERES[classe] || [];
+
+
+  /*
+    Informations élève
+  */
+
+  document.getElementById("bNom").textContent =
+    eleve.nom || "-";
+
+  document.getElementById("bPrenom").textContent =
+    eleve.prenom || "-";
+
+  document.getElementById("bMatricule").textContent =
+    eleve.matricule || "-";
+
+  document.getElementById("bClasse").textContent =
+    classe || "-";
+
+
+  /*
+    Notes des trois trimestres
+  */
+
+  const notesT1 =
+    getNotes(classe, matricule, 1);
+
+  const notesT2 =
+    getNotes(classe, matricule, 2);
+
+  const notesT3 =
+    getNotes(classe, matricule, 3);
+
+
+  /*
+    Moyennes trimestrielles
+  */
+
+  const moyenneT1 =
+    moyenneTrimestre(
+      notesT1,
+      matieres
+    );
+
+  const moyenneT2 =
+    moyenneTrimestre(
+      notesT2,
+      matieres
+    );
+
+  const moyenneT3 =
+    moyenneTrimestre(
+      notesT3,
+      matieres
+    );
+
+
+  /*
+    Moyenne annuelle
+  */
+
+  let moyenneAnnuelle = null;
+
+
+  if(
+    moyenneT1 !== null &&
+    moyenneT2 !== null &&
+    moyenneT3 !== null
+  ){
+
+    moyenneAnnuelle =
+      (
+        moyenneT1 +
+        moyenneT2 +
+        moyenneT3
+      ) / 3;
+
+  }
+
+
+  /*
+    Affichage moyennes
+  */
+
+  document.getElementById("bT1").textContent =
+    afficherNombre(moyenneT1);
+
+  document.getElementById("bT2").textContent =
+    afficherNombre(moyenneT2);
+
+  document.getElementById("bT3").textContent =
+    afficherNombre(moyenneT3);
+
+  document.getElementById("bAnnuel").textContent =
+    afficherNombre(moyenneAnnuelle);
+
+
+  /*
+    Tableau des matières
+  */
+
+  const tbody =
+    document.getElementById("tableauMatieres");
+
+  tbody.innerHTML = "";
+
+
+  if(!matieres.length){
+
+    tbody.innerHTML =
+      '<tr><td colspan="6">Les matières de cette classe ne sont pas encore configurées.</td></tr>';
+
+  }else{
+
+    matieres.forEach(item => {
+
+      const matiere =
+        item[0];
+
+      const coef =
+        Number(item[1]) || 1;
+
+
+      const m1 =
+        obtenirMoyenne(
+          notesT1,
+          matiere
+        );
+
+      const m2 =
+        obtenirMoyenne(
+          notesT2,
+          matiere
+        );
+
+      const m3 =
+        obtenirMoyenne(
+          notesT3,
+          matiere
+        );
+
+
+      let moyenneMatiere = null;
+
+
+      const valeurs = [
+        m1,
+        m2,
+        m3
+      ].filter(v =>
+        v !== null &&
+        !isNaN(v)
+      );
+
+
+      if(valeurs.length === 3){
+
+        moyenneMatiere =
+          (
+            valeurs[0] +
+            valeurs[1] +
+            valeurs[2]
+          ) / 3;
+
+      }
+
+
+      const tr =
+        document.createElement("tr");
+
+
+      tr.innerHTML = `
+
+        <td>${matiere}</td>
+
+        <td>${afficherNombre(m1)}</td>
+
+        <td>${afficherNombre(m2)}</td>
+
+        <td>${afficherNombre(m3)}</td>
+
+        <td>${afficherNombre(moyenneMatiere)}</td>
+
+        <td>${coef}</td>
+
+      `;
+
+
+      tbody.appendChild(tr);
+
+    });
+
+  }
+
+
+  /*
+    Décision et mention
+  */
+
+  document.getElementById("bDecision").textContent =
+    obtenirDecision(moyenneAnnuelle);
+
+
+  document.getElementById("bMention").textContent =
+    obtenirMention(moyenneAnnuelle);
+
+
+  document.getElementById("bStatut").textContent =
+    moyenneAnnuelle === null
+      ? "Données incomplètes"
+      : (
+          moyenneAnnuelle >= 10
+            ? "Admis"
+            : "Échoué"
+        );
+
+
+  /*
+    Calcul du rang automatique
+  */
+
+  calculerRang(
+    eleve,
+    moyenneAnnuelle
+  );
+
+
+  document.getElementById("message").textContent =
+    "Bulletin chargé. Le rang annuel est calculé automatiquement parmi les élèves de la même classe disposant des trois moyennes trimestrielles.";
+
+}
+
+
+/* =========================================================
+   CHARGEMENT INITIAL
+   ========================================================= */
+
+chercherEleves();
 
 </script>
 
