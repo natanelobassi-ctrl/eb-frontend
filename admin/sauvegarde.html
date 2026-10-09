@@ -1,114 +1,165 @@
-
 <!DOCTYPE html>
 <html lang="fr">
- <script>
-if(sessionStorage.getItem("EB_ADMIN")!=="OK"){
-  location.replace("login.html");
-}
-</script>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sauvegarde - Groupe Scolaire Étoile Brillante</title>
+<title>Sauvegarde — Groupe Scolaire Étoile Brillante</title>
+
+<script>
+if (sessionStorage.getItem("EB_ADMIN") !== "OK") {
+  location.replace("login.html");
+}
+</script>
 
 <style>
 :root{
- --bleu:#0A2A78;
- --bleu2:#123A9B;
- --or:#C9A227;
- --ivoire:#F7F4ED;
- --vert:#198754;
- --rouge:#C62828;
+  --bleu:#0A2A78;
+  --bleu2:#123A9B;
+  --or:#C9A227;
+  --ivoire:#F7F4ED;
+  --texte:#1F2937;
+  --blanc:#fff;
 }
 
-*{margin:0;padding:0;box-sizing:border-box;}
+*{box-sizing:border-box}
 
 body{
- font-family:Arial,Helvetica,sans-serif;
- background:var(--ivoire);
- color:#1F2937;
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:var(--ivoire);
+  color:var(--texte);
 }
 
 header{
- background:linear-gradient(135deg,var(--bleu),var(--bleu2));
- color:white;
- padding:20px;
+  background:linear-gradient(135deg,var(--bleu),var(--bleu2));
+  color:white;
+  padding:20px;
+  text-align:center;
+}
+
+header h1{
+  margin:0 0 6px;
+  font-size:22px;
+}
+
+header p{
+  margin:0;
+  opacity:.9;
 }
 
 .container{
- width:94%;
- max-width:1100px;
- margin:auto;
-}
-
-nav{
- display:flex;
- flex-wrap:wrap;
- gap:8px;
- margin-top:15px;
-}
-
-nav a{
- color:white;
- text-decoration:none;
- padding:8px 12px;
- border-radius:8px;
- font-weight:bold;
-}
-
-nav a:hover{
- background:rgba(255,255,255,.15);
+  max-width:900px;
+  margin:25px auto;
+  padding:0 15px;
 }
 
 .card{
- background:white;
- border-radius:15px;
- padding:22px;
- margin:22px 0;
- box-shadow:0 5px 18px rgba(0,0,0,.08);
+  background:white;
+  border-radius:16px;
+  padding:22px;
+  margin-bottom:20px;
+  box-shadow:0 4px 15px rgba(0,0,0,.08);
 }
 
-.notice{
- background:#fff8dc;
- border-left:5px solid var(--or);
- padding:15px;
- border-radius:8px;
- margin-bottom:18px;
+.card h2{
+  color:var(--bleu);
+  margin-top:0;
+}
+
+.info{
+  background:#eef4ff;
+  border-left:5px solid var(--bleu);
+  padding:15px;
+  border-radius:8px;
+  line-height:1.5;
 }
 
 .buttons{
- display:flex;
- flex-wrap:wrap;
- gap:12px;
- margin-top:18px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:15px;
+  margin-top:20px;
 }
 
 button{
- border:none;
- border-radius:8px;
- padding:12px 18px;
- cursor:pointer;
- font-weight:bold;
- color:white;
+  border:0;
+  border-radius:10px;
+  padding:15px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
 }
 
-.btn-export{background:var(--bleu);}
-.btn-import{background:var(--vert);}
-.btn-reset{background:var(--rouge);}
-
-.status{
- margin-top:18px;
- padding:15px;
- background:#eef6ff;
- border-radius:8px;
+.btn-save{
+  background:var(--bleu);
+  color:white;
 }
 
-footer{
- background:var(--bleu);
- color:white;
- text-align:center;
- padding:20px;
- margin-top:30px;
+.btn-restore{
+  background:var(--or);
+  color:white;
+}
+
+.btn-danger{
+  background:#C62828;
+  color:white;
+}
+
+input[type=file]{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  background:#fafafa;
+}
+
+#message{
+  display:none;
+  margin-top:20px;
+  padding:15px;
+  border-radius:10px;
+  font-weight:bold;
+}
+
+.success{
+  background:#e8f5e9;
+  color:#176b2c;
+}
+
+.error{
+  background:#ffebee;
+  color:#b71c1c;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:12px;
+  margin-top:15px;
+}
+
+.stat{
+  background:#f5f7fb;
+  border-radius:10px;
+  padding:15px;
+  text-align:center;
+}
+
+.stat strong{
+  display:block;
+  font-size:24px;
+  color:var(--bleu);
+}
+
+.back{
+  display:inline-block;
+  margin-top:10px;
+  color:white;
+  text-decoration:none;
+  background:rgba(255,255,255,.15);
+  padding:8px 12px;
+  border-radius:8px;
 }
 </style>
 </head>
@@ -116,199 +167,362 @@ footer{
 <body>
 
 <header>
-
-<div class="container">
-
-<h1>Groupe Scolaire Étoile Brillante</h1>
-<p>Administration — Sauvegarde des données</p>
-
-<nav>
-<a href="index.html">Dashboard</a>
-<a href="eleves.html">Élèves</a>
-<a href="notes.html">Notes</a>
-<a href="bulletins.html">Bulletins</a>
-<a href="paiements.html">Paiements</a>
-<a href="cartes.html">Cartes</a>
-<a href="actualites.html">Actualités</a>
-<a href="parametres.html">Paramètres</a>
-</nav>
-
-</div>
-
+  <h1>GROUPE SCOLAIRE ÉTOILE BRILLANTE</h1>
+  <p>Système de sauvegarde des données administratives</p>
+  <a class="back" href="index.html">← Retour à l'administration</a>
 </header>
 
 <div class="container">
 
-<div class="card">
+  <div class="card">
+    <h2>💾 Sauvegarde des données</h2>
 
-<h2>Centre de sauvegarde</h2>
+    <div class="info">
+      Cette fonction permet de télécharger une copie des données enregistrées
+      dans le navigateur : élèves, enseignants, classes, notes, paiements,
+      absences, internat et autres informations du logiciel.
+      <br><br>
+      <strong>Conseil :</strong> effectuez régulièrement une sauvegarde,
+      notamment avant une modification importante du système.
+    </div>
 
-<div class="notice">
-Cette page permet de protéger toutes les données du Groupe Scolaire Étoile Brillante.
+    <div class="stats" id="stats"></div>
+
+    <div class="buttons">
+      <button class="btn-save" onclick="sauvegarder()">
+        ⬇️ TÉLÉCHARGER LA SAUVEGARDE
+      </button>
+    </div>
+
+    <div id="message"></div>
+  </div>
+
+
+  <div class="card">
+    <h2>♻️ Restaurer une sauvegarde</h2>
+
+    <div class="info">
+      Sélectionnez un fichier de sauvegarde <strong>.json</strong> précédemment
+      téléchargé depuis ce logiciel.
+      <br><br>
+      <strong>Attention :</strong> la restauration remplace les données
+      actuellement enregistrées dans ce navigateur.
+    </div>
+
+    <input
+      type="file"
+      id="fichier"
+      accept=".json,application/json"
+    >
+
+    <div class="buttons">
+      <button class="btn-restore" onclick="restaurer()">
+        ♻️ RESTAURER LA SAUVEGARDE
+      </button>
+    </div>
+  </div>
+
+
+  <div class="card">
+    <h2>⚠️ Zone de sécurité</h2>
+
+    <p>
+      Utilisez cette fonction uniquement si vous souhaitez effacer
+      toutes les données enregistrées sur cet appareil.
+    </p>
+
+    <button class="btn-danger" onclick="effacerDonnees()">
+      🗑️ EFFACER TOUTES LES DONNÉES
+    </button>
+  </div>
+
 </div>
-
-<div class="buttons">
-
-<button class="btn-export" onclick="exporter()">
-📥 Exporter toutes les données
-</button>
-
-<input type="file" id="importFile" accept=".json" style="display:none;">
-
-<button class="btn-import" onclick="document.getElementById('importFile').click()">
-📤 Restaurer une sauvegarde
-</button>
-
-<button class="btn-reset" onclick="vider()">
-🗑 Réinitialiser
-</button>
-
-</div>
-
-<div class="status">
-
-<p><strong>Dernière sauvegarde :</strong></p>
-
-<p id="dateSauvegarde">Aucune sauvegarde enregistrée.</p>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<h2>Données protégées</h2>
-
-<ul style="line-height:2;">
-<li>👨‍🎓 Élèves</li>
-<li>🏫 Classes</li>
-<li>📝 Notes</li>
-<li>📄 Bulletins</li>
-<li>📅 Absences</li>
-<li>👨‍🏫 Enseignants</li>
-<li>🛏️ Internat</li>
-<li>💳 Paiements</li>
-<li>📢 Actualités</li>
-<li>⚙️ Paramètres</li>
-</ul>
-
-</div>
-
-</div>
-
-<footer>
-Groupe Scolaire Étoile Brillante • Brazzaville
-</footer>
 
 <script>
 
-const CLES=[
-"EB_ELEVES",
-"EB_CLASSES",
-"EB_NOTES",
-"EB_BULLETINS",
-"EB_ABSENCES",
-"EB_ENSEIGNANTS",
-"EB_INTERNAT",
-"EB_SORTIES",
-"EB_PAIEMENTS",
-"EB_ACTUALITES",
-"EB_PARAMETRES"
+const CLES_EB = [
+  "EB_ELEVES",
+  "EB_ENSEIGNANTS",
+  "EB_CLASSES",
+  "EB_ABSENCES",
+  "EB_PAIEMENTS",
+  "EB_INTERNAT",
+  "EB_SORTIES",
+  "EB_PRESENCES",
+  "EB_INDEX_NOTES",
+  "EB_INDEX_BULLETINS",
+  "EB_MESSAGES",
+  "EB_EMPLOIS",
+  "EB_PARAMETRES"
 ];
 
-const DATECLE="EB_DERNIERE_SAUVEGARDE";
+/* Ajouter également toutes les clés EB_NOTES_* */
+function recupererDonnees(){
 
-function majDate(){
- const d=localStorage.getItem(DATECLE);
- document.getElementById("dateSauvegarde").textContent=
- d || "Aucune sauvegarde enregistrée.";
-}
+  const donnees = {};
 
-function exporter(){
+  for(let i=0;i<localStorage.length;i++){
 
- const data={};
+    const cle = localStorage.key(i);
 
- CLES.forEach(c=>{
-   data[c]=localStorage.getItem(c);
- });
-
- const maintenant=new Date().toLocaleString("fr-FR");
-
- data.dateSauvegarde=maintenant;
-
- localStorage.setItem(DATECLE,maintenant);
-
- const blob=new Blob(
-   [JSON.stringify(data,null,2)],
-   {type:"application/json"}
- );
-
- const url=URL.createObjectURL(blob);
-
- const a=document.createElement("a");
-
- a.href=url;
- a.download="Sauvegarde_EB.json";
- a.click();
-
- URL.revokeObjectURL(url);
-
- majDate();
-
- alert("Sauvegarde exportée avec succès.");
-
-}
-
-document.getElementById("importFile").addEventListener("change",function(e){
-
- const file=e.target.files[0];
-
- if(!file) return;
-
- const reader=new FileReader();
-
- reader.onload=function(){
-
-  if(!confirm("Restaurer cette sauvegarde ?")) return;
-
-  const data=JSON.parse(reader.result);
-
-  CLES.forEach(c=>{
-    if(data[c]!=null)
-      localStorage.setItem(c,data[c]);
-  });
-
-  if(data.dateSauvegarde){
-    localStorage.setItem(DATECLE,data.dateSauvegarde);
+    if(
+      cle &&
+      (
+        cle.startsWith("EB_") ||
+        cle.startsWith("EB_NOTES_")
+      )
+    ){
+      donnees[cle] = localStorage.getItem(cle);
+    }
   }
 
-  majDate();
-
-  alert("Sauvegarde restaurée avec succès.");
-
- };
-
- reader.readAsText(file);
-
-});
-
-function vider(){
-
- if(!confirm("Supprimer toutes les données ?")) return;
-
- CLES.forEach(c=>localStorage.removeItem(c));
-
- localStorage.removeItem(DATECLE);
-
- majDate();
-
- alert("Toutes les données ont été supprimées.");
-
+  return donnees;
 }
 
-majDate();
+
+/* Affichage des statistiques */
+function afficherStats(){
+
+  const donnees = recupererDonnees();
+
+  let total = 0;
+
+  Object.keys(donnees).forEach(cle => {
+
+    try{
+      const valeur = JSON.parse(donnees[cle]);
+
+      if(Array.isArray(valeur)){
+        total += valeur.length;
+      }
+    }catch(e){}
+
+  });
+
+  document.getElementById("stats").innerHTML = `
+    <div class="stat">
+      <strong>${Object.keys(donnees).length}</strong>
+      données sauvegardées
+    </div>
+
+    <div class="stat">
+      <strong>${total}</strong>
+      enregistrements
+    </div>
+  `;
+}
+
+
+/* Sauvegarde */
+function sauvegarder(){
+
+  try{
+
+    const donnees = recupererDonnees();
+
+    const sauvegarde = {
+      application:"Groupe Scolaire Étoile Brillante",
+      version:"EB-2026",
+      date:new Date().toISOString(),
+      donnees:donnees
+    };
+
+    const contenu = JSON.stringify(sauvegarde,null,2);
+
+    const blob = new Blob(
+      [contenu],
+      {type:"application/json"}
+    );
+
+    const url = URL.createObjectURL(blob);
+
+    const lien = document.createElement("a");
+
+    const date = new Date();
+    const nomDate =
+      date.getFullYear()+"-"+
+      String(date.getMonth()+1).padStart(2,"0")+"-"+
+      String(date.getDate()).padStart(2,"0");
+
+    lien.href = url;
+    lien.download =
+      "sauvegarde-etoile-brillante-"+nomDate+".json";
+
+    document.body.appendChild(lien);
+
+    lien.click();
+
+    lien.remove();
+
+    URL.revokeObjectURL(url);
+
+    afficherMessage(
+      "✅ Sauvegarde téléchargée avec succès.",
+      "success"
+    );
+
+  }catch(erreur){
+
+    afficherMessage(
+      "❌ Impossible de créer la sauvegarde.",
+      "error"
+    );
+
+    console.error(erreur);
+  }
+}
+
+
+/* Restauration */
+function restaurer(){
+
+  const fichier =
+    document.getElementById("fichier").files[0];
+
+  if(!fichier){
+
+    afficherMessage(
+      "⚠️ Sélectionnez d'abord un fichier de sauvegarde.",
+      "error"
+    );
+
+    return;
+  }
+
+  if(
+    !confirm(
+      "ATTENTION !\n\n"+
+      "La restauration remplacera les données actuellement "+
+      "présentes dans ce navigateur.\n\n"+
+      "Voulez-vous continuer ?"
+    )
+  ){
+    return;
+  }
+
+  const lecteur = new FileReader();
+
+  lecteur.onload = function(e){
+
+    try{
+
+      const sauvegarde =
+        JSON.parse(e.target.result);
+
+      if(
+        !sauvegarde ||
+        !sauvegarde.donnees
+      ){
+        throw new Error("Fichier invalide");
+      }
+
+      const donnees =
+        sauvegarde.donnees;
+
+      Object.keys(donnees).forEach(cle => {
+
+        if(
+          cle.startsWith("EB_")
+        ){
+          localStorage.setItem(
+            cle,
+            donnees[cle]
+          );
+        }
+
+      });
+
+      afficherMessage(
+        "✅ Sauvegarde restaurée avec succès. La page va être actualisée.",
+        "success"
+      );
+
+      setTimeout(()=>{
+        location.reload();
+      },1500);
+
+    }catch(erreur){
+
+      afficherMessage(
+        "❌ Ce fichier n'est pas une sauvegarde valide du Groupe Scolaire Étoile Brillante.",
+        "error"
+      );
+
+      console.error(erreur);
+    }
+
+  };
+
+  lecteur.readAsText(fichier);
+}
+
+
+/* Effacement complet */
+function effacerDonnees(){
+
+  const confirmation =
+    prompt(
+      "ATTENTION ! Cette opération supprimera toutes les données EB_ de cet appareil.\n\n"+
+      "Pour confirmer, écrivez : SUPPRIMER"
+    );
+
+  if(confirmation !== "SUPPRIMER"){
+
+    afficherMessage(
+      "Opération annulée.",
+      "error"
+    );
+
+    return;
+  }
+
+  const cles = [];
+
+  for(let i=0;i<localStorage.length;i++){
+
+    const cle = localStorage.key(i);
+
+    if(
+      cle &&
+      cle.startsWith("EB_")
+    ){
+      cles.push(cle);
+    }
+  }
+
+  cles.forEach(cle=>{
+    localStorage.removeItem(cle);
+  });
+
+  afficherMessage(
+    "✅ Toutes les données EB_ ont été supprimées.",
+    "success"
+  );
+
+  setTimeout(()=>{
+    location.reload();
+  },1200);
+}
+
+
+/* Message */
+function afficherMessage(texte,type){
+
+  const element =
+    document.getElementById("message");
+
+  element.textContent = texte;
+
+  element.className = type;
+
+  element.style.display = "block";
+}
+
+
+/* Initialisation */
+afficherStats();
 
 </script>
-<script src="../assets/js/logo.js"></script>
+
 </body>
 </html>
