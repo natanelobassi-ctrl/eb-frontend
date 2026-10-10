@@ -1,155 +1,206 @@
 <!DOCTYPE html>
 <html lang="fr">
- <script>
-if(sessionStorage.getItem("EB_ADMIN")!=="OK"){
-  location.replace("login.html");
-}
-</script>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Administration - Groupe Scolaire Étoile Brillante</title>
+
+<title>Administration — Groupe Scolaire Étoile Brillante</title>
+
+<script>
+if (sessionStorage.getItem("EB_ADMIN") !== "OK") {
+    location.replace("login.html");
+}
+</script>
 
 <style>
- .hero{
- background:linear-gradient(135deg,#0A2A78,#123A9B);
- color:white;
- border-radius:20px;
- padding:20px;
- margin:20px 0;
- display:flex;
- align-items:center;
- gap:18px;
- flex-wrap:wrap;
-}
-
-.hero-logo{
- width:80px;
- height:80px;
- object-fit:contain;
- background:white;
- border-radius:50%;
- padding:6px;
-}
-
-.btn-inscription{
- margin-left:auto;
- background:#C9A227;
- color:white;
- text-decoration:none;
- padding:12px 18px;
- border-radius:10px;
- font-weight:bold;
-}
-
-#dateHeure{
- font-size:.95rem;
- opacity:.9;
-}
 :root{
- --bleu:#0A2A78;
- --bleu2:#123A9B;
- --or:#C9A227;
- --ivoire:#F7F4ED;
- --vert:#198754;
- --rouge:#C62828;
+    --bleu:#0A2A78;
+    --bleu-clair:#123A9B;
+    --or:#C9A227;
+    --ivoire:#F7F4ED;
+    --blanc:#FFFFFF;
+    --texte:#1F2937;
+    --danger:#C62828;
 }
 
-*{margin:0;padding:0;box-sizing:border-box;}
+*{
+    box-sizing:border-box;
+}
 
 body{
- font-family:Arial,Helvetica,sans-serif;
- background:var(--ivoire);
- color:#1F2937;
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--ivoire);
+    color:var(--texte);
 }
 
+/* HEADER */
 header{
- background:linear-gradient(135deg,var(--bleu),var(--bleu2));
- color:white;
- padding:20px;
+    background:linear-gradient(135deg,var(--bleu),var(--bleu-clair));
+    color:white;
+    padding:20px;
 }
 
+.header-content{
+    max-width:1200px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+}
+
+header h1{
+    margin:0;
+    font-size:22px;
+}
+
+header p{
+    margin:5px 0 0;
+    opacity:.9;
+}
+
+.logout{
+    background:var(--danger);
+    color:white;
+    border:0;
+    padding:10px 15px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+/* CONTENEUR */
 .container{
- width:95%;
- max-width:1300px;
- margin:auto;
+    max-width:1200px;
+    margin:auto;
+    padding:20px;
 }
 
-nav{
- display:flex;
- flex-wrap:wrap;
- gap:8px;
- margin-top:15px;
+/* BIENVENUE */
+.hero{
+    background:linear-gradient(135deg,var(--bleu),var(--bleu-clair));
+    color:white;
+    border-radius:20px;
+    padding:25px;
+    margin-bottom:25px;
 }
 
-nav a{
- color:white;
- text-decoration:none;
- padding:8px 12px;
- border-radius:8px;
- font-weight:bold;
+.hero h2{
+    margin:0 0 8px;
+    font-size:26px;
 }
 
-nav a:hover{
- background:rgba(255,255,255,.15);
+.hero p{
+    margin:7px 0;
 }
 
-.grid{
- display:grid;
- grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
- gap:15px;
- margin:22px 0;
+.date{
+    opacity:.9;
 }
 
-.card{
- background:white;
- border-radius:15px;
- padding:20px;
- text-align:center;
- box-shadow:0 5px 18px rgba(0,0,0,.08);
+/* STATISTIQUES */
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:15px;
+    margin-bottom:30px;
 }
 
-.card h3{
- color:var(--bleu);
- margin-bottom:10px;
+.stat{
+    background:white;
+    border-radius:15px;
+    padding:20px;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+    text-align:center;
 }
 
-.number{
- font-size:2rem;
- font-weight:bold;
- color:var(--or);
+.stat-icon{
+    font-size:30px;
 }
 
-.section{
- background:white;
- border-radius:15px;
- padding:20px;
- margin-bottom:20px;
- box-shadow:0 5px 18px rgba(0,0,0,.08);
+.stat-number{
+    font-size:30px;
+    font-weight:bold;
+    color:var(--bleu);
+    margin:8px 0;
 }
 
-table{
- width:100%;
- border-collapse:collapse;
+.stat-title{
+    font-weight:bold;
 }
 
-th,td{
- padding:10px;
- border-bottom:1px solid #ddd;
- text-align:left;
+/* TITRES */
+.section-title{
+    color:var(--bleu);
+    margin:25px 0 15px;
 }
 
-th{
- background:var(--bleu);
- color:white;
+/* MENU */
+.menu{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+    gap:15px;
 }
 
+.menu a{
+    text-decoration:none;
+    color:var(--texte);
+    background:white;
+    border-radius:14px;
+    padding:18px;
+    box-shadow:0 4px 12px rgba(0,0,0,.07);
+    transition:.2s;
+}
+
+.menu a:hover{
+    transform:translateY(-3px);
+    box-shadow:0 7px 16px rgba(0,0,0,.12);
+}
+
+.menu-icon{
+    font-size:30px;
+}
+
+.menu-title{
+    color:var(--bleu);
+    font-weight:bold;
+    margin-top:8px;
+}
+
+.menu-text{
+    font-size:13px;
+    margin-top:5px;
+    color:#666;
+}
+
+/* PIED DE PAGE */
 footer{
- background:var(--bleu);
- color:white;
- text-align:center;
- padding:20px;
- margin-top:30px;
+    text-align:center;
+    padding:25px 15px;
+    color:#666;
+    font-size:13px;
+}
+
+/* MOBILE */
+@media(max-width:600px){
+
+    .header-content{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .logout{
+        align-self:flex-end;
+    }
+
+    .hero h2{
+        font-size:22px;
+    }
+
+    .container{
+        padding:15px;
+    }
 }
 </style>
 </head>
@@ -157,249 +208,341 @@ footer{
 <body>
 
 <header>
+    <div class="header-content">
 
-<div class="container">
+        <div>
+            <h1>Groupe Scolaire Étoile Brillante</h1>
+            <p>Administration scolaire</p>
+        </div>
 
-<h1>Groupe Scolaire Étoile Brillante</h1>
+        <button class="logout" onclick="logout()">
+            Déconnexion
+        </button>
 
-<p>Tableau de bord administratif</p>
-
-<nav>
-<a href="eleves.html">Élèves</a>
-<a href="bulletins.html">Bulletins</a>
-<a href="paiements.html">Paiements</a>
-<a href="internat.html">Internat</a>
-<a href="cartes.html">Cartes</a>
-<a href="emplois.html">Emplois</a>
-<a href="messages.html">Messages</a>
-<a href="actualites.html">Actualités</a>
-<a href="parametres.html">Paramètres</a>
-<a href="sauvegarde.html">Sauvegarde</a>
-</nav>
-
-</div>
-
+    </div>
 </header>
-<div class="container">
 
-<div class="hero">
 
-<img src="../logo-etoile-brillante.png?v=2" class="hero-logo" alt="Logo Étoile Brillante">
-<div>
-<h2 id="salutation">Bonjour</h2>
-<p id="dateHeure">Chargement...</p>
-<p>Bienvenue sur le logiciel du Groupe Scolaire Étoile Brillante.</p>
-</div>
+<main class="container">
 
-<a href="../inscription.html" class="btn-inscription">
-+ Nouvelle inscription
-</a>
+    <!-- BIENVENUE -->
+    <section class="hero">
 
-</div>
+        <h2 id="salutation">
+            Bonjour Administration
+        </h2>
 
-</div>
-<div class="container">
+        <p id="dateHeure" class="date">
+            Chargement...
+        </p>
 
-<div class="grid">
+        <p>
+            Bienvenue dans l'espace d'administration du
+            Groupe Scolaire Étoile Brillante.
+        </p>
 
-<div class="card">
-<h3>Élèves</h3>
-<div class="number" id="nbEleves">0</div>
-</div>
+    </section>
 
-<div class="card">
-<h3>Paiements</h3>
-<div class="number" id="nbPaiements">0</div>
-</div>
 
-<div class="card">
-<h3>Internes</h3>
-<div class="number" id="nbInternes">0</div>
-</div>
+    <!-- STATISTIQUES -->
+    <h2 class="section-title">
+        📊 Vue générale de l'établissement
+    </h2>
 
-<div class="card">
-<h3>Bulletins</h3>
-<div class="number" id="nbBulletins">0</div>
-</div>
+    <section class="stats">
 
-<div class="card">
-<h3>Absences</h3>
-<div class="number" id="nbAbsences">0</div>
-</div>
+        <div class="stat">
+            <div class="stat-icon">👨‍🎓</div>
+            <div class="stat-number" id="nbEleves">0</div>
+            <div class="stat-title">Élèves</div>
+        </div>
 
-</div>
+        <div class="stat">
+            <div class="stat-icon">👨‍🏫</div>
+            <div class="stat-number" id="nbEnseignants">0</div>
+            <div class="stat-title">Enseignants</div>
+        </div>
 
-<div class="grid">
+        <div class="stat">
+            <div class="stat-icon">🏫</div>
+            <div class="stat-number" id="nbClasses">0</div>
+            <div class="stat-title">Classes</div>
+        </div>
 
-<div class="card">
-<h3>Préscolaire</h3>
-<div class="number" id="pre">0</div>
-</div>
+        <div class="stat">
+            <div class="stat-icon">💰</div>
+            <div class="stat-number" id="nbPaiements">0</div>
+            <div class="stat-title">Paiements</div>
+        </div>
 
-<div class="card">
-<h3>Primaire</h3>
-<div class="number" id="pri">0</div>
-</div>
+        <div class="stat">
+            <div class="stat-icon">⚠️</div>
+            <div class="stat-number" id="nbAbsences">0</div>
+            <div class="stat-title">Absences</div>
+        </div>
 
-<div class="card">
-<h3>Collège</h3>
-<div class="number" id="col">0</div>
-</div>
+        <div class="stat">
+            <div class="stat-icon">🛏️</div>
+            <div class="stat-number" id="nbInternes">0</div>
+            <div class="stat-title">Internes</div>
+        </div>
 
-<div class="card">
-<h3>Lycée</h3>
-<div class="number" id="lyc">0</div>
-</div>
+    </section>
 
-</div>
 
-<div class="section">
+    <!-- ACCÈS RAPIDES -->
+    <h2 class="section-title">
+        🚀 Accès rapides
+    </h2>
 
-<h2>5 derniers élèves inscrits</h2>
+    <section class="menu">
 
-<table>
+        <a href="eleves.html">
+            <div class="menu-icon">👨‍🎓</div>
+            <div class="menu-title">Élèves</div>
+            <div class="menu-text">
+                Inscriptions, fiches et gestion des élèves
+            </div>
+        </a>
 
-<thead>
-<tr>
-<th>Matricule</th>
-<th>Nom</th>
-<th>Classe</th>
-</tr>
-</thead>
+        <a href="enseignants.html">
+            <div class="menu-icon">👨‍🏫</div>
+            <div class="menu-title">Enseignants</div>
+            <div class="menu-text">
+                Gestion du personnel enseignant
+            </div>
+        </a>
 
-<tbody id="listeEleves"></tbody>
+        <a href="classes.html">
+            <div class="menu-icon">🏫</div>
+            <div class="menu-title">Classes</div>
+            <div class="menu-text">
+                Gestion des classes et effectifs
+            </div>
+        </a>
 
-</table>
+        <a href="notes.html">
+            <div class="menu-icon">📝</div>
+            <div class="menu-title">Notes</div>
+            <div class="menu-text">
+                Saisie et calcul des moyennes
+            </div>
+        </a>
 
-</div>
+        <a href="bulletins.html">
+            <div class="menu-icon">📄</div>
+            <div class="menu-title">Bulletins</div>
+            <div class="menu-text">
+                Consultation et impression des bulletins
+            </div>
+        </a>
 
-<div class="section">
+        <a href="classement.html">
+            <div class="menu-icon">🏆</div>
+            <div class="menu-title">Classement</div>
+            <div class="menu-text">
+                Classement automatique des élèves
+            </div>
+        </a>
 
-<h2>3 dernières actualités</h2>
+        <a href="paiements.html">
+            <div class="menu-icon">💰</div>
+            <div class="menu-title">Paiements</div>
+            <div class="menu-text">
+                Paiements et reçus
+            </div>
+        </a>
 
-<table>
+        <a href="absences.html">
+            <div class="menu-icon">⚠️</div>
+            <div class="menu-title">Absences</div>
+            <div class="menu-text">
+                Suivi des absences et présences
+            </div>
+        </a>
 
-<thead>
-<tr>
-<th>Titre</th>
-<th>Date</th>
-</tr>
-</thead>
+        <a href="internat.html">
+            <div class="menu-icon">🛏️</div>
+            <div class="menu-title">Internat</div>
+            <div class="menu-text">
+                Gestion des internes et sorties
+            </div>
+        </a>
 
-<tbody id="listeActu"></tbody>
+        <a href="cartes.html">
+            <div class="menu-icon">🪪</div>
+            <div class="menu-title">Cartes scolaires</div>
+            <div class="menu-text">
+                Création et impression des cartes
+            </div>
+        </a>
 
-</table>
+        <a href="sauvegarde.html">
+            <div class="menu-icon">💾</div>
+            <div class="menu-title">Sauvegarde</div>
+            <div class="menu-text">
+                Sauvegarder et restaurer les données
+            </div>
+        </a>
 
-</div>
+        <a href="parametres.html">
+            <div class="menu-icon">⚙️</div>
+            <div class="menu-title">Paramètres</div>
+            <div class="menu-text">
+                Configuration de l'administration
+            </div>
+        </a>
 
-<div class="section">
+    </section>
 
-<h2>Dernière sauvegarde</h2>
+</main>
 
-<p id="sauvegarde">Aucune sauvegarde enregistrée.</p>
-
-</div>
-
-</div>
 
 <footer>
-
-Groupe Scolaire Étoile Brillante • Excellence • Discipline • Innovation
-
+    Groupe Scolaire Étoile Brillante<br>
+    Excellence • Discipline • Innovation<br>
+    « Révéler leur potentiel. Construire leur avenir. »
 </footer>
 
+
 <script>
 
-const eleves=JSON.parse(localStorage.getItem("EB_ELEVES")||"[]");
-const paiements=JSON.parse(localStorage.getItem("EB_PAIEMENTS")||"[]");
-const internes=JSON.parse(localStorage.getItem("EB_INTERNAT")||"[]");
-const bulletins=JSON.parse(localStorage.getItem("EB_BULLETINS")||"[]");
-const absences=JSON.parse(localStorage.getItem("EB_ABSENCES")||"[]");
-const actus=JSON.parse(localStorage.getItem("EB_ACTUALITES")||"[]");
+/* DATE ET HEURE */
+function majDateHeure(){
 
-nbEleves.textContent=eleves.length;
-nbPaiements.textContent=paiements.length;
-nbInternes.textContent=internes.length;
-nbBulletins.textContent=bulletins.length;
-nbAbsences.textContent=absences.length;
+    const maintenant = new Date();
 
-const preClasses=["P1","P2","P3"];
-const priClasses=["CP1","CP2","CE1","CE2","CM1","CM2"];
-const colClasses=["6e","5e","4e","3e"];
-const lycClasses=["STC","Première A","Première D","Terminale A","Terminale D"];
+    const jours = [
+        "Dimanche",
+        "Lundi",
+        "Mardi",
+        "Mercredi",
+        "Jeudi",
+        "Vendredi",
+        "Samedi"
+    ];
 
-pre.textContent=eleves.filter(e=>preClasses.includes(e.classe)).length;
-pri.textContent=eleves.filter(e=>priClasses.includes(e.classe)).length;
-col.textContent=eleves.filter(e=>colClasses.includes(e.classe)).length;
-lyc.textContent=eleves.filter(e=>lycClasses.includes(e.classe)).length;
+    const mois = [
+        "janvier",
+        "février",
+        "mars",
+        "avril",
+        "mai",
+        "juin",
+        "juillet",
+        "août",
+        "septembre",
+        "octobre",
+        "novembre",
+        "décembre"
+    ];
 
-listeEleves.innerHTML="";
+    const texte =
+        jours[maintenant.getDay()] +
+        " " +
+        maintenant.getDate() +
+        " " +
+        mois[maintenant.getMonth()] +
+        " " +
+        maintenant.getFullYear() +
+        " • " +
+        maintenant.toLocaleTimeString("fr-FR");
 
-eleves.slice(-5).reverse().forEach(e=>{
- listeEleves.innerHTML+=`
- <tr>
-  <td>${e.matricule}</td>
-  <td>${e.nom} ${e.prenom}</td>
-  <td>${e.classe}</td>
- </tr>`;
-});
-
-listeActu.innerHTML="";
-
-actus.slice(-3).reverse().forEach(a=>{
- listeActu.innerHTML+=`
- <tr>
-  <td>${a.titre||"Actualité"}</td>
-  <td>${a.date||"-"}</td>
- </tr>`;
-});
-
-const derniere=localStorage.getItem("EB_DERNIERE_SAUVEGARDE");
-
-if(derniere){
- sauvegarde.textContent=derniere;
+    document.getElementById("dateHeure").textContent = texte;
 }
 
-</script>
-<script src="../assets/js/logo.js"></script>
- <button onclick="logout()" style="position:fixed;top:15px;right:15px;background:#C62828;color:white;border:none;padding:10px 15px;border-radius:8px;cursor:pointer;">
-Déconnexion
-</button>
 
-<script>
+/* NOM DE L'ADMINISTRATEUR */
+function afficherUtilisateur(){
+
+    const utilisateur =
+        sessionStorage.getItem("EB_USER") || "";
+
+    const noms = {
+
+        gracia:
+        "Gracia IBEMBE",
+
+        clarmy:
+        "NGATSONGO Clarmy Nice Natanaël",
+
+        ngouti:
+        "NGOUTI Neja",
+
+        hermann:
+        "Hermann NIANGA"
+    };
+
+    document.getElementById("salutation").textContent =
+        "Bonjour " +
+        (noms[utilisateur] || "Administration");
+}
+
+
+/* LECTURE D'UNE LISTE LOCALSTORAGE */
+function compterListe(cle){
+
+    try{
+
+        const donnees =
+            JSON.parse(
+                localStorage.getItem(cle) || "[]"
+            );
+
+        return Array.isArray(donnees)
+            ? donnees.length
+            : 0;
+
+    }catch(e){
+
+        return 0;
+    }
+}
+
+
+/* COMPTEURS */
+function actualiserCompteurs(){
+
+    document.getElementById("nbEleves").textContent =
+        compterListe("EB_ELEVES");
+
+    document.getElementById("nbEnseignants").textContent =
+        compterListe("EB_ENSEIGNANTS");
+
+    document.getElementById("nbClasses").textContent =
+        compterListe("EB_CLASSES");
+
+    document.getElementById("nbPaiements").textContent =
+        compterListe("EB_PAIEMENTS");
+
+    document.getElementById("nbAbsences").textContent =
+        compterListe("EB_ABSENCES");
+
+    document.getElementById("nbInternes").textContent =
+        compterListe("EB_INTERNAT");
+}
+
+
+/* DÉCONNEXION */
 function logout(){
-  sessionStorage.clear();
-  location.replace("login.html");
+
+    sessionStorage.clear();
+
+    location.replace("login.html");
 }
+
+
+/* INITIALISATION */
+majDateHeure();
+afficherUtilisateur();
+actualiserCompteurs();
+
+setInterval(majDateHeure,1000);
+
+/* Actualise les compteurs périodiquement */
+setInterval(actualiserCompteurs,5000);
+
 </script>
- <script>
-function majAccueil(){
 
- const maintenant=new Date();
-
- const jours=["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"];
- const mois=["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
-
- const texte=jours[maintenant.getDay()]+" "+maintenant.getDate()+" "+mois[maintenant.getMonth()]+" "+maintenant.getFullYear()+" • "+maintenant.toLocaleTimeString("fr-FR");
-
- document.getElementById("dateHeure").textContent=texte;
-
- const u=sessionStorage.getItem("EB_USER")||"";
-
- const noms={
-  gracia:"Gracia IBEMBE",
-  clarmy:"NGATSONGO Clarmy Nice Natanaël",
-  ngouti:"NGOUTI Neja",
-  hermann:"Hermann NIANGA"
- };
-
- document.getElementById("salutation").textContent="Bonjour "+(noms[u]||"Administration");
-
-}
-
-majAccueil();
-
-setInterval(majAccueil,1000);
- </script>
 </body>
 </html>
