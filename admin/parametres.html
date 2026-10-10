@@ -1,105 +1,207 @@
 <!DOCTYPE html>
 <html lang="fr">
- <script>
-if(sessionStorage.getItem("EB_ADMIN")!=="OK"){
-  location.replace("login.html");
-}
-</script>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Paramètres - Groupe Scolaire Étoile Brillante</title>
+<title>Paramètres — Groupe Scolaire Étoile Brillante</title>
+
+<script>
+if (sessionStorage.getItem("EB_ADMIN") !== "OK") {
+    location.replace("login.html");
+}
+</script>
 
 <style>
 :root{
- --bleu:#0A2A78;
- --or:#C9A227;
- --ivoire:#F7F4ED;
- --vert:#198754;
- --rouge:#C62828;
+    --bleu:#0A2A78;
+    --bleu2:#123A9B;
+    --or:#C9A227;
+    --ivoire:#F7F4ED;
+    --blanc:#fff;
+    --texte:#1F2937;
+    --vert:#2E7D32;
+    --rouge:#C62828;
 }
-*{margin:0;padding:0;box-sizing:border-box;}
+
+*{
+    box-sizing:border-box;
+}
+
 body{
- font-family:Arial,Helvetica,sans-serif;
- background:var(--ivoire);
- color:#1F2937;
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--ivoire);
+    color:var(--texte);
 }
+
 header{
- background:var(--bleu);
- color:white;
- padding:20px;
+    background:linear-gradient(135deg,var(--bleu),var(--bleu2));
+    color:white;
+    padding:20px;
 }
+
+.header-inner{
+    max-width:1000px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+}
+
+header h1{
+    margin:0;
+    font-size:22px;
+}
+
+header p{
+    margin:6px 0 0;
+    opacity:.9;
+}
+
+.back{
+    color:white;
+    text-decoration:none;
+    background:rgba(255,255,255,.15);
+    padding:10px 14px;
+    border-radius:8px;
+    white-space:nowrap;
+}
+
 .container{
- width:94%;
- max-width:1200px;
- margin:25px auto;
+    max-width:1000px;
+    margin:25px auto;
+    padding:0 15px;
 }
+
 .card{
- background:white;
- padding:22px;
- border-radius:15px;
- box-shadow:0 4px 15px rgba(0,0,0,.08);
- margin-bottom:20px;
+    background:white;
+    border-radius:16px;
+    padding:22px;
+    margin-bottom:20px;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
 }
+
 .card h2{
- color:var(--bleu);
- margin-bottom:15px;
+    color:var(--bleu);
+    margin-top:0;
 }
+
 .grid{
- display:grid;
- grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
- gap:15px;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
 }
+
+.field{
+    display:flex;
+    flex-direction:column;
+}
+
+.field.full{
+    grid-column:1/-1;
+}
+
 label{
- display:block;
- font-weight:bold;
- margin-bottom:5px;
+    font-weight:bold;
+    margin-bottom:7px;
 }
-input,select,textarea{
- width:100%;
- padding:10px;
- border:1px solid #ccc;
- border-radius:8px;
+
+input,textarea,select{
+    width:100%;
+    padding:12px;
+    border:1px solid #d5d5d5;
+    border-radius:9px;
+    font-size:15px;
+    font-family:inherit;
 }
+
 textarea{
- min-height:80px;
+    min-height:90px;
+    resize:vertical;
 }
+
+.buttons{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-top:20px;
+}
+
 button{
- border:none;
- border-radius:8px;
- padding:12px 18px;
- font-weight:bold;
- cursor:pointer;
+    border:0;
+    border-radius:9px;
+    padding:13px 20px;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
 }
-.btn-main{background:var(--bleu);color:white;}
-.btn-green{background:var(--vert);color:white;}
-.btn-red{background:var(--rouge);color:white;}
-.notice{
- background:#fff8dc;
- border-left:5px solid var(--or);
- padding:15px;
- border-radius:8px;
- margin-bottom:20px;
+
+.save{
+    background:var(--bleu);
+    color:white;
 }
-table{
- width:100%;
- border-collapse:collapse;
+
+.reset{
+    background:#777;
+    color:white;
 }
-th,td{
- border:1px solid #ddd;
- padding:10px;
- text-align:left;
+
+.message{
+    display:none;
+    margin-top:15px;
+    padding:13px;
+    border-radius:9px;
+    font-weight:bold;
 }
-th{
- background:var(--bleu);
- color:white;
+
+.success{
+    background:#e8f5e9;
+    color:var(--vert);
 }
-footer{
- margin-top:30px;
- background:var(--bleu);
- color:white;
- text-align:center;
- padding:20px;
+
+.error{
+    background:#ffebee;
+    color:var(--rouge);
+}
+
+.info{
+    background:#eef4ff;
+    border-left:5px solid var(--bleu);
+    padding:15px;
+    border-radius:8px;
+    line-height:1.5;
+}
+
+.preview{
+    background:#f7f7f7;
+    border-radius:12px;
+    padding:18px;
+    margin-top:15px;
+}
+
+.preview strong{
+    color:var(--bleu);
+}
+
+@media(max-width:700px){
+
+    .header-inner{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .field.full{
+        grid-column:auto;
+    }
+
+    .back{
+        align-self:flex-start;
+    }
 }
 </style>
 </head>
@@ -107,235 +209,453 @@ footer{
 <body>
 
 <header>
-<h1>⚙️ Paramètres du Groupe Scolaire Étoile Brillante</h1>
-<p>Centre de contrôle de l'administration</p>
+    <div class="header-inner">
+
+        <div>
+            <h1>Groupe Scolaire Étoile Brillante</h1>
+            <p>Paramètres de l'établissement</p>
+        </div>
+
+        <a class="back" href="index.html">
+            ← Administration
+        </a>
+
+    </div>
 </header>
 
-<div class="container">
 
-<div class="notice">
-Les informations enregistrées ici serviront de référence pour l'administration.
-</div>
+<main class="container">
 
-<!-- ÉCOLE -->
-<div class="card">
-<h2>Informations de l'école</h2>
+    <div class="card">
 
-<div class="grid">
+        <h2>⚙️ Informations officielles</h2>
 
-<div>
-<label>Nom de l'école</label>
-<input id="nomEcole" value="Groupe Scolaire Étoile Brillante">
-</div>
+        <div class="info">
+            Les informations enregistrées ici pourront servir de référence
+            pour les documents administratifs, les reçus et les autres
+            fonctionnalités du logiciel.
+        </div>
 
-<div>
-<label>Année scolaire</label>
-<input id="annee" value="2026-2027">
-</div>
+        <br>
 
-<div>
-<label>Email</label>
-<input id="email" value="groupescolaireeb26@gmail.com">
-</div>
+        <form id="formParametres">
 
-<div>
-<label>WhatsApp / Mobile Money</label>
-<input id="telephone" value="067598453">
-</div>
+            <div class="grid">
 
-<div style="grid-column:1/-1;">
-<label>Adresse</label>
-<textarea id="adresse">03 rue Poumako, marché Massengo, arrondissement 9 Djiri, Brazzaville</textarea>
-</div>
+                <div class="field full">
+                    <label for="nom">
+                        Nom de l'établissement
+                    </label>
 
-</div>
-</div>
+                    <input
+                        type="text"
+                        id="nom"
+                        value="Groupe Scolaire Étoile Brillante"
+                        required
+                    >
+                </div>
 
-<!-- RESPONSABLES -->
 
-<div class="card">
+                <div class="field full">
+                    <label for="adresse">
+                        Adresse
+                    </label>
 
-<h2>Responsables</h2>
+                    <input
+                        type="text"
+                        id="adresse"
+                        value="03 rue Poumako, marché Massengo, arrondissement 9 Djiri (Brazzaville)"
+                    >
+                </div>
 
-<table>
 
-<tr>
-<th>Fonction</th>
-<th>Responsable</th>
-</tr>
+                <div class="field">
+                    <label for="email">
+                        Email
+                    </label>
 
-<tr>
-<td>Coordonnatrice générale</td>
-<td><input id="coordonnatrice" value="Gracia IBEMBE"></td>
-</tr>
+                    <input
+                        type="email"
+                        id="email"
+                        value="groupescolaireeb26@gmail.com"
+                    >
+                </div>
 
-<tr>
-<td>Directeur des études</td>
-<td><input id="directeurEtudes" value="NGATSONGO Clarmy Nice Natanaël"></td>
-</tr>
 
-<tr>
-<td>Directeur du primaire</td>
-<td><input id="directeurPrimaire" value="NGOUTI Neja"></td>
-</tr>
+                <div class="field">
+                    <label for="telephone">
+                        Téléphone de l'établissement
+                    </label>
 
-<tr>
-<td>Surveillant général</td>
-<td><input id="surveillant" value="Hermann NIANGA"></td>
-</tr>
+                    <input
+                        type="tel"
+                        id="telephone"
+                        value="067598453"
+                    >
+                </div>
 
-</table>
 
-</div>
+                <div class="field">
+                    <label for="paiement">
+                        Numéro pour les paiements Mobile Money
+                    </label>
 
-<!-- PARAMÈTRES PÉDAGOGIQUES -->
+                    <input
+                        type="tel"
+                        id="paiement"
+                        value="067598453"
+                    >
+                </div>
 
-<div class="card">
 
-<h2>Paramètres pédagogiques</h2>
+                <div class="field">
+                    <label for="annee">
+                        Année scolaire
+                    </label>
 
-<div class="grid">
+                    <input
+                        type="text"
+                        id="annee"
+                        value="2026-2027"
+                    >
+                </div>
 
-<div>
-<label>Seuil d'admission</label>
-<input id="seuil" type="number" value="10">
-</div>
 
-<div>
-<label>Moyenne maximale</label>
-<input id="max" type="number" value="20">
-</div>
+                <div class="field">
+                    <label for="devise">
+                        Devise
+                    </label>
 
-</div>
+                    <select id="devise">
+                        <option value="FCFA">FCFA</option>
+                    </select>
+                </div>
 
-<h3 style="margin:20px 0 10px;color:#0A2A78;">
-Mentions officielles
-</h3>
 
-<table>
+                <div class="field">
+                    <label for="deviseEcole">
+                        Devise / slogan
+                    </label>
 
-<tr><th>Moyenne</th><th>Mention</th></tr>
-<tr><td>1–3</td><td>Nul</td></tr>
-<tr><td>4–5</td><td>Très faible</td></tr>
-<tr><td>6–7</td><td>Faible</td></tr>
-<tr><td>8–9</td><td>Insuffisant</td></tr>
-<tr><td>10–11</td><td>Passable</td></tr>
-<tr><td>12–13</td><td>Assez bien</td></tr>
-<tr><td>14–15</td><td>Bien</td></tr>
-<tr><td>16–17</td><td>Très bien</td></tr>
-<tr><td>18–20</td><td>Excellent</td></tr>
+                    <input
+                        type="text"
+                        id="deviseEcole"
+                        value="Excellence • Discipline • Innovation"
+                    >
+                </div>
 
-</table>
 
-</div>
+                <div class="field full">
+                    <label for="phrase">
+                        Phrase de présentation
+                    </label>
 
-<!-- COEFFICIENTS -->
+                    <textarea id="phrase">Révéler leur potentiel. Construire leur avenir.</textarea>
+                </div>
 
-<div class="card">
+            </div>
 
-<h2>Coefficients officiels</h2>
 
-<p style="margin-bottom:10px;">
-Ces coefficients correspondent aux règles définies pour le collège et le lycée.
-</p>
+            <div class="buttons">
 
-<table>
+                <button
+                    type="submit"
+                    class="save"
+                >
+                    💾 ENREGISTRER LES PARAMÈTRES
+                </button>
 
-<tr><th>Classe</th><th>Règle</th></tr>
+                <button
+                    type="button"
+                    class="reset"
+                    onclick="reinitialiser()"
+                >
+                    ↺ Réinitialiser
+                </button>
 
-<tr><td>6e, 5e, 4e</td><td>Toutes les matières : coefficient 1</td></tr>
+            </div>
 
-<tr><td>3e</td><td>Mathématiques : 4 • autres matières principales : 2</td></tr>
+            <div id="message" class="message"></div>
 
-<tr><td>Seconde</td><td>Toutes les matières : coefficient 1</td></tr>
+        </form>
 
-<tr><td>Terminale A</td><td>Philo 5 • Français 5 • Histoire 4 • Anglais 4 • Maths 3 • Espagnol 3 • EPS 2</td></tr>
+    </div>
 
-<tr><td>Terminale D</td><td>SVT 5 • Sciences Physiques 5 • Maths 4 • Français 3 • Anglais 3 • Histoire-Géo 3 • EPS 2</td></tr>
 
-</table>
+    <div class="card">
 
-</div>
+        <h2>👁️ Aperçu</h2>
 
-<!-- SAUVEGARDE -->
+        <div class="preview">
 
-<div class="card">
+            <strong id="previewNom">
+                Groupe Scolaire Étoile Brillante
+            </strong>
 
-<h2>Sauvegarde des paramètres</h2>
+            <br><br>
 
-<p style="margin-bottom:15px;">
-Les paramètres sont enregistrés dans le navigateur.
-</p>
+            <span id="previewAdresse">
+                03 rue Poumako, marché Massengo, arrondissement 9 Djiri (Brazzaville)
+            </span>
 
-<button class="btn-green" onclick="sauvegarder()">
-💾 Enregistrer les paramètres
-</button>
+            <br><br>
 
-<button class="btn-red" onclick="reinitialiser()">
-Réinitialiser
-</button>
+            📧 <span id="previewEmail">
+                groupescolaireeb26@gmail.com
+            </span>
 
-</div>
+            <br>
 
-</div>
+            📱 <span id="previewTelephone">
+                067598453
+            </span>
 
-<footer>
-Groupe Scolaire Étoile Brillante • Excellence • Discipline • Innovation
-</footer>
+            <br>
+
+            💰 Paiement : <span id="previewPaiement">
+                067598453
+            </span>
+
+            <br><br>
+
+            📅 Année scolaire :
+            <strong id="previewAnnee">
+                2026-2027
+            </strong>
+
+            <br><br>
+
+            <strong id="previewDevise">
+                Excellence • Discipline • Innovation
+            </strong>
+
+            <br>
+
+            <span id="previewPhrase">
+                Révéler leur potentiel. Construire leur avenir.
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>🔐 Sécurité</h2>
+
+        <div class="info">
+            Les paramètres sont enregistrés dans le stockage local du
+            navigateur. Pensez à utiliser régulièrement la page
+            <strong>Sauvegarde</strong> afin de conserver une copie de vos données.
+        </div>
+
+    </div>
+
+</main>
+
 
 <script>
-const CLE="EB_PARAMETRES";
 
-function sauvegarder(){
+const CLE = "EB_PARAMETRES";
 
- const data={
-  nomEcole:nomEcole.value,
-  annee:annee.value,
-  email:email.value,
-  telephone:telephone.value,
-  adresse:adresse.value,
-  coordonnatrice:coordonnatrice.value,
-  directeurEtudes:directeurEtudes.value,
-  directeurPrimaire:directeurPrimaire.value,
-  surveillant:surveillant.value,
-  seuil:seuil.value,
-  max:max.value
- };
+const valeursParDefaut = {
+    nom:"Groupe Scolaire Étoile Brillante",
+    adresse:"03 rue Poumako, marché Massengo, arrondissement 9 Djiri (Brazzaville)",
+    email:"groupescolaireeb26@gmail.com",
+    telephone:"067598453",
+    paiement:"067598453",
+    annee:"2026-2027",
+    devise:"FCFA",
+    deviseEcole:"Excellence • Discipline • Innovation",
+    phrase:"Révéler leur potentiel. Construire leur avenir."
+};
 
- localStorage.setItem(CLE,JSON.stringify(data));
 
- alert("Paramètres enregistrés avec succès.");
-
-}
-
+/* Charger les paramètres */
 function charger(){
 
- const data=
- JSON.parse(localStorage.getItem(CLE)||"null");
+    let donnees = null;
 
- if(!data) return;
+    try{
+        donnees = JSON.parse(
+            localStorage.getItem(CLE)
+        );
+    }catch(e){
+        donnees = null;
+    }
 
- Object.keys(data).forEach(k=>{
-  if(document.getElementById(k))
-   document.getElementById(k).value=data[k];
- });
+    if(!donnees){
+        donnees = valeursParDefaut;
+    }
 
+    document.getElementById("nom").value =
+        donnees.nom || valeursParDefaut.nom;
+
+    document.getElementById("adresse").value =
+        donnees.adresse || valeursParDefaut.adresse;
+
+    document.getElementById("email").value =
+        donnees.email || valeursParDefaut.email;
+
+    document.getElementById("telephone").value =
+        donnees.telephone || valeursParDefaut.telephone;
+
+    document.getElementById("paiement").value =
+        donnees.paiement || valeursParDefaut.paiement;
+
+    document.getElementById("annee").value =
+        donnees.annee || valeursParDefaut.annee;
+
+    document.getElementById("devise").value =
+        donnees.devise || valeursParDefaut.devise;
+
+    document.getElementById("deviseEcole").value =
+        donnees.deviseEcole || valeursParDefaut.deviseEcole;
+
+    document.getElementById("phrase").value =
+        donnees.phrase || valeursParDefaut.phrase;
+
+    actualiserApercu();
 }
 
+
+/* Enregistrer */
+document
+.getElementById("formParametres")
+.addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    const donnees = {
+
+        nom:
+        document.getElementById("nom").value.trim(),
+
+        adresse:
+        document.getElementById("adresse").value.trim(),
+
+        email:
+        document.getElementById("email").value.trim(),
+
+        telephone:
+        document.getElementById("telephone").value.trim(),
+
+        paiement:
+        document.getElementById("paiement").value.trim(),
+
+        annee:
+        document.getElementById("annee").value.trim(),
+
+        devise:
+        document.getElementById("devise").value,
+
+        deviseEcole:
+        document.getElementById("deviseEcole").value.trim(),
+
+        phrase:
+        document.getElementById("phrase").value.trim()
+    };
+
+    localStorage.setItem(
+        CLE,
+        JSON.stringify(donnees)
+    );
+
+    actualiserApercu();
+
+    afficherMessage(
+        "✅ Les paramètres ont été enregistrés avec succès.",
+        "success"
+    );
+});
+
+
+/* Aperçu */
+function actualiserApercu(){
+
+    document.getElementById("previewNom").textContent =
+        document.getElementById("nom").value;
+
+    document.getElementById("previewAdresse").textContent =
+        document.getElementById("adresse").value;
+
+    document.getElementById("previewEmail").textContent =
+        document.getElementById("email").value;
+
+    document.getElementById("previewTelephone").textContent =
+        document.getElementById("telephone").value;
+
+    document.getElementById("previewPaiement").textContent =
+        document.getElementById("paiement").value;
+
+    document.getElementById("previewAnnee").textContent =
+        document.getElementById("annee").value;
+
+    document.getElementById("previewDevise").textContent =
+        document.getElementById("deviseEcole").value;
+
+    document.getElementById("previewPhrase").textContent =
+        document.getElementById("phrase").value;
+}
+
+
+/* Mise à jour de l'aperçu en direct */
+document.querySelectorAll(
+    "#formParametres input, #formParametres textarea"
+).forEach(element => {
+
+    element.addEventListener(
+        "input",
+        actualiserApercu
+    );
+
+});
+
+
+/* Réinitialisation */
 function reinitialiser(){
 
- if(confirm("Réinitialiser les paramètres ?")){
+    if(!confirm(
+        "Voulez-vous réinitialiser les paramètres ?"
+    )){
+        return;
+    }
 
-  localStorage.removeItem(CLE);
+    localStorage.removeItem(CLE);
 
-  location.reload();
+    charger();
 
- }
-
+    afficherMessage(
+        "Les paramètres ont été réinitialisés.",
+        "success"
+    );
 }
 
+
+/* Message */
+function afficherMessage(texte,type){
+
+    const message =
+        document.getElementById("message");
+
+    message.textContent = texte;
+
+    message.className =
+        "message " + type;
+
+    message.style.display = "block";
+
+    setTimeout(()=>{
+        message.style.display = "none";
+    },4000);
+}
+
+
+/* Démarrage */
 charger();
+
 </script>
-<script src="../assets/js/logo.js"></script>
+
 </body>
 </html>
