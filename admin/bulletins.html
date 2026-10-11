@@ -3,10 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bulletins scolaires - Groupe Scolaire Étoile Brillante</title>
+
+<title>Bulletins - Groupe Scolaire Étoile Brillante</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
 
 body{
   margin:0;
@@ -24,7 +27,7 @@ header{
 
 header h1{
   margin:0;
-  font-size:24px;
+  font-size:23px;
 }
 
 header p{
@@ -56,14 +59,17 @@ h2{
   flex-wrap:wrap;
 }
 
-input,select,button{
+input,
+select,
+button{
   padding:11px;
   border-radius:7px;
   border:1px solid #ccc;
   font-size:14px;
 }
 
-input,select{
+input,
+select{
   flex:1;
   min-width:180px;
 }
@@ -87,6 +93,24 @@ button:hover{
 
 .btn-retour{
   background:#555;
+}
+
+.resultats-recherche{
+  margin-top:12px;
+  display:grid;
+  gap:8px;
+}
+
+.resultat-eleve{
+  padding:12px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  background:#f8fafc;
+  cursor:pointer;
+}
+
+.resultat-eleve:hover{
+  background:#eef3ff;
 }
 
 .info-eleve{
@@ -152,7 +176,8 @@ table{
   margin-top:15px;
 }
 
-th,td{
+th,
+td{
   border:1px solid #777;
   padding:7px;
   text-align:center;
@@ -224,7 +249,14 @@ td:first-child{
   color:#777;
 }
 
+.erreur{
+  color:#b00020;
+  text-align:center;
+  padding:20px;
+}
+
 @media(max-width:700px){
+
   .bulletin{
     padding:10px;
   }
@@ -233,7 +265,8 @@ td:first-child{
     font-size:11px;
   }
 
-  th,td{
+  th,
+  td{
     padding:5px;
   }
 
@@ -245,17 +278,18 @@ td:first-child{
   .signature{
     width:100%;
   }
+
 }
 
 @media print{
+
   body{
     background:white;
   }
 
   header,
   .recherche,
-  .actions,
-  .no-print{
+  .actions{
     display:none!important;
   }
 
@@ -280,6 +314,7 @@ td:first-child{
     size:A4 portrait;
     margin:12mm;
   }
+
 }
 </style>
 </head>
@@ -287,22 +322,5 @@ td:first-child{
 <body>
 
 <header>
-  <h1>Groupe Scolaire Étoile Brillante</h1>
-  <p>Administration — Gestion des bulletins</p>
-</header>
 
-<div class="container">
-
-  <!-- RECHERCHE -->
-  <div class="card recherche">
-    <h2>🔎 Rechercher un élève</h2>
-
-    <div class="row">
-      <input
-        type="text"
-        id="recherche"
-        placeholder="Matricule, nom ou prénom"
-        oninput="rechercherEleve()"
-      >
-
-      <select
+  <h1>Groupe S
