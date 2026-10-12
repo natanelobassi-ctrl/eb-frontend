@@ -1,126 +1,184 @@
 <!DOCTYPE html>
 <html lang="fr">
- <script>
-if(sessionStorage.getItem("EB_ADMIN")!=="OK"){
-  location.replace("login.html");
-}
- </script>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Emplois du temps - Groupe Scolaire Étoile Brillante</title>
+<title>Emplois du temps — Groupe Scolaire Étoile Brillante</title>
 
 <style>
-:root{
- --bleu:#0A2A78;
- --bleu2:#123A9B;
- --or:#C9A227;
- --ivoire:#F7F4ED;
- --vert:#198754;
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-
+*{box-sizing:border-box}
 body{
- font-family:Arial,Helvetica,sans-serif;
- background:var(--ivoire);
- color:#1F2937;
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f4f6fa;
+  color:#1f2937;
 }
-
 header{
- background:linear-gradient(135deg,var(--bleu),var(--bleu2));
- color:white;
- padding:20px;
+  background:#0A2A78;
+  color:white;
+  padding:22px 18px;
 }
+header h1{margin:0 0 6px;font-size:25px}
+header p{margin:0;opacity:.9}
 
 .container{
- width:95%;
- max-width:1300px;
- margin:auto;
-}
-
-nav{
- display:flex;
- flex-wrap:wrap;
- gap:8px;
- margin-top:15px;
-}
-
-nav a{
- color:white;
- text-decoration:none;
- padding:8px 12px;
- border-radius:8px;
- font-weight:bold;
-}
-
-nav a:hover{
- background:rgba(255,255,255,.15);
+  max-width:1250px;
+  margin:20px auto;
+  padding:0 15px;
 }
 
 .card{
- background:white;
- border-radius:15px;
- padding:22px;
- margin:22px 0;
- box-shadow:0 5px 18px rgba(0,0,0,.08);
+  background:white;
+  border-radius:14px;
+  padding:20px;
+  margin-bottom:20px;
+  box-shadow:0 4px 15px rgba(0,0,0,.08);
 }
 
-select,input{
- width:100%;
- padding:10px;
- border:1px solid #ccc;
- border-radius:8px;
+h2{
+  margin-top:0;
+  color:#0A2A78;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+
+label{
+  font-weight:bold;
+  font-size:14px;
+  display:block;
+  margin-bottom:6px;
+}
+
+input,select{
+  width:100%;
+  padding:11px;
+  border:1px solid #ccd3df;
+  border-radius:8px;
+  font-size:14px;
+  background:white;
 }
 
 button{
- border:none;
- border-radius:8px;
- padding:12px 18px;
- font-weight:bold;
- cursor:pointer;
- color:white;
+  border:0;
+  border-radius:8px;
+  padding:11px 16px;
+  cursor:pointer;
+  font-weight:bold;
 }
 
-.btn-save{background:var(--vert);}
-.btn-print{background:var(--bleu);}
+.btn-primary{background:#0A2A78;color:white}
+.btn-gold{background:#C9A227;color:white}
+.btn-danger{background:#c62828;color:white}
+.btn-secondary{background:#6b7280;color:white}
+.btn-green{background:#188038;color:white}
+
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:18px;
+}
 
 .table-wrap{
- overflow:auto;
+  overflow-x:auto;
 }
 
 table{
- width:100%;
- border-collapse:collapse;
- min-width:900px;
+  width:100%;
+  border-collapse:collapse;
+  min-width:850px;
 }
 
 th,td{
- border:1px solid #ddd;
- padding:10px;
- text-align:center;
+  padding:11px;
+  border:1px solid #ddd;
+  text-align:left;
+  vertical-align:middle;
 }
 
 th{
- background:var(--bleu);
- color:white;
+  background:#0A2A78;
+  color:white;
 }
 
-input.cours{
- min-width:120px;
+tr:nth-child(even){background:#f8fafc}
+
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  background:#e8eefc;
+  color:#0A2A78;
+  font-size:12px;
+  font-weight:bold;
 }
 
-footer{
- background:var(--bleu);
- color:white;
- text-align:center;
- padding:20px;
- margin-top:30px;
+.empty{
+  text-align:center;
+  padding:30px;
+  color:#6b7280;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin-bottom:20px;
+}
+
+.stat{
+  background:white;
+  padding:18px;
+  border-radius:12px;
+  box-shadow:0 3px 12px rgba(0,0,0,.06);
+}
+
+.stat strong{
+  display:block;
+  font-size:25px;
+  color:#0A2A78;
+}
+
+@media(max-width:900px){
+  .form-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:600px){
+  .form-grid{grid-template-columns:1fr}
+  header h1{font-size:21px}
+  .actions button{width:100%}
+  .stats{grid-template-columns:1fr}
 }
 
 @media print{
- button,nav{display:none;}
- body{background:white;}
- .card{box-shadow:none;}
+  header,
+  .no-print,
+  .form-card,
+  .stats,
+  .actions,
+  .actions-cell{
+    display:none!important;
+  }
+
+  body{background:white}
+
+  .card{
+    box-shadow:none;
+    border:0;
+  }
+
+  table{
+    min-width:0;
+  }
+
+  th{
+    background:#ddd!important;
+    color:black!important;
+  }
 }
 </style>
 </head>
@@ -128,207 +186,801 @@ footer{
 <body>
 
 <header>
-
-<div class="container">
-
-<h1>Groupe Scolaire Étoile Brillante</h1>
-
-<p>Administration — Gestion des emplois du temps</p>
-
-<nav>
-<a href="index.html">Dashboard</a>
-<a href="eleves.html">Élèves</a>
-<a href="notes.html">Notes</a>
-<a href="bulletins.html">Bulletins</a>
-<a href="paiements.html">Paiements</a>
-<a href="emplois.html">Emplois</a>
-<a href="cartes.html">Cartes</a>
-<a href="actualites.html">Actualités</a>
-<a href="parametres.html">Paramètres</a>
-</nav>
-
-</div>
-
+  <h1>📅 Emplois du temps</h1>
+  <p>Groupe Scolaire Étoile Brillante — Administration</p>
 </header>
 
 <div class="container">
 
-<div class="card">
+  <!-- STATISTIQUES -->
+  <div class="stats no-print">
+    <div class="stat">
+      <span>Total des cours</span>
+      <strong id="totalCours">0</strong>
+    </div>
 
-<h2>Créer un emploi du temps</h2>
+    <div class="stat">
+      <span>Classes concernées</span>
+      <strong id="totalClasses">0</strong>
+    </div>
 
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;margin-bottom:20px;">
+    <div class="stat">
+      <span>Enseignants concernés</span>
+      <strong id="totalEnseignants">0</strong>
+    </div>
+  </div>
 
-<div>
-<label>Classe</label>
-<select id="classe">
-<option>P1</option>
-<option>P2</option>
-<option>P3</option>
-<option>CP1</option>
-<option>CP2</option>
-<option>CE1</option>
-<option>CE2</option>
-<option>CM1</option>
-<option>CM2</option>
-<option>6e</option>
-<option>5e</option>
-<option>4e</option>
-<option>3e</option>
-<option>STC</option>
-<option>Première A</option>
-<option>Première D</option>
-<option>Terminale A</option>
-<option>Terminale D</option>
-</select>
+  <!-- FORMULAIRE -->
+  <div class="card form-card">
+
+    <h2 id="formTitle">➕ Ajouter un cours</h2>
+
+    <div class="form-grid">
+
+      <div>
+        <label for="classe">Classe *</label>
+        <select id="classe">
+          <option value="">Sélectionner</option>
+          <option>P1</option>
+          <option>P2</option>
+          <option>P3</option>
+
+          <option>CP1</option>
+          <option>CP2</option>
+          <option>CE1</option>
+          <option>CE2</option>
+          <option>CM1</option>
+          <option>CM2</option>
+
+          <option>6e</option>
+          <option>5e</option>
+          <option>4e</option>
+          <option>3e</option>
+
+          <option>Seconde</option>
+          <option>STC</option>
+          <option>Première A</option>
+          <option>Première D</option>
+          <option>Terminale A</option>
+          <option>Terminale D</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="jour">Jour *</label>
+        <select id="jour">
+          <option value="">Sélectionner</option>
+          <option>Lundi</option>
+          <option>Mardi</option>
+          <option>Mercredi</option>
+          <option>Jeudi</option>
+          <option>Vendredi</option>
+          <option>Samedi</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="heureDebut">Heure de début *</label>
+        <input type="time" id="heureDebut">
+      </div>
+
+      <div>
+        <label for="heureFin">Heure de fin *</label>
+        <input type="time" id="heureFin">
+      </div>
+
+      <div>
+        <label for="matiere">Matière *</label>
+        <input type="text" id="matiere" placeholder="Ex. Mathématiques">
+      </div>
+
+      <div>
+        <label for="enseignant">Enseignant *</label>
+        <input type="text" id="enseignant" placeholder="Nom et prénom">
+      </div>
+
+      <div>
+        <label for="salle">Salle</label>
+        <input type="text" id="salle" placeholder="Ex. Salle 3">
+      </div>
+
+      <div>
+        <label for="typeCours">Type</label>
+        <select id="typeCours">
+          <option>Cours</option>
+          <option>TD</option>
+          <option>TP</option>
+          <option>Évaluation</option>
+          <option>Activité</option>
+          <option>Autre</option>
+        </select>
+      </div>
+
+    </div>
+
+    <div class="actions">
+      <button class="btn-primary" onclick="enregistrerCours()">
+        💾 Enregistrer
+      </button>
+
+      <button class="btn-secondary" onclick="annulerModification()">
+        ↩ Réinitialiser
+      </button>
+    </div>
+
+  </div>
+
+  <!-- RECHERCHE -->
+  <div class="card no-print">
+
+    <h2>🔎 Rechercher un emploi du temps</h2>
+
+    <div class="form-grid">
+
+      <div>
+        <label>Classe</label>
+        <select id="filtreClasse" onchange="afficherCours()">
+          <option value="">Toutes les classes</option>
+          <option>P1</option>
+          <option>P2</option>
+          <option>P3</option>
+          <option>CP1</option>
+          <option>CP2</option>
+          <option>CE1</option>
+          <option>CE2</option>
+          <option>CM1</option>
+          <option>CM2</option>
+          <option>6e</option>
+          <option>5e</option>
+          <option>4e</option>
+          <option>3e</option>
+          <option>Seconde</option>
+          <option>STC</option>
+          <option>Première A</option>
+          <option>Première D</option>
+          <option>Terminale A</option>
+          <option>Terminale D</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Jour</label>
+        <select id="filtreJour" onchange="afficherCours()">
+          <option value="">Tous les jours</option>
+          <option>Lundi</option>
+          <option>Mardi</option>
+          <option>Mercredi</option>
+          <option>Jeudi</option>
+          <option>Vendredi</option>
+          <option>Samedi</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Recherche libre</label>
+        <input
+          type="text"
+          id="recherche"
+          placeholder="Matière, enseignant, salle..."
+          oninput="afficherCours()">
+      </div>
+
+    </div>
+
+    <div class="actions">
+      <button class="btn-gold" onclick="imprimerEmploi()">
+        🖨️ Imprimer
+      </button>
+
+      <button class="btn-secondary" onclick="exporterCSV()">
+        📥 Exporter CSV
+      </button>
+
+      <button class="btn-danger" onclick="supprimerTout()">
+        🗑️ Tout supprimer
+      </button>
+    </div>
+
+  </div>
+
+  <!-- TABLEAU -->
+  <div class="card">
+
+    <h2>📋 Liste des cours</h2>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Jour</th>
+            <th>Horaire</th>
+            <th>Classe</th>
+            <th>Matière</th>
+            <th>Enseignant</th>
+            <th>Salle</th>
+            <th>Type</th>
+            <th class="actions-cell no-print">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody id="tableCours"></tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
 </div>
-
-<div>
-<label>Salle</label>
-<input id="salle" placeholder="Salle A1">
-</div>
-
-</div>
-
-<div class="table-wrap">
-
-<table id="tableau">
-
-<thead>
-
-<tr>
-<th>Horaire</th>
-<th>Lundi</th>
-<th>Mardi</th>
-<th>Mercredi</th>
-<th>Jeudi</th>
-<th>Vendredi</th>
-<th>Samedi</th>
-</tr>
-
-</thead>
-
-<tbody></tbody>
-
-</table>
-
-</div>
-
-<div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">
-
-<button class="btn-save" onclick="enregistrer()">
-💾 Enregistrer
-</button>
-
-<button class="btn-print" onclick="window.print()">
-🖨 Imprimer
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<footer>
-
-Groupe Scolaire Étoile Brillante • Brazzaville
-
-</footer>
 
 <script>
 
-const horaires=[
-"07:30-08:30",
-"08:30-09:30",
-"09:30-10:00",
-"10:00-11:00",
-"11:00-12:00",
-"12:00-13:00",
-"13:00-14:00",
-"14:00-15:00",
-"15:00-16:00"
-];
+const CLE = "EB_EMPLOIS";
 
-const jours=["lundi","mardi","mercredi","jeudi","vendredi","samedi"];
+let cours = [];
+let indexModification = -1;
 
-const tbody=document.querySelector("#tableau tbody");
+/* =========================
+   CHARGEMENT
+========================= */
 
-horaires.forEach((h,i)=>{
+function chargerCours(){
 
- const tr=document.createElement("tr");
+  try{
+    cours = JSON.parse(localStorage.getItem(CLE)) || [];
+  }catch(e){
+    cours = [];
+  }
 
- tr.innerHTML=`<td><strong>${h}</strong></td>`;
-
- jours.forEach(j=>{
-
-  tr.innerHTML+=`
-  <td>
-   <input class="cours" id="${j}_${i}" placeholder="Matière">
-  </td>`;
-
- });
-
- tbody.appendChild(tr);
-
-});
-
-function cle(){
- return "EB_EMPLOI_"+classe.value;
+  afficherCours();
 }
 
-function enregistrer(){
 
- const data={
-  classe:classe.value,
-  salle:salle.value,
-  cours:{}
- };
+/* =========================
+   SAUVEGARDE
+========================= */
 
- horaires.forEach((h,i)=>{
-  jours.forEach(j=>{
-   data.cours[j+"_"+i]=document.getElementById(j+"_"+i).value;
-  });
- });
+function sauvegarder(){
 
- localStorage.setItem(cle(),JSON.stringify(data));
-
- alert("Emploi du temps enregistré.");
+  localStorage.setItem(
+    CLE,
+    JSON.stringify(cours)
+  );
 
 }
 
-function charger(){
 
- const data=JSON.parse(localStorage.getItem(cle())||"null");
+/* =========================
+   ENREGISTRER
+========================= */
 
- if(!data){
+function enregistrerCours(){
 
-  salle.value="";
+  const classe =
+    document.getElementById("classe").value.trim();
 
-  horaires.forEach((h,i)=>{
-   jours.forEach(j=>{
-    document.getElementById(j+"_"+i).value="";
-   });
-  });
+  const jour =
+    document.getElementById("jour").value.trim();
 
-  return;
- }
+  const heureDebut =
+    document.getElementById("heureDebut").value;
 
- salle.value=data.salle||"";
+  const heureFin =
+    document.getElementById("heureFin").value;
 
- horaires.forEach((h,i)=>{
-  jours.forEach(j=>{
-   document.getElementById(j+"_"+i).value=data.cours[j+"_"+i]||"";
-  });
- });
+  const matiere =
+    document.getElementById("matiere").value.trim();
+
+  const enseignant =
+    document.getElementById("enseignant").value.trim();
+
+  const salle =
+    document.getElementById("salle").value.trim();
+
+  const type =
+    document.getElementById("typeCours").value;
+
+  if(
+    !classe ||
+    !jour ||
+    !heureDebut ||
+    !heureFin ||
+    !matiere ||
+    !enseignant
+  ){
+
+    alert(
+      "Veuillez remplir tous les champs obligatoires."
+    );
+
+    return;
+  }
+
+  if(heureFin <= heureDebut){
+
+    alert(
+      "L'heure de fin doit être supérieure à l'heure de début."
+    );
+
+    return;
+  }
+
+  const nouveauCours = {
+
+    id:
+      indexModification >= 0
+      ? cours[indexModification].id
+      : Date.now(),
+
+    classe,
+    jour,
+    heureDebut,
+    heureFin,
+    matiere,
+    enseignant,
+    salle,
+    type
+
+  };
+
+  if(indexModification >= 0){
+
+    cours[indexModification] =
+      nouveauCours;
+
+    alert("Cours modifié avec succès.");
+
+  }else{
+
+    cours.push(nouveauCours);
+
+    alert("Cours enregistré avec succès.");
+
+  }
+
+  sauvegarder();
+
+  annulerModification();
+
+  afficherCours();
 
 }
 
-classe.addEventListener("change",charger);
 
-charger();
+/* =========================
+   AFFICHAGE
+========================= */
+
+function afficherCours(){
+
+  const tbody =
+    document.getElementById("tableCours");
+
+  const filtreClasse =
+    document.getElementById("filtreClasse").value;
+
+  const filtreJour =
+    document.getElementById("filtreJour").value;
+
+  const recherche =
+    document
+      .getElementById("recherche")
+      .value
+      .toLowerCase()
+      .trim();
+
+  let liste = [...cours];
+
+  if(filtreClasse){
+
+    liste =
+      liste.filter(
+        c => c.classe === filtreClasse
+      );
+
+  }
+
+  if(filtreJour){
+
+    liste =
+      liste.filter(
+        c => c.jour === filtreJour
+      );
+
+  }
+
+  if(recherche){
+
+    liste =
+      liste.filter(c => {
+
+        const texte = (
+
+          c.classe + " " +
+          c.matiere + " " +
+          c.enseignant + " " +
+          c.salle + " " +
+          c.type
+
+        ).toLowerCase();
+
+        return texte.includes(recherche);
+
+      });
+
+  }
+
+  const ordreJours = {
+
+    "Lundi":1,
+    "Mardi":2,
+    "Mercredi":3,
+    "Jeudi":4,
+    "Vendredi":5,
+    "Samedi":6
+
+  };
+
+  liste.sort((a,b)=>{
+
+    const j =
+      (ordreJours[a.jour] || 99) -
+      (ordreJours[b.jour] || 99);
+
+    if(j !== 0) return j;
+
+    return a.heureDebut.localeCompare(
+      b.heureDebut
+    );
+
+  });
+
+  tbody.innerHTML = "";
+
+  if(liste.length === 0){
+
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="8" class="empty">
+          Aucun cours enregistré pour cette recherche.
+        </td>
+      </tr>
+    `;
+
+  }else{
+
+    liste.forEach(c => {
+
+      const index =
+        cours.findIndex(
+          x => x.id === c.id
+        );
+
+      const tr =
+        document.createElement("tr");
+
+      tr.innerHTML = `
+
+        <td>
+          <strong>${escapeHTML(c.jour)}</strong>
+        </td>
+
+        <td>
+          ${escapeHTML(c.heureDebut)}
+          —
+          ${escapeHTML(c.heureFin)}
+        </td>
+
+        <td>
+          <span class="badge">
+            ${escapeHTML(c.classe)}
+          </span>
+        </td>
+
+        <td>
+          ${escapeHTML(c.matiere)}
+        </td>
+
+        <td>
+          ${escapeHTML(c.enseignant)}
+        </td>
+
+        <td>
+          ${escapeHTML(c.salle || "—")}
+        </td>
+
+        <td>
+          ${escapeHTML(c.type || "Cours")}
+        </td>
+
+        <td class="actions-cell no-print">
+
+          <button
+            class="btn-gold"
+            onclick="modifierCours(${index})">
+            Modifier
+          </button>
+
+          <button
+            class="btn-danger"
+            onclick="supprimerCours(${index})">
+            Supprimer
+          </button>
+
+        </td>
+
+      `;
+
+      tbody.appendChild(tr);
+
+    });
+
+  }
+
+  mettreAJourStatistiques();
+
+}
+
+
+/* =========================
+   MODIFIER
+========================= */
+
+function modifierCours(index){
+
+  const c = cours[index];
+
+  if(!c) return;
+
+  document.getElementById("classe").value =
+    c.classe;
+
+  document.getElementById("jour").value =
+    c.jour;
+
+  document.getElementById("heureDebut").value =
+    c.heureDebut;
+
+  document.getElementById("heureFin").value =
+    c.heureFin;
+
+  document.getElementById("matiere").value =
+    c.matiere;
+
+  document.getElementById("enseignant").value =
+    c.enseignant;
+
+  document.getElementById("salle").value =
+    c.salle || "";
+
+  document.getElementById("typeCours").value =
+    c.type || "Cours";
+
+  indexModification = index;
+
+  document.getElementById("formTitle").textContent =
+    "✏️ Modifier le cours";
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+/* =========================
+   SUPPRIMER
+========================= */
+
+function supprimerCours(index){
+
+  if(!confirm(
+    "Voulez-vous vraiment supprimer ce cours ?"
+  )) return;
+
+  cours.splice(index,1);
+
+  sauvegarder();
+
+  afficherCours();
+
+}
+
+
+/* =========================
+   SUPPRIMER TOUT
+========================= */
+
+function supprimerTout(){
+
+  if(cours.length === 0){
+
+    alert("Aucun cours à supprimer.");
+
+    return;
+
+  }
+
+  if(!confirm(
+    "ATTENTION : voulez-vous supprimer tout l'emploi du temps ?"
+  )) return;
+
+  if(!confirm(
+    "Cette action est définitive. Confirmer ?"
+  )) return;
+
+  cours = [];
+
+  sauvegarder();
+
+  afficherCours();
+
+}
+
+
+/* =========================
+   RESET
+========================= */
+
+function annulerModification(){
+
+  indexModification = -1;
+
+  document.getElementById("formTitle").textContent =
+    "➕ Ajouter un cours";
+
+  document.getElementById("classe").value = "";
+
+  document.getElementById("jour").value = "";
+
+  document.getElementById("heureDebut").value = "";
+
+  document.getElementById("heureFin").value = "";
+
+  document.getElementById("matiere").value = "";
+
+  document.getElementById("enseignant").value = "";
+
+  document.getElementById("salle").value = "";
+
+  document.getElementById("typeCours").value = "Cours";
+
+}
+
+
+/* =========================
+   STATISTIQUES
+========================= */
+
+function mettreAJourStatistiques(){
+
+  document.getElementById("totalCours").textContent =
+    cours.length;
+
+  const classes =
+    new Set(
+      cours.map(c => c.classe)
+    );
+
+  document.getElementById("totalClasses").textContent =
+    classes.size;
+
+  const enseignants =
+    new Set(
+      cours.map(c => c.enseignant)
+    );
+
+  document.getElementById("totalEnseignants").textContent =
+    enseignants.size;
+
+}
+
+
+/* =========================
+   IMPRESSION
+========================= */
+
+function imprimerEmploi(){
+
+  window.print();
+
+}
+
+
+/* =========================
+   EXPORT CSV
+========================= */
+
+function exporterCSV(){
+
+  if(cours.length === 0){
+
+    alert(
+      "Aucun cours à exporter."
+    );
+
+    return;
+
+  }
+
+  let csv =
+    "Jour;Début;Fin;Classe;Matière;Enseignant;Salle;Type\n";
+
+  cours.forEach(c => {
+
+    csv += [
+
+      c.jour,
+      c.heureDebut,
+      c.heureFin,
+      c.classe,
+      c.matiere,
+      c.enseignant,
+      c.salle || "",
+      c.type || ""
+
+    ].map(v =>
+      `"${String(v).replace(/"/g,'""')}"`
+    ).join(";") + "\n";
+
+  });
+
+  const blob =
+    new Blob(
+      ["\ufeff" + csv],
+      {
+        type:"text/csv;charset=utf-8;"
+      }
+    );
+
+  const url =
+    URL.createObjectURL(blob);
+
+  const a =
+    document.createElement("a");
+
+  a.href = url;
+
+  a.download =
+    "emploi-du-temps-etoile-brillante.csv";
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  a.remove();
+
+  URL.revokeObjectURL(url);
+
+}
+
+
+/* =========================
+   SECURITE AFFICHAGE
+========================= */
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================
+   DEMARRAGE
+========================= */
+
+chargerCours();
 
 </script>
-<script src="../assets/js/logo.js"></script>
+
 </body>
 </html>
