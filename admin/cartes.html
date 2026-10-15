@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="fr">
- <script>
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cartes scolaires - Groupe Scolaire Étoile Brillante</title>
+
+<script>
 if(sessionStorage.getItem("EB_ADMIN")!=="OK"){
   location.replace("login.html");
 }
 </script>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cartes scolaires - Groupe Scolaire Étoile Brillante</title>
 
 <style>
 :root{
@@ -17,7 +20,12 @@ if(sessionStorage.getItem("EB_ADMIN")!=="OK"){
  --or:#C9A227;
  --ivoire:#F7F4ED;
 }
-*{margin:0;padding:0;box-sizing:border-box;}
+
+*{
+ margin:0;
+ padding:0;
+ box-sizing:border-box;
+}
 
 body{
  font-family:Arial,Helvetica,sans-serif;
@@ -76,7 +84,8 @@ label{
  margin-bottom:6px;
 }
 
-select,input{
+select,
+input{
  width:100%;
  padding:10px;
  border:1px solid #ccc;
@@ -94,6 +103,12 @@ button{
  margin-top:15px;
 }
 
+button:hover{
+ background:var(--bleu2);
+}
+
+/* CARTE */
+
 .badge{
  width:340px;
  margin:30px auto;
@@ -101,26 +116,51 @@ button{
  border-radius:18px;
  overflow:hidden;
  background:white;
+ box-shadow:0 5px 18px rgba(0,0,0,.15);
 }
 
 .badge-header{
  background:linear-gradient(135deg,var(--bleu),var(--bleu2));
  color:white;
  text-align:center;
- padding:18px;
+ padding:18px 10px;
+}
+
+.badge-header h2{
+ font-size:17px;
+}
+
+.badge-header p{
+ margin-top:6px;
+ font-size:12px;
+}
+
+.photo-container{
+ width:110px;
+ height:110px;
+ margin:18px auto 10px;
 }
 
 .photo{
- width:90px;
- height:90px;
- margin:15px auto;
- border-radius:50%;
+ width:110px;
+ height:110px;
+ border-radius:10px;
+ border:3px solid var(--or);
  background:#e5e7eb;
  display:flex;
  align-items:center;
  justify-content:center;
+ overflow:hidden;
  font-size:2rem;
  font-weight:bold;
+ color:var(--bleu);
+}
+
+.photo img{
+ width:100%;
+ height:100%;
+ object-fit:cover;
+ display:block;
 }
 
 .badge-body{
@@ -129,6 +169,7 @@ button{
 
 .info{
  margin:8px 0;
+ font-size:14px;
 }
 
 .qr{
@@ -141,6 +182,8 @@ button{
  justify-content:center;
  font-size:.7rem;
  color:#666;
+ text-align:center;
+ word-break:break-all;
 }
 
 .signature{
@@ -160,11 +203,33 @@ footer{
 }
 
 @media print{
- nav,button{display:none;}
- body{background:white;}
- .card{box-shadow:none;}
+
+ nav,
+ button,
+ .controls{
+   display:none !important;
+ }
+
+ body{
+   background:white;
+ }
+
+ .card{
+   box-shadow:none;
+ }
+
+ .badge{
+   margin:10px auto;
+   box-shadow:none;
+ }
+
+ footer{
+   display:none;
+ }
+
 }
 </style>
+
 </head>
 
 <body>
@@ -189,38 +254,61 @@ footer{
 
 </header>
 
+
 <div class="container">
 
-<div class="card">
+
+<div class="card controls">
 
 <h2>Créer une carte scolaire</h2>
 
 <div class="grid">
 
 <div>
+
 <label>Élève</label>
+
 <select id="eleveSelect">
+
 <option value="">Sélectionner un élève</option>
+
 </select>
+
 </div>
 
+
 <div>
+
 <label>Matricule</label>
+
 <input id="matricule" readonly>
+
 </div>
+
 
 <div>
+
 <label>Classe</label>
+
 <input id="classe" readonly>
-</div>
 
 </div>
 
-<button onclick="window.print()">Imprimer la carte</button>
+</div>
+
+
+<button onclick="imprimerCarte()">
+🖨️ Imprimer la carte
+</button>
 
 </div>
 
-<div class="badge">
+
+
+<!-- CARTE SCOLAIRE -->
+
+<div class="badge" id="carte">
+
 
 <div class="badge-header">
 
@@ -230,39 +318,93 @@ footer{
 
 </div>
 
-<div class="photo" id="avatar">EB</div>
+
+<!-- PHOTO -->
+
+<div class="photo-container">
+
+<div class="photo" id="avatar">
+
+<span id="initiales">EB</span>
+
+<img id="photoEleve"
+     src=""
+     alt="Photo de l'élève"
+     style="display:none;">
+
+</div>
+
+</div>
+
 
 <div class="badge-body">
 
-<div class="info"><strong>Nom :</strong> <span id="bNom">-</span></div>
 
-<div class="info"><strong>Prénom :</strong> <span id="bPrenom">-</span></div>
+<div class="info">
+<strong>Nom :</strong>
+<span id="bNom">-</span>
+</div>
 
-<div class="info"><strong>Matricule :</strong> <span id="bMatricule">-</span></div>
 
-<div class="info"><strong>Classe :</strong> <span id="bClasse">-</span></div>
+<div class="info">
+<strong>Prénom :</strong>
+<span id="bPrenom">-</span>
+</div>
 
-<div class="info"><strong>Date de naissance :</strong> <span id="bDate">-</span></div>
 
-<div class="info"><strong>Lieu de naissance :</strong> <span id="bLieu">-</span></div>
+<div class="info">
+<strong>Matricule :</strong>
+<span id="bMatricule">-</span>
+</div>
 
-<div class="info"><strong>Adresse :</strong> <span id="bAdresse">-</span></div>
 
-<div class="qr" id="qr">QR</div>
+<div class="info">
+<strong>Classe :</strong>
+<span id="bClasse">-</span>
+</div>
+
+
+<div class="info">
+<strong>Date de naissance :</strong>
+<span id="bDate">-</span>
+</div>
+
+
+<div class="info">
+<strong>Lieu de naissance :</strong>
+<span id="bLieu">-</span>
+</div>
+
+
+<div class="info">
+<strong>Adresse :</strong>
+<span id="bAdresse">-</span>
+</div>
+
+
+<div class="qr" id="qr">
+QR
+</div>
+
 
 <div class="signature">
 
-<strong>Directeur des études</strong><br>
+<strong>Directeur des études</strong>
+
+<br>
 
 NGATSONGO Clarmy Nice Natanaël
 
 </div>
 
-</div>
 
 </div>
 
 </div>
+
+
+</div>
+
 
 <footer>
 
@@ -270,48 +412,133 @@ Groupe Scolaire Étoile Brillante • Brazzaville
 
 </footer>
 
+
 <script>
 
-const eleves=JSON.parse(localStorage.getItem("EB_ELEVES")||"[]");
+/* =========================
+   RÉCUPÉRATION DES ÉLÈVES
+========================= */
+
+const eleves =
+JSON.parse(localStorage.getItem("EB_ELEVES") || "[]");
+
+
+const eleveSelect =
+document.getElementById("eleveSelect");
+
+
+/* =========================
+   REMPLIR LA LISTE
+========================= */
 
 eleves.forEach((e,i)=>{
 
- const option=document.createElement("option");
+ const option =
+ document.createElement("option");
 
  option.value=i;
 
- option.textContent=e.nom+" "+e.prenom+" ("+e.classe+")";
+ option.textContent =
+ (e.nom || "") +
+ " " +
+ (e.prenom || "") +
+ " (" +
+ (e.classe || e.salle || "") +
+ ")";
 
  eleveSelect.appendChild(option);
 
 });
 
-eleveSelect.onchange=function(){
 
- const e=eleves[this.value];
+/* =========================
+   SÉLECTION ÉLÈVE
+========================= */
 
- if(!e)return;
+eleveSelect.addEventListener("change",function(){
 
- matricule.value=e.matricule;
- classe.value=e.classe;
+ const e =
+ eleves[this.value];
 
- bNom.textContent=e.nom;
- bPrenom.textContent=e.prenom;
- bMatricule.textContent=e.matricule;
- bClasse.textContent=e.classe;
- bDate.textContent=e.dateNaissance||"-";
- bLieu.textContent=e.lieuNaissance||"-";
- bAdresse.textContent=e.adresse||"-";
+ if(!e) return;
 
- avatar.textContent=
- (e.prenom||"E").charAt(0).toUpperCase()+
- (e.nom||"B").charAt(0).toUpperCase();
 
- qr.textContent=e.matricule;
+ /* Informations */
 
-};
+ document.getElementById("matricule").value =
+ e.matricule || "";
 
-</script>
-<script src="../assets/js/logo.js"></script>
-</body>
-</html>
+ document.getElementById("classe").value =
+ e.classe || e.salle || "";
+
+
+ document.getElementById("bNom").textContent =
+ e.nom || "-";
+
+ document.getElementById("bPrenom").textContent =
+ e.prenom || "-";
+
+ document.getElementById("bMatricule").textContent =
+ e.matricule || "-";
+
+ document.getElementById("bClasse").textContent =
+ e.classe || e.salle || "-";
+
+ document.getElementById("bDate").textContent =
+ e.dateNaissance || "-";
+
+ document.getElementById("bLieu").textContent =
+ e.lieuNaissance || "-";
+
+ document.getElementById("bAdresse").textContent =
+ e.adresse || "-";
+
+
+ /* =========================
+    PHOTO DE L'ÉLÈVE
+ ========================= */
+
+ const photo =
+ document.getElementById("photoEleve");
+
+ const initiales =
+ document.getElementById("initiales");
+
+
+ if(e.photo && String(e.photo).trim() !== ""){
+
+   photo.src = e.photo;
+
+   photo.style.display = "block";
+
+   initiales.style.display = "none";
+
+
+   /* Si la photo ne peut pas être chargée */
+
+   photo.onerror = function(){
+
+     photo.style.display = "none";
+
+     initiales.style.display = "block";
+
+   };
+
+ }else{
+
+   photo.src = "";
+
+   photo.style.display = "none";
+
+   initiales.style.display = "block";
+
+ }
+
+
+ /* =========================
+    INITIALES
+ ========================= */
+
+ initiales.textContent =
+ (e.prenom || "E").charAt(0).toUpperCase() +
+ (e.nom || "B").charAt(0).toUpperCase
