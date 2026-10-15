@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Inscription — Groupe Scolaire Étoile Brillante</title>
 
   <style>
@@ -11,12 +12,15 @@
       --bleu-clair:#123A9B;
       --or:#C9A227;
       --ivoire:#F7F4ED;
-      --blanc:#fff;
+      --blanc:#FFFFFF;
       --texte:#1F2937;
-      --vert:#16803c;
+      --vert:#16803C;
+      --rouge:#C62828;
     }
 
-    *{box-sizing:border-box}
+    *{
+      box-sizing:border-box;
+    }
 
     body{
       margin:0;
@@ -28,92 +32,49 @@
     header{
       background:linear-gradient(135deg,var(--bleu),var(--bleu-clair));
       color:white;
-      padding:22px 15px;
+      padding:25px 15px;
       text-align:center;
     }
 
     header h1{
       margin:0 0 8px;
-      font-size:25px;
+      font-size:28px;
     }
 
     header p{
       margin:0;
-      opacity:.9;
+      opacity:.95;
     }
 
     .container{
-      max-width:900px;
-      margin:25px auto;
-      padding:0 15px;
+      max-width:1000px;
+      margin:30px auto;
+      padding:0 15px 40px;
     }
 
-    .card{
-      background:white;
-      border-radius:18px;
-      padding:25px;
-      box-shadow:0 5px 20px rgba(0,0,0,.08);
-    }
-
-    h2{
-      color:var(--bleu);
-      margin-top:0;
-    }
-
-    .notice{
-      background:#eef4ff;
-      border-left:5px solid var(--bleu);
-      padding:12px 15px;
-      margin-bottom:20px;
-      border-radius:8px;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:16px;
-    }
-
-    .full{
-      grid-column:1/-1;
-    }
-
-    label{
-      display:block;
-      font-weight:bold;
-      margin-bottom:6px;
-    }
-
-    input,select{
-      width:100%;
-      padding:12px;
-      border:1px solid #ccc;
-      border-radius:9px;
-      font-size:15px;
-      background:white;
-    }
-
-    input:focus,select:focus{
-      outline:none;
-      border-color:var(--bleu);
-    }
-
-    .actions{
+    .topbar{
       display:flex;
-      gap:10px;
+      justify-content:space-between;
+      align-items:center;
+      gap:15px;
       flex-wrap:wrap;
-      margin-top:22px;
+      margin-bottom:20px;
     }
 
-    button,a.btn{
+    .topbar h2{
+      margin:0;
+      color:var(--bleu);
+    }
+
+    .btn{
+      display:inline-block;
       border:none;
       border-radius:9px;
-      padding:13px 18px;
-      font-size:15px;
+      padding:11px 16px;
       font-weight:bold;
-      cursor:pointer;
       text-decoration:none;
-      display:inline-block;
+      cursor:pointer;
+      font-size:14px;
     }
 
     .btn-primary{
@@ -122,36 +83,218 @@
     }
 
     .btn-secondary{
-      background:#eee;
+      background:#e8e8e8;
       color:#333;
     }
 
-    .success{
-      display:none;
-      margin-top:20px;
-      padding:15px;
-      background:#e9f8ee;
-      border-left:5px solid var(--vert);
-      border-radius:8px;
+    .btn-green{
+      background:var(--vert);
+      color:white;
     }
 
-    .matricule{
-      font-size:20px;
+    .card{
+      background:white;
+      border-radius:16px;
+      padding:25px;
+      margin-bottom:20px;
+      box-shadow:0 4px 15px rgba(0,0,0,.08);
+    }
+
+    .card h3{
+      margin-top:0;
+      color:var(--bleu);
+      border-bottom:2px solid #eee;
+      padding-bottom:10px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:16px;
+    }
+
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:7px;
+    }
+
+    .field.full{
+      grid-column:1 / -1;
+    }
+
+    label{
+      font-weight:bold;
+      font-size:14px;
+      color:#374151;
+    }
+
+    input,
+    select{
+      width:100%;
+      padding:12px;
+      border:1px solid #ccc;
+      border-radius:9px;
+      font-size:15px;
+      background:white;
+    }
+
+    input:focus,
+    select:focus{
+      outline:none;
+      border-color:var(--bleu);
+      box-shadow:0 0 0 2px rgba(10,42,120,.08);
+    }
+
+    .matricule-box{
+      background:#eef4ff;
+      border:2px solid var(--bleu);
+      border-radius:12px;
+      padding:18px;
+      text-align:center;
+      margin-bottom:20px;
+    }
+
+    .matricule-label{
+      font-size:13px;
+      color:#555;
+      margin-bottom:7px;
+    }
+
+    #matricule{
+      font-size:24px;
       font-weight:bold;
       color:var(--bleu);
+      letter-spacing:1px;
+    }
+
+    .matricule-info{
+      font-size:12px;
+      color:#666;
+      margin-top:7px;
+    }
+
+    .photo-zone{
+      display:flex;
+      align-items:center;
+      gap:20px;
+      flex-wrap:wrap;
+    }
+
+    #previewPhoto{
+      width:130px;
+      height:155px;
+      border-radius:10px;
+      border:2px dashed #bbb;
+      object-fit:cover;
+      background:#f1f1f1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .photo-placeholder{
+      width:130px;
+      height:155px;
+      border-radius:10px;
+      border:2px dashed #bbb;
+      background:#f5f5f5;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      color:#777;
+      font-size:13px;
+      padding:10px;
+    }
+
+    .actions{
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:25px;
+    }
+
+    .btn-submit{
+      background:var(--vert);
+      color:white;
+      border:none;
+      border-radius:10px;
+      padding:14px 25px;
+      font-size:16px;
+      font-weight:bold;
+      cursor:pointer;
+    }
+
+    .btn-reset{
+      background:#e8e8e8;
+      color:#333;
+      border:none;
+      border-radius:10px;
+      padding:14px 25px;
+      font-size:16px;
+      font-weight:bold;
+      cursor:pointer;
+    }
+
+    .message{
+      display:none;
+      padding:15px;
+      border-radius:10px;
+      margin-bottom:20px;
+      font-weight:bold;
+      text-align:center;
+    }
+
+    .success{
+      background:#e7f7ed;
+      color:var(--vert);
+      border:1px solid #b9e5c8;
+    }
+
+    .error{
+      background:#ffeaea;
+      color:var(--rouge);
+      border:1px solid #f0bcbc;
+    }
+
+    .required{
+      color:var(--rouge);
+    }
+
+    .note{
+      background:#fff8df;
+      border-left:5px solid var(--or);
+      padding:14px;
+      border-radius:8px;
+      margin-bottom:20px;
+      font-size:14px;
+    }
+
+    footer{
+      text-align:center;
+      padding:25px 15px;
+      color:#666;
+      font-size:13px;
     }
 
     @media(max-width:700px){
+
       .grid{
         grid-template-columns:1fr;
       }
 
-      .full{
+      .field.full{
         grid-column:auto;
       }
 
       .card{
         padding:18px;
+      }
+
+      header h1{
+        font-size:23px;
       }
     }
   </style>
@@ -160,250 +303,1187 @@
 <body>
 
 <header>
-  <h1>Groupe Scolaire Étoile Brillante</h1>
+  <h1>GROUPE SCOLAIRE ÉTOILE BRILLANTE</h1>
   <p>Excellence • Discipline • Innovation</p>
 </header>
 
+
 <div class="container">
 
-  <div class="card">
+  <div class="topbar">
 
-    <h2>Nouvelle inscription / Réinscription</h2>
+    <h2>Inscription / Réinscription</h2>
 
-    <div class="notice">
-      Remplissez soigneusement les informations de l'élève.
-      Un <strong>matricule automatique</strong> sera attribué après l'enregistrement.
-    </div>
+    <div>
+      <a href="index.html" class="btn btn-secondary">
+        Accueil
+      </a>
 
-    <form id="formInscription">
-
-      <div class="grid">
-
-        <div>
-          <label for="nom">Nom *</label>
-          <input type="text" id="nom" required>
-        </div>
-
-        <div>
-          <label for="prenom">Prénom *</label>
-          <input type="text" id="prenom" required>
-        </div>
-
-        <div>
-          <label for="dateNaissance">Date de naissance *</label>
-          <input type="date" id="dateNaissance" required>
-        </div>
-
-        <div>
-          <label for="lieuNaissance">Lieu de naissance *</label>
-          <input type="text" id="lieuNaissance" required>
-        </div>
-
-        <div>
-          <label for="sexe">Sexe *</label>
-          <select id="sexe" required>
-            <option value="">Sélectionner</option>
-            <option value="F">Féminin</option>
-            <option value="M">Masculin</option>
-          </select>
-        </div>
-
-        <div>
-          <label for="classe">Classe *</label>
-          <select id="classe" required>
-            <option value="">Sélectionner la classe</option>
-
-            <optgroup label="Préscolaire">
-              <option>P1</option>
-              <option>P2</option>
-              <option>P3</option>
-            </optgroup>
-
-            <optgroup label="Primaire">
-              <option>CP1</option>
-              <option>CP2</option>
-              <option>CE1</option>
-              <option>CE2</option>
-              <option>CM1</option>
-              <option>CM2</option>
-            </optgroup>
-
-            <optgroup label="Collège">
-              <option>6e</option>
-              <option>5e</option>
-              <option>4e</option>
-              <option>3e</option>
-            </optgroup>
-
-            <optgroup label="Lycée">
-              <option>Seconde</option>
-              <option>Première A</option>
-              <option>Première D</option>
-              <option>Terminale A</option>
-              <option>Terminale D</option>
-              <option>STC</option>
-            </optgroup>
-          </select>
-        </div>
-
-        <div>
-          <label for="pere">Père / Tuteur *</label>
-          <input type="text" id="pere" required>
-        </div>
-
-        <div>
-          <label for="telephone">Téléphone du parent *</label>
-          <input type="tel" id="telephone" placeholder="Ex. 067598453" required>
-        </div>
-
-        <div class="full">
-          <label for="adresse">Adresse</label>
-          <input type="text" id="adresse" placeholder="Adresse de résidence">
-        </div>
-
-        <div class="full">
-          <label for="photo">Photo de l'élève</label>
-          <input type="file" id="photo" accept="image/*">
-        </div>
-
-      </div>
-
-      <div class="actions">
-        <button type="submit" class="btn-primary">
-          Enregistrer l'élève
-        </button>
-
-        <button type="reset" class="btn-secondary">
-          Effacer
-        </button>
-
-        <a href="index.html" class="btn-secondary">
-          Retour à l'accueil
-        </a>
-      </div>
-
-    </form>
-
-    <div id="success" class="success">
-      <strong>Inscription enregistrée avec succès.</strong>
-
-      <p>
-        Matricule de l'élève :
-        <span id="matricule" class="matricule"></span>
-      </p>
-
-      <p>
-        L'élève a été ajouté à la base locale de l'établissement.
-      </p>
+      <a href="admin/eleves.html" class="btn btn-primary">
+        Gestion des élèves
+      </a>
     </div>
 
   </div>
 
+
+  <div
+    id="message"
+    class="message"
+  ></div>
+
+
+  <div class="note">
+
+    <strong>Important :</strong>
+    Le matricule de l'élève est généré automatiquement par le système
+    dès que la classe est sélectionnée.
+
+    <br><br>
+
+    Exemple :
+    <strong>EB-CP1-001</strong>,
+    <strong>EB-CP1-002</strong>,
+    <strong>EB-6E-001</strong>.
+
+  </div>
+
+
+  <form
+    id="formInscription"
+    novalidate
+  >
+
+
+    <!-- MATRICULE -->
+
+    <div class="card">
+
+      <div class="matricule-box">
+
+        <div class="matricule-label">
+          MATRICULE AUTOMATIQUE
+        </div>
+
+        <div id="matricule">
+          Sélectionnez une classe
+        </div>
+
+        <div class="matricule-info">
+          Le matricule sera attribué automatiquement.
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- IDENTITÉ -->
+
+    <div class="card">
+
+      <h3>1. Identité de l'élève</h3>
+
+      <div class="grid">
+
+        <div class="field">
+
+          <label for="nom">
+            Nom <span class="required">*</span>
+          </label>
+
+          <input
+            type="text"
+            id="nom"
+            required
+            autocomplete="family-name"
+            placeholder="Nom de famille"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="prenom">
+            Prénom(s) <span class="required">*</span>
+          </label>
+
+          <input
+            type="text"
+            id="prenom"
+            required
+            autocomplete="given-name"
+            placeholder="Prénom(s)"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="dateNaissance">
+            Date de naissance <span class="required">*</span>
+          </label>
+
+          <input
+            type="date"
+            id="dateNaissance"
+            required
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="lieuNaissance">
+            Lieu de naissance <span class="required">*</span>
+          </label>
+
+          <input
+            type="text"
+            id="lieuNaissance"
+            required
+            placeholder="Ville / localité"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="sexe">
+            Sexe <span class="required">*</span>
+          </label>
+
+          <select id="sexe" required>
+
+            <option value="">
+              Sélectionner
+            </option>
+
+            <option value="F">
+              Féminin
+            </option>
+
+            <option value="M">
+              Masculin
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="classe">
+            Classe <span class="required">*</span>
+          </label>
+
+          <select
+            id="classe"
+            required
+            onchange="mettreAJourMatricule()"
+          >
+
+            <option value="">
+              Sélectionner la classe
+            </option>
+
+            <optgroup label="Préscolaire">
+
+              <option value="P1">P1</option>
+              <option value="P2">P2</option>
+              <option value="P3">P3</option>
+
+            </optgroup>
+
+            <optgroup label="Primaire">
+
+              <option value="CP1">CP1</option>
+              <option value="CP2">CP2</option>
+              <option value="CE1">CE1</option>
+              <option value="CE2">CE2</option>
+              <option value="CM1">CM1</option>
+              <option value="CM2">CM2</option>
+
+            </optgroup>
+
+            <optgroup label="Collège">
+
+              <option value="6e">6e</option>
+              <option value="5e">5e</option>
+              <option value="4e">4e</option>
+              <option value="3e">3e</option>
+
+            </optgroup>
+
+            <optgroup label="Lycée">
+
+              <option value="STC">STC</option>
+              <option value="Seconde">Seconde</option>
+              <option value="Première A">Première A</option>
+              <option value="Première D">Première D</option>
+              <option value="Terminale A">Terminale A</option>
+              <option value="Terminale D">Terminale D</option>
+
+            </optgroup>
+
+          </select>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- RESPONSABLE -->
+
+    <div class="card">
+
+      <h3>2. Parent / Tuteur</h3>
+
+      <div class="grid">
+
+        <div class="field">
+
+          <label for="pere">
+            Père / Tuteur <span class="required">*</span>
+          </label>
+
+          <input
+            type="text"
+            id="pere"
+            required
+            placeholder="Nom et prénom du parent ou tuteur"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="telephone">
+            Téléphone <span class="required">*</span>
+          </label>
+
+          <input
+            type="tel"
+            id="telephone"
+            required
+            placeholder="Ex. 06 759 8453"
+          >
+
+        </div>
+
+
+        <div class="field full">
+
+          <label for="adresse">
+            Adresse
+          </label>
+
+          <input
+            type="text"
+            id="adresse"
+            placeholder="Adresse du parent / tuteur"
+          >
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- PHOTO -->
+
+    <div class="card">
+
+      <h3>3. Photo de l'élève</h3>
+
+      <div class="photo-zone">
+
+        <div id="photoPreviewContainer">
+
+          <div class="photo-placeholder">
+            Aucune photo sélectionnée
+          </div>
+
+        </div>
+
+
+        <div>
+
+          <label for="photo">
+            Sélectionner la photo
+          </label>
+
+          <br><br>
+
+          <input
+            type="file"
+            id="photo"
+            accept="image/*"
+            onchange="previsualiserPhoto(event)"
+          >
+
+          <p style="font-size:12px;color:#777;">
+            Format recommandé : JPG ou PNG.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- SCOLARITÉ -->
+
+    <div class="card">
+
+      <h3>4. Informations scolaires</h3>
+
+      <div class="grid">
+
+        <div class="field">
+
+          <label for="anneeScolaire">
+            Année scolaire
+          </label>
+
+          <input
+            type="text"
+            id="anneeScolaire"
+            value="2026-2027"
+            readonly
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="dateInscription">
+            Date d'inscription
+          </label>
+
+          <input
+            type="date"
+            id="dateInscription"
+            readonly
+          >
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ACTIONS -->
+
+    <div class="actions">
+
+      <button
+        type="submit"
+        class="btn-submit"
+      >
+        ENREGISTRER L'ÉLÈVE
+      </button>
+
+      <button
+        type="reset"
+        class="btn-reset"
+        onclick="reinitialiserFormulaire()"
+      >
+        RÉINITIALISER
+      </button>
+
+    </div>
+
+  </form>
+
 </div>
 
+
+<footer>
+
+  Groupe Scolaire Étoile Brillante<br>
+
+  03 rue Poumako, marché Massengo,
+  arrondissement 9 Djiri — Brazzaville
+
+  <br><br>
+
+  groupescolaireeb26@gmail.com
+
+</footer>
+
+
 <script>
-  const form = document.getElementById("formInscription");
 
-  function genererMatricule(){
-    const annee = new Date().getFullYear();
+  let photoBase64 = "";
 
-    let compteur =
-      parseInt(localStorage.getItem("EB_COMPTEUR_ELEVES") || "0", 10);
 
-    compteur++;
+  /*
+   * CHARGER LES ÉLÈVES
+   */
 
-    localStorage.setItem(
-      "EB_COMPTEUR_ELEVES",
-      compteur
-    );
+  function getEleves(){
 
-    return "EB" + annee + "-" + String(compteur).padStart(4,"0");
+    try{
+
+      const data =
+        JSON.parse(
+          localStorage.getItem("EB_ELEVES") || "[]"
+        );
+
+      return Array.isArray(data) ? data : [];
+
+    }catch(error){
+
+      return [];
+
+    }
+
   }
 
-  form.addEventListener("submit", function(e){
 
-    e.preventDefault();
+  /*
+   * NORMALISATION POUR LES RECHERCHES
+   */
 
-    const nom = document.getElementById("nom").value.trim();
-    const prenom = document.getElementById("prenom").value.trim();
-    const dateNaissance = document.getElementById("dateNaissance").value;
-    const lieuNaissance = document.getElementById("lieuNaissance").value.trim();
-    const sexe = document.getElementById("sexe").value;
-    const classe = document.getElementById("classe").value;
-    const pere = document.getElementById("pere").value.trim();
-    const telephone = document.getElementById("telephone").value.trim();
-    const adresse = document.getElementById("adresse").value.trim();
+  function normaliser(texte){
 
-    const fichierPhoto =
-      document.getElementById("photo").files[0];
+    return String(texte || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g,"")
+      .toLowerCase()
+      .trim();
 
-    const matricule = genererMatricule();
+  }
 
-    const nouvelEleve = {
-      matricule: matricule,
-      nom: nom,
-      prenom: prenom,
-      dateNaissance: dateNaissance,
-      lieuNaissance: lieuNaissance,
-      sexe: sexe,
-      classe: classe,
-      pere: pere,
-      telephone: telephone,
-      adresse: adresse,
-      photo: "",
-      anneeScolaire: "2026-2027",
-      dateInscription: new Date().toISOString()
+
+  /*
+   * CODE COURT DE LA CLASSE
+   */
+
+  function codeClasse(classe){
+
+    const codes = {
+
+      "P1":"P1",
+      "P2":"P2",
+      "P3":"P3",
+
+      "CP1":"CP1",
+      "CP2":"CP2",
+      "CE1":"CE1",
+      "CE2":"CE2",
+      "CM1":"CM1",
+      "CM2":"CM2",
+
+      "6e":"6E",
+      "5e":"5E",
+      "4e":"4E",
+      "3e":"3E",
+
+      "STC":"STC",
+      "Seconde":"2DE",
+
+      "Première A":"1A",
+      "Première D":"1D",
+
+      "Terminale A":"TA",
+      "Terminale D":"TD"
+
     };
 
-    function enregistrer(photoData){
+    return codes[classe] || normaliser(classe)
+      .replace(/\s+/g,"")
+      .toUpperCase();
 
-      nouvelEleve.photo = photoData || "";
+  }
 
-      let eleves = [];
 
-      try{
-        eleves =
-          JSON.parse(localStorage.getItem("EB_ELEVES") || "[]");
-      }catch(err){
-        eleves = [];
+  /*
+   * GÉNÉRATION DU MATRICULE
+   *
+   * Exemple :
+   * EB-CP1-001
+   * EB-CP1-002
+   */
+
+  function genererMatricule(classe){
+
+    if(!classe){
+      return "";
+    }
+
+    const eleves = getEleves();
+
+    const code = codeClasse(classe);
+
+    let numero = 1;
+
+
+    while(true){
+
+      const suffixe =
+        String(numero).padStart(3,"0");
+
+      const matricule =
+        "EB-" + code + "-" + suffixe;
+
+
+      const existe =
+        eleves.some(eleve =>
+          normaliser(eleve.matricule) ===
+          normaliser(matricule)
+        );
+
+
+      if(!existe){
+
+        return matricule;
+
       }
 
-      eleves.push(nouvelEleve);
 
-      localStorage.setItem(
-        "EB_ELEVES",
-        JSON.stringify(eleves)
+      numero++;
+
+    }
+
+  }
+
+
+  /*
+   * METTRE À JOUR LE MATRICULE
+   */
+
+  function mettreAJourMatricule(){
+
+    const classe =
+      document.getElementById("classe").value;
+
+    const affichage =
+      document.getElementById("matricule");
+
+
+    if(!classe){
+
+      affichage.textContent =
+        "Sélectionnez une classe";
+
+      return;
+
+    }
+
+
+    affichage.textContent =
+      genererMatricule(classe);
+
+  }
+
+
+  /*
+   * DATE DU JOUR
+   */
+
+  function dateAujourdhui(){
+
+    const maintenant =
+      new Date();
+
+    const annee =
+      maintenant.getFullYear();
+
+    const mois =
+      String(
+        maintenant.getMonth() + 1
+      ).padStart(2,"0");
+
+    const jour =
+      String(
+        maintenant.getDate()
+      ).padStart(2,"0");
+
+    return (
+      annee +
+      "-" +
+      mois +
+      "-" +
+      jour
+    );
+
+  }
+
+
+  /*
+   * PRÉVISUALISATION PHOTO
+   */
+
+  function previsualiserPhoto(event){
+
+    const fichier =
+      event.target.files &&
+      event.target.files[0];
+
+
+    if(!fichier){
+
+      photoBase64 = "";
+
+      document.getElementById(
+        "photoPreviewContainer"
+      ).innerHTML = `
+
+        <div class="photo-placeholder">
+          Aucune photo sélectionnée
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+
+    if(!fichier.type.startsWith("image/")){
+
+      alert(
+        "Veuillez sélectionner une image."
       );
 
-      document.getElementById("matricule").textContent =
-        matricule;
+      event.target.value = "";
 
-      document.getElementById("success").style.display =
-        "block";
+      return;
 
-      form.reset();
-
-      window.scrollTo({
-        top: document.body.scrollHeight,
-        behavior: "smooth"
-      });
     }
 
-    if(fichierPhoto){
 
-      const reader = new FileReader();
+    const lecteur =
+      new FileReader();
 
-      reader.onload = function(event){
-        enregistrer(event.target.result);
+
+    lecteur.onload = function(e){
+
+      photoBase64 =
+        e.target.result;
+
+
+      document.getElementById(
+        "photoPreviewContainer"
+      ).innerHTML = `
+
+        <img
+          id="previewPhoto"
+          src="${photoBase64}"
+          alt="Photo de l'élève"
+        >
+
+      `;
+
+    };
+
+
+    lecteur.readAsDataURL(fichier);
+
+  }
+
+
+  /*
+   * MESSAGE
+   */
+
+  function afficherMessage(
+    texte,
+    type
+  ){
+
+    const message =
+      document.getElementById("message");
+
+    message.textContent =
+      texte;
+
+    message.className =
+      "message " + type;
+
+    message.style.display =
+      "block";
+
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+
+  }
+
+
+  /*
+   * MASQUER MESSAGE
+   */
+
+  function masquerMessage(){
+
+    const message =
+      document.getElementById("message");
+
+    message.style.display =
+      "none";
+
+  }
+
+
+  /*
+   * RÉINITIALISATION
+   */
+
+  function reinitialiserFormulaire(){
+
+    setTimeout(function(){
+
+      photoBase64 = "";
+
+      document.getElementById(
+        "photoPreviewContainer"
+      ).innerHTML = `
+
+        <div class="photo-placeholder">
+          Aucune photo sélectionnée
+        </div>
+
+      `;
+
+
+      document.getElementById(
+        "matricule"
+      ).textContent =
+        "Sélectionnez une classe";
+
+
+      document.getElementById(
+        "anneeScolaire"
+      ).value =
+        "2026-2027";
+
+
+      document.getElementById(
+        "dateInscription"
+      ).value =
+        dateAujourdhui();
+
+
+      masquerMessage();
+
+    },50);
+
+  }
+
+
+  /*
+   * ENREGISTREMENT
+   */
+
+  document.getElementById(
+    "formInscription"
+  ).addEventListener(
+    "submit",
+    function(event){
+
+      event.preventDefault();
+
+      masquerMessage();
+
+
+      const nom =
+        document.getElementById("nom")
+          .value.trim();
+
+      const prenom =
+        document.getElementById("prenom")
+          .value.trim();
+
+      const dateNaissance =
+        document.getElementById("dateNaissance")
+          .value;
+
+      const lieuNaissance =
+        document.getElementById("lieuNaissance")
+          .value.trim();
+
+      const sexe =
+        document.getElementById("sexe")
+          .value;
+
+      const classe =
+        document.getElementById("classe")
+          .value;
+
+      const pere =
+        document.getElementById("pere")
+          .value.trim();
+
+      const telephone =
+        document.getElementById("telephone")
+          .value.trim();
+
+      const adresse =
+        document.getElementById("adresse")
+          .value.trim();
+
+      const anneeScolaire =
+        document.getElementById("anneeScolaire")
+          .value;
+
+      const dateInscription =
+        document.getElementById("dateInscription")
+          .value;
+
+
+      /*
+       * CONTRÔLE DES CHAMPS
+       */
+
+      if(
+        !nom ||
+        !prenom ||
+        !dateNaissance ||
+        !lieuNaissance ||
+        !sexe ||
+        !classe ||
+        !pere ||
+        !telephone
+      ){
+
+        afficherMessage(
+          "Veuillez remplir tous les champs obligatoires.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      /*
+       * NOUVEAU MATRICULE
+       */
+
+      const matricule =
+        genererMatricule(classe);
+
+
+      if(!matricule){
+
+        afficherMessage(
+          "Impossible de générer le matricule.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      /*
+       * RECHARGER LES DONNÉES
+       */
+
+      const eleves =
+        getEleves();
+
+
+      /*
+       * PROTECTION CONTRE UNE DOUBLE INSCRIPTION
+       *
+       * Même nom + prénom + date de naissance
+       */
+
+      const doublon =
+        eleves.find(eleve =>
+
+          normaliser(eleve.nom) ===
+          normaliser(nom)
+
+          &&
+
+          normaliser(eleve.prenom) ===
+          normaliser(prenom)
+
+          &&
+
+          eleve.dateNaissance ===
+          dateNaissance
+
+      );
+
+
+      if(doublon){
+
+        afficherMessage(
+          "Cet élève semble déjà être enregistré avec le matricule " +
+          (doublon.matricule || "") +
+          ".",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      /*
+       * OBJET ÉLÈVE
+       */
+
+      const nouvelEleve = {
+
+        id:
+          "EL-" +
+          Date.now() +
+          "-" +
+          Math.random()
+            .toString(36)
+            .substring(2,7),
+
+        matricule:
+          matricule,
+
+        nom:
+          nom,
+
+        prenom:
+          prenom,
+
+        dateNaissance:
+          dateNaissance,
+
+        lieuNaissance:
+          lieuNaissance,
+
+        sexe:
+          sexe,
+
+        classe:
+          classe,
+
+        salle:
+          classe,
+
+        pere:
+          pere,
+
+        telephone:
+          telephone,
+
+        adresse:
+          adresse,
+
+        photo:
+          photoBase64,
+
+        anneeScolaire:
+          anneeScolaire || "2026-2027",
+
+        dateInscription:
+          dateInscription || dateAujourdhui(),
+
+        statut:
+          "Actif",
+
+        dateCreation:
+          new Date().toISOString()
+
       };
 
-      reader.readAsDataURL(fichierPhoto);
 
-    }else{
-      enregistrer("");
+      /*
+       * ENREGISTREMENT DANS LE LOGICIEL
+       */
+
+      eleves.push(
+        nouvelEleve
+      );
+
+
+      try{
+
+        localStorage.setItem(
+          "EB_ELEVES",
+          JSON.stringify(eleves)
+        );
+
+      }catch(error){
+
+        /*
+         * Si la photo est trop lourde,
+         * le navigateur peut refuser le stockage.
+         */
+
+        if(photoBase64){
+
+          alert(
+            "La photo est trop volumineuse pour être enregistrée. " +
+            "L'élève sera enregistré sans photo."
+          );
+
+
+          nouvelEleve.photo = "";
+
+
+          try{
+
+            localStorage.setItem(
+              "EB_ELEVES",
+              JSON.stringify(eleves)
+            );
+
+          }catch(error2){
+
+            afficherMessage(
+              "Erreur : impossible d'enregistrer l'élève dans le stockage du navigateur.",
+              "error"
+            );
+
+            return;
+
+          }
+
+        }else{
+
+          afficherMessage(
+            "Erreur lors de l'enregistrement de l'élève.",
+            "error"
+          );
+
+          return;
+
+        }
+
+      }
+
+
+      /*
+       * MESSAGE DE SUCCÈS
+       */
+
+      afficherMessage(
+        "Élève enregistré avec succès. Matricule : " +
+        matricule,
+        "success"
+      );
+
+
+      /*
+       * AFFICHER LE MATRICULE
+       */
+
+      document.getElementById(
+        "matricule"
+      ).textContent =
+        matricule;
+
+
+      /*
+       * CONFIRMATION
+       */
+
+      const continuer =
+        confirm(
+          "INSCRIPTION RÉUSSIE !\n\n" +
+          "Élève : " +
+          nom +
+          " " +
+          prenom +
+          "\n" +
+          "Classe : " +
+          classe +
+          "\n" +
+          "Matricule : " +
+          matricule +
+          "\n\n" +
+          "Voulez-vous enregistrer un autre élève ?"
+        );
+
+
+      if(continuer){
+
+        document.getElementById(
+          "formInscription"
+        ).reset();
+
+        photoBase64 = "";
+
+        document.getElementById(
+          "photoPreviewContainer"
+        ).innerHTML = `
+
+          <div class="photo-placeholder">
+            Aucune photo sélectionnée
+          </div>
+
+        `;
+
+        document.getElementById(
+          "matricule"
+        ).textContent =
+          "Sélectionnez une classe";
+
+        document.getElementById(
+          "anneeScolaire"
+        ).value =
+          "2026-2027";
+
+        document.getElementById(
+          "dateInscription"
+        ).value =
+          dateAujourdhui();
+
+        window.scrollTo({
+          top:0,
+          behavior:"smooth"
+        });
+
+      }else{
+
+        /*
+         * Retour vers la gestion des élèves
+         */
+
+        window.location.href =
+          "admin/eleves.html";
+
+      }
+
     }
+  );
 
-  });
+
+  /*
+   * INITIALISATION
+   */
+
+  document.getElementById(
+    "dateInscription"
+  ).value =
+    dateAujourdhui();
+
+
+  /*
+   * Si une classe est choisie,
+   * générer immédiatement le matricule.
+   */
+
+  mettreAJourMatricule();
+
 </script>
 
 </body>
