@@ -1,1489 +1,622 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Élèves — Administration | Groupe Scolaire Étoile Brillante</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    :root{
-      --bleu:#0A2A78;
-      --bleu-clair:#123A9B;
-      --or:#C9A227;
-      --ivoire:#F7F4ED;
-      --vert:#16803C;
-      --rouge:#C62828;
-    }
+<title>Gestion des élèves - Groupe Scolaire Étoile Brillante</title>
 
-    *{
-      box-sizing:border-box;
-    }
+<script>
+if(sessionStorage.getItem("EB_ADMIN")!=="OK"){
+  location.replace("login.html");
+}
+</script>
 
-    body{
-      margin:0;
-      font-family:Arial,Helvetica,sans-serif;
-      background:var(--ivoire);
-      color:#1F2937;
-    }
+<style>
+:root{
+ --bleu:#0A2A78;
+ --bleu2:#123A9B;
+ --or:#C9A227;
+ --ivoire:#F7F4ED;
+ --blanc:#fff;
+ --texte:#1F2937;
+}
 
-    header{
-      background:linear-gradient(135deg,var(--bleu),var(--bleu-clair));
-      color:white;
-      padding:20px 15px;
-    }
+*{
+ margin:0;
+ padding:0;
+ box-sizing:border-box;
+}
 
-    header h1{
-      margin:0 0 6px;
-      font-size:25px;
-    }
+body{
+ font-family:Arial,Helvetica,sans-serif;
+ background:var(--ivoire);
+ color:var(--texte);
+}
 
-    header p{
-      margin:0;
-      opacity:.9;
-    }
+header{
+ background:linear-gradient(135deg,var(--bleu),var(--bleu2));
+ color:white;
+ padding:20px;
+}
 
-    .container{
-      max-width:1200px;
-      margin:25px auto;
-      padding:0 15px;
-    }
+.container{
+ width:95%;
+ max-width:1200px;
+ margin:auto;
+}
 
-    .topbar{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:15px;
-      flex-wrap:wrap;
-      margin-bottom:20px;
-    }
+nav{
+ display:flex;
+ flex-wrap:wrap;
+ gap:8px;
+ margin-top:15px;
+}
 
-    .topbar h2{
-      margin:0;
-      color:var(--bleu);
-    }
+nav a{
+ color:white;
+ text-decoration:none;
+ padding:8px 12px;
+ border-radius:8px;
+ font-weight:bold;
+}
 
-    .actions{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-    }
+nav a:hover{
+ background:rgba(255,255,255,.15);
+}
 
-    .btn{
-      border:none;
-      border-radius:9px;
-      padding:10px 14px;
-      text-decoration:none;
-      font-weight:bold;
-      cursor:pointer;
-      display:inline-block;
-      font-size:13px;
-    }
+.card{
+ background:white;
+ border-radius:15px;
+ padding:22px;
+ margin:22px 0;
+ box-shadow:0 5px 18px rgba(0,0,0,.08);
+}
 
-    .btn-primary{
-      background:var(--bleu);
-      color:white;
-    }
+h2{
+ color:var(--bleu);
+ margin-bottom:18px;
+}
 
-    .btn-or{
-      background:var(--or);
-      color:white;
-    }
+.search{
+ width:100%;
+ padding:13px;
+ border:1px solid #ccc;
+ border-radius:9px;
+ margin-bottom:20px;
+ font-size:16px;
+}
 
-    .btn-secondary{
-      background:#e8e8e8;
-      color:#333;
-    }
+.table-wrap{
+ overflow-x:auto;
+}
 
-    .btn-green{
-      background:var(--vert);
-      color:white;
-    }
+table{
+ width:100%;
+ border-collapse:collapse;
+ min-width:900px;
+}
 
-    .btn-red{
-      background:var(--rouge);
-      color:white;
-    }
+th,
+td{
+ padding:10px;
+ border-bottom:1px solid #ddd;
+ text-align:left;
+}
 
-    .stats{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:15px;
-      margin-bottom:20px;
-    }
+th{
+ background:var(--bleu);
+ color:white;
+}
 
-    .stat{
-      background:white;
-      border-radius:14px;
-      padding:18px;
-      box-shadow:0 3px 12px rgba(0,0,0,.07);
-    }
+.photo-mini{
+ width:55px;
+ height:55px;
+ border-radius:8px;
+ object-fit:cover;
+ border:2px solid var(--or);
+ background:#eee;
+}
 
-    .stat strong{
-      display:block;
-      font-size:28px;
-      color:var(--bleu);
-      margin-top:5px;
-    }
+.initiales{
+ width:55px;
+ height:55px;
+ border-radius:8px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:#e5e7eb;
+ color:var(--bleu);
+ font-weight:bold;
+ font-size:18px;
+ border:2px solid var(--or);
+}
 
-    .filters{
-      background:white;
-      border-radius:15px;
-      padding:18px;
-      margin-bottom:20px;
-      box-shadow:0 3px 12px rgba(0,0,0,.07);
-    }
+button{
+ border:none;
+ border-radius:7px;
+ padding:9px 12px;
+ color:white;
+ background:var(--bleu);
+ cursor:pointer;
+ font-weight:bold;
+ margin:2px;
+}
 
-    .filters-grid{
-      display:grid;
-      grid-template-columns:2fr 1fr 1fr;
-      gap:12px;
-    }
+button:hover{
+ opacity:.9;
+}
 
-    input,
-    select{
-      width:100%;
-      padding:12px;
-      border:1px solid #ccc;
-      border-radius:9px;
-      font-size:15px;
-      background:white;
-    }
+.btn-photo{
+ background:#16803c;
+}
 
-    input:focus,
-    select:focus{
-      outline:none;
-      border-color:var(--bleu);
-    }
+.btn-fiche{
+ background:#123A9B;
+}
 
-    .table-card{
-      background:white;
-      border-radius:15px;
-      padding:15px;
-      box-shadow:0 3px 12px rgba(0,0,0,.07);
-      overflow:hidden;
-    }
+.btn-paiement{
+ background:#8a6500;
+}
 
-    .table-wrapper{
-      overflow-x:auto;
-    }
+.btn-supprimer{
+ background:#b91c1c;
+}
 
-    table{
-      width:100%;
-      border-collapse:collapse;
-      min-width:1100px;
-    }
+.empty{
+ text-align:center;
+ padding:30px;
+ color:#666;
+}
 
-    th,
-    td{
-      padding:12px 10px;
-      border-bottom:1px solid #eee;
-      text-align:left;
-      vertical-align:middle;
-    }
+.modal{
+ display:none;
+ position:fixed;
+ inset:0;
+ background:rgba(0,0,0,.65);
+ z-index:9999;
+ padding:20px;
+ overflow:auto;
+}
 
-    th{
-      background:#f1f4fa;
-      color:var(--bleu);
-      font-size:14px;
-    }
+.modal-box{
+ background:white;
+ width:100%;
+ max-width:500px;
+ margin:40px auto;
+ padding:25px;
+ border-radius:15px;
+}
 
-    tr:hover td{
-      background:#fafafa;
-    }
+.modal-box h2{
+ margin-bottom:15px;
+}
 
-    .photo{
-      width:48px;
-      height:48px;
-      border-radius:8px;
-      object-fit:cover;
-      background:#eee;
-      display:block;
-    }
+.preview{
+ width:150px;
+ height:150px;
+ margin:15px auto;
+ border-radius:12px;
+ border:3px solid var(--or);
+ object-fit:cover;
+ display:block;
+ background:#eee;
+}
 
-    .photo-empty{
-      width:48px;
-      height:48px;
-      border-radius:8px;
-      background:#e9edf5;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:#777;
-      font-size:10px;
-      text-align:center;
-    }
+.close{
+ background:#555;
+}
 
-    .matricule{
-      font-weight:bold;
-      color:var(--bleu);
-    }
+.save{
+ background:#16803c;
+}
 
-    .badge{
-      display:inline-block;
-      padding:5px 9px;
-      border-radius:20px;
-      background:#eaf0ff;
-      color:var(--bleu);
-      font-size:12px;
-      font-weight:bold;
-    }
+footer{
+ margin-top:30px;
+ background:var(--bleu);
+ color:white;
+ text-align:center;
+ padding:20px;
+}
 
-    .btn-small{
-      border:none;
-      border-radius:7px;
-      padding:7px 9px;
-      cursor:pointer;
-      font-size:11px;
-      font-weight:bold;
-      margin:2px;
-    }
+@media(max-width:700px){
 
-    .btn-view{
-      background:#e8f0ff;
-      color:var(--bleu);
-    }
+ table{
+   min-width:850px;
+ }
 
-    .btn-payment{
-      background:#fff1c9;
-      color:#8a6500;
-    }
+ .card{
+   padding:15px;
+ }
 
-    .btn-delete{
-      background:#ffeaea;
-      color:var(--rouge);
-    }
+}
+</style>
 
-    .empty{
-      text-align:center;
-      padding:45px 15px;
-      color:#777;
-    }
-
-    .empty strong{
-      display:block;
-      color:var(--bleu);
-      font-size:18px;
-      margin-bottom:8px;
-    }
-
-    .modal{
-      display:none;
-      position:fixed;
-      z-index:1000;
-      inset:0;
-      background:rgba(0,0,0,.55);
-      padding:20px;
-      overflow:auto;
-    }
-
-    .modal-content{
-      background:white;
-      max-width:750px;
-      margin:30px auto;
-      border-radius:18px;
-      padding:25px;
-      position:relative;
-    }
-
-    .modal-close{
-      position:absolute;
-      right:15px;
-      top:10px;
-      border:none;
-      background:none;
-      font-size:28px;
-      cursor:pointer;
-    }
-
-    .profile{
-      display:grid;
-      grid-template-columns:120px 1fr;
-      gap:20px;
-      margin-top:15px;
-    }
-
-    .profile-photo{
-      width:120px;
-      height:145px;
-      object-fit:cover;
-      border-radius:10px;
-      background:#eee;
-    }
-
-    .profile-info p{
-      margin:8px 0;
-    }
-
-    .profile-info strong{
-      color:var(--bleu);
-    }
-
-    .payment-box{
-      margin-top:25px;
-      border-top:2px solid #eee;
-      padding-top:20px;
-    }
-
-    .payment-card{
-      border:1px solid #ddd;
-      border-radius:10px;
-      padding:13px;
-      margin:10px 0;
-      background:#fafafa;
-    }
-
-    .payment-line{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      padding:5px 0;
-      border-bottom:1px solid #eee;
-    }
-
-    .payment-line:last-child{
-      border-bottom:none;
-    }
-
-    .status{
-      display:inline-block;
-      padding:5px 9px;
-      border-radius:20px;
-      font-size:11px;
-      font-weight:bold;
-    }
-
-    .attente{
-      background:#fff2d9;
-      color:#a15c00;
-    }
-
-    .confirmee{
-      background:#e6f6eb;
-      color:var(--vert);
-    }
-
-    .annulee{
-      background:#ffe8e8;
-      color:var(--rouge);
-    }
-
-    .echouee{
-      background:#eee;
-      color:#555;
-    }
-
-    .no-payment{
-      background:#f5f5f5;
-      padding:18px;
-      border-radius:9px;
-      text-align:center;
-      color:#777;
-    }
-
-    @media(max-width:700px){
-
-      .stats{
-        grid-template-columns:1fr;
-      }
-
-      .filters-grid{
-        grid-template-columns:1fr;
-      }
-
-      .profile{
-        grid-template-columns:1fr;
-      }
-
-      .profile-photo{
-        width:110px;
-        height:130px;
-      }
-    }
-  </style>
 </head>
 
 <body>
 
 <header>
-  <h1>Administration — Élèves</h1>
-  <p>Groupe Scolaire Étoile Brillante</p>
-</header>
 
 <div class="container">
 
-  <div class="topbar">
+<h1>Groupe Scolaire Étoile Brillante</h1>
 
-    <h2>Gestion des élèves</h2>
+<p>Administration — Gestion des élèves</p>
 
-    <div class="actions">
-
-      <a
-        href="../inscription.html"
-        class="btn btn-primary"
-      >
-        + Nouvelle inscription
-      </a>
-
-      <button
-        class="btn btn-or"
-        onclick="actualiser()"
-      >
-        Actualiser
-      </button>
-
-      <a
-        href="paiements.html"
-        class="btn btn-green"
-      >
-        Paiements
-      </a>
-
-      <a
-        href="index.html"
-        class="btn btn-secondary"
-      >
-        Administration
-      </a>
-
-    </div>
-
-  </div>
-
-
-  <div class="stats">
-
-    <div class="stat">
-      Total élèves
-      <strong id="totalEleves">0</strong>
-    </div>
-
-    <div class="stat">
-      Filles
-      <strong id="totalFilles">0</strong>
-    </div>
-
-    <div class="stat">
-      Garçons
-      <strong id="totalGarcons">0</strong>
-    </div>
-
-  </div>
-
-
-  <div class="filters">
-
-    <div class="filters-grid">
-
-      <input
-        type="search"
-        id="recherche"
-        placeholder="Matricule, nom, prénom, parent ou téléphone..."
-        oninput="afficherEleves()"
-      >
-
-      <select
-        id="filtreClasse"
-        onchange="afficherEleves()"
-      >
-        <option value="">Toutes les classes</option>
-      </select>
-
-      <select
-        id="filtreSexe"
-        onchange="afficherEleves()"
-      >
-        <option value="">Tous</option>
-        <option value="F">Filles</option>
-        <option value="M">Garçons</option>
-      </select>
-
-    </div>
-
-  </div>
-
-
-  <div class="table-card">
-
-    <div class="table-wrapper">
-
-      <table>
-
-        <thead>
-
-          <tr>
-            <th>Photo</th>
-            <th>Matricule</th>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th>Classe</th>
-            <th>Parent / Tuteur</th>
-            <th>Téléphone</th>
-            <th>Actions</th>
-          </tr>
-
-        </thead>
-
-        <tbody id="listeEleves"></tbody>
-
-      </table>
-
-    </div>
-
-    <div
-      id="messageVide"
-      class="empty"
-      style="display:none;"
-    >
-      <strong>Aucun élève trouvé</strong>
-      Aucun élève ne correspond aux critères de recherche.
-    </div>
-
-  </div>
+<nav>
+<a href="index.html">Dashboard</a>
+<a href="eleves.html">Élèves</a>
+<a href="notes.html">Notes</a>
+<a href="bulletins.html">Bulletins</a>
+<a href="cartes.html">Cartes scolaires</a>
+<a href="paiements.html">Paiements</a>
+</nav>
 
 </div>
 
+</header>
 
-<!-- MODAL FICHE ÉLÈVE -->
 
-<div
-  id="modalEleve"
-  class="modal"
-  onclick="fermerModal('modalEleve',event)"
+<div class="container">
+
+<div class="card">
+
+<h2>Liste des élèves</h2>
+
+<input
+ id="recherche"
+ class="search"
+ type="search"
+ placeholder="Rechercher par matricule, nom, prénom ou classe..."
 >
 
-  <div
-    class="modal-content"
-    onclick="event.stopPropagation()"
-  >
+<div class="table-wrap">
 
-    <button
-      class="modal-close"
-      onclick="fermerModal('modalEleve')"
-    >
-      ×
-    </button>
+<table>
 
-    <h2 id="modalTitre">
-      Fiche de l'élève
-    </h2>
+<thead>
 
-    <div class="profile">
+<tr>
+<th>Photo</th>
+<th>Matricule</th>
+<th>Nom</th>
+<th>Prénom</th>
+<th>Classe</th>
+<th>Sexe</th>
+<th>Téléphone</th>
+<th>Actions</th>
+</tr>
 
-      <div id="modalPhoto"></div>
+</thead>
 
-      <div
-        id="modalInfos"
-        class="profile-info"
-      ></div>
+<tbody id="listeEleves"></tbody>
 
-    </div>
+</table>
 
-  </div>
+</div>
+
+<div id="vide" class="empty" style="display:none;">
+Aucun élève enregistré.
+</div>
+
+</div>
 
 </div>
 
 
-<!-- MODAL PAIEMENTS -->
+<!-- =========================
+     MODAL PHOTO
+========================= -->
 
-<div
-  id="modalPaiements"
-  class="modal"
-  onclick="fermerModal('modalPaiements',event)"
+<div class="modal" id="photoModal">
+
+<div class="modal-box">
+
+<h2>📷 Photo de l'élève</h2>
+
+<p id="nomPhoto" style="text-align:center;font-weight:bold;"></p>
+
+<img
+ id="photoPreview"
+ class="preview"
+ src=""
+ alt="Photo de l'élève"
 >
 
-  <div
-    class="modal-content"
-    onclick="event.stopPropagation()"
-  >
+<input
+ id="photoInput"
+ type="file"
+ accept="image/*"
+ capture="environment"
+>
 
-    <button
-      class="modal-close"
-      onclick="fermerModal('modalPaiements')"
-    >
-      ×
-    </button>
+<div style="text-align:center;margin-top:15px;">
 
-    <h2 style="color:#0A2A78;">
-      Historique des paiements
-    </h2>
+<button class="save" onclick="enregistrerPhoto()">
+💾 Enregistrer la photo
+</button>
 
-    <div id="infoElevePaiement"></div>
-
-    <div class="payment-box">
-
-      <div id="listePaiementsEleve"></div>
-
-    </div>
-
-    <div style="margin-top:20px;">
-
-      <a
-        id="lienNouveauPaiement"
-        href="paiements.html"
-        class="btn btn-primary"
-      >
-        + Nouveau paiement
-      </a>
-
-    </div>
-
-  </div>
+<button class="close" onclick="fermerPhoto()">
+Fermer
+</button>
 
 </div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     MODAL FICHE
+========================= -->
+
+<div class="modal" id="ficheModal">
+
+<div class="modal-box">
+
+<h2>Fiche de l'élève</h2>
+
+<div id="ficheContenu"></div>
+
+<div style="text-align:center;margin-top:20px;">
+
+<button onclick="fermerFiche()">
+Fermer
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<footer>
+
+Groupe Scolaire Étoile Brillante • Brazzaville
+
+</footer>
 
 
 <script>
 
-  let eleves = [];
-  let paiements = [];
+let eleves =
+JSON.parse(localStorage.getItem("EB_ELEVES") || "[]");
 
+let indexPhoto = null;
 
-  function chargerDonnees(){
 
-    try{
-      eleves = JSON.parse(
-        localStorage.getItem("EB_ELEVES") || "[]"
-      );
-    }catch(e){
-      eleves = [];
-    }
+/* =========================
+   AFFICHAGE
+========================= */
 
-    try{
-      paiements = JSON.parse(
-        localStorage.getItem("EB_PAIEMENTS") || "[]"
-      );
-    }catch(e){
-      paiements = [];
-    }
+function afficherEleves(){
 
-    if(!Array.isArray(eleves)){
-      eleves = [];
-    }
+ const tbody =
+ document.getElementById("listeEleves");
 
-    if(!Array.isArray(paiements)){
-      paiements = [];
-    }
+ const recherche =
+ document.getElementById("recherche").value
+ .toLowerCase()
+ .trim();
 
-  }
+ tbody.innerHTML="";
 
+ let trouves = 0;
 
-  function escapeHTML(value){
+ eleves.forEach((e,index)=>{
 
-    return String(value || "")
-      .replace(/&/g,"&amp;")
-      .replace(/</g,"&lt;")
-      .replace(/>/g,"&gt;")
-      .replace(/"/g,"&quot;")
-      .replace(/'/g,"&#039;");
+   const texte = (
 
-  }
+     (e.matricule || "") + " " +
+     (e.nom || "") + " " +
+     (e.prenom || "") + " " +
+     (e.classe || e.salle || "") + " " +
+     (e.sexe || "")
 
+   ).toLowerCase();
 
-  function remplirClasses(){
+   if(recherche && !texte.includes(recherche)){
+     return;
+   }
 
-    const select =
-      document.getElementById("filtreClasse");
+   trouves++;
 
-    const classes = [
-      "P1","P2","P3",
-      "CP1","CP2","CE1","CE2","CM1","CM2",
-      "6e","5e","4e","3e",
-      "Seconde","Première A","Première D",
-      "Terminale A","Terminale D","STC"
-    ];
+   const tr =
+   document.createElement("tr");
 
-    select.innerHTML =
-      '<option value="">Toutes les classes</option>';
 
-    classes.forEach(classe => {
+   /* PHOTO */
 
-      const option =
-        document.createElement("option");
+   let photoHTML="";
 
-      option.value = classe;
-      option.textContent = classe;
+   if(e.photo && String(e.photo).trim()!==""){
 
-      select.appendChild(option);
+     photoHTML =
+     `<img
+       src="${e.photo}"
+       class="photo-mini"
+       alt="Photo"
+       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+     >
+     <div class="initiales" style="display:none;">
+       ${initiales(e)}
+     </div>`;
 
-    });
+   }else{
 
-  }
+     photoHTML =
+     `<div class="initiales">
+       ${initiales(e)}
+     </div>`;
 
+   }
 
-  function mettreAJourStatistiques(){
 
-    document.getElementById("totalEleves")
-      .textContent = eleves.length;
+   tr.innerHTML=`
 
-    document.getElementById("totalFilles")
-      .textContent =
-      eleves.filter(e => e.sexe === "F").length;
+   <td>${photoHTML}</td>
 
-    document.getElementById("totalGarcons")
-      .textContent =
-      eleves.filter(e => e.sexe === "M").length;
+   <td>${escapeHTML(e.matricule || "-")}</td>
 
-  }
+   <td>${escapeHTML(e.nom || "-")}</td>
 
+   <td>${escapeHTML(e.prenom || "-")}</td>
 
-  function afficherEleves(){
+   <td>${escapeHTML(e.classe || e.salle || "-")}</td>
 
-    const tbody =
-      document.getElementById("listeEleves");
+   <td>${escapeHTML(e.sexe || "-")}</td>
 
-    const messageVide =
-      document.getElementById("messageVide");
+   <td>${escapeHTML(e.telephone || "-")}</td>
 
-    const recherche =
-      document.getElementById("recherche")
-        .value
-        .trim()
-        .toLowerCase();
+   <td>
 
-    const classe =
-      document.getElementById("filtreClasse")
-        .value;
+   <button
+    class="btn-photo"
+    onclick="ouvrirPhoto(${index})">
+    📷 Photo
+   </button>
 
-    const sexe =
-      document.getElementById("filtreSexe")
-        .value;
+   <button
+    class="btn-fiche"
+    onclick="voirFiche(${index})">
+    Fiche
+   </button>
 
-    tbody.innerHTML = "";
+   <button
+    class="btn-paiement"
+    onclick="voirPaiements('${escapeJS(e.matricule || "")}')">
+    Paiements
+   </button>
 
+   <button
+    class="btn-supprimer"
+    onclick="supprimerEleve(${index})">
+    Supprimer
+   </button>
 
-    const resultats =
-      eleves.filter(eleve => {
+   </td>
 
-        const texte = (
+   `;
 
-          (eleve.matricule || "") + " " +
-          (eleve.nom || "") + " " +
-          (eleve.prenom || "") + " " +
-          (eleve.pere || "") + " " +
-          (eleve.telephone || "")
+   tbody.appendChild(tr);
 
-        ).toLowerCase();
+ });
 
-        return (
-          (!recherche || texte.includes(recherche)) &&
-          (!classe || eleve.classe === classe) &&
-          (!sexe || eleve.sexe === sexe)
-        );
 
-      });
+ document.getElementById("vide").style.display =
+ trouves===0 ? "block" : "none";
 
+}
 
-    if(resultats.length === 0){
 
-      messageVide.style.display = "block";
-      return;
+/* =========================
+   INITIALES
+========================= */
 
-    }
+function initiales(e){
 
-    messageVide.style.display = "none";
+ return (
+   (e.prenom || "E").charAt(0).toUpperCase() +
+   (e.nom || "B").charAt(0).toUpperCase()
+ );
 
+}
 
-    resultats.forEach(eleve => {
 
-      const index =
-        eleves.indexOf(eleve);
+/* =========================
+   AJOUT / MODIFICATION PHOTO
+========================= */
 
-      const tr =
-        document.createElement("tr");
+function ouvrirPhoto(index){
 
+ indexPhoto=index;
 
-      let photoHTML = `
-        <div class="photo-empty">
-          Pas de photo
-        </div>
-      `;
+ const e=eleves[index];
 
+ if(!e)return;
 
-      if(eleve.photo){
 
-        photoHTML = `
-          <img
-            src="${eleve.photo}"
-            class="photo"
-            alt="Photo"
-          >
-        `;
+ document.getElementById("nomPhoto").textContent =
+ (e.nom || "")+" "+(e.prenom || "");
 
-      }
 
+ const preview =
+ document.getElementById("photoPreview");
 
-      tr.innerHTML = `
 
-        <td>${photoHTML}</td>
+ document.getElementById("photoInput").value="";
 
-        <td>
-          <span class="matricule">
-            ${escapeHTML(eleve.matricule)}
-          </span>
-        </td>
 
-        <td>
-          ${escapeHTML(eleve.nom)}
-        </td>
+ if(e.photo){
 
-        <td>
-          ${escapeHTML(eleve.prenom)}
-        </td>
+   preview.src=e.photo;
 
-        <td>
-          <span class="badge">
-            ${escapeHTML(eleve.classe)}
-          </span>
-        </td>
+ }else{
 
-        <td>
-          ${escapeHTML(eleve.pere)}
-        </td>
+   preview.removeAttribute("src");
 
-        <td>
-          ${escapeHTML(eleve.telephone)}
-        </td>
+ }
 
-        <td>
 
-          <button
-            class="btn-small btn-view"
-            onclick="voirEleve(${index})"
-          >
-            FICHE
-          </button>
+ document.getElementById("photoModal").style.display="block";
 
-          <button
-            class="btn-small btn-payment"
-            onclick="voirPaiements(${index})"
-          >
-            PAIEMENTS
-          </button>
+}
 
-          <button
-            class="btn-small btn-delete"
-            onclick="supprimerEleve(${index})"
-          >
-            SUPPRIMER
-          </button>
 
-        </td>
+/* =========================
+   APERÇU NOUVELLE PHOTO
+========================= */
 
-      `;
+document
+.getElementById("photoInput")
+.addEventListener("change",function(){
 
-      tbody.appendChild(tr);
+ const fichier=this.files[0];
 
-    });
+ if(!fichier)return;
 
-  }
 
+ if(!fichier.type.startsWith("image/")){
 
-  function voirEleve(index){
+   alert("Veuillez sélectionner une image.");
 
-    const eleve =
-      eleves[index];
+   this.value="";
 
-    if(!eleve){
-      return;
-    }
+   return;
 
+ }
 
-    document.getElementById("modalTitre")
-      .textContent =
-      (eleve.nom || "") +
-      " " +
-      (eleve.prenom || "");
 
+ const lecteur=new FileReader();
 
-    let photoHTML = `
-      <div
-        class="photo-empty"
-        style="width:120px;height:145px;"
-      >
-        Pas de photo
-      </div>
-    `;
+ lecteur.onload=function(ev){
 
+   document.getElementById("photoPreview").src =
+   ev.target.result;
 
-    if(eleve.photo){
+ };
 
-      photoHTML = `
-        <img
-          src="${eleve.photo}"
-          class="profile-photo"
-          alt="Photo"
-        >
-      `;
+ lecteur.readAsDataURL(fichier);
 
-    }
+});
 
 
-    document.getElementById("modalPhoto")
-      .innerHTML = photoHTML;
+/* =========================
+   ENREGISTRER PHOTO
+========================= */
 
+function enregistrerPhoto(){
 
-    document.getElementById("modalInfos")
-      .innerHTML = `
+ if(indexPhoto===null)return;
 
-        <p>
-          <strong>Matricule :</strong>
-          ${escapeHTML(eleve.matricule)}
-        </p>
+ const input =
+ document.getElementById("photoInput");
 
-        <p>
-          <strong>Nom :</strong>
-          ${escapeHTML(eleve.nom)}
-        </p>
+ const fichier=input.files[0];
 
-        <p>
-          <strong>Prénom :</strong>
-          ${escapeHTML(eleve.prenom)}
-        </p>
 
-        <p>
-          <strong>Date de naissance :</strong>
-          ${escapeHTML(eleve.dateNaissance)}
-        </p>
-
-        <p>
-          <strong>Lieu de naissance :</strong>
-          ${escapeHTML(eleve.lieuNaissance)}
-        </p>
-
-        <p>
-          <strong>Sexe :</strong>
-          ${eleve.sexe === "F" ? "Féminin" : "Masculin"}
-        </p>
-
-        <p>
-          <strong>Classe :</strong>
-          ${escapeHTML(eleve.classe)}
-        </p>
-
-        <p>
-          <strong>Père / Tuteur :</strong>
-          ${escapeHTML(eleve.pere)}
-        </p>
-
-        <p>
-          <strong>Téléphone :</strong>
-          ${escapeHTML(eleve.telephone)}
-        </p>
-
-        <p>
-          <strong>Adresse :</strong>
-          ${escapeHTML(eleve.adresse)}
-        </p>
-
-        <p>
-          <strong>Année scolaire :</strong>
-          ${escapeHTML(
-            eleve.anneeScolaire || "2026-2027"
-          )}
-        </p>
-
-      `;
-
-
-    document.getElementById("modalEleve")
-      .style.display = "block";
-
-  }
-
-
-  function voirPaiements(index){
-
-    const eleve =
-      eleves[index];
-
-    if(!eleve){
-      return;
-    }
-
-
-    const matricule =
-      eleve.matricule || "";
-
-
-    const paiementsEleve =
-      paiements.filter(p =>
-        p.matricule === matricule
-      );
-
-
-    document.getElementById("infoElevePaiement")
-      .innerHTML = `
-
-        <div style="
-          background:#eef4ff;
-          border-left:5px solid #0A2A78;
-          padding:14px;
-          border-radius:8px;
-        ">
-
-          <strong>
-            ${escapeHTML(eleve.nom)}
-            ${escapeHTML(eleve.prenom)}
-          </strong>
-
-          <br>
-
-          Matricule :
-          <strong>
-            ${escapeHTML(matricule)}
-          </strong>
-
-          <br>
-
-          Classe :
-          <strong>
-            ${escapeHTML(eleve.classe)}
-          </strong>
-
-        </div>
-
-      `;
-
-
-    const liste =
-      document.getElementById(
-        "listePaiementsEleve"
-      );
-
-
-    if(paiementsEleve.length === 0){
-
-      liste.innerHTML = `
-        <div class="no-payment">
-          Aucun paiement enregistré pour cet élève.
-        </div>
-      `;
-
-    }else{
-
-      liste.innerHTML = "";
-
-      [...paiementsEleve]
-        .reverse()
-        .forEach(p => {
-
-          let classeStatus = "attente";
-
-          if(p.statut === "Confirmée"){
-            classeStatus = "confirmee";
-          }
-
-          if(p.statut === "Annulée"){
-            classeStatus = "annulee";
-          }
-
-          if(p.statut === "Échouée"){
-            classeStatus = "echouee";
-          }
-
-
-          const date =
-            new Date(p.date)
-              .toLocaleString("fr-FR");
-
-
-          let boutonRecu = "";
-
-          if(p.statut === "Confirmée"){
-
-            boutonRecu = `
-              <button
-                class="btn-small btn-view"
-                onclick="ouvrirRecu(${paiements.indexOf(p)})"
-              >
-                VOIR LE REÇU
-              </button>
-            `;
-
-          }
-
-
-          const div =
-            document.createElement("div");
-
-          div.className =
-            "payment-card";
-
-
-          div.innerHTML = `
-
-            <div class="payment-line">
-              <span>N° reçu</span>
-              <strong>
-                ${escapeHTML(p.numero)}
-              </strong>
-            </div>
-
-            <div class="payment-line">
-              <span>Date</span>
-              <strong>
-                ${escapeHTML(date)}
-              </strong>
-            </div>
-
-            <div class="payment-line">
-              <span>Motif</span>
-              <strong>
-                ${escapeHTML(p.motif)}
-              </strong>
-            </div>
-
-            <div class="payment-line">
-              <span>Montant</span>
-              <strong>
-                ${Number(p.montant || 0)
-                  .toLocaleString("fr-FR")}
-                FCFA
-              </strong>
-            </div>
-
-            <div class="payment-line">
-              <span>Mode</span>
-              <strong>
-                ${escapeHTML(p.mode)}
-              </strong>
-            </div>
-
-            <div class="payment-line">
-              <span>Référence</span>
-              <strong>
-                ${escapeHTML(
-                  p.reference || "Non renseignée"
-                )}
-              </strong>
-            </div>
-
-            <div class="payment-line">
-              <span>Statut</span>
-              <span class="status ${classeStatus}">
-                ${escapeHTML(p.statut)}
-              </span>
-            </div>
-
-            <div style="margin-top:10px;">
-              ${boutonRecu}
-            </div>
-
-          `;
-
-          liste.appendChild(div);
-
-        });
-
-    }
-
-
-    document.getElementById("lienNouveauPaiement")
-      .href =
-      "paiements.html?matricule=" +
-      encodeURIComponent(matricule);
-
-
-    document.getElementById("modalPaiements")
-      .style.display = "block";
-
-  }
-
-
-  function ouvrirRecu(index){
-
-    const paiement =
-      paiements[index];
-
-    if(!paiement){
-      return;
-    }
-
-
-    if(paiement.statut !== "Confirmée"){
-
-      alert(
-        "Ce paiement n'est pas encore confirmé."
-      );
-
-      return;
-
-    }
-
-
-    const date =
-      new Date(paiement.date)
-        .toLocaleString("fr-FR");
-
-
-    const fenetre =
-      window.open(
-        "",
-        "_blank",
-        "width=700,height=800"
-      );
-
-
-    if(!fenetre){
-      alert(
-        "Le navigateur bloque l'ouverture du reçu."
-      );
-      return;
-    }
-
-
-    fenetre.document.write(`
-
-      <!DOCTYPE html>
-
-      <html lang="fr">
-
-      <head>
-
-        <meta charset="UTF-8">
-
-        <title>Reçu ${escapeHTML(paiement.numero)}</title>
-
-        <style>
-
-          body{
-            font-family:Arial,sans-serif;
-            padding:30px;
-            color:#1F2937;
-          }
-
-          .recu{
-            max-width:650px;
-            margin:auto;
-            border:2px solid #ddd;
-            padding:30px;
-          }
-
-          h1{
-            text-align:center;
-            color:#0A2A78;
-          }
-
-          .slogan{
-            text-align:center;
-          }
-
-          .paid{
-            text-align:center;
-            margin:20px auto;
-            width:max-content;
-            padding:10px 18px;
-            border:2px solid #16803C;
-            color:#16803C;
-            font-weight:bold;
-          }
-
-          .ligne{
-            display:flex;
-            justify-content:space-between;
-            gap:20px;
-            padding:10px 0;
-            border-bottom:1px solid #ddd;
-          }
-
-          .montant{
-            font-size:20px;
-            color:#0A2A78;
-            font-weight:bold;
-          }
-
-          @media print{
-            button{
-              display:none;
-            }
-          }
-
-        </style>
-
-      </head>
-
-      <body>
-
-        <div class="recu">
-
-          <h1>
-            GROUPE SCOLAIRE<br>
-            ÉTOILE BRILLANTE
-          </h1>
-
-          <div class="slogan">
-            Excellence • Discipline • Innovation
-          </div>
-
-          <div class="paid">
-            REÇU PAYÉ
-          </div>
-
-          <div class="ligne">
-            <span>N° reçu</span>
-            <strong>
-              ${escapeHTML(paiement.numero)}
-            </strong>
-          </div>
-
-          <div class="ligne">
-            <span>Date</span>
-            <strong>${escapeHTML(date)}</strong>
-          </div>
-
-          <div class="ligne">
-            <span>Élève</span>
-            <strong>
-              ${escapeHTML(paiement.eleve)}
-            </strong>
-          </div>
-
-          <div class="ligne">
-            <span>Matricule</span>
-            <strong>
-              ${escapeHTML(paiement.matricule)}
-            </strong>
-          </div>
-
-          <div class="ligne">
-            <span>Classe</span>
-            <strong>
-              ${escapeHTML(paiement.classe)}
-            </strong>
-          </div>
-
-          <div class="ligne">
-            <span>Motif</span>
-            <strong>
-              ${escapeHTML(paiement.motif)}
-            </strong>
-          </div>
-
-          <div class="ligne">
-            <span>Mode</span>
-            <strong>
-              ${escapeHTML(paiement.mode)}
-            </strong>
-          </div>
-
-          <div class="ligne">
-            <span>Référence</span>
-            <strong>
-              ${escapeHTML(
-                paiement.reference ||
-                "Non renseignée"
-              )}
-            </strong>
-          </div>
-
-          <div class="ligne montant">
-            <span>Montant payé</span>
-            <strong>
-              ${Number(paiement.montant || 0)
-                .toLocaleString("fr-FR")}
-              FCFA
-            </strong>
-          </div>
-
-          <p style="margin-top:30px;">
-            Merci pour votre confiance.
-          </p>
-
-          <button
-            onclick="window.print()"
-            style="
-              padding:12px 18px;
-              background:#0A2A78;
-              color:white;
-              border:none;
-              border-radius:8px;
-              font-weight:bold;
-            "
-          >
-            Imprimer le reçu
-          </button>
-
-        </div>
-
-      </body>
-
-      </html>
-
-    `);
-
-    fenetre.document.close();
-
-  }
-
-
-  function fermerModal(id,event){
-
-    if(event && event.target !== event.currentTarget){
-      return;
-    }
-
-    document.getElementById(id)
-      .style.display = "none";
-
-  }
-
-
-  function supprimerEleve(index){
-
-    const eleve =
-      eleves[index];
-
-    if(!eleve){
-      return;
-    }
-
-
-    const confirmation =
-      confirm(
-        "Voulez-vous vraiment supprimer " +
-        (eleve.nom || "") +
-        " " +
-        (eleve.prenom || "") +
-        " ?"
-      );
-
-
-    if(!confirmation){
-      return;
-    }
-
-
-    eleves.splice(index,1);
-
-
-    localStorage.setItem(
-      "EB_ELEVES",
-      JSON.stringify(eleves)
-    );
-
-
-    afficherEleves();
-    mettreAJourStatistiques();
-
-  }
-
-
-  function actualiser(){
-
-    chargerDonnees();
-    mettreAJourStatistiques();
-    afficherEleves();
-
-  }
-
-
-  remplirClasses();
-  chargerDonnees();
-  mettreAJourStatistiques();
-  afficherEleves();
-
-</script>
-
-</body>
-</html>
+ /* Si aucune nouvelle
