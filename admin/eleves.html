@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Gestion des élèves - Groupe Scolaire Étoile Brillante</title>
+<title>Élèves — Administration | Groupe Scolaire Étoile Brillante</title>
 
 <script>
 if(sessionStorage.getItem("EB_ADMIN")!=="OK"){
@@ -15,608 +14,177 @@ if(sessionStorage.getItem("EB_ADMIN")!=="OK"){
 
 <style>
 :root{
- --bleu:#0A2A78;
- --bleu2:#123A9B;
- --or:#C9A227;
- --ivoire:#F7F4ED;
- --blanc:#fff;
- --texte:#1F2937;
+  --bleu:#0A2A78;
+  --bleu-clair:#123A9B;
+  --or:#C9A227;
+  --ivoire:#F7F4ED;
+  --vert:#16803C;
+  --rouge:#C62828;
 }
 
-*{
- margin:0;
- padding:0;
- box-sizing:border-box;
-}
+*{box-sizing:border-box;}
 
 body{
- font-family:Arial,Helvetica,sans-serif;
- background:var(--ivoire);
- color:var(--texte);
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--ivoire);
+  color:#1F2937;
 }
 
 header{
- background:linear-gradient(135deg,var(--bleu),var(--bleu2));
- color:white;
- padding:20px;
+  background:linear-gradient(135deg,var(--bleu),var(--bleu-clair));
+  color:white;
+  padding:20px 15px;
+}
+
+header h1{
+  margin:0 0 6px;
+  font-size:25px;
+}
+
+header p{
+  margin:0;
+  opacity:.9;
 }
 
 .container{
- width:95%;
- max-width:1200px;
- margin:auto;
+  max-width:1200px;
+  margin:25px auto;
+  padding:0 15px;
 }
 
-nav{
- display:flex;
- flex-wrap:wrap;
- gap:8px;
- margin-top:15px;
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
 }
 
-nav a{
- color:white;
- text-decoration:none;
- padding:8px 12px;
- border-radius:8px;
- font-weight:bold;
+.topbar h2{
+  margin:0;
+  color:var(--bleu);
 }
 
-nav a:hover{
- background:rgba(255,255,255,.15);
+.actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
 }
 
-.card{
- background:white;
- border-radius:15px;
- padding:22px;
- margin:22px 0;
- box-shadow:0 5px 18px rgba(0,0,0,.08);
+.btn{
+  border:none;
+  border-radius:9px;
+  padding:10px 14px;
+  text-decoration:none;
+  font-weight:bold;
+  cursor:pointer;
+  display:inline-block;
+  font-size:13px;
 }
 
-h2{
- color:var(--bleu);
- margin-bottom:18px;
+.btn-primary{
+  background:var(--bleu);
+  color:white;
 }
 
-.search{
- width:100%;
- padding:13px;
- border:1px solid #ccc;
- border-radius:9px;
- margin-bottom:20px;
- font-size:16px;
+.btn-or{
+  background:var(--or);
+  color:white;
 }
 
-.table-wrap{
- overflow-x:auto;
+.btn-secondary{
+  background:#e8e8e8;
+  color:#333;
+}
+
+.btn-green{
+  background:var(--vert);
+  color:white;
+}
+
+.btn-red{
+  background:var(--rouge);
+  color:white;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin-bottom:20px;
+}
+
+.stat{
+  background:white;
+  border-radius:14px;
+  padding:18px;
+  box-shadow:0 3px 12px rgba(0,0,0,.07);
+}
+
+.stat strong{
+  display:block;
+  font-size:28px;
+  color:var(--bleu);
+  margin-top:5px;
+}
+
+.filters{
+  background:white;
+  border-radius:15px;
+  padding:18px;
+  margin-bottom:20px;
+  box-shadow:0 3px 12px rgba(0,0,0,.07);
+}
+
+.filters-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:12px;
+}
+
+input,
+select{
+  width:100%;
+  padding:12px;
+  border:1px solid #ccc;
+  border-radius:9px;
+  font-size:15px;
+  background:white;
+}
+
+input:focus,
+select:focus{
+  outline:none;
+  border-color:var(--bleu);
+}
+
+.table-card{
+  background:white;
+  border-radius:15px;
+  padding:15px;
+  box-shadow:0 3px 12px rgba(0,0,0,.07);
+  overflow:hidden;
+}
+
+.table-wrapper{
+  overflow-x:auto;
 }
 
 table{
- width:100%;
- border-collapse:collapse;
- min-width:900px;
+  width:100%;
+  border-collapse:collapse;
+  min-width:1250px;
 }
 
 th,
 td{
- padding:10px;
- border-bottom:1px solid #ddd;
- text-align:left;
+  padding:12px 10px;
+  border-bottom:1px solid #eee;
+  text-align:left;
+  vertical-align:middle;
 }
 
 th{
- background:var(--bleu);
- color:white;
-}
-
-.photo-mini{
- width:55px;
- height:55px;
- border-radius:8px;
- object-fit:cover;
- border:2px solid var(--or);
- background:#eee;
-}
-
-.initiales{
- width:55px;
- height:55px;
- border-radius:8px;
- display:flex;
- align-items:center;
- justify-content:center;
- background:#e5e7eb;
- color:var(--bleu);
- font-weight:bold;
- font-size:18px;
- border:2px solid var(--or);
-}
-
-button{
- border:none;
- border-radius:7px;
- padding:9px 12px;
- color:white;
- background:var(--bleu);
- cursor:pointer;
- font-weight:bold;
- margin:2px;
-}
-
-button:hover{
- opacity:.9;
-}
-
-.btn-photo{
- background:#16803c;
-}
-
-.btn-fiche{
- background:#123A9B;
-}
-
-.btn-paiement{
- background:#8a6500;
-}
-
-.btn-supprimer{
- background:#b91c1c;
-}
-
-.empty{
- text-align:center;
- padding:30px;
- color:#666;
-}
-
-.modal{
- display:none;
- position:fixed;
- inset:0;
- background:rgba(0,0,0,.65);
- z-index:9999;
- padding:20px;
- overflow:auto;
-}
-
-.modal-box{
- background:white;
- width:100%;
- max-width:500px;
- margin:40px auto;
- padding:25px;
- border-radius:15px;
-}
-
-.modal-box h2{
- margin-bottom:15px;
-}
-
-.preview{
- width:150px;
- height:150px;
- margin:15px auto;
- border-radius:12px;
- border:3px solid var(--or);
- object-fit:cover;
- display:block;
- background:#eee;
-}
-
-.close{
- background:#555;
-}
-
-.save{
- background:#16803c;
-}
-
-footer{
- margin-top:30px;
- background:var(--bleu);
- color:white;
- text-align:center;
- padding:20px;
-}
-
-@media(max-width:700px){
-
- table{
-   min-width:850px;
- }
-
- .card{
-   padding:15px;
- }
-
-}
-</style>
-
-</head>
-
-<body>
-
-<header>
-
-<div class="container">
-
-<h1>Groupe Scolaire Étoile Brillante</h1>
-
-<p>Administration — Gestion des élèves</p>
-
-<nav>
-<a href="index.html">Dashboard</a>
-<a href="eleves.html">Élèves</a>
-<a href="notes.html">Notes</a>
-<a href="bulletins.html">Bulletins</a>
-<a href="cartes.html">Cartes scolaires</a>
-<a href="paiements.html">Paiements</a>
-</nav>
-
-</div>
-
-</header>
-
-
-<div class="container">
-
-<div class="card">
-
-<h2>Liste des élèves</h2>
-
-<input
- id="recherche"
- class="search"
- type="search"
- placeholder="Rechercher par matricule, nom, prénom ou classe..."
->
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-
-<tr>
-<th>Photo</th>
-<th>Matricule</th>
-<th>Nom</th>
-<th>Prénom</th>
-<th>Classe</th>
-<th>Sexe</th>
-<th>Téléphone</th>
-<th>Actions</th>
-</tr>
-
-</thead>
-
-<tbody id="listeEleves"></tbody>
-
-</table>
-
-</div>
-
-<div id="vide" class="empty" style="display:none;">
-Aucun élève enregistré.
-</div>
-
-</div>
-
-</div>
-
-
-<!-- =========================
-     MODAL PHOTO
-========================= -->
-
-<div class="modal" id="photoModal">
-
-<div class="modal-box">
-
-<h2>📷 Photo de l'élève</h2>
-
-<p id="nomPhoto" style="text-align:center;font-weight:bold;"></p>
-
-<img
- id="photoPreview"
- class="preview"
- src=""
- alt="Photo de l'élève"
->
-
-<input
- id="photoInput"
- type="file"
- accept="image/*"
- capture="environment"
->
-
-<div style="text-align:center;margin-top:15px;">
-
-<button class="save" onclick="enregistrerPhoto()">
-💾 Enregistrer la photo
-</button>
-
-<button class="close" onclick="fermerPhoto()">
-Fermer
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- =========================
-     MODAL FICHE
-========================= -->
-
-<div class="modal" id="ficheModal">
-
-<div class="modal-box">
-
-<h2>Fiche de l'élève</h2>
-
-<div id="ficheContenu"></div>
-
-<div style="text-align:center;margin-top:20px;">
-
-<button onclick="fermerFiche()">
-Fermer
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-
-<footer>
-
-Groupe Scolaire Étoile Brillante • Brazzaville
-
-</footer>
-
-
-<script>
-
-let eleves =
-JSON.parse(localStorage.getItem("EB_ELEVES") || "[]");
-
-let indexPhoto = null;
-
-
-/* =========================
-   AFFICHAGE
-========================= */
-
-function afficherEleves(){
-
- const tbody =
- document.getElementById("listeEleves");
-
- const recherche =
- document.getElementById("recherche").value
- .toLowerCase()
- .trim();
-
- tbody.innerHTML="";
-
- let trouves = 0;
-
- eleves.forEach((e,index)=>{
-
-   const texte = (
-
-     (e.matricule || "") + " " +
-     (e.nom || "") + " " +
-     (e.prenom || "") + " " +
-     (e.classe || e.salle || "") + " " +
-     (e.sexe || "")
-
-   ).toLowerCase();
-
-   if(recherche && !texte.includes(recherche)){
-     return;
-   }
-
-   trouves++;
-
-   const tr =
-   document.createElement("tr");
-
-
-   /* PHOTO */
-
-   let photoHTML="";
-
-   if(e.photo && String(e.photo).trim()!==""){
-
-     photoHTML =
-     `<img
-       src="${e.photo}"
-       class="photo-mini"
-       alt="Photo"
-       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
-     >
-     <div class="initiales" style="display:none;">
-       ${initiales(e)}
-     </div>`;
-
-   }else{
-
-     photoHTML =
-     `<div class="initiales">
-       ${initiales(e)}
-     </div>`;
-
-   }
-
-
-   tr.innerHTML=`
-
-   <td>${photoHTML}</td>
-
-   <td>${escapeHTML(e.matricule || "-")}</td>
-
-   <td>${escapeHTML(e.nom || "-")}</td>
-
-   <td>${escapeHTML(e.prenom || "-")}</td>
-
-   <td>${escapeHTML(e.classe || e.salle || "-")}</td>
-
-   <td>${escapeHTML(e.sexe || "-")}</td>
-
-   <td>${escapeHTML(e.telephone || "-")}</td>
-
-   <td>
-
-   <button
-    class="btn-photo"
-    onclick="ouvrirPhoto(${index})">
-    📷 Photo
-   </button>
-
-   <button
-    class="btn-fiche"
-    onclick="voirFiche(${index})">
-    Fiche
-   </button>
-
-   <button
-    class="btn-paiement"
-    onclick="voirPaiements('${escapeJS(e.matricule || "")}')">
-    Paiements
-   </button>
-
-   <button
-    class="btn-supprimer"
-    onclick="supprimerEleve(${index})">
-    Supprimer
-   </button>
-
-   </td>
-
-   `;
-
-   tbody.appendChild(tr);
-
- });
-
-
- document.getElementById("vide").style.display =
- trouves===0 ? "block" : "none";
-
-}
-
-
-/* =========================
-   INITIALES
-========================= */
-
-function initiales(e){
-
- return (
-   (e.prenom || "E").charAt(0).toUpperCase() +
-   (e.nom || "B").charAt(0).toUpperCase()
- );
-
-}
-
-
-/* =========================
-   AJOUT / MODIFICATION PHOTO
-========================= */
-
-function ouvrirPhoto(index){
-
- indexPhoto=index;
-
- const e=eleves[index];
-
- if(!e)return;
-
-
- document.getElementById("nomPhoto").textContent =
- (e.nom || "")+" "+(e.prenom || "");
-
-
- const preview =
- document.getElementById("photoPreview");
-
-
- document.getElementById("photoInput").value="";
-
-
- if(e.photo){
-
-   preview.src=e.photo;
-
- }else{
-
-   preview.removeAttribute("src");
-
- }
-
-
- document.getElementById("photoModal").style.display="block";
-
-}
-
-
-/* =========================
-   APERÇU NOUVELLE PHOTO
-========================= */
-
-document
-.getElementById("photoInput")
-.addEventListener("change",function(){
-
- const fichier=this.files[0];
-
- if(!fichier)return;
-
-
- if(!fichier.type.startsWith("image/")){
-
-   alert("Veuillez sélectionner une image.");
-
-   this.value="";
-
-   return;
-
- }
-
-
- const lecteur=new FileReader();
-
- lecteur.onload=function(ev){
-
-   document.getElementById("photoPreview").src =
-   ev.target.result;
-
- };
-
- lecteur.readAsDataURL(fichier);
-
-});
-
-
-/* =========================
-   ENREGISTRER PHOTO
-========================= */
-
-function enregistrerPhoto(){
-
- if(indexPhoto===null)return;
-
- const input =
- document.getElementById("photoInput");
-
- const fichier=input.files[0];
-
-
- /* Si aucune nouvelle
+  background:#f1
