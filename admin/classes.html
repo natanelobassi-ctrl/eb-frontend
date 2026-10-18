@@ -1,157 +1,133 @@
 <!DOCTYPE html>
 <html lang="fr">
- <script>
-if(sessionStorage.getItem("EB_ADMIN")!=="OK"){
-  location.replace("login.html");
-}
-</script> 
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gestion des classes — Groupe Scolaire Étoile Brillante</title>
+
+<title>Classes — Administration | Groupe Scolaire Étoile Brillante</title>
+
+<script>
+if(sessionStorage.getItem("EB_ADMIN")!=="OK"){
+  location.replace("login.html");
+}
+</script>
 
 <style>
 :root{
   --bleu:#0A2A78;
-  --bleu2:#123A9B;
+  --bleu-clair:#123A9B;
   --or:#C9A227;
   --ivoire:#F7F4ED;
-  --blanc:#fff;
-  --texte:#1F2937;
-  --vert:#16803c;
-  --rouge:#b42318;
+  --vert:#16803C;
+  --rouge:#C62828;
+  --gris:#6B7280;
 }
 
-*{box-sizing:border-box;margin:0;padding:0}
+*{box-sizing:border-box}
 
 body{
+  margin:0;
   font-family:Arial,Helvetica,sans-serif;
   background:var(--ivoire);
-  color:var(--texte);
+  color:#1F2937;
 }
 
 header{
-  background:linear-gradient(135deg,var(--bleu),var(--bleu2));
+  background:linear-gradient(135deg,var(--bleu),var(--bleu-clair));
   color:white;
-  padding:20px;
-  box-shadow:0 3px 12px rgba(0,0,0,.2);
-}
-
-.container{
-  width:94%;
-  max-width:1250px;
-  margin:auto;
-}
-
-.header-flex{
-  display:flex;
-  align-items:center;
-  gap:15px;
-}
-
-.logo{<img src="../assets/css/logo-etoile-brillante.png"
-     alt="Logo Groupe Scolaire Étoile Brillante"
-     class="logo">
-  width:65px;
-  height:65px;
-  border-radius:50%;
-  background:white;
-  border:3px solid var(--or);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:var(--bleu);
-  font-weight:bold;
-  font-size:22px;
+  padding:20px 15px;
 }
 
 header h1{
-  font-size:1.35rem;
+  margin:0 0 6px;
+  font-size:25px;
 }
 
 header p{
-  font-size:.9rem;
-  margin-top:4px;
+  margin:0;
+  opacity:.9;
 }
 
-nav{
+.container{
+  max-width:1400px;
+  margin:25px auto;
+  padding:0 15px;
+}
+
+.topbar{
   display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
   flex-wrap:wrap;
-  gap:8px;
-  margin-top:18px;
+  margin-bottom:20px;
 }
 
-nav a{
-  color:white;
-  text-decoration:none;
-  padding:9px 12px;
-  border-radius:7px;
-  font-weight:bold;
-}
-
-nav a:hover{
-  background:rgba(255,255,255,.15);
-}
-
-main{
-  padding:35px 0;
-}
-
-.title{
-  margin-bottom:25px;
-}
-
-.title h2{
+.topbar h2{
+  margin:0;
   color:var(--bleu);
-  margin-bottom:7px;
 }
 
 .actions{
   display:flex;
+  gap:8px;
   flex-wrap:wrap;
-  gap:10px;
-  margin-bottom:20px;
 }
 
-button{
+.btn{
   border:0;
-  border-radius:8px;
-  padding:11px 16px;
-  cursor:pointer;
+  border-radius:9px;
+  padding:10px 14px;
   font-weight:bold;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-block;
+  font-size:13px;
 }
 
-.btn-primary{
-  background:var(--bleu);
-  color:white;
-}
+.btn-primary{background:var(--bleu);color:white}
+.btn-or{background:var(--or);color:white}
+.btn-green{background:var(--vert);color:white}
+.btn-red{background:var(--rouge);color:white}
+.btn-secondary{background:#e5e7eb;color:#333}
 
-.btn-gold{
-  background:var(--or);
-  color:#111;
-}
-
-.btn-danger{
-  background:var(--rouge);
-  color:white;
-}
-
-.btn-success{
-  background:var(--vert);
-  color:white;
-}
-
-.filters{
-  background:white;
-  padding:20px;
-  border-radius:14px;
-  box-shadow:0 4px 15px rgba(0,0,0,.08);
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
   margin-bottom:20px;
 }
 
-.filters-grid{
+.stat{
+  background:white;
+  padding:18px;
+  border-radius:14px;
+  box-shadow:0 3px 12px rgba(0,0,0,.07);
+}
+
+.stat span{
+  color:var(--gris);
+  font-size:14px;
+}
+
+.stat strong{
+  display:block;
+  margin-top:5px;
+  color:var(--bleu);
+  font-size:27px;
+}
+
+.filter-box{
+  background:white;
+  padding:18px;
+  border-radius:15px;
+  box-shadow:0 3px 12px rgba(0,0,0,.07);
+  margin-bottom:20px;
+}
+
+.filter-grid{
   display:grid;
-  grid-template-columns:2fr 1fr 1fr;
+  grid-template-columns:2fr 1fr;
   gap:12px;
 }
 
@@ -159,153 +135,158 @@ input,select{
   width:100%;
   padding:12px;
   border:1px solid #ccc;
-  border-radius:8px;
-  font-size:1rem;
+  border-radius:9px;
+  font-size:15px;
 }
 
-.table-box{
+.classes-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+
+.class-card{
   background:white;
-  border-radius:14px;
-  overflow-x:auto;
-  box-shadow:0 4px 15px rgba(0,0,0,.08);
+  border-radius:16px;
+  padding:18px;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);
 }
 
-table{
-  width:100%;
-  border-collapse:collapse;
-  min-width:1000px;
+.class-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:15px;
 }
 
-th,td{
-  padding:13px 10px;
-  border-bottom:1px solid #eee;
-  text-align:left;
-}
-
-th{
-  background:var(--bleu);
-  color:white;
-}
-
-tr:hover{
-  background:#f8f8f8;
+.class-header h3{
+  margin:0;
+  color:var(--bleu);
 }
 
 .badge{
-  display:inline-block;
-  padding:5px 9px;
+  padding:6px 9px;
   border-radius:20px;
-  font-size:.82rem;
+  background:#e8eefc;
+  color:var(--bleu);
+  font-size:12px;
   font-weight:bold;
 }
 
-.badge-prescolaire{background:#eee1ff;color:#6420a0}
-.badge-primaire{background:#fff0c2;color:#765500}
-.badge-college{background:#dce9ff;color:#123a9b}
-.badge-lycee{background:#dff5e7;color:#146b34}
+.progress{
+  width:100%;
+  height:12px;
+  background:#e5e7eb;
+  border-radius:20px;
+  overflow:hidden;
+  margin:10px 0;
+}
 
-.small-btn{
-  padding:7px 9px;
-  margin:2px;
-  font-size:.78rem;
+.progress-bar{
+  height:100%;
+  background:var(--vert);
+  width:0%;
+}
+
+.progress-bar.full{
+  background:var(--rouge);
+}
+
+.class-stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:6px;
+  margin:12px 0;
+}
+
+.class-stat{
+  background:#f5f6f8;
+  padding:9px 5px;
+  text-align:center;
+  border-radius:8px;
+}
+
+.class-stat strong{
+  display:block;
+  color:var(--bleu);
+  font-size:18px;
+}
+
+.class-stat small{
+  font-size:11px;
+  color:var(--gris);
+}
+
+.student-list{
+  border-top:1px solid #eee;
+  margin-top:12px;
+  padding-top:10px;
+  max-height:220px;
+  overflow-y:auto;
+}
+
+.student{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:8px 0;
+  border-bottom:1px solid #f0f0f0;
+}
+
+.student-photo{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  object-fit:cover;
+  background:var(--bleu);
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:12px;
+  font-weight:bold;
+  flex-shrink:0;
+}
+
+.student-info{
+  flex:1;
+  min-width:0;
+}
+
+.student-info strong{
+  display:block;
+  font-size:13px;
+}
+
+.student-info small{
+  color:var(--gris);
+  font-size:11px;
 }
 
 .empty{
   text-align:center;
-  padding:35px;
-  color:#666;
+  color:var(--gris);
+  padding:25px 10px;
 }
 
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.55);
-  z-index:10;
-  padding:20px;
-  overflow:auto;
-}
-
-.modal-content{
-  background:white;
-  max-width:600px;
-  margin:40px auto;
-  padding:25px;
-  border-radius:15px;
-}
-
-.modal-content h3{
-  color:var(--bleu);
-  margin-bottom:20px;
-}
-
-.form-group{
-  margin-bottom:14px;
-}
-
-.form-group label{
-  display:block;
-  font-weight:bold;
-  margin-bottom:6px;
-}
-
-.modal-actions{
-  display:flex;
-  justify-content:flex-end;
-  gap:10px;
-  margin-top:20px;
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px;
-  margin-bottom:25px;
-}
-
-.stat{
-  background:white;
-  padding:20px;
-  border-radius:14px;
-  box-shadow:0 4px 15px rgba(0,0,0,.07);
-}
-
-.stat strong{
-  display:block;
-  color:var(--bleu);
-  font-size:1.8rem;
-}
-
-.stat span{
-  color:#666;
-  font-size:.9rem;
-}
-
-footer{
-  margin-top:50px;
-  background:var(--bleu);
-  color:white;
-  text-align:center;
-  padding:25px;
-}
-
-@media(max-width:800px){
-  .filters-grid{
-    grid-template-columns:1fr;
-  }
-
-  .stats{
+@media(max-width:1000px){
+  .classes-grid{
     grid-template-columns:repeat(2,1fr);
   }
 }
 
-@media(max-width:500px){
+@media(max-width:700px){
   .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .filter-grid{
     grid-template-columns:1fr;
   }
 
-  header h1{
-    font-size:1.05rem;
+  .classes-grid{
+    grid-template-columns:1fr;
   }
 }
 </style>
@@ -314,538 +295,638 @@ footer{
 <body>
 
 <header>
-  <div class="container">
-
-    <div class="header-flex">
-      <div class="logo">EB</div>
-
-      <div>
-        <h1>Groupe Scolaire Étoile Brillante</h1>
-        <p>Gestion administrative — Classes et salles</p>
-      </div>
-    </div>
-
-    <nav>
-      <a href="index.html">Tableau de bord</a>
-      <a href="eleves.html">Élèves</a>
-      <a href="notes.html">Notes</a>
-      <a href="bulletins.html">Bulletins</a>
-      <a href="classes.html">Classes</a>
-      <a href="../index.html">Site public</a>
-    </nav>
-
-  </div>
+  <h1>Groupe Scolaire Étoile Brillante</h1>
+  <p>Administration — Gestion des classes et des inscriptions</p>
 </header>
 
-<main class="container">
+<div class="container">
 
-  <section class="title">
-    <h2>Gestion des classes</h2>
-    <p>Gérez les niveaux, salles, effectifs et enseignants titulaires.</p>
-  </section>
+  <div class="topbar">
 
-  <section class="stats">
-
-    <div class="stat">
-      <strong id="totalClasses">0</strong>
-      <span>Classes</span>
+    <div>
+      <h2>Classes</h2>
+      <p>Effectifs, listes des inscrits et taux d'occupation</p>
     </div>
 
-    <div class="stat">
-      <strong id="totalEleves">0</strong>
-      <span>Élèves</span>
+    <div class="actions">
+      <a href="../inscription.html" class="btn btn-primary">
+        + Inscrire un élève
+      </a>
+
+      <a href="eleves.html" class="btn btn-or">
+        👥 Tous les élèves
+      </a>
+
+      <a href="index.html" class="btn btn-secondary">
+        ← Administration
+      </a>
     </div>
 
-    <div class="stat">
-      <strong id="totalPrescolaire">0</strong>
-      <span>Préscolaire</span>
-    </div>
-
-    <div class="stat">
-      <strong id="totalSecondaire">0</strong>
-      <span>Collège / Lycée</span>
-    </div>
-
-  </section>
-
-  <div class="actions">
-    <button class="btn-primary" onclick="ouvrirModal()">
-      + Ajouter une classe
-    </button>
-
-    <button class="btn-gold" onclick="chargerClasses()">
-      Actualiser
-    </button>
   </div>
 
-  <section class="filters">
 
-    <div class="filters-grid">
+  <!-- STATISTIQUES GENERALES -->
+
+  <div class="stats">
+
+    <div class="stat">
+      <span>Total élèves inscrits</span>
+      <strong id="totalEleves">0</strong>
+    </div>
+
+    <div class="stat">
+      <span>Filles</span>
+      <strong id="totalFilles">0</strong>
+    </div>
+
+    <div class="stat">
+      <span>Garçons</span>
+      <strong id="totalGarcons">0</strong>
+    </div>
+
+    <div class="stat">
+      <span>Classes occupées</span>
+      <strong id="classesOccupees">0</strong>
+    </div>
+
+  </div>
+
+
+  <!-- RECHERCHE -->
+
+  <div class="filter-box">
+
+    <div class="filter-grid">
 
       <input
-        type="search"
+        type="text"
         id="recherche"
-        placeholder="Rechercher une classe, un titulaire..."
-        oninput="afficherClasses()"
+        placeholder="🔎 Rechercher une classe ou un élève..."
       >
 
-      <select id="filtreCycle" onchange="afficherClasses()">
-        <option value="">Tous les cycles</option>
-        <option value="Préscolaire">Préscolaire</option>
-        <option value="Primaire">Primaire</option>
-        <option value="Collège">Collège</option>
-        <option value="Lycée">Lycée</option>
+      <select id="filtreNiveau">
+        <option value="">Tous les niveaux</option>
+        <option value="prescolaire">Préscolaire</option>
+        <option value="primaire">Primaire</option>
+        <option value="college">Collège</option>
+        <option value="lycee">Lycée</option>
       </select>
-
-      <select id="filtreStatut" onchange="afficherClasses()">
-        <option value="">Tous les statuts</option>
-        <option value="Active">Active</option>
-        <option value="Archivée">Archivée</option>
-      </select>
-
-    </div>
-
-  </section>
-
-  <section class="table-box">
-
-    <table>
-
-      <thead>
-        <tr>
-          <th>Classe</th>
-          <th>Cycle</th>
-          <th>Salle</th>
-          <th>Titulaire</th>
-          <th>Effectif</th>
-          <th>Statut</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-
-      <tbody id="classesBody"></tbody>
-
-    </table>
-
-  </section>
-
-</main>
-
-<div class="modal" id="modalClasse">
-
-  <div class="modal-content">
-
-    <h3 id="modalTitre">Ajouter une classe</h3>
-
-    <input type="hidden" id="classeId">
-
-    <div class="form-group">
-      <label>Nom de la classe</label>
-      <input id="nomClasse" placeholder="Ex. 6e A">
-    </div>
-
-    <div class="form-group">
-      <label>Cycle</label>
-
-      <select id="cycleClasse">
-        <option value="Préscolaire">Préscolaire</option>
-        <option value="Primaire">Primaire</option>
-        <option value="Collège">Collège</option>
-        <option value="Lycée">Lycée</option>
-      </select>
-
-    </div>
-
-    <div class="form-group">
-      <label>Salle</label>
-      <input id="salleClasse" placeholder="Ex. Salle 12">
-    </div>
-
-    <div class="form-group">
-      <label>Enseignant titulaire</label>
-      <input id="titulaireClasse" placeholder="Nom et prénom">
-    </div>
-
-    <div class="form-group">
-      <label>Effectif</label>
-      <input id="effectifClasse" type="number" min="0" value="0">
-    </div>
-
-    <div class="form-group">
-      <label>Statut</label>
-
-      <select id="statutClasse">
-        <option value="Active">Active</option>
-        <option value="Archivée">Archivée</option>
-      </select>
-
-    </div>
-
-    <div class="modal-actions">
-
-      <button onclick="fermerModal()">
-        Annuler
-      </button>
-
-      <button class="btn-primary" onclick="enregistrerClasse()">
-        Enregistrer
-      </button>
 
     </div>
 
   </div>
+
+
+  <!-- CLASSES -->
+
+  <div id="classesGrid" class="classes-grid"></div>
 
 </div>
 
-<footer>
-  <p><strong>Groupe Scolaire Étoile Brillante</strong></p>
-  <p>Excellence • Discipline • Innovation</p>
-  <p>03 rue Poumako, marché Massengo, arrondissement 9 Djiri — Brazzaville</p>
-</footer>
 
 <script>
 
-const CLE = "EB_CLASSES";
+const CLE_ELEVES = "EB_ELEVES";
 
-const classesInitiales = [
+const classes = [
 
-  {id:1,nom:"P1",cycle:"Préscolaire",salle:"Salle P1",titulaire:"À désigner",effectif:0,statut:"Active"},
-  {id:2,nom:"P2",cycle:"Préscolaire",salle:"Salle P2",titulaire:"À désigner",effectif:0,statut:"Active"},
-  {id:3,nom:"P3",cycle:"Préscolaire",salle:"Salle P3",titulaire:"À désigner",effectif:0,statut:"Active"},
+  {nom:"P1", niveau:"prescolaire", capacite:30},
+  {nom:"P2", niveau:"prescolaire", capacite:30},
+  {nom:"P3", niveau:"prescolaire", capacite:30},
 
-  {id:4,nom:"CP1",cycle:"Primaire",salle:"Salle CP1",titulaire:"À désigner",effectif:0,statut:"Active"},
-  {id:5,nom:"CP2",cycle:"Primaire",salle:"Salle CP2",titulaire:"À désigner",effectif:0,statut:"Active"},
-  {id:6,nom:"CE1",cycle:"Primaire",salle:"Salle CE1",titulaire:"À désigner",effectif:0,statut:"Active"},
-  {id:7,nom:"CE2",cycle:"Primaire",salle:"Salle CE2",titulaire:"À désigner",effectif:0,statut:"Active"},
-  {id:8,nom:"CM1",cycle:"Primaire",salle:"Salle CM1",titulaire:"À désigner",effectif:0,statut:"Active"},
-  {id:9,nom:"CM2",cycle:"Primaire",salle:"Salle CM2",titulaire:"À désigner",effectif:0,statut:"Active"},
+  {nom:"CP1", niveau:"primaire", capacite:30},
+  {nom:"CP2", niveau:"primaire", capacite:30},
+  {nom:"CE1", niveau:"primaire", capacite:30},
+  {nom:"CE2", niveau:"primaire", capacite:30},
+  {nom:"CM1", niveau:"primaire", capacite:30},
+  {nom:"CM2", niveau:"primaire", capacite:30},
 
-  {id:10,nom:"6e",cycle:"Collège",salle:"Salle 6e",titulaire:"À désigner",effectif:0,statut:"Active"},
-  {id:11,nom:"5e",cycle:"Collège",salle:"Salle 5e",titulaire:"À désigner",effectif:0,statut:"Active"},
-  {id:12,nom:"4e",cycle:"Collège",salle:"Salle 4e",titulaire:"À désigner",effectif:0,statut:"Active"},
-  {id:13,nom:"3e",cycle:"Collège",salle:"Salle 3e",titulaire:"À désigner",effectif:0,statut:"Active"},
+  {nom:"6e", niveau:"college", capacite:30},
+  {nom:"5e", niveau:"college", capacite:30},
+  {nom:"4e", niveau:"college", capacite:30},
+  {nom:"3e", niveau:"college", capacite:30},
 
-  {id:14,nom:"STC",cycle:"Lycée",salle:"Salle STC",titulaire:"À désigner",effectif:0,statut:"Active"},
-  {id:15,nom:"Première A",cycle:"Lycée",salle:"Salle 1A",titulaire:"À désigner",effectif:0,statut:"Active"},
-  {id:16,nom:"Première D",cycle:"Lycée",salle:"Salle 1D",titulaire:"À désigner",effectif:0,statut:"Active"},
-  {id:17,nom:"Terminale A",cycle:"Lycée",salle:"Salle TA",titulaire:"À désigner",effectif:0,statut:"Active"},
-  {id:18,nom:"Terminale D",cycle:"Lycée",salle:"Salle TD",titulaire:"À désigner",effectif:0,statut:"Active"}
+  {nom:"Seconde", niveau:"lycee", capacite:30},
+  {nom:"STC", niveau:"lycee", capacite:30},
+  {nom:"Première A", niveau:"lycee", capacite:30},
+  {nom:"Première D", niveau:"lycee", capacite:30},
+  {nom:"Terminale A", niveau:"lycee", capacite:30},
+  {nom:"Terminale D", niveau:"lycee", capacite:30}
 
 ];
 
-function chargerClasses(){
 
-  let data = localStorage.getItem(CLE);
+let eleves = [];
 
-  if(!data){
-    localStorage.setItem(CLE,JSON.stringify(classesInitiales));
+
+/* ================================
+   CHARGER LES ELEVES
+================================ */
+
+function chargerEleves(){
+
+  try{
+
+    const data = localStorage.getItem(CLE_ELEVES);
+
+    eleves = data ? JSON.parse(data) : [];
+
+    if(!Array.isArray(eleves)){
+      eleves = [];
+    }
+
+  }catch(error){
+
+    console.error(error);
+
+    eleves = [];
+
   }
 
   afficherClasses();
+
 }
 
-function obtenirClasses(){
 
-  try{
-    return JSON.parse(localStorage.getItem(CLE)) || [];
-  }catch(e){
-    return [];
+/* ================================
+   NORMALISER
+================================ */
+
+function normaliser(value){
+
+  return String(value || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"");
+
+}
+
+
+/* ================================
+   NIVEAU
+================================ */
+
+function appartientNiveau(classe,niveau){
+
+  const c = normaliser(classe);
+
+  if(niveau === "prescolaire"){
+    return ["p1","p2","p3"].includes(c);
   }
 
+  if(niveau === "primaire"){
+    return [
+      "cp1","cp2","ce1","ce2","cm1","cm2"
+    ].includes(c);
+  }
+
+  if(niveau === "college"){
+    return [
+      "6e","5e","4e","3e"
+    ].includes(c);
+  }
+
+  if(niveau === "lycee"){
+    return [
+      "seconde",
+      "stc",
+      "premiere a",
+      "premiere d",
+      "terminale a",
+      "terminale d"
+    ].includes(c);
+  }
+
+  return true;
+
 }
+
+
+/* ================================
+   AFFICHER
+================================ */
 
 function afficherClasses(){
 
-  const body = document.getElementById("classesBody");
+  const grid =
+    document.getElementById("classesGrid");
 
   const recherche =
-    document.getElementById("recherche").value.toLowerCase();
-
-  const cycle =
-    document.getElementById("filtreCycle").value;
-
-  const statut =
-    document.getElementById("filtreStatut").value;
-
-  let classes = obtenirClasses();
-
-  classes = classes.filter(c => {
-
-    const texte =
-      (c.nom+" "+c.titulaire+" "+c.salle).toLowerCase();
-
-    return (
-      texte.includes(recherche) &&
-      (!cycle || c.cycle === cycle) &&
-      (!statut || c.statut === statut)
+    normaliser(
+      document.getElementById("recherche").value
     );
 
-  });
+  const niveau =
+    document.getElementById("filtreNiveau").value;
 
-  if(classes.length === 0){
+  grid.innerHTML = "";
 
-    body.innerHTML =
-      `<tr><td colspan="7" class="empty">
-      Aucune classe trouvée.
-      </td></tr>`;
+  let total = 0;
+  let filles = 0;
+  let garcons = 0;
+  let occupees = 0;
 
-    mettreAJourStats();
 
-    return;
-  }
+  classes.forEach(classe=>{
 
-  body.innerHTML = classes.map(c => {
+    const inscrits = eleves.filter(e=>{
 
-    let badge = "badge-"+c.cycle.toLowerCase();
+      const c =
+        normaliser(
+          e.classe ||
+          e.salle ||
+          ""
+        );
 
-    if(c.cycle === "Collège") badge = "badge-college";
-    if(c.cycle === "Lycée") badge = "badge-lycee";
-    if(c.cycle === "Primaire") badge = "badge-primaire";
-    if(c.cycle === "Préscolaire") badge = "badge-prescolaire";
+      return c === normaliser(classe.nom);
 
-    return `
+    });
 
-      <tr>
 
-        <td><strong>${escapeHTML(c.nom)}</strong></td>
+    total += inscrits.length;
 
-        <td>
-          <span class="badge ${badge}">
-            ${escapeHTML(c.cycle)}
-          </span>
-        </td>
+    filles += inscrits.filter(
+      e => e.sexe === "F"
+    ).length;
 
-        <td>${escapeHTML(c.salle)}</td>
+    garcons += inscrits.filter(
+      e => e.sexe === "M"
+    ).length;
 
-        <td>${escapeHTML(c.titulaire)}</td>
+    if(inscrits.length > 0){
+      occupees++;
+    }
 
-        <td>${c.effectif}</td>
 
-        <td>
-          <span class="badge ${c.statut==="Active" ? "badge-lycee":"badge-prescolaire"}">
-            ${escapeHTML(c.statut)}
-          </span>
-        </td>
+    if(niveau && classe.niveau !== niveau){
+      return;
+    }
 
-        <td>
 
-          <button class="btn-gold small-btn"
-            onclick="modifierClasse(${c.id})">
-            Modifier
-          </button>
+    let texteRecherche =
+      normaliser(classe.nom);
 
-          <button class="btn-primary small-btn"
-            onclick="ouvrirModule('eleves','${encodeURIComponent(c.nom)}')">
-            Élèves
-          </button>
 
-          <button class="btn-success small-btn"
-            onclick="ouvrirModule('notes','${encodeURIComponent(c.nom)}')">
-            Notes
-          </button>
+    inscrits.forEach(e=>{
 
-          <button class="btn-primary small-btn"
-            onclick="ouvrirModule('bulletins','${encodeURIComponent(c.nom)}')">
-            Bulletins
-          </button>
+      texteRecherche +=
+        " " +
+        normaliser(e.nom) +
+        " " +
+        normaliser(e.prenom) +
+        " " +
+        normaliser(e.matricule);
 
-          <button class="btn-danger small-btn"
-            onclick="archiverClasse(${c.id})">
-            ${c.statut==="Active" ? "Archiver":"Réactiver"}
-          </button>
+    });
 
-        </td>
 
-      </tr>
+    if(
+      recherche &&
+      !texteRecherche.includes(recherche)
+    ){
+      return;
+    }
+
+
+    const pourcentage =
+      Math.min(
+        100,
+        Math.round(
+          (inscrits.length / classe.capacite) * 100
+        )
+      );
+
+
+    let listeHTML = "";
+
+
+    if(inscrits.length === 0){
+
+      listeHTML = `
+        <div class="empty">
+          Aucun élève inscrit dans cette classe.
+        </div>
+      `;
+
+    }else{
+
+      inscrits.forEach(e=>{
+
+        const photo =
+          e.photo || "";
+
+        const initiales =
+          obtenirInitiales(e);
+
+
+        let photoHTML = "";
+
+        if(photo){
+
+          photoHTML = `
+            <img
+              src="${photo}"
+              class="student-photo"
+              alt="Photo"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+            >
+
+            <div
+              class="student-photo"
+              style="display:none"
+            >
+              ${initiales}
+            </div>
+          `;
+
+        }else{
+
+          photoHTML = `
+            <div class="student-photo">
+              ${initiales}
+            </div>
+          `;
+
+        }
+
+
+        const index =
+          eleves.indexOf(e);
+
+
+        listeHTML += `
+
+          <div class="student">
+
+            ${photoHTML}
+
+            <div class="student-info">
+
+              <strong>
+                ${escapeHTML(
+                  (e.nom || "") +
+                  " " +
+                  (e.prenom || "")
+                )}
+              </strong>
+
+              <small>
+                ${escapeHTML(
+                  e.matricule || ""
+                )}
+              </small>
+
+            </div>
+
+            <button
+              class="btn btn-secondary"
+              style="padding:6px 8px"
+              onclick="ouvrirEleve(${index})"
+            >
+              Voir
+            </button>
+
+          </div>
+
+        `;
+
+      });
+
+    }
+
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "class-card";
+
+
+    card.innerHTML = `
+
+      <div class="class-header">
+
+        <h3>
+          ${escapeHTML(classe.nom)}
+        </h3>
+
+        <span class="badge">
+          ${inscrits.length}/${classe.capacite}
+        </span>
+
+      </div>
+
+
+      <div>
+
+        <strong>
+          Taux d'occupation :
+          ${pourcentage}%
+        </strong>
+
+        <div class="progress">
+
+          <div
+            class="progress-bar ${pourcentage >= 100 ? "full" : ""}"
+            style="width:${pourcentage}%"
+          ></div>
+
+        </div>
+
+      </div>
+
+
+      <div class="class-stats">
+
+        <div class="class-stat">
+          <strong>${inscrits.length}</strong>
+          <small>Inscrits</small>
+        </div>
+
+        <div class="class-stat">
+          <strong>
+            ${inscrits.filter(e=>e.sexe==="F").length}
+          </strong>
+          <small>Filles</small>
+        </div>
+
+        <div class="class-stat">
+          <strong>
+            ${inscrits.filter(e=>e.sexe==="M").length}
+          </strong>
+          <small>Garçons</small>
+        </div>
+
+      </div>
+
+
+      <div class="student-list">
+
+        ${listeHTML}
+
+      </div>
+
+
+      <br>
+
+      <button
+        class="btn btn-primary"
+        onclick="voirClasse('${escapeAttribute(classe.nom)}')"
+      >
+        📋 Voir la classe
+      </button>
 
     `;
 
-  }).join("");
 
-  mettreAJourStats();
-}
+    grid.appendChild(card);
 
-function mettreAJourStats(){
+  });
 
-  const classes = obtenirClasses();
-
-  document.getElementById("totalClasses").textContent =
-    classes.filter(c=>c.statut==="Active").length;
 
   document.getElementById("totalEleves").textContent =
-    classes.reduce((total,c)=>total+Number(c.effectif||0),0);
+    total;
 
-  document.getElementById("totalPrescolaire").textContent =
-    classes.filter(c=>c.cycle==="Préscolaire" && c.statut==="Active").length;
+  document.getElementById("totalFilles").textContent =
+    filles;
 
-  document.getElementById("totalSecondaire").textContent =
-    classes.filter(c=>
-      (c.cycle==="Collège" || c.cycle==="Lycée") &&
-      c.statut==="Active"
-    ).length;
+  document.getElementById("totalGarcons").textContent =
+    garcons;
+
+  document.getElementById("classesOccupees").textContent =
+    occupees;
+
 }
 
-function ouvrirModal(){
 
-  document.getElementById("modalTitre").textContent =
-    "Ajouter une classe";
+/* ================================
+   VOIR UN ELEVE
+================================ */
 
-  document.getElementById("classeId").value="";
-  document.getElementById("nomClasse").value="";
-  document.getElementById("cycleClasse").value="Préscolaire";
-  document.getElementById("salleClasse").value="";
-  document.getElementById("titulaireClasse").value="";
-  document.getElementById("effectifClasse").value=0;
-  document.getElementById("statutClasse").value="Active";
+function ouvrirEleve(index){
 
-  document.getElementById("modalClasse").style.display="block";
+  if(index < 0 || !eleves[index]){
+    return;
+  }
+
+  const e =
+    eleves[index];
+
+  let message =
+    "FICHE ÉLÈVE\n\n" +
+
+    "Matricule : " +
+    (e.matricule || "") +
+
+    "\nNom : " +
+    (e.nom || "") +
+
+    "\nPrénom : " +
+    (e.prenom || "") +
+
+    "\nClasse : " +
+    (e.classe || e.salle || "") +
+
+    "\nSexe : " +
+    (e.sexe === "F" ? "Fille" : "Garçon");
+
+
+  alert(message);
+
 }
 
-function fermerModal(){
-  document.getElementById("modalClasse").style.display="none";
+
+/* ================================
+   VOIR CLASSE
+================================ */
+
+function voirClasse(nomClasse){
+
+  const inscrits =
+    eleves.filter(e =>
+      normaliser(
+        e.classe ||
+        e.salle ||
+        ""
+      ) === normaliser(nomClasse)
+    );
+
+
+  if(inscrits.length === 0){
+
+    alert(
+      "Aucun élève inscrit en " +
+      nomClasse +
+      "."
+    );
+
+    return;
+
+  }
+
+
+  let texte =
+    "LISTE DES INSCRITS — " +
+    nomClasse +
+    "\n\n";
+
+
+  inscrits.forEach((e,i)=>{
+
+    texte +=
+      (i + 1) +
+      ". " +
+      (e.nom || "") +
+      " " +
+      (e.prenom || "") +
+      " — " +
+      (e.matricule || "") +
+      "\n";
+
+  });
+
+
+  alert(texte);
+
 }
 
-function enregistrerClasse(){
+
+/* ================================
+   INITIALES
+================================ */
+
+function obtenirInitiales(e){
 
   const nom =
-    document.getElementById("nomClasse").value.trim();
+    String(e.nom || "").trim();
 
-  if(!nom){
-    alert("Veuillez saisir le nom de la classe.");
-    return;
+  const prenom =
+    String(e.prenom || "").trim();
+
+  let resultat = "";
+
+  if(nom){
+    resultat +=
+      nom.charAt(0).toUpperCase();
   }
 
-  let classes = obtenirClasses();
-
-  const id =
-    document.getElementById("classeId").value;
-
-  const objet = {
-
-    id: id ? Number(id) : Date.now(),
-
-    nom:nom,
-
-    cycle:
-      document.getElementById("cycleClasse").value,
-
-    salle:
-      document.getElementById("salleClasse").value.trim() ||
-      "À définir",
-
-    titulaire:
-      document.getElementById("titulaireClasse").value.trim() ||
-      "À désigner",
-
-    effectif:
-      Number(document.getElementById("effectifClasse").value || 0),
-
-    statut:
-      document.getElementById("statutClasse").value
-
-  };
-
-  if(id){
-
-    const index =
-      classes.findIndex(c=>c.id===Number(id));
-
-    if(index !== -1){
-      classes[index]=objet;
-    }
-
-  }else{
-
-    classes.push(objet);
-
+  if(prenom){
+    resultat +=
+      prenom.charAt(0).toUpperCase();
   }
 
-  localStorage.setItem(CLE,JSON.stringify(classes));
-
-  fermerModal();
-  afficherClasses();
+  return resultat || "EB";
 
 }
 
-function modifierClasse(id){
 
-  const classe =
-    obtenirClasses().find(c=>c.id===id);
-
-  if(!classe) return;
-
-  document.getElementById("modalTitre").textContent =
-    "Modifier la classe";
-
-  document.getElementById("classeId").value=classe.id;
-  document.getElementById("nomClasse").value=classe.nom;
-  document.getElementById("cycleClasse").value=classe.cycle;
-  document.getElementById("salleClasse").value=classe.salle;
-  document.getElementById("titulaireClasse").value=classe.titulaire;
-  document.getElementById("effectifClasse").value=classe.effectif;
-  document.getElementById("statutClasse").value=classe.statut;
-
-  document.getElementById("modalClasse").style.display="block";
-}
-
-function archiverClasse(id){
-
-  let classes = obtenirClasses();
-
-  const index =
-    classes.findIndex(c=>c.id===id);
-
-  if(index===-1) return;
-
-  const nouvelleAction =
-    classes[index].statut==="Active"
-    ? "Archiver"
-    : "Réactiver";
-
-  if(!confirm(
-    "Voulez-vous vraiment "+nouvelleAction.toLowerCase()+" cette classe ?"
-  )){
-    return;
-  }
-
-  classes[index].statut =
-    classes[index].statut==="Active"
-    ? "Archivée"
-    : "Active";
-
-  localStorage.setItem(CLE,JSON.stringify(classes));
-
-  afficherClasses();
-}
-
-function ouvrirModule(module,classe){
-
-  const nom =
-    decodeURIComponent(classe);
-
-  if(module==="eleves"){
-    window.location.href =
-      "eleves.html?classe="+encodeURIComponent(nom);
-    return;
-  }
-
-  if(module==="notes"){
-    window.location.href =
-      "notes.html?classe="+encodeURIComponent(nom);
-    return;
-  }
-
-  if(module==="bulletins"){
-    window.location.href =
-      "bulletins.html?classe="+encodeURIComponent(nom);
-    return;
-  }
-
-}
+/* ================================
+   SECURITE HTML
+================================ */
 
 function escapeHTML(value){
 
-  return String(value)
+  return String(value || "")
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;")
@@ -854,18 +935,58 @@ function escapeHTML(value){
 
 }
 
-window.onclick=function(event){
 
-  const modal =
-    document.getElementById("modalClasse");
+function escapeAttribute(value){
 
-  if(event.target===modal){
-    fermerModal();
+  return String(value || "")
+    .replace(/&/g,"&amp;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;");
+
+}
+
+
+/* ================================
+   RECHERCHE
+================================ */
+
+document.getElementById("recherche")
+  .addEventListener(
+    "input",
+    afficherClasses
+  );
+
+
+document.getElementById("filtreNiveau")
+  .addEventListener(
+    "change",
+    afficherClasses
+  );
+
+
+/* ================================
+   ACTUALISATION AUTOMATIQUE
+================================ */
+
+window.addEventListener(
+  "storage",
+  function(event){
+
+    if(event.key === CLE_ELEVES){
+      chargerEleves();
+    }
+
   }
+);
 
-};
 
-chargerClasses();
+/* ================================
+   LANCEMENT
+================================ */
+
+chargerEleves();
 
 </script>
 
