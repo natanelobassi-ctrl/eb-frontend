@@ -157,4 +157,1188 @@ table{
 }
 
 th,td{
-  padding:10
+  padding:10px;
+  border-bottom:1px solid #ddd;
+  text-align:left;
+  vertical-align:middle;
+}
+
+th{
+  background:var(--bleu);
+  color:white;
+}
+
+tr:hover{
+  background:#f7f9fd;
+}
+
+.photo-mini{
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid var(--or);
+  background:#eee;
+}
+
+.initial{
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  background:var(--bleu);
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+}
+
+.actions .btn{
+  padding:7px 9px;
+  font-size:12px;
+}
+
+.empty{
+  text-align:center;
+  padding:30px;
+  color:#777;
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  z-index:1000;
+  padding:20px;
+  overflow:auto;
+}
+
+.modal-box{
+  background:white;
+  max-width:850px;
+  margin:30px auto;
+  border-radius:14px;
+  padding:25px;
+  position:relative;
+}
+
+.close{
+  position:absolute;
+  right:15px;
+  top:10px;
+  font-size:28px;
+  cursor:pointer;
+  color:#666;
+}
+
+.fiche-header{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  border-bottom:2px solid var(--or);
+  padding-bottom:20px;
+  margin-bottom:20px;
+}
+
+.fiche-photo{
+  width:110px;
+  height:110px;
+  object-fit:cover;
+  border-radius:10px;
+  border:3px solid var(--or);
+  background:#eee;
+}
+
+.fiche-info h2{
+  margin:0 0 7px;
+  color:var(--bleu);
+}
+
+.fiche-info p{
+  margin:4px 0;
+}
+
+.info-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+
+.info-card{
+  background:#f5f7fb;
+  padding:12px;
+  border-radius:8px;
+}
+
+.info-card strong{
+  display:block;
+  color:var(--bleu);
+  margin-bottom:4px;
+}
+
+.module-title{
+  margin-top:25px;
+  color:var(--bleu);
+}
+
+.module-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.module{
+  text-decoration:none;
+  padding:14px;
+  border-radius:9px;
+  background:#eef2ff;
+  color:var(--bleu);
+  font-weight:bold;
+  text-align:center;
+  border:1px solid #d8def4;
+}
+
+.module:hover{
+  background:var(--bleu);
+  color:white;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+
+.form-group label{
+  display:block;
+  font-weight:bold;
+  margin-bottom:5px;
+}
+
+.photo-preview{
+  width:120px;
+  height:120px;
+  object-fit:cover;
+  border-radius:10px;
+  border:2px solid #ddd;
+  display:block;
+  margin-top:8px;
+}
+
+.modal-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:20px;
+}
+
+@media(max-width:800px){
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .filters{
+    grid-template-columns:1fr;
+  }
+
+  .info-grid,
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .module-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .fiche-header{
+    flex-direction:column;
+    text-align:center;
+  }
+}
+
+@media(max-width:500px){
+  .module-grid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-content">
+    <div>
+      <h1>👨‍🎓 Gestion des élèves</h1>
+      <p>Groupe Scolaire Étoile Brillante</p>
+    </div>
+
+    <div>
+      <a class="btn btn-light" href="index.html">← Administration</a>
+      <a class="btn btn-gold" href="../inscription.html">+ Inscrire un élève</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <section class="stats">
+    <div class="stat">
+      <strong id="totalEleves">0</strong>
+      <span>Total élèves</span>
+    </div>
+
+    <div class="stat">
+      <strong id="totalFilles">0</strong>
+      <span>Filles</span>
+    </div>
+
+    <div class="stat">
+      <strong id="totalGarcons">0</strong>
+      <span>Garçons</span>
+    </div>
+  </section>
+
+  <section class="panel">
+
+    <h2>Liste des élèves</h2>
+
+    <div class="filters">
+      <input
+        type="search"
+        id="recherche"
+        placeholder="Rechercher par matricule, nom, prénom ou classe..."
+      >
+
+      <select id="filtreClasse">
+        <option value="">Toutes les classes</option>
+        <option>P1</option>
+        <option>P2</option>
+        <option>P3</option>
+        <option>CP1</option>
+        <option>CP2</option>
+        <option>CE1</option>
+        <option>CE2</option>
+        <option>CM1</option>
+        <option>CM2</option>
+        <option>6e</option>
+        <option>5e</option>
+        <option>4e</option>
+        <option>3e</option>
+        <option>Seconde</option>
+        <option>STC</option>
+        <option>Première A</option>
+        <option>Première D</option>
+        <option>Terminale A</option>
+        <option>Terminale D</option>
+      </select>
+    </div>
+
+    <div class="table-wrap">
+
+      <table>
+        <thead>
+          <tr>
+            <th>Photo</th>
+            <th>Matricule</th>
+            <th>Nom et prénom</th>
+            <th>Sexe</th>
+            <th>Classe</th>
+            <th>Téléphone</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody id="tableEleves"></tbody>
+      </table>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<!-- ================= FICHE ÉLÈVE ================= -->
+
+<div class="modal" id="modalFiche">
+
+  <div class="modal-box">
+
+    <span class="close" onclick="fermerModal('modalFiche')">×</span>
+
+    <div id="ficheContenu"></div>
+
+  </div>
+
+</div>
+
+
+<!-- ================= MODIFICATION ================= -->
+
+<div class="modal" id="modalEdition">
+
+  <div class="modal-box">
+
+    <span class="close" onclick="fermerModal('modalEdition')">×</span>
+
+    <h2>Modifier l'élève</h2>
+
+    <form id="formEdition">
+
+      <input type="hidden" id="editIndex">
+
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label>Matricule</label>
+          <input id="editMatricule" readonly>
+        </div>
+
+        <div class="form-group">
+          <label>Année scolaire</label>
+          <input id="editAnnee">
+        </div>
+
+        <div class="form-group">
+          <label>Nom</label>
+          <input id="editNom" required>
+        </div>
+
+        <div class="form-group">
+          <label>Prénom</label>
+          <input id="editPrenom" required>
+        </div>
+
+        <div class="form-group">
+          <label>Date de naissance</label>
+          <input type="date" id="editDateNaissance">
+        </div>
+
+        <div class="form-group">
+          <label>Lieu de naissance</label>
+          <input id="editLieuNaissance">
+        </div>
+
+        <div class="form-group">
+          <label>Sexe</label>
+          <select id="editSexe">
+            <option value="F">Fille</option>
+            <option value="M">Garçon</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Classe</label>
+          <select id="editClasse">
+            <option>P1</option>
+            <option>P2</option>
+            <option>P3</option>
+            <option>CP1</option>
+            <option>CP2</option>
+            <option>CE1</option>
+            <option>CE2</option>
+            <option>CM1</option>
+            <option>CM2</option>
+            <option>6e</option>
+            <option>5e</option>
+            <option>4e</option>
+            <option>3e</option>
+            <option>Seconde</option>
+            <option>STC</option>
+            <option>Première A</option>
+            <option>Première D</option>
+            <option>Terminale A</option>
+            <option>Terminale D</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Père / Tuteur</label>
+          <input id="editParent">
+        </div>
+
+        <div class="form-group">
+          <label>Téléphone</label>
+          <input id="editTelephone">
+        </div>
+
+        <div class="form-group">
+          <label>Photo</label>
+          <input type="file" id="editPhoto" accept="image/*">
+          <img id="editPhotoPreview" class="photo-preview">
+        </div>
+
+      </div>
+
+      <div class="modal-actions">
+
+        <button type="submit" class="btn btn-primary">
+          💾 Enregistrer
+        </button>
+
+        <button
+          type="button"
+          class="btn"
+          onclick="fermerModal('modalEdition')">
+          Annuler
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<script>
+
+const STORAGE = "EB_ELEVES";
+
+let eleves = JSON.parse(localStorage.getItem(STORAGE) || "[]");
+
+let indexEdition = -1;
+
+let photoEdition = "";
+
+
+/* ================= OUTILS ================= */
+
+function normaliser(value){
+
+  return String(value || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"");
+
+}
+
+
+function escapeHTML(value){
+
+  return String(value || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function fermerModal(id){
+
+  document.getElementById(id).style.display = "none";
+
+}
+
+
+function ouvrirModal(id){
+
+  document.getElementById(id).style.display = "block";
+
+}
+
+
+/* ================= STATISTIQUES ================= */
+
+function actualiserStats(){
+
+  const filles = eleves.filter(e =>
+    String(e.sexe || "").toUpperCase().startsWith("F")
+  ).length;
+
+  const garcons = eleves.length - filles;
+
+  document.getElementById("totalEleves").textContent = eleves.length;
+  document.getElementById("totalFilles").textContent = filles;
+  document.getElementById("totalGarcons").textContent = garcons;
+
+}
+
+
+/* ================= PHOTO ================= */
+
+function afficherPhoto(e, classe="photo-mini"){
+
+  if(e.photo){
+
+    return `
+      <img
+        src="${e.photo}"
+        class="${classe}"
+        alt="Photo de ${escapeHTML(e.nom)}"
+      >
+    `;
+
+  }
+
+  const initiales =
+    ((e.nom || "").charAt(0) +
+     (e.prenom || "").charAt(0)).toUpperCase();
+
+  return `
+    <div class="initial">${escapeHTML(initiales)}</div>
+  `;
+
+}
+
+
+/* ================= LIENS MODULES ================= */
+
+function liensEleve(e){
+
+  const matricule = encodeURIComponent(e.matricule || "");
+
+  return `
+
+    <a class="module"
+       href="notes.html?matricule=${matricule}">
+       📝<br>Notes
+    </a>
+
+    <a class="module"
+       href="bulletins.html?matricule=${matricule}">
+       📄<br>Bulletin
+    </a>
+
+    <a class="module"
+       href="classement.html?matricule=${matricule}">
+       🏆<br>Classement
+    </a>
+
+    <a class="module"
+       href="cartes.html?matricule=${matricule}">
+       🪪<br>Carte scolaire
+    </a>
+
+    <a class="module"
+       href="paiements.html?matricule=${matricule}">
+       💰<br>Paiements
+    </a>
+
+    <a class="module"
+       href="absences.html?matricule=${matricule}">
+       📅<br>Absences
+    </a>
+
+    <a class="module"
+       href="../parents.html?matricule=${matricule}">
+       👨‍👩‍👧<br>Espace parent
+    </a>
+
+  `;
+
+}
+
+
+/* ================= AFFICHAGE TABLE ================= */
+
+function afficherEleves(){
+
+  const recherche =
+    normaliser(document.getElementById("recherche").value);
+
+  const classe =
+    document.getElementById("filtreClasse").value;
+
+  const tbody =
+    document.getElementById("tableEleves");
+
+  const resultats = eleves.filter(e => {
+
+    const texte = normaliser(
+      [
+        e.matricule,
+        e.nom,
+        e.prenom,
+        e.classe,
+        e.salle,
+        e.telephone,
+        e.parent,
+        e.pere
+      ].join(" ")
+    );
+
+    const classeEleve = e.classe || e.salle || "";
+
+    return (
+      (!recherche || texte.includes(recherche)) &&
+      (!classe || classeEleve === classe)
+    );
+
+  });
+
+
+  if(!resultats.length){
+
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="7" class="empty">
+          Aucun élève trouvé.
+        </td>
+      </tr>
+    `;
+
+    return;
+
+  }
+
+
+  tbody.innerHTML = resultats.map(e => {
+
+    const index = eleves.indexOf(e);
+
+    const sexe =
+      String(e.sexe || "").toUpperCase().startsWith("F")
+      ? "Fille"
+      : "Garçon";
+
+    const classeEleve =
+      e.classe || e.salle || "—";
+
+    return `
+
+      <tr>
+
+        <td>
+          ${afficherPhoto(e)}
+        </td>
+
+        <td>
+          <strong>${escapeHTML(e.matricule || "—")}</strong>
+        </td>
+
+        <td>
+          <strong>
+            ${escapeHTML(e.nom || "")}
+          </strong><br>
+          ${escapeHTML(e.prenom || "")}
+        </td>
+
+        <td>
+          ${sexe}
+        </td>
+
+        <td>
+          ${escapeHTML(classeEleve)}
+        </td>
+
+        <td>
+          ${escapeHTML(e.telephone || e.phone || "—")}
+        </td>
+
+        <td>
+
+          <div class="actions">
+
+            <button
+              class="btn btn-primary"
+              onclick="ouvrirFiche(${index})">
+              FICHE
+            </button>
+
+            <button
+              class="btn btn-gold"
+              onclick="modifierEleve(${index})">
+              MODIFIER
+            </button>
+
+            <button
+              class="btn btn-green"
+              onclick="changerPhoto(${index})">
+              PHOTO
+            </button>
+
+            <button
+              class="btn btn-danger"
+              onclick="supprimerEleve(${index})">
+              SUPPRIMER
+            </button>
+
+          </div>
+
+        </td>
+
+      </tr>
+
+    `;
+
+  }).join("");
+
+}
+
+
+/* ================= FICHE ================= */
+
+function ouvrirFiche(index){
+
+  const e = eleves[index];
+
+  if(!e) return;
+
+
+  const classe =
+    e.classe || e.salle || "—";
+
+  const sexe =
+    String(e.sexe || "").toUpperCase().startsWith("F")
+    ? "Fille"
+    : "Garçon";
+
+
+  document.getElementById("ficheContenu").innerHTML = `
+
+    <div class="fiche-header">
+
+      ${afficherPhoto(e,"fiche-photo")}
+
+      <div class="fiche-info">
+
+        <h2>
+          ${escapeHTML(e.nom || "")}
+          ${escapeHTML(e.prenom || "")}
+        </h2>
+
+        <p>
+          <strong>Matricule :</strong>
+          ${escapeHTML(e.matricule || "—")}
+        </p>
+
+        <p>
+          <strong>Classe :</strong>
+          ${escapeHTML(classe)}
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <h3 class="module-title">
+      🔗 Accès directs de l'élève
+    </h3>
+
+    <div class="module-grid">
+
+      ${liensEleve(e)}
+
+    </div>
+
+
+    <h3 class="module-title">
+      Informations personnelles
+    </h3>
+
+    <div class="info-grid">
+
+      <div class="info-card">
+        <strong>Nom</strong>
+        ${escapeHTML(e.nom || "—")}
+      </div>
+
+      <div class="info-card">
+        <strong>Prénom</strong>
+        ${escapeHTML(e.prenom || "—")}
+      </div>
+
+      <div class="info-card">
+        <strong>Sexe</strong>
+        ${sexe}
+      </div>
+
+      <div class="info-card">
+        <strong>Date de naissance</strong>
+        ${escapeHTML(e.dateNaissance || "—")}
+      </div>
+
+      <div class="info-card">
+        <strong>Lieu de naissance</strong>
+        ${escapeHTML(e.lieuNaissance || "—")}
+      </div>
+
+      <div class="info-card">
+        <strong>Classe</strong>
+        ${escapeHTML(classe)}
+      </div>
+
+      <div class="info-card">
+        <strong>Père / Tuteur</strong>
+        ${escapeHTML(
+          e.parent ||
+          e.pere ||
+          e.tuteur ||
+          "—"
+        )}
+      </div>
+
+      <div class="info-card">
+        <strong>Téléphone</strong>
+        ${escapeHTML(
+          e.telephone ||
+          e.phone ||
+          "—"
+        )}
+      </div>
+
+      <div class="info-card">
+        <strong>Année scolaire</strong>
+        ${escapeHTML(e.annee || e.anneeScolaire || "2026-2027")}
+      </div>
+
+      <div class="info-card">
+        <strong>Date d'inscription</strong>
+        ${escapeHTML(e.dateInscription || "—")}
+      </div>
+
+    </div>
+
+
+    <div class="modal-actions">
+
+      <button
+        class="btn btn-primary"
+        onclick="modifierEleve(${index}); fermerModal('modalFiche')">
+        ✏️ Modifier la fiche
+      </button>
+
+      <button
+        class="btn btn-green"
+        onclick="changerPhoto(${index}); fermerModal('modalFiche')">
+        📷 Changer la photo
+      </button>
+
+      <button
+        class="btn btn-danger"
+        onclick="supprimerEleve(${index})">
+        🗑 Supprimer l'élève
+      </button>
+
+    </div>
+
+  `;
+
+
+  ouvrirModal("modalFiche");
+
+}
+
+
+/* ================= MODIFICATION ================= */
+
+function modifierEleve(index){
+
+  const e = eleves[index];
+
+  if(!e) return;
+
+  indexEdition = index;
+
+  photoEdition = e.photo || "";
+
+
+  document.getElementById("editIndex").value = index;
+
+  document.getElementById("editMatricule").value =
+    e.matricule || "";
+
+  document.getElementById("editAnnee").value =
+    e.annee ||
+    e.anneeScolaire ||
+    "2026-2027";
+
+  document.getElementById("editNom").value =
+    e.nom || "";
+
+  document.getElementById("editPrenom").value =
+    e.prenom || "";
+
+  document.getElementById("editDateNaissance").value =
+    e.dateNaissance || "";
+
+  document.getElementById("editLieuNaissance").value =
+    e.lieuNaissance || "";
+
+  document.getElementById("editSexe").value =
+    String(e.sexe || "M").toUpperCase().startsWith("F")
+    ? "F"
+    : "M";
+
+  document.getElementById("editClasse").value =
+    e.classe ||
+    e.salle ||
+    "CP1";
+
+  document.getElementById("editParent").value =
+    e.parent ||
+    e.pere ||
+    e.tuteur ||
+    "";
+
+  document.getElementById("editTelephone").value =
+    e.telephone ||
+    e.phone ||
+    "";
+
+
+  const preview =
+    document.getElementById("editPhotoPreview");
+
+  if(photoEdition){
+
+    preview.src = photoEdition;
+    preview.style.display = "block";
+
+  }else{
+
+    preview.removeAttribute("src");
+    preview.style.display = "none";
+
+  }
+
+
+  ouvrirModal("modalEdition");
+
+}
+
+
+/* ================= PHOTO ================= */
+
+function changerPhoto(index){
+
+  const input = document.createElement("input");
+
+  input.type = "file";
+  input.accept = "image/*";
+
+  input.onchange = function(){
+
+    const file = input.files[0];
+
+    if(!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(){
+
+      eleves[index].photo = reader.result;
+
+      localStorage.setItem(
+        STORAGE,
+        JSON.stringify(eleves)
+      );
+
+      afficherEleves();
+
+      actualiserStats();
+
+      alert("Photo de l'élève enregistrée.");
+
+    };
+
+    reader.readAsDataURL(file);
+
+  };
+
+  input.click();
+
+}
+
+
+/* ================= PHOTO MODIFICATION ================= */
+
+document.getElementById("editPhoto")
+.addEventListener("change",function(){
+
+  const file = this.files[0];
+
+  if(!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(){
+
+    photoEdition = reader.result;
+
+    const preview =
+      document.getElementById("editPhotoPreview");
+
+    preview.src = photoEdition;
+    preview.style.display = "block";
+
+  };
+
+  reader.readAsDataURL(file);
+
+});
+
+
+/* ================= ENREGISTREMENT ================= */
+
+document.getElementById("formEdition")
+.addEventListener("submit",function(event){
+
+  event.preventDefault();
+
+  if(indexEdition < 0) return;
+
+
+  const ancien = eleves[indexEdition];
+
+
+  eleves[indexEdition] = {
+
+    ...ancien,
+
+    matricule:
+      document.getElementById("editMatricule").value,
+
+    nom:
+      document.getElementById("editNom").value.trim(),
+
+    prenom:
+      document.getElementById("editPrenom").value.trim(),
+
+    dateNaissance:
+      document.getElementById("editDateNaissance").value,
+
+    lieuNaissance:
+      document.getElementById("editLieuNaissance").value.trim(),
+
+    sexe:
+      document.getElementById("editSexe").value,
+
+    classe:
+      document.getElementById("editClasse").value,
+
+    salle:
+      document.getElementById("editClasse").value,
+
+    parent:
+      document.getElementById("editParent").value.trim(),
+
+    telephone:
+      document.getElementById("editTelephone").value.trim(),
+
+    annee:
+      document.getElementById("editAnnee").value.trim(),
+
+    anneeScolaire:
+      document.getElementById("editAnnee").value.trim(),
+
+    photo:
+      photoEdition
+
+  };
+
+
+  localStorage.setItem(
+    STORAGE,
+    JSON.stringify(eleves)
+  );
+
+
+  fermerModal("modalEdition");
+
+  afficherEleves();
+
+  actualiserStats();
+
+  alert("Fiche élève modifiée avec succès.");
+
+});
+
+
+/* ================= SUPPRESSION ================= */
+
+function supprimerEleve(index){
+
+  const e = eleves[index];
+
+  if(!e) return;
+
+
+  const nom =
+    `${e.nom || ""} ${e.prenom || ""}`.trim();
+
+
+  if(!confirm(
+    "Voulez-vous vraiment supprimer l'élève " +
+    nom +
+    " (" +
+    (e.matricule || "") +
+    ") ?"
+  )){
+
+    return;
+
+  }
+
+
+  eleves.splice(index,1);
+
+  localStorage.setItem(
+    STORAGE,
+    JSON.stringify(eleves)
+  );
+
+
+  fermerModal("modalFiche");
+
+  afficherEleves();
+
+  actualiserStats();
+
+}
+
+
+/* ================= RECHERCHE ================= */
+
+document
+.getElementById("recherche")
+.addEventListener("input",afficherEleves);
+
+
+document
+.getElementById("filtreClasse")
+.addEventListener("change",afficherEleves);
+
+
+/* ================= FERMETURE MODAL ================= */
+
+window.addEventListener("click",function(event){
+
+  document
+    .querySelectorAll(".modal")
+    .forEach(modal => {
+
+      if(event.target === modal){
+
+        modal.style.display = "none";
+
+      }
+
+    });
+
+});
+
+
+/* ================= INITIALISATION ================= */
+
+actualiserStats();
+
+afficherEleves();
+
+</script>
+
+</body>
+</html>
