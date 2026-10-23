@@ -158,4 +158,1121 @@ td input{
 
     <div>
       <a href="eleves.html" class="btn light">← Élèves</a>
-      <a href="index.html" class="btn gold
+      <a href="index.html" class="btn gold">Administration</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section class="panel">
+
+  <h2>Rechercher un élève</h2>
+
+  <div class="grid">
+
+    <div>
+      <label>Matricule</label>
+      <input
+        id="rechercheMatricule"
+        placeholder="Ex : EB-6E-001">
+    </div>
+
+    <div>
+      <label>Nom ou prénom</label>
+      <input
+        id="rechercheNom"
+        placeholder="Nom ou prénom">
+    </div>
+
+    <div>
+      <label>Classe</label>
+      <select id="rechercheClasse">
+        <option value="">Toutes les classes</option>
+        <option>P1</option>
+        <option>P2</option>
+        <option>P3</option>
+        <option>CP1</option>
+        <option>CP2</option>
+        <option>CE1</option>
+        <option>CE2</option>
+        <option>CM1</option>
+        <option>CM2</option>
+        <option>6e</option>
+        <option>5e</option>
+        <option>4e</option>
+        <option>3e</option>
+        <option>Seconde</option>
+        <option>STC</option>
+        <option>Première A</option>
+        <option>Première D</option>
+        <option>Terminale A</option>
+        <option>Terminale D</option>
+      </select>
+    </div>
+
+  </div>
+
+  <div class="actions">
+    <button class="primary" onclick="rechercherEleve()">
+      🔎 Rechercher
+    </button>
+  </div>
+
+  <div id="resultats"></div>
+
+  <div id="eleveSelectionne" class="student"></div>
+
+</section>
+
+
+<section class="panel">
+
+  <div class="grid">
+
+    <div>
+      <label>Trimestre</label>
+
+      <select id="trimestre" onchange="chargerNotes()">
+        <option value="1">1er trimestre</option>
+        <option value="2">2e trimestre</option>
+        <option value="3">3e trimestre</option>
+      </select>
+    </div>
+
+    <div>
+      <label>Élève sélectionné</label>
+      <input id="nomEleve" readonly placeholder="Aucun élève">
+    </div>
+
+    <div>
+      <label>Classe</label>
+      <input id="classeEleve" readonly>
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="panel">
+
+  <h2>📚 Saisie des notes</h2>
+
+  <div class="table-wrap">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Matière</th>
+          <th>Coef.</th>
+          <th>Devoir de classe</th>
+          <th>Devoir départemental</th>
+          <th>Moyenne de classe</th>
+          <th>Moyenne composition</th>
+          <th>Moyenne générale</th>
+        </tr>
+      </thead>
+
+      <tbody id="tableNotes"></tbody>
+
+    </table>
+
+  </div>
+
+
+  <div class="total">
+
+    <div>
+      <strong>Moyenne générale : </strong>
+      <span id="moyenneTotale">0.00 / 20</span>
+    </div>
+
+    <div style="margin-top:8px">
+      <strong>Décision : </strong>
+      <span id="decision">—</span>
+    </div>
+
+    <div style="margin-top:8px">
+      <strong>Mention : </strong>
+      <span id="mention">—</span>
+    </div>
+
+  </div>
+
+
+  <div id="message" class="message"></div>
+
+
+  <div class="actions">
+
+    <button class="green" onclick="enregistrerNotes()">
+      💾 Enregistrer les notes
+    </button>
+
+    <button class="primary" onclick="calculerToutesLesNotes()">
+      🧮 Calculer
+    </button>
+
+    <button class="gold" onclick="effacerSaisie()">
+      ↺ Effacer la saisie
+    </button>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<script>
+
+const ELEVE_KEY = "EB_ELEVES";
+const INDEX_KEY = "EB_INDEX_NOTES";
+
+let eleves = JSON.parse(localStorage.getItem(ELEVE_KEY) || "[]");
+
+let eleveActuel = null;
+
+
+/* =====================================================
+   MATIÈRES ET COEFFICIENTS
+===================================================== */
+
+const MATIERES = {
+
+  "P1":[
+    ["Langage",1],
+    ["Activités mathématiques",1],
+    ["Éveil",1],
+    ["Graphisme",1],
+    ["Éducation physique",1]
+  ],
+
+  "P2":[
+    ["Langage",1],
+    ["Activités mathématiques",1],
+    ["Éveil",1],
+    ["Graphisme",1],
+    ["Éducation physique",1]
+  ],
+
+  "P3":[
+    ["Langage",1],
+    ["Mathématiques",1],
+    ["Éveil",1],
+    ["Graphisme",1],
+    ["Éducation physique",1]
+  ],
+
+  "CP1":[
+    ["Français",1],
+    ["Mathématiques",1],
+    ["Éveil",1],
+    ["Éducation physique",1]
+  ],
+
+  "CP2":[
+    ["Français",1],
+    ["Mathématiques",1],
+    ["Éveil",1],
+    ["Éducation physique",1]
+  ],
+
+  "CE1":[
+    ["Français",1],
+    ["Mathématiques",1],
+    ["Sciences",1],
+    ["Histoire-Géographie",1],
+    ["Éducation civique",1],
+    ["Éducation physique",1]
+  ],
+
+  "CE2":[
+    ["Français",1],
+    ["Mathématiques",1],
+    ["Sciences",1],
+    ["Histoire-Géographie",1],
+    ["Éducation civique",1],
+    ["Éducation physique",1]
+  ],
+
+  "CM1":[
+    ["Français",1],
+    ["Mathématiques",1],
+    ["Sciences",1],
+    ["Histoire-Géographie",1],
+    ["Éducation civique",1],
+    ["Anglais",1],
+    ["Éducation physique",1]
+  ],
+
+  "CM2":[
+    ["Français",1],
+    ["Mathématiques",1],
+    ["Sciences",1],
+    ["Histoire-Géographie",1],
+    ["Éducation civique",1],
+    ["Anglais",1],
+    ["Éducation physique",1]
+  ],
+
+  "6e":[
+    ["Français",1],
+    ["Mathématiques",1],
+    ["Anglais",1],
+    ["Histoire-Géographie",1],
+    ["Sciences",1],
+    ["SVT",1],
+    ["EPS",1]
+  ],
+
+  "5e":[
+    ["Français",1],
+    ["Mathématiques",1],
+    ["Anglais",1],
+    ["Histoire-Géographie",1],
+    ["Sciences",1],
+    ["SVT",1],
+    ["EPS",1]
+  ],
+
+  "4e":[
+    ["Français",1],
+    ["Mathématiques",1],
+    ["Anglais",1],
+    ["Histoire-Géographie",1],
+    ["Sciences",1],
+    ["SVT",1],
+    ["EPS",1]
+  ],
+
+  "3e":[
+    ["Français",2],
+    ["Mathématiques",4],
+    ["Anglais",2],
+    ["Histoire-Géographie",2],
+    ["Sciences physiques",2],
+    ["SVT",2],
+    ["EPS",2]
+  ],
+
+  "Seconde":[
+    ["Français",1],
+    ["Mathématiques",1],
+    ["Anglais",1],
+    ["Histoire-Géographie",1],
+    ["Sciences physiques",1],
+    ["SVT",1],
+    ["EPS",1]
+  ],
+
+  "STC":[
+    ["Français",1],
+    ["Mathématiques",1],
+    ["Anglais",1],
+    ["Histoire-Géographie",1],
+    ["Sciences",1],
+    ["EPS",1]
+  ],
+
+  "Première A":[
+    ["Français",1],
+    ["Mathématiques",1],
+    ["Anglais",1],
+    ["Histoire-Géographie",1],
+    ["Philosophie",1],
+    ["Espagnol",1],
+    ["EPS",1]
+  ],
+
+  "Première D":[
+    ["Français",1],
+    ["Mathématiques",1],
+    ["Anglais",1],
+    ["Histoire-Géographie",1],
+    ["Sciences physiques",1],
+    ["SVT",1],
+    ["EPS",1]
+  ],
+
+  "Terminale A":[
+    ["Philosophie",5],
+    ["Français",5],
+    ["Histoire",4],
+    ["Anglais",4],
+    ["Mathématiques",3],
+    ["Espagnol",3],
+    ["EPS",2]
+  ],
+
+  "Terminale D":[
+    ["Mathématiques",4],
+    ["SVT",5],
+    ["Sciences physiques",5],
+    ["Histoire",3],
+    ["Français",3],
+    ["Anglais",3],
+    ["Histoire-Géographie",3],
+    ["EPS",2]
+  ]
+
+};
+
+
+/* =====================================================
+   OUTILS
+===================================================== */
+
+function normaliser(v){
+
+  return String(v || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"");
+
+}
+
+
+function afficherMessage(texte,type){
+
+  const box = document.getElementById("message");
+
+  box.textContent = texte;
+  box.className = "message " + type;
+  box.style.display = "block";
+
+  setTimeout(()=>{
+    box.style.display = "none";
+  },3000);
+
+}
+
+
+/* =====================================================
+   RECHERCHE
+===================================================== */
+
+function rechercherEleve(){
+
+  const matricule =
+    normaliser(document.getElementById("rechercheMatricule").value);
+
+  const nom =
+    normaliser(document.getElementById("rechercheNom").value);
+
+  const classe =
+    document.getElementById("rechercheClasse").value;
+
+
+  const resultats = eleves.filter(e=>{
+
+    const cl = e.classe || e.salle || "";
+
+    const texte = normaliser(
+      [
+        e.matricule,
+        e.nom,
+        e.prenom,
+        cl
+      ].join(" ")
+    );
+
+    return (
+      (!matricule || normaliser(e.matricule).includes(matricule)) &&
+      (!nom ||
+        normaliser(e.nom).includes(nom) ||
+        normaliser(e.prenom).includes(nom)) &&
+      (!classe || cl === classe)
+    );
+
+  });
+
+
+  afficherResultats(resultats);
+
+}
+
+
+/* =====================================================
+   AFFICHER RÉSULTATS
+===================================================== */
+
+function afficherResultats(resultats){
+
+  const box = document.getElementById("resultats");
+
+  if(!resultats.length){
+
+    box.innerHTML =
+      "<p style='color:#b91c1c'>Aucun élève trouvé.</p>";
+
+    return;
+
+  }
+
+
+  box.innerHTML = resultats.map((e,index)=>`
+
+    <div
+      onclick='selectionnerEleve(${JSON.stringify(e).replace(/'/g,"&#39;")})'
+      style="
+        padding:12px;
+        margin-top:8px;
+        background:#f5f7fb;
+        border-radius:7px;
+        cursor:pointer;
+        border:1px solid #ddd;
+      ">
+
+      <strong>
+        ${e.nom || ""} ${e.prenom || ""}
+      </strong>
+
+      <br>
+
+      Matricule :
+      ${e.matricule || "—"}
+
+      —
+      Classe :
+      ${e.classe || e.salle || "—"}
+
+    </div>
+
+  `).join("");
+
+}
+
+
+/* =====================================================
+   SÉLECTION ÉLÈVE
+===================================================== */
+
+function selectionnerEleve(e){
+
+  eleveActuel = e;
+
+
+  const classe =
+    e.classe || e.salle || "";
+
+
+  document.getElementById("nomEleve").value =
+    `${e.nom || ""} ${e.prenom || ""}`.trim();
+
+
+  document.getElementById("classeEleve").value =
+    classe;
+
+
+  document.getElementById("eleveSelectionne").style.display =
+    "block";
+
+
+  document.getElementById("eleveSelectionne").innerHTML = `
+
+    <strong>Élève sélectionné</strong><br>
+
+    Nom :
+    ${e.nom || ""} ${e.prenom || ""}<br>
+
+    Matricule :
+    <strong>${e.matricule || "—"}</strong><br>
+
+    Classe :
+    <strong>${classe || "—"}</strong>
+
+  `;
+
+
+  const resultats =
+    document.getElementById("resultats");
+
+  resultats.innerHTML = "";
+
+
+  genererTableau(classe);
+
+  chargerNotes();
+
+}
+
+
+/* =====================================================
+   GÉNÉRER TABLEAU
+===================================================== */
+
+function genererTableau(classe){
+
+  const tbody =
+    document.getElementById("tableNotes");
+
+  const matieres =
+    MATIERES[classe] || [];
+
+
+  if(!matieres.length){
+
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="7">
+          Aucune matière configurée pour cette classe.
+        </td>
+      </tr>
+    `;
+
+    return;
+
+  }
+
+
+  tbody.innerHTML = matieres.map((matiere,i)=>`
+
+    <tr>
+
+      <td>
+        <strong>${matiere[0]}</strong>
+      </td>
+
+      <td>
+        ${matiere[1]}
+      </td>
+
+      <td>
+        <input
+          type="number"
+          min="0"
+          max="20"
+          step="0.01"
+          id="dc_${i}"
+          oninput="calculerLigne(${i})">
+      </td>
+
+      <td>
+        <input
+          type="number"
+          min="0"
+          max="20"
+          step="0.01"
+          id="dd_${i}"
+          oninput="calculerLigne(${i})">
+      </td>
+
+      <td
+        class="moyenne"
+        id="mc_${i}">
+        0.00
+      </td>
+
+      <td>
+        <input
+          type="number"
+          min="0"
+          max="20"
+          step="0.01"
+          id="comp_${i}"
+          oninput="calculerLigne(${i})">
+      </td>
+
+      <td
+        class="moyenne"
+        id="mg_${i}">
+        0.00
+      </td>
+
+    </tr>
+
+  `).join("");
+
+}
+
+
+/* =====================================================
+   CALCUL D'UNE LIGNE
+===================================================== */
+
+function valeur(id){
+
+  const el = document.getElementById(id);
+
+  if(!el || el.value === "") return null;
+
+  const n = parseFloat(el.value);
+
+  return isNaN(n) ? null : n;
+
+}
+
+
+function calculerLigne(i){
+
+  const dc = valeur("dc_"+i);
+  const dd = valeur("dd_"+i);
+  const comp = valeur("comp_"+i);
+
+
+  let mc = 0;
+  let mg = 0;
+
+
+  if(dc !== null && dd !== null){
+
+    mc = (dc + dd) / 2;
+
+  }
+
+
+  if(
+    dc !== null &&
+    dd !== null &&
+    comp !== null
+  ){
+
+    mg = (mc + comp) / 2;
+
+  }
+
+
+  document.getElementById("mc_"+i).textContent =
+    mc.toFixed(2);
+
+
+  document.getElementById("mg_"+i).textContent =
+    mg.toFixed(2);
+
+
+  calculerToutesLesNotes();
+
+}
+
+
+/* =====================================================
+   CALCUL MOYENNE GÉNÉRALE
+===================================================== */
+
+function calculerToutesLesNotes(){
+
+  if(!eleveActuel) return;
+
+
+  const classe =
+    eleveActuel.classe ||
+    eleveActuel.salle ||
+    "";
+
+
+  const matieres =
+    MATIERES[classe] || [];
+
+
+  let total = 0;
+  let totalCoef = 0;
+
+
+  matieres.forEach((matiere,i)=>{
+
+    const mg =
+      parseFloat(
+        document.getElementById("mg_"+i)?.textContent || "0"
+      );
+
+    const coef = matiere[1];
+
+
+    if(!isNaN(mg)){
+
+      total += mg * coef;
+      totalCoef += coef;
+
+    }
+
+  });
+
+
+  const moyenne =
+    totalCoef
+    ? total / totalCoef
+    : 0;
+
+
+  document.getElementById("moyenneTotale").textContent =
+    moyenne.toFixed(2) + " / 20";
+
+
+  document.getElementById("decision").textContent =
+    moyenne >= 10
+    ? "Admis"
+    : "Échoué";
+
+
+  document.getElementById("mention").textContent =
+    mention(moyenne);
+
+}
+
+
+function mention(m){
+
+  if(m >= 18) return "Excellent";
+  if(m >= 16) return "Très bien";
+  if(m >= 14) return "Bien";
+  if(m >= 12) return "Assez bien";
+  if(m >= 10) return "Passable";
+  if(m >= 8) return "Insuffisant";
+  if(m >= 6) return "Faible";
+  if(m >= 4) return "Très faible";
+
+  return "Nul";
+
+}
+
+
+/* =====================================================
+   SAUVEGARDE
+===================================================== */
+
+function enregistrerNotes(){
+
+  if(!eleveActuel){
+
+    afficherMessage(
+      "Veuillez sélectionner un élève.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const classe =
+    eleveActuel.classe ||
+    eleveActuel.salle ||
+    "";
+
+
+  const trimestre =
+    document.getElementById("trimestre").value;
+
+
+  const matieres =
+    MATIERES[classe] || [];
+
+
+  const notes = [];
+
+
+  matieres.forEach((matiere,i)=>{
+
+    const dc = valeur("dc_"+i);
+    const dd = valeur("dd_"+i);
+    const comp = valeur("comp_"+i);
+
+
+    const mc =
+      dc !== null && dd !== null
+      ? (dc + dd) / 2
+      : null;
+
+
+    const mg =
+      mc !== null && comp !== null
+      ? (mc + comp) / 2
+      : null;
+
+
+    notes.push({
+
+      matiere:matiere[0],
+      coefficient:matiere[1],
+      devoirClasse:dc,
+      devoirDepartemental:dd,
+      moyenneClasse:mc,
+      moyenneComposition:comp,
+      moyenneGenerale:mg
+
+    });
+
+  });
+
+
+  let total = 0;
+  let totalCoef = 0;
+
+
+  notes.forEach(n=>{
+
+    if(n.moyenneGenerale !== null){
+
+      total +=
+        n.moyenneGenerale *
+        n.coefficient;
+
+      totalCoef += n.coefficient;
+
+    }
+
+  });
+
+
+  const moyenne =
+    totalCoef
+    ? total / totalCoef
+    : 0;
+
+
+  const donnees = {
+
+    matricule:eleveActuel.matricule,
+
+    nom:eleveActuel.nom,
+
+    prenom:eleveActuel.prenom,
+
+    classe:classe,
+
+    trimestre:trimestre,
+
+    notes:notes,
+
+    moyenneGenerale:moyenne,
+
+    decision:
+      moyenne >= 10
+      ? "Admis"
+      : "Échoué",
+
+    mention:mention(moyenne),
+
+    dateEnregistrement:
+      new Date().toISOString()
+
+  };
+
+
+  const key =
+    `EB_NOTES_${trimestre}T_${classe}_${eleveActuel.matricule}`;
+
+
+  localStorage.setItem(
+    key,
+    JSON.stringify(donnees)
+  );
+
+
+  let indexNotes =
+    JSON.parse(
+      localStorage.getItem(INDEX_KEY) || "[]"
+    );
+
+
+  const position =
+    indexNotes.findIndex(
+      x =>
+        x.matricule === eleveActuel.matricule &&
+        x.classe === classe &&
+        String(x.trimestre) === String(trimestre)
+    );
+
+
+  if(position >= 0){
+
+    indexNotes[position] = donnees;
+
+  }else{
+
+    indexNotes.push(donnees);
+
+  }
+
+
+  localStorage.setItem(
+    INDEX_KEY,
+    JSON.stringify(indexNotes)
+  );
+
+
+  afficherMessage(
+    "Notes enregistrées avec succès.",
+    "success"
+  );
+
+}
+
+
+/* =====================================================
+   CHARGEMENT DES NOTES
+===================================================== */
+
+function chargerNotes(){
+
+  if(!eleveActuel) return;
+
+
+  const classe =
+    eleveActuel.classe ||
+    eleveActuel.salle ||
+    "";
+
+
+  genererTableau(classe);
+
+
+  const trimestre =
+    document.getElementById("trimestre").value;
+
+
+  const key =
+    `EB_NOTES_${trimestre}T_${classe}_${eleveActuel.matricule}`;
+
+
+  const donnees =
+    JSON.parse(
+      localStorage.getItem(key) || "null"
+    );
+
+
+  if(!donnees){
+
+    document.getElementById("moyenneTotale").textContent =
+      "0.00 / 20";
+
+    document.getElementById("decision").textContent =
+      "—";
+
+    document.getElementById("mention").textContent =
+      "—";
+
+    return;
+
+  }
+
+
+  (donnees.notes || []).forEach((note,i)=>{
+
+    if(note.devoirClasse !== null)
+      document.getElementById("dc_"+i).value =
+        note.devoirClasse;
+
+    if(note.devoirDepartemental !== null)
+      document.getElementById("dd_"+i).value =
+        note.devoirDepartemental;
+
+    if(note.moyenneComposition !== null)
+      document.getElementById("comp_"+i).value =
+        note.moyenneComposition;
+
+    calculerLigne(i);
+
+  });
+
+
+  document.getElementById("moyenneTotale").textContent =
+    Number(donnees.moyenneGenerale || 0).toFixed(2)
+    + " / 20";
+
+  document.getElementById("decision").textContent =
+    donnees.decision || "—";
+
+  document.getElementById("mention").textContent =
+    donnees.mention || "—";
+
+}
+
+
+/* =====================================================
+   EFFACER SAISIE
+===================================================== */
+
+function effacerSaisie(){
+
+  if(!confirm(
+    "Voulez-vous effacer les notes affichées ?"
+  )) return;
+
+
+  document
+    .querySelectorAll("#tableNotes input")
+    .forEach(input=>{
+      input.value = "";
+    });
+
+
+  document
+    .querySelectorAll(".moyenne")
+    .forEach(cell=>{
+      cell.textContent = "0.00";
+    });
+
+
+  document.getElementById("moyenneTotale").textContent =
+    "0.00 / 20";
+
+  document.getElementById("decision").textContent =
+    "—";
+
+  document.getElementById("mention").textContent =
+    "—";
+
+}
+
+
+/* =====================================================
+   CONNEXION AUTOMATIQUE PAR URL
+===================================================== */
+
+function chargerMatriculeDepuisURL(){
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+
+  const matricule =
+    params.get("matricule");
+
+
+  if(!matricule) return;
+
+
+  const eleve =
+    eleves.find(
+      e =>
+        String(e.matricule || "")
+        .toLowerCase()
+        ===
+        String(matricule)
+        .toLowerCase()
+    );
+
+
+  if(eleve){
+
+    selectionnerEleve(eleve);
+
+  }else{
+
+    document.getElementById(
+      "rechercheMatricule"
+    ).value = matricule;
+
+    rechercherEleve();
+
+  }
+
+}
+
+
+/* =====================================================
+   INITIALISATION
+===================================================== */
+
+chargerMatriculeDepuisURL();
+
+</script>
+
+</body>
+</html>
