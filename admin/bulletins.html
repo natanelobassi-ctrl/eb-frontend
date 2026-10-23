@@ -95,6 +95,10 @@ button:hover{
   background:#555;
 }
 
+.btn-danger{
+  background:#b00020;
+}
+
 .resultats-recherche{
   margin-top:12px;
   display:grid;
@@ -156,6 +160,13 @@ button:hover{
   margin:4px 0;
 }
 
+.logo-ecole{
+  width:75px;
+  height:75px;
+  object-fit:contain;
+  margin-bottom:8px;
+}
+
 .titre-bulletin{
   text-align:center;
   margin:15px 0;
@@ -191,6 +202,13 @@ th{
 
 td:first-child{
   text-align:left;
+}
+
+.note-input{
+  width:75px;
+  min-width:60px;
+  text-align:center;
+  padding:6px;
 }
 
 .total-box{
@@ -255,6 +273,18 @@ td:first-child{
   padding:20px;
 }
 
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:20px;
+}
+
+.small{
+  font-size:12px;
+  color:#666;
+}
+
 @media(max-width:700px){
 
   .bulletin{
@@ -270,6 +300,10 @@ td:first-child{
     padding:5px;
   }
 
+  .note-input{
+    width:55px;
+  }
+
   .signature-zone{
     flex-direction:column;
     gap:30px;
@@ -278,7 +312,6 @@ td:first-child{
   .signature{
     width:100%;
   }
-
 }
 
 @media print{
@@ -289,7 +322,8 @@ td:first-child{
 
   header,
   .recherche,
-  .actions{
+  .actions,
+  .gestion-notes{
     display:none!important;
   }
 
@@ -310,11 +344,15 @@ td:first-child{
     padding:10px;
   }
 
+  .logo-ecole{
+    width:65px;
+    height:65px;
+  }
+
   @page{
     size:A4 portrait;
     margin:12mm;
   }
-
 }
 </style>
 </head>
@@ -322,5 +360,1599 @@ td:first-child{
 <body>
 
 <header>
+  <h1>Groupe Scolaire Étoile Brillante</h1>
+  <p>Excellence • Discipline • Innovation</p>
+</header>
 
-  <h1>Groupe S
+<div class="container">
+
+  <!-- RECHERCHE -->
+  <div class="card recherche">
+
+    <h2>🔎 Rechercher un élève</h2>
+
+    <div class="row">
+
+      <input
+        type="text"
+        id="rechercheMatricule"
+        placeholder="Matricule"
+      >
+
+      <input
+        type="text"
+        id="rechercheNom"
+        placeholder="Nom ou prénom"
+      >
+
+      <select id="rechercheClasse">
+        <option value="">Toutes les classes</option>
+
+        <optgroup label="Préscolaire">
+          <option>P1</option>
+          <option>P2</option>
+          <option>P3</option>
+        </optgroup>
+
+        <optgroup label="Primaire">
+          <option>CP1</option>
+          <option>CP2</option>
+          <option>CE1</option>
+          <option>CE2</option>
+          <option>CM1</option>
+          <option>CM2</option>
+        </optgroup>
+
+        <optgroup label="Collège">
+          <option>6e</option>
+          <option>5e</option>
+          <option>4e</option>
+          <option>3e</option>
+        </optgroup>
+
+        <optgroup label="Lycée">
+          <option>Seconde</option>
+          <option>Première A</option>
+          <option>Première D</option>
+          <option>Terminale A</option>
+          <option>Terminale D</option>
+        </optgroup>
+      </select>
+
+      <select id="trimestre">
+        <option value="1">1er trimestre</option>
+        <option value="2">2e trimestre</option>
+        <option value="3">3e trimestre</option>
+      </select>
+
+      <button onclick="rechercherEleves()">
+        Rechercher
+      </button>
+
+    </div>
+
+    <div id="resultatsRecherche" class="resultats-recherche"></div>
+
+  </div>
+
+
+  <!-- ELEVE -->
+  <div class="card" id="zoneEleve" style="display:none;">
+
+    <h2>👨‍🎓 Élève sélectionné</h2>
+
+    <div class="info-eleve">
+
+      <div class="info-box">
+        <strong>Matricule</strong>
+        <span id="infoMatricule">-</span>
+      </div>
+
+      <div class="info-box">
+        <strong>Nom et prénom</strong>
+        <span id="infoNom">-</span>
+      </div>
+
+      <div class="info-box">
+        <strong>Classe</strong>
+        <span id="infoClasse">-</span>
+      </div>
+
+      <div class="info-box">
+        <strong>Date de naissance</strong>
+        <span id="infoNaissance">-</span>
+      </div>
+
+      <div class="info-box">
+        <strong>Sexe</strong>
+        <span id="infoSexe">-</span>
+      </div>
+
+      <div class="info-box">
+        <strong>Année scolaire</strong>
+        <span>2026-2027</span>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- SAISIE DES NOTES -->
+  <div class="card gestion-notes" id="zoneNotes" style="display:none;">
+
+    <h2>📝 Saisie des notes</h2>
+
+    <p class="small">
+      La moyenne générale est calculée automatiquement.
+    </p>
+
+    <div id="tableNotes"></div>
+
+    <div class="actions">
+
+      <button onclick="calculerBulletin()">
+        Calculer le bulletin
+      </button>
+
+      <button class="btn-retour" onclick="effacerNotes()">
+        Effacer
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- BULLETIN -->
+  <div class="card" id="zoneBulletin" style="display:none;">
+
+    <div class="bulletin" id="bulletin">
+
+      <div class="entete-ecole">
+
+        <!--
+          Lorsque le logo officiel sera disponible,
+          remplacer le chemin ci-dessous si nécessaire.
+        -->
+        <img
+          src="../assets/css/logo-etoile-brillante.png"
+          class="logo-ecole"
+          alt="Logo Groupe Scolaire Étoile Brillante"
+          onerror="this.style.display='none'"
+        >
+
+        <h1>GROUPE SCOLAIRE ÉTOILE BRILLANTE</h1>
+
+        <p>
+          03 rue Poumako, marché Massengo,
+          arrondissement 9 Djiri — Brazzaville
+        </p>
+
+        <p>
+          Excellence • Discipline • Innovation
+        </p>
+
+      </div>
+
+
+      <div class="titre-bulletin">
+
+        <h2>Bulletin scolaire</h2>
+
+        <h3>
+          Année scolaire 2026-2027
+        </h3>
+
+        <p id="bulletinTrimestre">
+          1er trimestre
+        </p>
+
+      </div>
+
+
+      <div class="info-eleve">
+
+        <div class="info-box">
+          <strong>Matricule</strong>
+          <span id="bMatricule">-</span>
+        </div>
+
+        <div class="info-box">
+          <strong>Nom et prénom</strong>
+          <span id="bNom">-</span>
+        </div>
+
+        <div class="info-box">
+          <strong>Classe</strong>
+          <span id="bClasse">-</span>
+        </div>
+
+        <div class="info-box">
+          <strong>Date de naissance</strong>
+          <span id="bNaissance">-</span>
+        </div>
+
+      </div>
+
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Matières</th>
+            <th>Devoir<br>classe</th>
+            <th>Devoir<br>départemental</th>
+            <th>Moyenne<br>classe</th>
+            <th>Composition</th>
+            <th>Moyenne<br>générale</th>
+            <th>Coefficient</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+
+        <tbody id="corpsBulletin"></tbody>
+
+      </table>
+
+
+      <div class="total-box">
+
+        <div class="total-item">
+          <strong>Total des points</strong>
+          <span id="totalPoints">0</span>
+        </div>
+
+        <div class="total-item">
+          <strong>Total coefficients</strong>
+          <span id="totalCoefficients">0</span>
+        </div>
+
+        <div class="total-item">
+          <strong>Moyenne générale</strong>
+          <span id="moyenneGenerale">0 / 20</span>
+        </div>
+
+        <div class="total-item">
+          <strong>Rang</strong>
+          <span id="rangEleve">-</span>
+        </div>
+
+      </div>
+
+
+      <div class="total-box">
+
+        <div class="total-item">
+          <strong>Mention</strong>
+          <span id="mention">-</span>
+        </div>
+
+        <div class="total-item">
+          <strong>Décision</strong>
+          <span
+            id="decision"
+            class="decision"
+          >
+            -
+          </span>
+        </div>
+
+      </div>
+
+
+      <div class="signature-zone">
+
+        <div class="signature">
+
+          <strong>
+            Le Directeur des études
+          </strong>
+
+          <div class="signature-line">
+            NGATSONGO Clarmy Nice Natanaël
+          </div>
+
+        </div>
+
+        <div class="signature">
+
+          <strong>
+            Cachet de l'établissement
+          </strong>
+
+          <div class="signature-line">
+            Signature et cachet
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="actions">
+
+      <button
+        class="btn-print"
+        onclick="imprimerBulletin()"
+      >
+        🖨️ Imprimer le bulletin
+      </button>
+
+      <button
+        class="btn-retour"
+        onclick="nouveauBulletin()"
+      >
+        Nouveau bulletin
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   DONNÉES GÉNÉRALES
+========================================================= */
+
+let eleveSelectionne = null;
+let notesActuelles = [];
+
+
+/* =========================================================
+   MATIÈRES
+========================================================= */
+
+const matieresParClasse = {
+
+  "P1": [
+    "Langage",
+    "Graphisme",
+    "Mathématiques",
+    "Éveil",
+    "Éducation physique"
+  ],
+
+  "P2": [
+    "Langage",
+    "Graphisme",
+    "Mathématiques",
+    "Éveil",
+    "Éducation physique"
+  ],
+
+  "P3": [
+    "Langage",
+    "Graphisme",
+    "Mathématiques",
+    "Éveil",
+    "Éducation physique"
+  ],
+
+  "CP1": [
+    "Français",
+    "Mathématiques",
+    "Éveil",
+    "Écriture",
+    "Éducation physique"
+  ],
+
+  "CP2": [
+    "Français",
+    "Mathématiques",
+    "Éveil",
+    "Écriture",
+    "Éducation physique"
+  ],
+
+  "CE1": [
+    "Français",
+    "Mathématiques",
+    "Sciences",
+    "Histoire",
+    "Géographie",
+    "Éducation physique"
+  ],
+
+  "CE2": [
+    "Français",
+    "Mathématiques",
+    "Sciences",
+    "Histoire",
+    "Géographie",
+    "Éducation physique"
+  ],
+
+  "CM1": [
+    "Français",
+    "Mathématiques",
+    "Sciences",
+    "Histoire",
+    "Géographie",
+    "Anglais",
+    "Éducation physique"
+  ],
+
+  "CM2": [
+    "Français",
+    "Mathématiques",
+    "Sciences",
+    "Histoire",
+    "Géographie",
+    "Anglais",
+    "Éducation physique"
+  ],
+
+  "6e": [
+    "Français",
+    "Mathématiques",
+    "Anglais",
+    "Histoire",
+    "Géographie",
+    "Sciences",
+    "EPS"
+  ],
+
+  "5e": [
+    "Français",
+    "Mathématiques",
+    "Anglais",
+    "Histoire",
+    "Géographie",
+    "Sciences",
+    "EPS"
+  ],
+
+  "4e": [
+    "Français",
+    "Mathématiques",
+    "Anglais",
+    "Histoire",
+    "Géographie",
+    "Sciences",
+    "EPS"
+  ],
+
+  "3e": [
+    "Français",
+    "Mathématiques",
+    "Anglais",
+    "Histoire",
+    "Géographie",
+    "SVT",
+    "Sciences physiques",
+    "EPS"
+  ],
+
+  "Seconde": [
+    "Français",
+    "Mathématiques",
+    "Anglais",
+    "Histoire",
+    "Géographie",
+    "SVT",
+    "Sciences physiques",
+    "EPS"
+  ],
+
+  "Première A": [
+    "Français",
+    "Philosophie",
+    "Anglais",
+    "Histoire",
+    "Géographie",
+    "Mathématiques",
+    "Espagnol",
+    "EPS"
+  ],
+
+  "Première D": [
+    "Français",
+    "Mathématiques",
+    "Anglais",
+    "Histoire",
+    "Géographie",
+    "SVT",
+    "Sciences physiques",
+    "EPS"
+  ],
+
+  "Terminale A": [
+    "Philosophie",
+    "Français",
+    "Histoire",
+    "Anglais",
+    "Mathématiques",
+    "Espagnol",
+    "EPS"
+  ],
+
+  "Terminale D": [
+    "Mathématiques",
+    "SVT",
+    "Sciences physiques",
+    "Histoire",
+    "Français",
+    "Anglais",
+    "Histoire-Géographie",
+    "EPS"
+  ]
+
+};
+
+
+/* =========================================================
+   COEFFICIENTS
+========================================================= */
+
+function coefficient(classe, matiere){
+
+  if(
+    classe === "6e" ||
+    classe === "5e" ||
+    classe === "4e"
+  ){
+    return 1;
+  }
+
+  if(classe === "3e"){
+
+    if(matiere === "Mathématiques"){
+      return 4;
+    }
+
+    return 2;
+  }
+
+  if(classe === "Seconde"){
+    return 1;
+  }
+
+  if(classe === "Terminale A"){
+
+    const coeffs = {
+      "Philosophie":5,
+      "Français":5,
+      "Histoire":4,
+      "Anglais":4,
+      "Mathématiques":3,
+      "Espagnol":3,
+      "EPS":2
+    };
+
+    return coeffs[matiere] || 1;
+  }
+
+  if(classe === "Terminale D"){
+
+    const coeffs = {
+      "Mathématiques":4,
+      "SVT":5,
+      "Sciences physiques":5,
+      "Histoire":3,
+      "Français":3,
+      "Anglais":3,
+      "Histoire-Géographie":3,
+      "EPS":2
+    };
+
+    return coeffs[matiere] || 1;
+  }
+
+  return 1;
+}
+
+
+/* =========================================================
+   CHARGER LES ÉLÈVES
+========================================================= */
+
+function obtenirEleves(){
+
+  const clesPossibles = [
+    "eleves",
+    "élèves",
+    "students",
+    "listeEleves",
+    "ecole_eleves",
+    "EB_eleves"
+  ];
+
+  for(const cle of clesPossibles){
+
+    const donnees = localStorage.getItem(cle);
+
+    if(!donnees) continue;
+
+    try{
+
+      const resultat = JSON.parse(donnees);
+
+      if(Array.isArray(resultat)){
+        return resultat;
+      }
+
+    }catch(e){
+
+      console.warn(
+        "Données élèves invalides :",
+        cle
+      );
+
+    }
+  }
+
+  return [];
+}
+
+
+/* =========================================================
+   RECHERCHE
+========================================================= */
+
+function rechercherEleves(){
+
+  const matricule =
+    document
+      .getElementById("rechercheMatricule")
+      .value
+      .trim()
+      .toLowerCase();
+
+  const nom =
+    document
+      .getElementById("rechercheNom")
+      .value
+      .trim()
+      .toLowerCase();
+
+  const classe =
+    document
+      .getElementById("rechercheClasse")
+      .value;
+
+  const zone =
+    document.getElementById(
+      "resultatsRecherche"
+    );
+
+  zone.innerHTML = "";
+
+  const eleves = obtenirEleves();
+
+  if(eleves.length === 0){
+
+    zone.innerHTML = `
+      <div class="message-vide">
+        Aucun élève enregistré dans la base locale.
+        <br><br>
+        Veuillez d'abord inscrire les élèves
+        depuis la page <strong>Inscriptions</strong>.
+      </div>
+    `;
+
+    return;
+  }
+
+
+  const resultats = eleves.filter(eleve => {
+
+    const m = String(
+      eleve.matricule ||
+      eleve.id ||
+      ""
+    ).toLowerCase();
+
+    const n = (
+      String(eleve.nom || "") +
+      " " +
+      String(eleve.prenom || "")
+    ).toLowerCase();
+
+    const c = String(
+      eleve.classe ||
+      eleve.niveau ||
+      ""
+    );
+
+    return (
+      (!matricule || m.includes(matricule)) &&
+      (!nom || n.includes(nom)) &&
+      (!classe || c === classe)
+    );
+
+  });
+
+
+  if(resultats.length === 0){
+
+    zone.innerHTML = `
+      <div class="message-vide">
+        Aucun élève ne correspond à votre recherche.
+      </div>
+    `;
+
+    return;
+  }
+
+
+  resultats.forEach(eleve => {
+
+    const div =
+      document.createElement("div");
+
+    div.className =
+      "resultat-eleve";
+
+    div.innerHTML = `
+      <strong>
+        ${eleve.nom || ""} ${eleve.prenom || ""}
+      </strong>
+      <br>
+      Matricule :
+      ${eleve.matricule || eleve.id || "-"}
+      <br>
+      Classe :
+      ${eleve.classe || eleve.niveau || "-"}
+    `;
+
+    div.onclick = function(){
+      selectionnerEleve(eleve);
+    };
+
+    zone.appendChild(div);
+
+  });
+
+}
+
+
+/* =========================================================
+   SÉLECTION ÉLÈVE
+========================================================= */
+
+function selectionnerEleve(eleve){
+
+  eleveSelectionne = eleve;
+
+  const classe =
+    eleve.classe ||
+    eleve.niveau ||
+    "";
+
+  document.getElementById(
+    "zoneEleve"
+  ).style.display = "block";
+
+  document.getElementById(
+    "zoneNotes"
+  ).style.display = "block";
+
+
+  document.getElementById(
+    "infoMatricule"
+  ).textContent =
+    eleve.matricule ||
+    eleve.id ||
+    "-";
+
+
+  document.getElementById(
+    "infoNom"
+  ).textContent =
+    `${eleve.nom || ""} ${eleve.prenom || ""}`;
+
+
+  document.getElementById(
+    "infoClasse"
+  ).textContent =
+    classe || "-";
+
+
+  document.getElementById(
+    "infoNaissance"
+  ).textContent =
+    eleve.dateNaissance ||
+    eleve.naissance ||
+    "-";
+
+
+  document.getElementById(
+    "infoSexe"
+  ).textContent =
+    eleve.sexe ||
+    "-";
+
+
+  creerTableauNotes(classe);
+
+}
+
+
+/* =========================================================
+   TABLEAU DE SAISIE
+========================================================= */
+
+function creerTableauNotes(classe){
+
+  const matieres =
+    matieresParClasse[classe] || [];
+
+  const zone =
+    document.getElementById(
+      "tableNotes"
+    );
+
+  if(matieres.length === 0){
+
+    zone.innerHTML = `
+      <div class="erreur">
+        Aucune matière configurée pour
+        la classe ${classe}.
+      </div>
+    `;
+
+    return;
+  }
+
+
+  let html = `
+    <table>
+
+      <thead>
+
+        <tr>
+          <th>Matière</th>
+          <th>Devoir classe</th>
+          <th>Devoir départemental</th>
+          <th>Moyenne classe</th>
+          <th>Moyenne composition</th>
+          <th>Moyenne générale</th>
+          <th>Coefficient</th>
+        </tr>
+
+      </thead>
+
+      <tbody>
+  `;
+
+
+  matieres.forEach((matiere,index) => {
+
+    html += `
+      <tr>
+
+        <td>
+          ${matiere}
+        </td>
+
+        <td>
+          <input
+            class="note-input"
+            type="number"
+            min="0"
+            max="20"
+            step="0.01"
+            id="dc_${index}"
+            placeholder="0"
+          >
+        </td>
+
+        <td>
+          <input
+            class="note-input"
+            type="number"
+            min="0"
+            max="20"
+            step="0.01"
+            id="dd_${index}"
+            placeholder="0"
+          >
+        </td>
+
+        <td>
+          <input
+            class="note-input"
+            type="number"
+            min="0"
+            max="20"
+            step="0.01"
+            id="mc_${index}"
+            placeholder="0"
+          >
+        </td>
+
+        <td>
+          <input
+            class="note-input"
+            type="number"
+            min="0"
+            max="20"
+            step="0.01"
+            id="comp_${index}"
+            placeholder="0"
+          >
+        </td>
+
+        <td>
+          <input
+            class="note-input"
+            type="number"
+            min="0"
+            max="20"
+            step="0.01"
+            id="mg_${index}"
+            placeholder="0"
+            readonly
+          >
+        </td>
+
+        <td>
+          ${coefficient(classe,matiere)}
+        </td>
+
+      </tr>
+    `;
+
+  });
+
+
+  html += `
+      </tbody>
+    </table>
+  `;
+
+  zone.innerHTML = html;
+
+
+  matieres.forEach((matiere,index) => {
+
+    const dc =
+      document.getElementById(
+        `dc_${index}`
+      );
+
+    const dd =
+      document.getElementById(
+        `dd_${index}`
+      );
+
+    const mc =
+      document.getElementById(
+        `mc_${index}`
+      );
+
+    const comp =
+      document.getElementById(
+        `comp_${index}`
+      );
+
+    const mg =
+      document.getElementById(
+        `mg_${index}`
+      );
+
+
+    function calculer(){
+
+      const noteDC =
+        parseFloat(dc.value) || 0;
+
+      const noteDD =
+        parseFloat(dd.value) || 0;
+
+      let moyenneClasse =
+        parseFloat(mc.value);
+
+      const moyenneComposition =
+        parseFloat(comp.value) || 0;
+
+
+      /*
+       Moyenne de classe :
+       Devoir de classe + devoir départemental
+       puis division par 2.
+      */
+
+      if(
+        dc.value !== "" ||
+        dd.value !== ""
+      ){
+
+        moyenneClasse =
+          (
+            noteDC +
+            noteDD
+          ) / 2;
+
+        mc.value =
+          moyenneClasse.toFixed(2);
+      }
+
+
+      const moyenneGenerale =
+        (
+          moyenneClasse +
+          moyenneComposition
+        ) / 2;
+
+
+      mg.value =
+        isNaN(moyenneGenerale)
+        ? ""
+        : moyenneGenerale.toFixed(2);
+
+    }
+
+
+    dc.addEventListener(
+      "input",
+      calculer
+    );
+
+    dd.addEventListener(
+      "input",
+      calculer
+    );
+
+    mc.addEventListener(
+      "input",
+      calculer
+    );
+
+    comp.addEventListener(
+      "input",
+      calculer
+    );
+
+  });
+
+}
+
+
+/* =========================================================
+   CALCUL BULLETIN
+========================================================= */
+
+function calculerBulletin(){
+
+  if(!eleveSelectionne){
+
+    alert(
+      "Veuillez sélectionner un élève."
+    );
+
+    return;
+  }
+
+
+  const classe =
+    eleveSelectionne.classe ||
+    eleveSelectionne.niveau ||
+    "";
+
+  const matieres =
+    matieresParClasse[classe] || [];
+
+
+  let totalPoints = 0;
+  let totalCoefficients = 0;
+
+  let lignes = [];
+
+
+  matieres.forEach((matiere,index) => {
+
+    const dc =
+      parseFloat(
+        document.getElementById(
+          `dc_${index}`
+        ).value
+      ) || 0;
+
+    const dd =
+      parseFloat(
+        document.getElementById(
+          `dd_${index}`
+        ).value
+      ) || 0;
+
+    let mc =
+      parseFloat(
+        document.getElementById(
+          `mc_${index}`
+        ).value
+      );
+
+    const comp =
+      parseFloat(
+        document.getElementById(
+          `comp_${index}`
+        ).value
+      ) || 0;
+
+
+    if(isNaN(mc)){
+
+      mc =
+        (
+          dc +
+          dd
+        ) / 2;
+
+    }
+
+
+    const moyenne =
+      (
+        mc +
+        comp
+      ) / 2;
+
+
+    const coeff =
+      coefficient(
+        classe,
+        matiere
+      );
+
+
+    const total =
+      moyenne * coeff;
+
+
+    totalPoints += total;
+
+    totalCoefficients += coeff;
+
+
+    lignes.push({
+      matiere,
+      dc,
+      dd,
+      mc,
+      comp,
+      moyenne,
+      coeff,
+      total
+    });
+
+  });
+
+
+  const moyenneGenerale =
+    totalCoefficients > 0
+      ? totalPoints / totalCoefficients
+      : 0;
+
+
+  afficherBulletin(
+    lignes,
+    totalPoints,
+    totalCoefficients,
+    moyenneGenerale
+  );
+
+}
+
+
+/* =========================================================
+   AFFICHAGE BULLETIN
+========================================================= */
+
+function afficherBulletin(
+  lignes,
+  totalPoints,
+  totalCoefficients,
+  moyenneGenerale
+){
+
+  document.getElementById(
+    "zoneBulletin"
+  ).style.display = "block";
+
+
+  const trimestre =
+    document.getElementById(
+      "trimestre"
+    ).value;
+
+
+  const textes = {
+    "1":"1er trimestre",
+    "2":"2e trimestre",
+    "3":"3e trimestre"
+  };
+
+
+  document.getElementById(
+    "bulletinTrimestre"
+  ).textContent =
+    textes[trimestre];
+
+
+  document.getElementById(
+    "bMatricule"
+  ).textContent =
+    eleveSelectionne.matricule ||
+    eleveSelectionne.id ||
+    "-";
+
+
+  document.getElementById(
+    "bNom"
+  ).textContent =
+    `${eleveSelectionne.nom || ""} ${eleveSelectionne.prenom || ""}`;
+
+
+  document.getElementById(
+    "bClasse"
+  ).textContent =
+    eleveSelectionne.classe ||
+    eleveSelectionne.niveau ||
+    "-";
+
+
+  document.getElementById(
+    "bNaissance"
+  ).textContent =
+    eleveSelectionne.dateNaissance ||
+    eleveSelectionne.naissance ||
+    "-";
+
+
+  let html = "";
+
+
+  lignes.forEach(ligne => {
+
+    html += `
+      <tr>
+
+        <td>
+          ${ligne.matiere}
+        </td>
+
+        <td>
+          ${formatNote(ligne.dc)}
+        </td>
+
+        <td>
+          ${formatNote(ligne.dd)}
+        </td>
+
+        <td>
+          ${formatNote(ligne.mc)}
+        </td>
+
+        <td>
+          ${formatNote(ligne.comp)}
+        </td>
+
+        <td>
+          <strong>
+            ${formatNote(ligne.moyenne)}
+          </strong>
+        </td>
+
+        <td>
+          ${ligne.coeff}
+        </td>
+
+        <td>
+          ${formatNote(ligne.total)}
+        </td>
+
+      </tr>
+    `;
+
+  });
+
+
+  document.getElementById(
+    "corpsBulletin"
+  ).innerHTML = html;
+
+
+  document.getElementById(
+    "totalPoints"
+  ).textContent =
+    formatNote(totalPoints);
+
+
+  document.getElementById(
+    "totalCoefficients"
+  ).textContent =
+    totalCoefficients;
+
+
+  document.getElementById(
+    "moyenneGenerale"
+  ).textContent =
+    `${formatNote(moyenneGenerale)} / 20`;
+
+
+  document.getElementById(
+    "mention"
+  ).textContent =
+    obtenirMention(moyenneGenerale);
+
+
+  const decision =
+    moyenneGenerale >= 10
+      ? "ADMIS"
+      : "ÉCHOUÉ";
+
+
+  const decisionElement =
+    document.getElementById(
+      "decision"
+    );
+
+
+  decisionElement.textContent =
+    decision;
+
+
+  decisionElement.className =
+    "decision " +
+    (
+      moyenneGenerale >= 10
+        ? "admis"
+        : "echoue"
+    );
+
+
+  document.getElementById(
+    "rangEleve"
+  ).textContent =
+    calculerRang(moyenneGenerale);
+
+}
+
+
+/* =========================================================
+   FORMAT NOTE
+========================================================= */
+
+function formatNote(note){
+
+  if(isNaN(note)){
+    return "0.00";
+  }
+
+  return Number(note).toFixed(2);
+
+}
+
+
+/* =========================================================
+   MENTIONS
+========================================================= */
+
+function obtenirMention(note){
+
+  if(note <= 3){
+    return "Nul";
+  }
+
+  if(note <= 5){
+    return "Très faible";
+  }
+
+  if(note <= 7){
+    return "Faible";
+  }
+
+  if(note <= 9){
+    return "Insuffisant";
+  }
+
+  if(note <= 11){
+    return "Passable";
+  }
+
+  if(note <= 13){
+    return "Assez bien";
+  }
+
+  if(note <= 15){
+    return "Bien";
+  }
+
+  if(note <= 17){
+    return "Très bien";
+  }
+
+  return "Excellent";
+
+}
+
+
+/* =========================================================
+   RANG
+========================================================= */
+
+function calculerRang(moyenne){
+
+  /*
+    Recherche les moyennes enregistrées,
+    lorsqu'elles existent dans localStorage.
+  */
+
+  const donnees =
+    localStorage.getItem(
+      "resultatsBulletins"
+    );
+
+
+  if(!donnees){
+    return "-";
+  }
+
+
+  try{
+
+    const resultats =
+      JSON.parse(donnees);
+
+
+    if(!Array.isArray(resultats)){
+      return "-";
+    }
+
+
+    const classe =
+      eleveSelectionne.classe ||
+      eleveSelectionne.niveau;
+
+
+    const classement =
+      resultats
+        .filter(r =>
+          (
+            r.classe === classe
+          )
+        )
+        .map(r =>
+          Number(r.moyenne) || 0
+        )
+        .concat([moyenne])
+        .sort(
+          (a,b) => b-a
+        );
+
+
+    const position =
+      classement.indexOf(
+        moyenne
+      ) + 1;
+
+
+    return position > 0
+      ? `${position}e`
+      : "-";
+
+
+  }catch(e){
+
+    return "-";
+
+  }
+
+}
+
+
+/* =========================================================
+   IMPRESSION
+========================================================= */
+
+function imprimerBulletin(){
+
+  if(!eleveSelectionne){
+
+    alert(
+      "Aucun bulletin à imprimer."
+    );
+
+    return;
+  }
+
+
+  window.print();
+
+}
+
+
+/* =========================================================
+   NOUVEAU BULLETIN
+========================================================= */
+
+function nouveauBulletin(){
+
+  eleveSelectionne = null;
+
+  document.getElementById(
+    "zoneEleve"
+  ).style.display = "none";
+
+  document.getElementById(
+    "zoneNotes"
+  ).style.display = "none";
+
+  document.getElementById(
+    "zoneBulletin"
+  ).style.display = "none";
+
+
+  document.getElementById(
+    "resultatsRecherche"
+  ).innerHTML = "";
+
+}
+
+
+/* =========================================================
+   EFFACER LES NOTES
+========================================================= */
+
+function effacerNotes(){
+
+  if(!eleveSelectionne){
+    return;
+  }
+
+  const classe =
+    eleveSelectionne.classe ||
+    eleveSelectionne.niveau ||
+    "";
+
+  creerTableauNotes(classe);
+
+}
+
+
+/* =========================================================
+   RECHERCHE AUTOMATIQUE
+========================================================= */
+
+document
+  .getElementById(
+    "rechercheMatricule"
+  )
+  .addEventListener(
+    "input",
+    rechercherEleves
+  );
+
+
+document
+  .getElementById(
+    "rechercheNom"
+  )
+  .addEventListener(
+    "input",
+    rechercherEleves
+  );
+
+
+document
+  .getElementById(
+    "rechercheClasse"
+  )
+  .addEventListener(
+    "change",
+    rechercherEleves
+  );
+
+
+</script>
+
+</body>
+</html>
