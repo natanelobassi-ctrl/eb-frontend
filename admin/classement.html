@@ -13,8 +13,8 @@
 
 body{
   margin:0;
-  font-family:Arial,sans-serif;
-  background:#f4f6fa;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f3f6fb;
   color:#1f2937;
 }
 
@@ -27,7 +27,7 @@ header{
 
 header h1{
   margin:0;
-  font-size:23px;
+  font-size:24px;
 }
 
 header p{
@@ -35,38 +35,40 @@ header p{
 }
 
 .container{
-  max-width:1100px;
+  max-width:1200px;
   margin:20px auto;
-  padding:0 15px;
+  padding:15px;
 }
 
 .card{
   background:white;
-  border-radius:15px;
-  padding:20px;
-  margin-bottom:20px;
+  border-radius:12px;
+  padding:18px;
+  margin-bottom:18px;
   box-shadow:0 3px 12px rgba(0,0,0,.08);
 }
 
-.form-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:15px;
+h2{
+  color:#0A2A78;
+  margin-top:0;
 }
 
-label{
-  display:block;
-  font-weight:bold;
-  margin-bottom:6px;
+.row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
 }
 
-select,
-button{
-  width:100%;
-  padding:12px;
-  border-radius:8px;
+select,input,button{
+  padding:11px;
+  border-radius:7px;
   border:1px solid #ccc;
-  font-size:15px;
+  font-size:14px;
+}
+
+select,input{
+  flex:1;
+  min-width:180px;
 }
 
 button{
@@ -81,25 +83,31 @@ button:hover{
   opacity:.9;
 }
 
-.stats{
+.btn-print{
+  background:#C9A227;
+  color:#111;
+}
+
+.btn-retour{
+  background:#555;
+}
+
+.info-eleve{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-  margin-top:20px;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:10px;
 }
 
-.stat{
-  background:#eef3ff;
-  border-radius:10px;
-  padding:15px;
-  text-align:center;
+.info-box{
+  background:#f5f7fb;
+  padding:12px;
+  border-radius:8px;
 }
 
-.stat strong{
+.info-box strong{
   display:block;
   color:#0A2A78;
-  font-size:22px;
-  margin-top:5px;
+  margin-bottom:4px;
 }
 
 .table-wrapper{
@@ -112,10 +120,9 @@ table{
   margin-top:15px;
 }
 
-th,
-td{
-  border:1px solid #ccc;
-  padding:10px;
+th,td{
+  border:1px solid #777;
+  padding:9px;
   text-align:center;
 }
 
@@ -124,8 +131,12 @@ th{
   color:white;
 }
 
-td.nom{
+td:nth-child(2){
   text-align:left;
+}
+
+.selected{
+  background:#fff5c7!important;
   font-weight:bold;
 }
 
@@ -134,61 +145,70 @@ td.nom{
   font-size:17px;
 }
 
-.podium{
-  background:#fff7d6;
+.message{
+  text-align:center;
+  padding:25px;
+  color:#777;
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:15px;
+}
+
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:15px;
+  font-size:12px;
+  font-weight:bold;
 }
 
 .admis{
+  background:#d9f7df;
   color:green;
-  font-weight:bold;
 }
 
 .echoue{
-  color:#c62828;
-  font-weight:bold;
-}
-
-.message{
-  padding:15px;
-  margin-top:15px;
-  border-radius:8px;
-  background:#fff3cd;
-  color:#664d03;
+  background:#ffe0e0;
+  color:#b00020;
 }
 
 @media(max-width:700px){
 
-  .form-grid{
-    grid-template-columns:1fr;
-  }
-
-  .stats{
-    grid-template-columns:1fr;
-  }
-
-  th,
-  td{
+  th,td{
     font-size:12px;
-    padding:7px;
+    padding:6px;
   }
 }
 
 @media print{
 
-  .no-print{
-    display:none!important;
-  }
-
   body{
     background:white;
   }
 
+  header,
+  .recherche,
+  .actions{
+    display:none!important;
+  }
+
   .container{
     max-width:none;
+    margin:0;
+    padding:0;
   }
 
   .card{
     box-shadow:none;
+  }
+
+  @page{
+    size:A4 portrait;
+    margin:10mm;
   }
 }
 </style>
@@ -197,127 +217,52 @@ td.nom{
 <body>
 
 <header>
-  <h1>GROUPE SCOLAIRE ÉTOILE BRILLANTE</h1>
-  <p>Classement annuel des élèves</p>
+  <h1>Groupe Scolaire Étoile Brillante</h1>
+  <p>Classement des élèves</p>
 </header>
 
 <div class="container">
 
-  <div class="card no-print">
+  <div class="card recherche">
 
-    <h2>🏆 Classement par classe</h2>
+    <h2>🏆 Classement</h2>
 
-    <div class="form-grid">
+    <div class="row">
 
-      <div>
-        <label>Choisir une classe</label>
+      <select id="classe" onchange="afficherClassement()">
+        <option value="">Choisir une classe</option>
+        <option value="P1">P1</option>
+        <option value="P2">P2</option>
+        <option value="P3">P3</option>
 
-        <select id="classeSelect">
-          <option value="">-- Sélectionner --</option>
-          <option value="P1">P1</option>
-          <option value="P2">P2</option>
-          <option value="P3">P3</option>
+        <option value="CP1">CP1</option>
+        <option value="CP2">CP2</option>
+        <option value="CE1">CE1</option>
+        <option value="CE2">CE2</option>
+        <option value="CM1">CM1</option>
+        <option value="CM2">CM2</option>
 
-          <option value="CP1">CP1</option>
-          <option value="CP2">CP2</option>
-          <option value="CE1">CE1</option>
-          <option value="CE2">CE2</option>
-          <option value="CM1">CM1</option>
-          <option value="CM2">CM2</option>
+        <option value="6e">6e</option>
+        <option value="5e">5e</option>
+        <option value="4e">4e</option>
+        <option value="3e">3e</option>
 
-          <option value="6e">6e</option>
-          <option value="5e">5e</option>
-          <option value="4e">4e</option>
-          <option value="3e">3e</option>
+        <option value="Seconde">Seconde</option>
+        <option value="STC">STC</option>
+        <option value="Première A">Première A</option>
+        <option value="Première D">Première D</option>
+        <option value="Terminale A">Terminale A</option>
+        <option value="Terminale D">Terminale D</option>
+      </select>
 
-          <option value="Seconde">Seconde</option>
-          <option value="STC">STC</option>
-          <option value="Première A">Première A</option>
-          <option value="Première D">Première D</option>
-          <option value="Terminale A">Terminale A</option>
-          <option value="Terminale D">Terminale D</option>
-        </select>
+      <select id="trimestre" onchange="afficherClassement()">
+        <option value="1">1er trimestre</option>
+        <option value="2">2e trimestre</option>
+        <option value="3">3e trimestre</option>
+      </select>
 
-      </div>
-
-      <div style="display:flex;align-items:end;">
-
-        <button onclick="genererClassement()">
-          🔎 Afficher le classement
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div id="resultat" style="display:none;">
-
-    <div class="card">
-
-      <h2 id="titreClassement">
-        Classement
-      </h2>
-
-      <div class="stats">
-
-        <div class="stat">
-          Élèves inscrits
-          <strong id="totalEleves">0</strong>
-        </div>
-
-        <div class="stat">
-          Élèves classés
-          <strong id="totalClasses">0</strong>
-        </div>
-
-        <div class="stat">
-          Moyenne de la classe
-          <strong id="moyenneClasse">-</strong>
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="card">
-
-      <div class="table-wrapper">
-
-        <table>
-
-          <thead>
-
-            <tr>
-              <th>Rang</th>
-              <th>Matricule</th>
-              <th>Nom et prénom</th>
-              <th>T1</th>
-              <th>T2</th>
-              <th>T3</th>
-              <th>Moyenne annuelle</th>
-              <th>Décision</th>
-              <th>Mention</th>
-            </tr>
-
-          </thead>
-
-          <tbody id="tableClassement"></tbody>
-
-        </table>
-
-      </div>
-
-    </div>
-
-
-    <div class="card no-print">
-
-      <button onclick="window.print()">
-        🖨️ Imprimer le classement
+      <button onclick="afficherClassement()">
+        Actualiser
       </button>
 
     </div>
@@ -325,587 +270,586 @@ td.nom{
   </div>
 
 
-  <div id="message" class="message" style="display:none;"></div>
+  <div class="card" id="eleveSelectionne">
+
+    <div class="message">
+      Aucun élève sélectionné.
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2 id="titreClassement">
+      Classement
+    </h2>
+
+    <div id="zoneClassement" class="message">
+      Choisissez une classe.
+    </div>
+
+    <div class="actions">
+
+      <button
+        class="btn-print"
+        onclick="window.print()">
+
+        🖨️ Imprimer le classement
+
+      </button>
+
+      <button
+        class="btn-retour"
+        onclick="window.location.href='eleves.html'">
+
+        ← Retour aux élèves
+
+      </button>
+
+    </div>
+
+  </div>
 
 </div>
 
 
 <script>
 
-/* ==========================
-   MATIÈRES ET COEFFICIENTS
-========================== */
+/* =================================
+   DONNÉES
+================================= */
 
-const MATIERES = {
-
-"6e":[
- ["Français",1],
- ["Mathématiques",1],
- ["Histoire",1],
- ["Géographie",1],
- ["Anglais",1],
- ["SVT",1],
- ["Sciences physiques",1],
- ["EPS",1]
-],
-
-"5e":[
- ["Français",1],
- ["Mathématiques",1],
- ["Histoire",1],
- ["Géographie",1],
- ["Anglais",1],
- ["SVT",1],
- ["Sciences physiques",1],
- ["EPS",1]
-],
-
-"4e":[
- ["Français",1],
- ["Mathématiques",1],
- ["Histoire",1],
- ["Géographie",1],
- ["Anglais",1],
- ["SVT",1],
- ["Sciences physiques",1],
- ["EPS",1]
-],
-
-"3e":[
- ["Français",2],
- ["Mathématiques",4],
- ["Histoire",2],
- ["Géographie",2],
- ["Anglais",2],
- ["SVT",2],
- ["Sciences physiques",2],
- ["EPS",2]
-],
-
-"Seconde":[
- ["Français",1],
- ["Mathématiques",1],
- ["Histoire",1],
- ["Géographie",1],
- ["Anglais",1],
- ["SVT",1],
- ["Sciences physiques",1],
- ["EPS",1]
-],
-
-"Première A":[
- ["Philosophie",5],
- ["Français",5],
- ["Histoire",4],
- ["Anglais",4],
- ["Mathématiques",3],
- ["Espagnol",3],
- ["EPS",2]
-],
-
-"Première D":[
- ["Mathématiques",4],
- ["SVT",5],
- ["Sciences physiques",5],
- ["Histoire",3],
- ["Français",3],
- ["Anglais",3],
- ["Histoire-Géographie",3],
- ["EPS",2]
-],
-
-"Terminale A":[
- ["Philosophie",5],
- ["Français",5],
- ["Histoire",4],
- ["Anglais",4],
- ["Mathématiques",3],
- ["Espagnol",3],
- ["EPS",2]
-],
-
-"Terminale D":[
- ["Mathématiques",4],
- ["SVT",5],
- ["Sciences physiques",5],
- ["Histoire",3],
- ["Français",3],
- ["Anglais",3],
- ["Histoire-Géographie",3],
- ["EPS",2]
-],
-
-"STC":[
- ["Français",1],
- ["Mathématiques",1],
- ["Anglais",1],
- ["Histoire",1],
- ["Géographie",1],
- ["Sciences",1],
- ["EPS",1]
-],
-
-"CP1":[
- ["Français",1],
- ["Mathématiques",1],
- ["Éveil",1],
- ["Écriture",1],
- ["Lecture",1]
-],
-
-"CP2":[
- ["Français",1],
- ["Mathématiques",1],
- ["Éveil",1],
- ["Écriture",1],
- ["Lecture",1]
-],
-
-"CE1":[
- ["Français",1],
- ["Mathématiques",1],
- ["Sciences",1],
- ["Histoire",1],
- ["Géographie",1],
- ["Éducation civique",1]
-],
-
-"CE2":[
- ["Français",1],
- ["Mathématiques",1],
- ["Sciences",1],
- ["Histoire",1],
- ["Géographie",1],
- ["Éducation civique",1]
-],
-
-"CM1":[
- ["Français",1],
- ["Mathématiques",1],
- ["Sciences",1],
- ["Histoire",1],
- ["Géographie",1],
- ["Éducation civique",1]
-],
-
-"CM2":[
- ["Français",1],
- ["Mathématiques",1],
- ["Sciences",1],
- ["Histoire",1],
- ["Géographie",1],
- ["Éducation civique",1]
-]
-
-};
-
-
-/* ==========================
-   ÉLÈVES
-========================== */
-
-function getEleves(){
-
-  return JSON.parse(
+let eleves =
+  JSON.parse(
     localStorage.getItem("EB_ELEVES") || "[]"
   );
 
-}
+let eleveActuel = null;
 
 
-/* ==========================
-   NOTES
-========================== */
+/* =================================
+   LECTURE DES NOTES
+================================= */
 
-function getNotes(classe,matricule,trimestre){
+function lireNotes(eleve,trimestre){
 
-  const cle =
-    `EB_NOTES_${trimestre}T_${classe}_${matricule}`;
+  const key =
+    "EB_NOTES_" +
+    trimestre +
+    "T_" +
+    eleve.classe +
+    "_" +
+    eleve.matricule;
 
   return JSON.parse(
-    localStorage.getItem(cle) || "null"
+    localStorage.getItem(key) || "{}"
   );
-
 }
 
 
-/* ==========================
+/* =================================
+   COEFFICIENTS
+================================= */
+
+function coefficient(classe,matiere){
+
+  if(classe==="3e"){
+    return matiere==="Mathématiques" ? 4 : 2;
+  }
+
+  if(classe==="Terminale A"){
+
+    const c={
+      "Philosophie":5,
+      "Français":5,
+      "Histoire":4,
+      "Anglais":4,
+      "Mathématiques":3,
+      "Espagnol":3,
+      "EPS":2
+    };
+
+    return c[matiere] || 1;
+  }
+
+  if(classe==="Terminale D"){
+
+    const c={
+      "Mathématiques":4,
+      "SVT":5,
+      "Sciences physiques":5,
+      "Histoire":3,
+      "Français":3,
+      "Anglais":3,
+      "Histoire-Géographie":3,
+      "EPS":2
+    };
+
+    return c[matiere] || 1;
+  }
+
+  return 1;
+}
+
+
+/* =================================
    MOYENNE D'UNE MATIÈRE
-========================== */
+================================= */
 
 function moyenneMatiere(note){
 
   if(!note) return null;
 
-  if(
-    note.moyenneGenerale !== undefined &&
-    note.moyenneGenerale !== ""
-  ){
+  const devoir =
+    Number(note.devoirClasse ?? note.devoir ?? 0);
 
-    return Number(note.moyenneGenerale);
-
-  }
-
-  const dc =
-    Number(note.devoirClasse || 0);
-
-  const dd =
-    Number(note.devoirDepartemental || 0);
-
-  const moyenneClasse =
-    (dc + dd) / 2;
+  const departemental =
+    Number(note.devoirDepartemental ?? 0);
 
   const composition =
-    Number(note.moyenneComposition || 0);
+    Number(
+      note.moyenneComposition ??
+      note.composition ??
+      0
+    );
+
+  const moyenneClasse =
+    (devoir + departemental) / 2;
 
   return (
-    moyenneClasse + composition
+    moyenneClasse +
+    composition
   ) / 2;
-
 }
 
 
-/* ==========================
+/* =================================
    MOYENNE TRIMESTRIELLE
-========================== */
+================================= */
 
-function moyenneTrimestre(notes,matieres){
+function moyenneTrimestre(eleve,trimestre){
 
-  if(!notes) return null;
+  const notes =
+    lireNotes(eleve,trimestre);
 
   let total = 0;
-  let coeff = 0;
+  let totalCoeff = 0;
 
-  matieres.forEach(([matiere,coef]) => {
-
-    const note =
-      notes.matieres?.[matiere];
+  Object.keys(notes).forEach(matiere=>{
 
     const moyenne =
-      moyenneMatiere(note);
+      moyenneMatiere(notes[matiere]);
 
     if(
       moyenne !== null &&
       !isNaN(moyenne)
     ){
 
-      total += moyenne * coef;
-      coeff += coef;
+      const coef =
+        coefficient(
+          eleve.classe,
+          matiere
+        );
 
+      total += moyenne * coef;
+
+      totalCoeff += coef;
     }
 
   });
 
-  if(coeff === 0) return null;
+  if(totalCoeff===0) return 0;
 
-  return total / coeff;
-
+  return total / totalCoeff;
 }
 
 
-/* ==========================
+/* =================================
+   MOYENNE ANNUELLE
+================================= */
+
+function moyenneAnnuelle(eleve){
+
+  const t1 =
+    moyenneTrimestre(eleve,1);
+
+  const t2 =
+    moyenneTrimestre(eleve,2);
+
+  const t3 =
+    moyenneTrimestre(eleve,3);
+
+  if(
+    t1===0 &&
+    t2===0 &&
+    t3===0
+  ){
+    return 0;
+  }
+
+  return (t1+t2+t3)/3;
+}
+
+
+/* =================================
    MENTION
-========================== */
+================================= */
 
-function mention(moyenne){
+function mention(note){
 
-  if(moyenne <= 3) return "Nul";
-  if(moyenne <= 5) return "Très faible";
-  if(moyenne <= 7) return "Faible";
-  if(moyenne <= 9) return "Insuffisant";
-  if(moyenne <= 11) return "Passable";
-  if(moyenne <= 13) return "Assez bien";
-  if(moyenne <= 15) return "Bien";
-  if(moyenne <= 17) return "Très bien";
+  if(note<4) return "Nul";
+  if(note<6) return "Très faible";
+  if(note<8) return "Faible";
+  if(note<10) return "Insuffisant";
+  if(note<12) return "Passable";
+  if(note<14) return "Assez bien";
+  if(note<16) return "Bien";
+  if(note<18) return "Très bien";
 
   return "Excellent";
-
 }
 
 
-/* ==========================
-   GÉNÉRATION DU CLASSEMENT
-========================== */
+/* =================================
+   AFFICHER ÉLÈVE SÉLECTIONNÉ
+================================= */
 
-function genererClassement(){
+function afficherEleveSelectionne(){
+
+  const zone =
+    document.getElementById(
+      "eleveSelectionne"
+    );
+
+  if(!eleveActuel){
+
+    zone.innerHTML = `
+      <div class="message">
+        Aucun élève sélectionné.
+      </div>
+    `;
+
+    return;
+  }
+
+  const moyenne =
+    moyenneTrimestre(
+      eleveActuel,
+      Number(
+        document.getElementById("trimestre").value
+      )
+    );
+
+  zone.innerHTML = `
+
+    <div class="info-eleve">
+
+      <div class="info-box">
+        <strong>Élève</strong>
+        ${eleveActuel.nom || ""}
+        ${eleveActuel.prenom || ""}
+      </div>
+
+      <div class="info-box">
+        <strong>Matricule</strong>
+        ${eleveActuel.matricule || "-"}
+      </div>
+
+      <div class="info-box">
+        <strong>Classe</strong>
+        ${eleveActuel.classe || "-"}
+      </div>
+
+      <div class="info-box">
+        <strong>Moyenne</strong>
+        ${moyenne.toFixed(2)}/20
+      </div>
+
+    </div>
+  `;
+}
+
+
+/* =================================
+   CLASSEMENT
+================================= */
+
+function afficherClassement(){
 
   const classe =
-    document.getElementById("classeSelect").value;
+    document.getElementById("classe").value;
 
-  const message =
-    document.getElementById("message");
+  const trimestre =
+    Number(
+      document.getElementById("trimestre").value
+    );
 
-  const resultat =
-    document.getElementById("resultat");
+  const zone =
+    document.getElementById(
+      "zoneClassement"
+    );
 
   if(!classe){
 
-    resultat.style.display="none";
-
-    message.style.display="block";
-
-    message.textContent =
-      "Veuillez sélectionner une classe.";
+    zone.innerHTML = `
+      <div class="message">
+        Choisissez une classe.
+      </div>
+    `;
 
     return;
-
   }
 
-  message.style.display="none";
+  let liste =
+    eleves
+      .filter(e=>e.classe===classe)
+      .map(e=>({
+
+        eleve:e,
+
+        moyenne:
+          moyenneTrimestre(
+            e,
+            trimestre
+          )
+
+      }))
+      .filter(x=>x.moyenne>0)
+      .sort(
+        (a,b)=>
+          b.moyenne-a.moyenne
+      );
 
 
-  const eleves =
-    getEleves().filter(
-      e =>
-        String(e.classe || "").trim() ===
-        String(classe).trim()
-    );
+  if(!liste.length){
+
+    zone.innerHTML = `
+      <div class="message">
+        Aucune note enregistrée pour cette classe.
+      </div>
+    `;
+
+    return;
+  }
 
 
-  const matieres =
-    MATIERES[classe] || [];
+  let lignes = "";
+
+  liste.forEach((item,index)=>{
+
+    const e =
+      item.eleve;
+
+    const rang =
+      index+1;
+
+    const selection =
+      eleveActuel &&
+      e.matricule ===
+      eleveActuel.matricule
+      ? "selected"
+      : "";
+
+    const decision =
+      item.moyenne >= 10
+      ? "ADMIS"
+      : "AJOURNÉ";
+
+    const badge =
+      item.moyenne >= 10
+      ? "admis"
+      : "echoue";
 
 
-  const classement = [];
+    lignes += `
 
+      <tr
+        class="${selection}"
+        onclick='selectionnerEleve(${JSON.stringify(e).replace(/'/g,"&#39;")})'
+        style="cursor:pointer"
+      >
 
-  eleves.forEach(eleve => {
+        <td class="rang">
+          ${rang}
+        </td>
 
-    const matricule =
-      eleve.matricule;
+        <td>
+          ${e.nom || ""}
+          ${e.prenom || ""}
+        </td>
 
-    const notes1 =
-      getNotes(classe,matricule,1);
+        <td>
+          ${e.matricule || "-"}
+        </td>
 
-    const notes2 =
-      getNotes(classe,matricule,2);
+        <td>
+          ${item.moyenne.toFixed(2)}
+        </td>
 
-    const notes3 =
-      getNotes(classe,matricule,3);
+        <td>
+          ${mention(item.moyenne)}
+        </td>
 
+        <td>
+          <span class="badge ${badge}">
+            ${decision}
+          </span>
+        </td>
 
-    const t1 =
-      moyenneTrimestre(notes1,matieres);
+      </tr>
 
-    const t2 =
-      moyenneTrimestre(notes2,matieres);
-
-    const t3 =
-      moyenneTrimestre(notes3,matieres);
-
-
-    /*
-      Classement uniquement si
-      les trois trimestres sont disponibles.
-    */
-
-    if(
-      t1 !== null &&
-      t2 !== null &&
-      t3 !== null
-    ){
-
-      const annuel =
-        (t1 + t2 + t3) / 3;
-
-
-      classement.push({
-
-        matricule:matricule,
-
-        nom:eleve.nom || "",
-
-        prenom:eleve.prenom || "",
-
-        t1:t1,
-
-        t2:t2,
-
-        t3:t3,
-
-        annuel:annuel,
-
-        decision:
-          annuel >= 10
-          ? "Admis"
-          : "Échoué",
-
-        mention:
-          mention(annuel)
-
-      });
-
-    }
-
+    `;
   });
 
 
-  /*
-    Tri décroissant
-  */
+  const nomTrimestre =
+    trimestre===1
+    ? "1er trimestre"
+    : trimestre===2
+    ? "2e trimestre"
+    : "3e trimestre";
 
-  classement.sort(
-    (a,b) => {
-
-      if(b.annuel !== a.annuel){
-
-        return b.annuel-a.annuel;
-
-      }
-
-      /*
-        En cas d'égalité,
-        classement alphabétique.
-      */
-
-      const nomA =
-        (a.nom+" "+a.prenom).toLowerCase();
-
-      const nomB =
-        (b.nom+" "+b.prenom).toLowerCase();
-
-      return nomA.localeCompare(nomB);
-
-    }
-  );
-
-
-  /* ==========================
-     AFFICHAGE
-  ========================== */
 
   document.getElementById(
     "titreClassement"
   ).textContent =
-    "Classement annuel — "+classe;
+    "Classement " +
+    classe +
+    " — " +
+    nomTrimestre;
 
 
-  document.getElementById(
-    "totalEleves"
-  ).textContent =
-    eleves.length;
+  zone.innerHTML = `
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>Rang</th>
+
+            <th>Nom et prénom</th>
+
+            <th>Matricule</th>
+
+            <th>Moyenne</th>
+
+            <th>Mention</th>
+
+            <th>Décision</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          ${lignes}
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <p style="margin-top:15px">
+      <strong>
+        ${liste.length}
+      </strong>
+      élève(s) classé(s).
+      <br>
+      Cliquez sur un élève pour le sélectionner.
+    </p>
+  `;
+
+  afficherEleveSelectionne();
+}
 
 
-  document.getElementById(
-    "totalClasses"
-  ).textContent =
-    classement.length;
+/* =================================
+   SÉLECTION ÉLÈVE
+================================= */
+
+function selectionnerEleve(eleve){
+
+  eleveActuel = eleve;
+
+  document.getElementById("classe").value =
+    eleve.classe || "";
+
+  afficherClassement();
+}
 
 
-  let moyenneClasse = 0;
+/* =================================
+   OUVERTURE PAR MATRICULE
+================================= */
 
-  if(classement.length){
+function chargerMatriculeDepuisURL(){
 
-    moyenneClasse =
-      classement.reduce(
-        (s,e)=>s+e.annuel,
-        0
-      ) / classement.length;
-
-  }
-
-
-  document.getElementById(
-    "moyenneClasse"
-  ).textContent =
-    classement.length
-    ? moyenneClasse.toFixed(2)+"/20"
-    : "-";
-
-
-  const tbody =
-    document.getElementById(
-      "tableClassement"
+  const params =
+    new URLSearchParams(
+      window.location.search
     );
 
-  tbody.innerHTML="";
+  const matricule =
+    params.get("matricule");
+
+  if(!matricule) return;
 
 
-  classement.forEach((e,index)=>{
-
-    const tr =
-      document.createElement("tr");
-
-
-    if(index < 3){
-
-      tr.classList.add("podium");
-
-    }
+  const eleve =
+    eleves.find(
+      e =>
+        String(e.matricule || "")
+        .toLowerCase() ===
+        String(matricule)
+        .toLowerCase()
+    );
 
 
-    let rang;
+  if(!eleve){
 
-    if(index === 0){
+    document.getElementById(
+      "eleveSelectionne"
+    ).innerHTML = `
 
-      rang="🥇 1er";
-
-    }else if(index === 1){
-
-      rang="🥈 2e";
-
-    }else if(index === 2){
-
-      rang="🥉 3e";
-
-    }else{
-
-      rang=(index+1)+"e";
-
-    }
-
-
-    tr.innerHTML=`
-
-      <td class="rang">${rang}</td>
-
-      <td>${e.matricule}</td>
-
-      <td class="nom">
-        ${e.nom} ${e.prenom}
-      </td>
-
-      <td>${e.t1.toFixed(2)}</td>
-
-      <td>${e.t2.toFixed(2)}</td>
-
-      <td>${e.t3.toFixed(2)}</td>
-
-      <td><strong>
-        ${e.annuel.toFixed(2)}
-      </strong></td>
-
-      <td class="${
-        e.decision === "Admis"
-        ? "admis"
-        : "echoue"
-      }">
-        ${e.decision}
-      </td>
-
-      <td>${e.mention}</td>
+      <div class="message">
+        Élève introuvable pour le matricule
+        <strong>${matricule}</strong>.
+      </div>
 
     `;
 
-
-    tbody.appendChild(tr);
-
-  });
-
-
-  if(!classement.length){
-
-    message.style.display="block";
-
-    message.textContent =
-      "Aucun élève de cette classe ne possède encore les trois trimestres complets.";
-
+    return;
   }
 
 
-  resultat.style.display="block";
+  eleveActuel = eleve;
 
+  document.getElementById("classe").value =
+    eleve.classe || "";
+
+  afficherClassement();
 }
+
+
+/* =================================
+   INITIALISATION
+================================= */
+
+window.addEventListener(
+  "DOMContentLoaded",
+  function(){
+
+    chargerMatriculeDepuisURL();
+
+  }
+);
 
 </script>
 
